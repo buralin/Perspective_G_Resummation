@@ -1,0 +1,247 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-2}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,wrapfig,bbold,siunitx,xspace,braket,txfonts}
+\usepackage[version=4]{mhchem}
+
+\usepackage{xr-hyper}  
+\externaldocument{../manuscript}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{feynmp-auto}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage{hyperref}
+\usepackage[compat=1.0.0]{tikz-feynman}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+}
+
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0.58,0.4,0.2}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.25,0.35,0.55}
+\definecolor{codeblue}{rgb}{0.30,0.60,0.8}
+\definecolor{backcolour}{rgb}{0.98,0.98,0.98}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+\definecolor{sqred}{rgb}{0.85,0.1,0.1}
+\definecolor{sqgreen}{rgb}{0.25,0.65,0.15}
+\definecolor{sqorange}{rgb}{0.90,0.50,0.15}
+\definecolor{sqblue}{rgb}{0.10,0.3,0.60}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\ttfamily\tiny\color{mygray},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+  }
+
+  \newcolumntype{d}{D{.}{.}{-1}}
+
+  \lstset{style=mystyle}
+
+\newcommand{\cre}[1]{a_{#1}^\dagger}
+\newcommand{\ani}[1]{a_{#1}} 
+
+\newcommand{\fcre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\fani}[1]{\Hat{a}_{#1}}
+
+\newcommand{\bfcre}[1]{\Hat{\Bar{a}}_{#1}^{\dag}}
+\newcommand{\bfani}[1]{\Hat{\Bar{a}}_{#1}}
+
+\newcommand{\bcre}[1]{\Hat{b}_{#1}^{\dag}}
+\newcommand{\bani}[1]{\Hat{b}_{#1}}
+
+\newcommand{\bacre}[1]{\Bar{b}_{#1}^{\dag}}
+\newcommand{\baani}[1]{\Bar{b}_{#1}}
+
+\newcommand{\bbacre}[1]{\dBar{b}_{#1}^{\dag}}
+\newcommand{\bbaani}[1]{\dBar{b}_{#1}}
+
+\newcommand{\bbcre}[1]{\Hat{\beta}_{#1}^{\dag}}
+\newcommand{\bbani}[1]{\Hat{\beta}_{#1}}
+
+
+\newcommand{\ccre}[1]{\Hat{c}_{#1}^{\dag}}
+\newcommand{\cani}[1]{\Hat{c}_{#1}}
+
+\newcommand{\bccre}[1]{\Hat{\Bar{c}}_{#1}^{\dag}}
+\newcommand{\bcani}[1]{\Hat{\Bar{c}}_{#1}}
+
+
+\newcommand{\dcre}[1]{\Hat{d}_{#1}^{\dag}}
+\newcommand{\dani}[1]{\Hat{d}_{#1}}
+
+\newcommand{\bdcre}[1]{\Hat{\Bar{d}}_{#1}^{\dag}}
+\newcommand{\bdani}[1]{\Hat{\Bar{d}}_{#1}}
+
+\usepackage{accents}
+\newcommand{\dBar}[1]{\Bar{\Bar{#1}}}
+
+\newcommand{\NO}[1]{\{#1\}} 
+\newcommand{\ERI}[2]{\braket{#1|#2}}
+\newcommand{\sERI}[2]{(#1|#2)}
+\newcommand{\dbERI}[2]{\mel{#1}{}{#2}}
+\newcommand{\e}[2]{\epsilon_{#1}^{#2}}
+\newcommand{\eHF}[1]{\epsilon_{#1}^\text{HF}}
+\newcommand{\eKS}[1]{\epsilon_{#1}^\text{KS}}
+\newcommand{\Om}{\Omega}
+\newcommand{\om}{\omega}
+
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\petros}[1]{\textcolor{cyan}{#1}}
+\newcommand{\jt}[1]{\textcolor{orange}{#1}}
+\newcommand{\ag}[1]{\textcolor{teal}{#1}}
+\newcommand{\ai}[1]{\textcolor{magenta}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\trashMPK}[1]{\textcolor{cyan}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+\newcommand{\MPK}[1]{\petros{(\underline{\bf MPK}: #1)}}
+\newcommand{\JT}[1]{\jt{(\underline{\bf JT}: #1)}}
+\newcommand{\AG}[1]{\ag{(\underline{\bf AG}: #1)}}
+\newcommand{\AI}[1]{\ai{(\underline{\bf AI}: #1)}}
+\newcommand{\eqrref}[1]{Eq.~\eqref{#1}}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+
+\newcommand{\HF}{\text{HF}}
+\newcommand{\GW}{\text{$GW$}}
+\newcommand{\GOWO}{\text{$G_0W_0$}}
+\newcommand{\drCCD}{\text{drCCD}}
+\newcommand{\RPA}{\text{RPA}}
+\newcommand{\IP}{\text{IP}}
+\newcommand{\EA}{\text{EA}}
+\newcommand{\IPEA}{\text{IP/EA}}
+\newcommand{\EOM}{\text{EOM}}
+
+\newcommand{\TCC}{\text{TCC}}
+\newcommand{\ECC}{\text{ECC}}
+
+\newcommand{\ba}{\boldsymbol{a}}
+\newcommand{\bb}{\boldsymbol{b}}
+\newcommand{\bbb}{\boldsymbol{\beta}}
+\newcommand{\bc}{\boldsymbol{c}}
+\newcommand{\bbc}{\Bar{\bc}}
+\newcommand{\bd}{\boldsymbol{d}}
+\newcommand{\bbd}{\Bar{\bd}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\bB}{\boldsymbol{B}}
+\newcommand{\bC}{\boldsymbol{C}}
+\newcommand{\bD}{\boldsymbol{D}}
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bY}{\boldsymbol{Y}}
+\newcommand{\bT}{\boldsymbol{T}}
+\newcommand{\bt}{\boldsymbol{t}}
+\newcommand{\bR}{\boldsymbol{R}}
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bN}{\boldsymbol{N}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bO}{\boldsymbol{0}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\bS}{\boldsymbol{S}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\bV}{\boldsymbol{V}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bLam}{\boldsymbol{\Lambda}}
+\newcommand{\blam}{\boldsymbol{\lambda}}
+\newcommand{\bgam}{\boldsymbol{\gamma}}
+\newcommand{\bOm}{\boldsymbol{\Omega}}
+\newcommand{\bSig}{\boldsymbol{\Sigma}}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+
+\newcommand{\hT}{\Hat{T}}
+\newcommand{\hW}{\Hat{W}}
+\newcommand{\hF}{\Hat{F}}
+\newcommand{\hL}{\Hat{L}}
+\newcommand{\hR}{\Hat{R}}
+\newcommand{\hH}{\Hat{H}}
+\newcommand{\hbH}{\Bar{H}}
+\newcommand{\hbbH}{\dBar{H}}
+\newcommand{\hI}{\Hat{1}}
+\newcommand{\hV}{\Hat{V}}
+\newcommand{\hZ}{\Hat{Z}}
+\newcommand{\hLam}{\Hat{\Lambda}}
+\newcommand{\htau}{\Hat{\tau}}
+\newcommand{\hXi}{\Hat{\Xi}}
+
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\wtH}{\widetilde{H}}
+\newcommand{\wtV}{\widetilde{V}}
+
+\newcommand{\T}[1]{#1^{\intercal}}
+\newcommand{\Ec}{E_\text{c}}
+
+\newcommand{\ldr}{\text{$\lambda$-dr}}
+\newcommand{\dr}{\text{dr}}
+\newcommand{\ii}{\text{i}}
+\newcommand{\SupInf}{\textcolor{blue}{Supporting Information}\xspace}
+
+\newcommand{\stkout}[1]{\ifmmode\text{\sout{\ensuremath{#1}}}\else\sout{#1}\fi}
+
+\renewcommand{\tableautorefname}{Table}
+\renewcommand{\sectionautorefname}{Sec.}
+\renewcommand{\figureautorefname}{Fig.}
+\renewcommand\thefigure{S\arabic{figure}}
+\renewcommand\thetable{S\arabic{table}}
+
+% addresses
+\newcommand{\UnHam}{Department of Chemistry, University of Hamburg, 22761 Hamburg, Germany; The Hamburg Centre for Ultrafast Imaging (CUI), Hamburg 22761, Germany}
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, Toulouse, France}
+\newcommand{\VUA}{Department of Chemistry and Pharmaceutical Sciences, Vrije Universiteit, De Boelelaan 1105, 1081 HV Amsterdam, The Netherlands}
+
+
+\begin{document}	
+
+\title{Perspective: Consistent resummation schemes for the one-particle Green's function}
+
+\author{Johannes T\"olle$^{\ast}$}
+        \email{johannes.toelle@uni-hamburg.de}
+        \affiliation{\UnHam}
+
+\author{Arno Förster}
+	\email{a.t.l.foerster@vu.nl}
+	\affiliation{\VUA}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}$^{*}$}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Cite something Ref.~\citenum{Marie_2024b}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{../biblio.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

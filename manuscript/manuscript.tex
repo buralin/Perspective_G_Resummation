@@ -1,0 +1,459 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-2}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,wrapfig,bbold,siunitx,xspace,braket,txfonts}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{feynmp-auto}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage{hyperref}
+\usepackage[compat=1.0.0]{tikz-feynman}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+}
+
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0.58,0.4,0.2}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.25,0.35,0.55}
+\definecolor{codeblue}{rgb}{0.30,0.60,0.8}
+\definecolor{backcolour}{rgb}{0.98,0.98,0.98}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+\definecolor{sqred}{rgb}{0.85,0.1,0.1}
+\definecolor{sqgreen}{rgb}{0.25,0.65,0.15}
+\definecolor{sqorange}{rgb}{0.90,0.50,0.15}
+\definecolor{sqblue}{rgb}{0.10,0.3,0.60}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\ttfamily\tiny\color{mygray},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+  }
+
+  \newcolumntype{d}{D{.}{.}{-1}}
+
+  \lstset{style=mystyle}
+
+\newcommand{\cre}[1]{a_{#1}^\dagger}
+\newcommand{\ani}[1]{a_{#1}} 
+
+\newcommand{\fcre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\fani}[1]{\Hat{a}_{#1}}
+
+\newcommand{\bfcre}[1]{\Hat{\Bar{a}}_{#1}^{\dag}}
+\newcommand{\bfani}[1]{\Hat{\Bar{a}}_{#1}}
+
+\newcommand{\bcre}[1]{\Hat{b}_{#1}^{\dag}}
+\newcommand{\bani}[1]{\Hat{b}_{#1}}
+
+\newcommand{\bacre}[1]{\Bar{b}_{#1}^{\dag}}
+\newcommand{\baani}[1]{\Bar{b}_{#1}}
+
+\newcommand{\bbacre}[1]{\dBar{b}_{#1}^{\dag}}
+\newcommand{\bbaani}[1]{\dBar{b}_{#1}}
+
+\newcommand{\bbcre}[1]{\Hat{\beta}_{#1}^{\dag}}
+\newcommand{\bbani}[1]{\Hat{\beta}_{#1}}
+
+
+\newcommand{\ccre}[1]{\Hat{c}_{#1}^{\dag}}
+\newcommand{\cani}[1]{\Hat{c}_{#1}}
+
+\newcommand{\bccre}[1]{\Hat{\Bar{c}}_{#1}^{\dag}}
+\newcommand{\bcani}[1]{\Hat{\Bar{c}}_{#1}}
+
+
+\newcommand{\dcre}[1]{\Hat{d}_{#1}^{\dag}}
+\newcommand{\dani}[1]{\Hat{d}_{#1}}
+
+\newcommand{\bdcre}[1]{\Hat{\Bar{d}}_{#1}^{\dag}}
+\newcommand{\bdani}[1]{\Hat{\Bar{d}}_{#1}}
+
+\usepackage{accents}
+\newcommand{\dBar}[1]{\Bar{\Bar{#1}}}
+
+\newcommand{\NO}[1]{\{#1\}} 
+\newcommand{\ERI}[2]{\braket{#1|#2}}
+\newcommand{\sERI}[2]{(#1|#2)}
+\newcommand{\dbERI}[2]{\mel{#1}{}{#2}}
+\newcommand{\e}[2]{\epsilon_{#1}^{#2}}
+\newcommand{\eHF}[1]{\epsilon_{#1}^\text{HF}}
+\newcommand{\eKS}[1]{\epsilon_{#1}^\text{KS}}
+\newcommand{\Om}{\Omega}
+\newcommand{\om}{\omega}
+
+\newcommand{\rev}[1]{\textcolor{black}{#1}}
+\newcommand{\revtwo}[1]{\textcolor{black}{#1}}
+
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\petros}[1]{\textcolor{cyan}{#1}}
+\newcommand{\jt}[1]{\textcolor{orange}{#1}}
+\newcommand{\ag}[1]{\textcolor{teal}{#1}}
+\newcommand{\ai}[1]{\textcolor{magenta}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\trashMPK}[1]{\textcolor{cyan}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+\newcommand{\MPK}[1]{\petros{(\underline{\bf MPK}: #1)}}
+\newcommand{\JT}[1]{\jt{(\underline{\bf JT}: #1)}}
+\newcommand{\AG}[1]{\ag{(\underline{\bf AG}: #1)}}
+\newcommand{\AI}[1]{\ai{(\underline{\bf AI}: #1)}}
+\newcommand{\eqrref}[1]{Eq.~\eqref{#1}}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+
+\newcommand{\HF}{\text{HF}}
+\newcommand{\GW}{\text{$GW$}}
+\newcommand{\GOWO}{\text{$G_0W_0$}}
+\newcommand{\drCCD}{\text{drCCD}}
+\newcommand{\RPA}{\text{RPA}}
+\newcommand{\IP}{\text{IP}}
+\newcommand{\EA}{\text{EA}}
+\newcommand{\IPEA}{\text{IP/EA}}
+\newcommand{\EOM}{\text{EOM}}
+
+\newcommand{\TCC}{\text{TCC}}
+\newcommand{\ECC}{\text{ECC}}
+
+\newcommand{\ba}{\boldsymbol{a}}
+\newcommand{\bb}{\boldsymbol{b}}
+\newcommand{\bbb}{\boldsymbol{\beta}}
+\newcommand{\bc}{\boldsymbol{c}}
+\newcommand{\bbc}{\Bar{\bc}}
+\newcommand{\bd}{\boldsymbol{d}}
+\newcommand{\bbd}{\Bar{\bd}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\bB}{\boldsymbol{B}}
+\newcommand{\bC}{\boldsymbol{C}}
+\newcommand{\bD}{\boldsymbol{D}}
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bY}{\boldsymbol{Y}}
+\newcommand{\bT}{\boldsymbol{T}}
+\newcommand{\bt}{\boldsymbol{t}}
+\newcommand{\bR}{\boldsymbol{R}}
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bN}{\boldsymbol{N}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bO}{\boldsymbol{0}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\bS}{\boldsymbol{S}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\bV}{\boldsymbol{V}}
+\newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bLam}{\boldsymbol{\Lambda}}
+\newcommand{\blam}{\boldsymbol{\lambda}}
+\newcommand{\bgam}{\boldsymbol{\gamma}}
+\newcommand{\bOm}{\boldsymbol{\Omega}}
+\newcommand{\bSig}{\boldsymbol{\Sigma}}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+
+\newcommand{\hT}{\Hat{T}}
+\newcommand{\hW}{\Hat{W}}
+\newcommand{\hF}{\Hat{F}}
+\newcommand{\hL}{\Hat{L}}
+\newcommand{\hR}{\Hat{R}}
+\newcommand{\hH}{\Hat{H}}
+\newcommand{\hbH}{\Bar{H}}
+\newcommand{\hbbH}{\dBar{H}}
+\newcommand{\hI}{\Hat{1}}
+\newcommand{\hV}{\Hat{V}}
+\newcommand{\hZ}{\Hat{Z}}
+\newcommand{\hLam}{\Hat{\Lambda}}
+\newcommand{\htau}{\Hat{\tau}}
+\newcommand{\hXi}{\Hat{\Xi}}
+
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\wtH}{\widetilde{H}}
+\newcommand{\wtV}{\widetilde{V}}
+
+\newcommand{\T}[1]{#1^{\intercal}}
+\newcommand{\Ec}{E_\text{c}}
+
+\newcommand{\ldr}{\text{$\lambda$-dr}}
+\newcommand{\dr}{\text{dr}}
+\newcommand{\ii}{\text{i}}
+\newcommand{\SupInf}{\textcolor{blue}{Supporting Information}\xspace}
+
+\newcommand{\stkout}[1]{\ifmmode\text{\sout{\ensuremath{#1}}}\else\sout{#1}\fi}
+
+% addresses
+\newcommand{\UnHam}{Department of Chemistry, University of Hamburg, 22761 Hamburg, Germany; The Hamburg Centre for Ultrafast Imaging (CUI), Hamburg 22761, Germany}
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, Toulouse, France}
+
+\newcommand{\VUA}{Department of Chemistry and Pharmaceutical Sciences, Vrije Universiteit, De Boelelaan 1105, 1081 HV Amsterdam, The Netherlands}
+
+
+\begin{document}	
+
+\title{Perspective: Consistent resummation schemes for the one-particle Green's function}
+
+\author{Johannes T\"olle$^{\ast}$}
+        \email{johannes.toelle@uni-hamburg.de}
+        \affiliation{\UnHam}
+
+\author{Arno Förster}
+	\email{a.t.l.foerster@vu.nl}
+	\affiliation{\VUA}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}$^{*}$}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\begin{abstract}
+\textbf{Abstract:} abstract abstract ... 
+\iffalse
+\bigskip
+\begin{center}
+	\boxed{\includegraphics[width=0.5\linewidth]{TOCExample}}
+\end{center}
+\bigskip
+\fi
+\end{abstract}
+
+\maketitle
+
+
+\section{One-particle Green's function}
+\label{sec:OnepartGreen}
+As a sum-over-state expression for the interacting one-particle Green's function reads 
+\begin{align}
+    G_{pq}(\omega) \nonumber &=
+    \sum_N  \bra{\Psi_0} a_p \ket{\Psi_N} \left(\omega - \Delta E^{+}_N \right)^{-1} \bra{\Psi_N} a^\dagger_q \ket{\Psi_0} \nonumber \\
+    &+ \sum_M  \bra{\Psi_0} a^\dagger_q \ket{\Psi_N} \left(\omega - \Delta E^{-}_M \right)^{-1} \bra{\Psi_N} a_p \ket{\Psi_0}
+    \label{eq:OneParticleGreensFunction}
+\end{align}
+with $a^\dagger_q$ and $a_p$ denoting fermionic creation and annihilation operators, and $\Delta E_N^+ = E^+_N - E_0$ and $\Delta E_N^- = E_0 - E^-_N$.
+With $+$ and $-$ referring to the energy of system with an added/removed electron.
+\\
+As an alternative to Eq.~(\ref{eq:OneParticleGreensFunction}), the one-particle Green's function can be determined through the Dyson equation 
+\begin{align}
+    G_{pq}(\omega) = G^0_{pq}(\omega) + \sum_{rs} G^0_{pr}(\omega) \Sigma_{rs}(\omega) G_{sq}(\omega),
+    \label{eq:Dyson1}
+\end{align}
+with $G^0_{pq}(\omega)$ denoting the non-interacting Green's function
+\begin{align}
+    G^0_{pq}(\omega) = \delta_{pq} \frac{1-n_p}{\omega +  \epsilon_p} + \delta_{pq} \frac{n_p}{\omega - \epsilon_p},
+\end{align}
+with $n_p$ denoting the occupation number from the Fermi--Dirac distribution.
+We assume the zero temperature limit throughout, $n_p$ associated with a mean-field orbital $p$ is therefore either $0$ (for an unoccupied orbital) or $1$ (for an occupied orbital).
+Eq.~(\ref{eq:Dyson1}) can also be rearranged to (in explicit matrix form)
+\begin{align}
+    \mathbf{G}(\omega) = \frac{1}{\mathbf{G}^{-1}_0(\omega) - \pmb{\Sigma}(\omega)}.
+\end{align}
+The connection between the sum-over-state expression and the Dyson equation is made explicit in the following.
+For this, we define a new vacuum $\ket{\Psi_0}$
+\begin{align}
+    \ket{\Psi_0} = e^\sigma \ket{0}, 
+\end{align}
+via exponential parametrization of the reference mean-field state $\ket{0}$.
+$\sigma$ denotes an anti-Hermitian particle-hole excitation operator
+\begin{align}
+    \sigma = \hat{T} - \hat{T}^\dagger,
+\end{align}
+with 
+\begin{align}
+    \hat{T} = \sum_\nu t_\nu \bar{\tau}_\nu.
+    \label{eq:ClusterExpansion}
+\end{align}
+$\bar{\tau}_\nu$ represents an arbitrary particle-hole excitation operator ($\bar{a}^\dagger_a \bar{a}_i + \dots$).
+Note that the amplitudes $t_\nu$ [Eq.~(\ref{eq:ClusterExpansion})] are determined by projection and satisfy the general Brioullin conditions
+\begin{align}
+    \bra{\Psi_0} [\hat{H},\bar{\tau}_\nu - \bar{\tau}^\dagger_\nu] \ket{\Psi_0} = 0.
+    \label{eq:Brioullin}
+\end{align}
+In the following, occupied orbitals are referred to with subscripts $i,j,k,\dots$, virtual orbitals with $a,b,c,\dots$ and arbitrary orbitals with $p,q,r,\dots$. Furthermore, the particle and hole creation and annihilation operators acting on the vacuum are (still obeying their anti-commutation relations)
+\begin{align}
+    \bar{a}_p = e^{\sigma} a_p e^{-\sigma} \\
+    \bar{a}^\dagger_p = e^{\sigma} a^\dagger_p e^{-\sigma}.
+\end{align}
+Within this formalism an arbitrary excited state $N$ is obtained as 
+\begin{align}
+    \ket{\Psi_N} = \hat{R}_N \ket{\Psi_0}.
+\end{align}
+$\hat{R}_N$ is given as 
+\begin{align}
+    \hat{R}_N \ket{\Psi_0} &= \sum_\nu R_\nu^N \tilde{r}_\nu \ket{\Psi_0} \nonumber \\
+    &= \sum_\nu R_\nu^N e^{\sigma} \hat{r}_\nu e^{-\sigma} \ket{\Psi_0} = \sum_\nu R_\nu^N e^{\sigma} \ket{\Phi_\nu}, 
+    \label{eq:excOperator}
+\end{align}
+with $R_\nu^N$ denoting the expansion coefficients so that
+\begin{align}
+    \ket{\Psi_N} = \sum_\nu R_\nu^N e^{\sigma} \hat{r}_\nu \ket{0}.
+\end{align}
+Note that $\hat{r}_\nu$ is chosen according to the excited state of interest, e.g., for charged (N$\pm1$) excitations
+\begin{align}
+    \hat{r}^-_\nu &= \left\{a_i, a^\dagger_b a_j a_i,\dots\right\} \\
+    \hat{r}^{+}_\nu &= \left\{a^\dagger_a,a^\dagger_a a^\dagger_b  a_j,\dots\right\}\\
+    \hat{r}_\nu &= \{\hat{r}^-_\nu\} \cup \{\hat{r}^{+,\dagger}_\nu\}
+    \label{eq:ExOpBasis}
+\end{align}
+so that
+\begin{align}
+    1 &= \sum_\nu \tilde{r}_\nu \ket{\Psi_0} \bra{\Psi_0} \tilde{r}^\dagger_\nu \nonumber \\
+    1 &= \sum_\nu e^{\sigma} \hat{r}_\nu \ket{0} \bra{0} \hat{r}^\dagger_\nu e^{-\sigma} 
+    \label{eq:identity}
+\end{align}
+is satisfied.
+The Hamiltonian for that new vacuum is defined in terms of the new set of creation and annihilation operators
+\begin{align}
+    \bar{H} &= e^{\sigma}\hat{H}e^{-\sigma} \nonumber \\
+    &= \sum_{pq} F_{pq} \bar{a}^\dagger_p \bar{a}_q + \frac{1}{4} \sum_{pqrs} V_{pqsr}  \bar{a}^\dagger_p \bar{a}^\dagger_q \bar{a}_r  \bar{a}_s.
+\end{align}
+Within the newly defined quantities excitation energy differences $\Delta E_N$ are evaluated using the EOM approach 
+\begin{align}
+    &\bra{\Psi_0} [ \tilde{r}^\dagger_\nu,[\bar{H},\sum_\mu R_\mu^N \tilde{r}_\mu]]\ket{\Psi_0} \nonumber \\
+    &= \Delta E_N \bra{\Psi_0} [\tilde{r}^\dagger_\nu,\sum_\mu R_\mu^N \tilde{r}_\mu] \ket{\Psi_0},
+\end{align}
+which can be rewritten to 
+\begin{align}
+    &\bra{0} [ \hat{r}^\dagger_\nu,[\hat{H},\sum_\mu R_\mu^N \hat{r}_\mu]]\ket{0} \nonumber \\
+    &=  \bra{0} [\hat{r}^\dagger_\nu,\sum_\mu R_\mu^N \hat{r}_\mu] \ket{0} \Delta E_N.
+    \label{eq:EOMTransformed}
+\end{align}
+Eq.~(\ref{eq:EOMTransformed}) resembles the common EOM configuration interaction approach and can be explicitly written in matrix form
+\begin{align}
+    \mathbf{H} \mathbf{R} &= \mathbf{S} \mathbf{R} \mathbf{E} \\
+    \Leftrightarrow \tilde{\mathbf{H}} \mathbf{R} &= \mathbf{R} \mathbf{E}
+    \label{eq:EOMMatrix}
+\end{align}
+(assuming $\mathbf{S}$ is invertible and a symmetric transformation). 
+%Due to the fact that $\mathbf{H}$ contains also disconnected terms, the contraction with $\mathbf{S}$ is important for correct cancellation. 
+With the above definitions, Eq.~(\ref{eq:OneParticleGreensFunction}) reads
+\begin{align}
+    G_{pq}(\omega) \nonumber &=
+    \sum_N  \bra{\Psi_0} \bar{a}_p \ket{\Psi_N} \left(\omega - \Delta E^{+}_N \right)^{-1} \bra{\Psi_N} \bar{a}^\dagger_q \ket{\Psi_0} \nonumber \\
+    &+ \sum_M  \bra{\Psi_0} \bar{a}^\dagger_q \ket{\Psi_N} \left(\omega - \Delta E^{-}_M \right)^{-1} \bra{\Psi_N} \bar{a}_p \ket{\Psi_0},
+    \label{eq:OneParticleGreensFunction2}
+\end{align}
+which can be rearranged to 
+\begin{align}
+    \mathbf{G}_{11}(\omega)  = 
+    \begin{pmatrix}
+        \mathbf{1}_{11} & \mathbf{0} 
+    \end{pmatrix}
+    \begin{pmatrix}
+        \omega\mathbf{1}_{11} - \mathbf{H}_{11} & \mathbf{H}_{12} \\
+        \mathbf{H}_{21} & \omega\mathbf{1}_{22} - \mathbf{H}_{22} 
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+        \mathbf{1}_{11} \\
+        \mathbf{0}
+    \end{pmatrix},
+    \label{eq:ExpressionG}
+\end{align}
+where the subscript $11$ denotes the p/h subspace and 2 refers to all higher order excitations, i.e., hhp, pph etc..
+The connection to the Dyson equation becomes apparent by rewriting Eq.~(\ref{eq:ExpressionG})
+\begin{align}
+    \mathbf{G}_{11}(\omega) \nonumber &= \left[\omega\mathbf{1}_{11} - \mathbf{H}_{11} - \mathbf{H}_{12}[\omega\mathbf{1}_{22} - \mathbf{H}_{22}]^{-1}\mathbf{H}_{21}\right]^{-1} \\
+    \Rightarrow \mathbf{G}(\omega) \nonumber &= \left[\omega - \mathbf{F} - \pmb{\Sigma}(\infty ) - \tilde{\pmb{\Sigma}}(\omega) \right]^{-1}\\
+    \Leftrightarrow \mathbf{G}(\omega) \nonumber &= \left[\omega - \mathbf{F} - \pmb{\Sigma}(\omega) \right]^{-1} \nonumber \\
+    \Leftrightarrow \mathbf{G}(\omega)  &= \left[\mathbf{G}^{-1}_0(\omega) - \pmb{\Sigma}(\omega) \right]^{-1}.
+\end{align}
+Consequently, we have demonstrated the connection of the effective Hamiltonian used for the determination of single-particle excitation energies and the Dyson equation of the one-particle Green's function.
+For generality, we have partitioned $H_{11}$ into the bare Fock matrix and additional screening effects summarized in $\Sigma(\infty)$ (for example HF exchange is often considered to be part of $\Sigma(\infty)$). Furthermore, particle and hole space are now intrinsically coupled in $\Sigma(\omega)$.
+\\
+The route described above is not the strategy commonly used in quantum chemistry for the determination of the one-particle Green's function.
+Instead, the original definition of creation and annihilation operators is kept, so that the EOM reads 
+\begin{align}
+    &\bra{0} [ \hat{r}^\dagger_\nu,[\bar{H},\sum_\mu R_\mu^N \hat{r}_\mu]]\ket{0} \nonumber \\
+    &=  \bra{0} [\hat{r}^\dagger_\nu,\sum_\mu R_\mu^N \hat{r}_\mu] \ket{0} \Delta E_N
+    \label{eq:EOMTransformed2},
+\end{align}
+with $\bar{H}$ denoting the unitary transformed Hamiltonian
+\begin{align}
+    \bar{H} = e^{-\sigma} \hat{H} e^{\sigma}
+\end{align}
+and the one-particle Green's function written as 
+\begin{align}
+    &G_{pq}(\omega) \nonumber  \\ 
+    &=\sum_{\nu,\mu}  \bra{0} e^{-\sigma} a_p e^{\sigma} \ket{\Phi_\nu} \left[ \left(\omega - \mathbf{H}^{+} \right)^{-1} \right]_{\nu \mu} \bra{\Phi_\mu} e^{-\sigma} a^\dagger_q e^{\sigma} \ket{\Psi_0} \nonumber \\
+    &+ \sum_{\nu,\mu}  \bra{0} e^{-\sigma} a^\dagger_q e^{\sigma} \ket{\Phi_\nu} \left[ \left(\omega - \mathbf{H}^{-} \right)^{-1} \right]_{\nu \mu} \bra{\Phi_\mu} e^{-\sigma} a_p e^{\sigma} \ket{\Psi_0} ,
+    \label{eq:OneParticleGreensFunction3}
+\end{align}
+with $\mathbf{H}^{+}$, $\mathbf{H}^{-}$ denoting the EOM Hamiltonian in the complete $N\pm 1$ excitation basis. Note that no coupling between these two sectors occurs due to Eq.~(\ref{eq:Brioullin}).
+Furthermore, $\Phi_\nu$ denotes excited Slater determinants in the $N\pm 1$ sectors [compare Eq.~(\ref{eq:excOperator})].
+Next, we write Eq.~(\ref{eq:OneParticleGreensFunction3}) compactly as 
+\begin{align}
+    &\mathbf{G}_{11}(\omega) = \nonumber
+    \\
+    &\begin{pmatrix}
+        \mathbf{M}^\dagger_{11} & \mathbf{M}^\dagger_{21} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        \omega\mathbf{1}_{11} - \mathbf{H}_{11} & \mathbf{H}_{12} \\
+        \mathbf{H}_{21} & \omega\mathbf{1}_{22} - \mathbf{H}_{22} 
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+        \mathbf{M}_{11} \\
+        \mathbf{M}_{21} \\
+    \end{pmatrix}
+    \label{eq:Gcompact}
+\end{align}
+(note that in the blocks the N$+1$ and N$-1$ are still decoupled).
+$\mathbf{M}_{11}$ denotes contributions from $\bra{\Phi_\mu} e^{-\sigma} a^\dagger_q e^{\sigma} \ket{\Psi_0}$ and $\bra{\Phi_\mu} e^{-\sigma} a_p e^{\sigma} \ket{\Psi_0}$ in the 1h-1p sector and $\mathbf{M}_{12}$ in all higher excitation sectors.
+It becomes clear that the terms such as  $\bra{0} e^{-\sigma} a_p e^{\sigma} \ket{\Phi_\nu}$ in Eq.~(\ref{eq:OneParticleGreensFunction3}) prohibit a simple projetion of the decoupled EOM Hamiltonians $\mathbf{H}^{+}$/$\mathbf{H}^{-}$  in the 1-h/1-p space as in Eq.~(\ref{eq:ExpressionG}).
+Consequently the precise connection to the Dyson equation can be only made approximately by separating $e^{-\sigma} a^\dagger_q e^{\sigma}$ into zeros order term $a_q$ and higher order terms of the BCH. Consequently, Eq.~(\ref{eq:Gcompact}) is rearranged to
+\begin{align}
+    &\mathbf{G}_{11}(\omega) = \nonumber
+    \\
+    &\begin{pmatrix}
+        \mathbf{1}_{11} & \mathbf{0} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        \omega\mathbf{1}_{11} - \mathbf{H}_{11} & \mathbf{H}_{12} \\
+        \mathbf{H}_{21} & \omega\mathbf{1}_{22} - \mathbf{H}_{22} 
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+        \mathbf{1}_{11} \\
+        \mathbf{0} \\
+    \end{pmatrix} 
+    \nonumber \\
+    +&\begin{pmatrix}
+        \tilde{\mathbf{M}}^\dagger_{11} & \mathbf{M}^\dagger_{21} \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        \omega\mathbf{1}_{11} - \mathbf{H}_{11} & \mathbf{H}_{12} \\
+        \mathbf{H}_{21} & \omega\mathbf{1}_{22} - \mathbf{H}_{22} 
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+        \tilde{\mathbf{M}}_{11} \\
+        \mathbf{M}_{21} \\
+    \end{pmatrix}.
+    \label{eq:Gcompact2}
+\end{align}
+From the above considerations for the one-particle Green's function it becomes apparent that a ground-state p/h transformation of the Hamiltonian $\hat{H}$ prohibits the determination of $\mathbf{G}$ through the Dyson equation [Eq.~(\ref{eq:Dyson1})] exactly.
+Instead, the different components of $\mathbf{G}$ have to determined separately. (See also the work by Tarantelli and Cederbaum \cite{tarantelli1992configuration}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{biblio}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
