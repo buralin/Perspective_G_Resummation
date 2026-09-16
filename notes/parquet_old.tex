@@ -1,0 +1,430 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig,txfonts}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+	colorlinks=true,
+    citecolor=blue,
+    breaklinks=true
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{r\ed}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+\begin{document}	
+
+\title{Notes on the parquet and Baym-Kadanoff approximations}
+
+\author{Antoine \surname{Marie}}
+	\email{amarie@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\begin{abstract}
+Here comes the abstract.
+%\bigskip
+%\begin{center}
+%	\boxed{\includegraphics[width=0.5\linewidth]{TOC}}
+%\end{center}
+%\bigskip
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Random thoughts}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Methods similar to the parquet equations were first introduced in the context of many-body theory by de Dominicis and Martin. \cite{DeDominicis_1964a,DeDominicis_1964b}
+The parquet formalism consists of a set of coupled equations, i.e. the Bethe-Salpeter, the parquet, and the Schwinger-Dyson equations, which include both single-particle Green's function and two-particle vertex functions. 
+The parquet equations, in principle, provide a framework for self-consistent determination of the self-energy and the vertex corrections.
+The parquet formulation preserves, by construction, crossing symmetry and the Pauli exclusion principle.
+Crossing symmetry means that a vertex in one channel can also produce a vertex in all other channels by pulling or crossing the vertex legs and multiplying by appropriate constants.
+The parquet equations are essentially a generalization of the Bethe-Salpeter equation.
+
+The Baym-Kadanoff approximation \cite{Baym_1961,Baym_1962} (or $\Phi$-derivable approximations) is similar to the parquet approach and can be used to compute one-body correlation functions but does not include self-consistency at the two-body level.
+Baym-Kadanoff is primarily focused on the self-energy and satisfies continuity conditions.
+However, it produces two-body correlation functions that violate the Pauli principle.
+Parquet does enforce this (crossing) symmetry by construction and attaches primary importance on the two-body scattering vertex $\Gamma$, while $\Sigma$ has a subsidiary role and is obtained via integration of the Dyson-Schwinger equation.
+The parquet equations guarantee the self-consistent treatment of both one-body and two-body propagators but break conservation laws.
+The infinite-order Baym–Kadanoff approximation is also known as ``fluctuation exchange'' (FLEX) approximation. \cite{Bickers_1989}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Crossing symmetry}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let us introduce the composite variable $1 \equiv (\br_1,t_1,\sigma_1)$ so that $\sum_{1} = \sum_{\sigma_1} \sum_{\br_1} \int_0^\beta \frac{dt_1}{\beta}$.
+The complete ph vertex is
+\begin{equation}
+	\Gamma = \frac{1}{2} \sum_i \Gamma(12;34) \cre{1} \ani{2} \cre{4} \ani{3}
+\end{equation}
+with $\Gamma(12;34) = - \Gamma(42,31) = \Gamma(43;21)$ (crossing relation which is extremely difficult to achieve in practice).
+
+The complete pp vertex is 
+\begin{equation}
+	\Gamma_P = \frac{1}{2} \sum_i \Gamma_P(12;34) \cre{1} \cre{2} \ani{4} \ani{3}
+\end{equation}
+with $\Gamma(12;34) = - \Gamma_P(14;32)$ and $\Gamma_P(12;34) = - \Gamma_P(21;34) = - \Gamma_P(43)$ (antisymmetry property).
+Both the crossing and antisymmetry properties stem from the Pauli exclusion principle.
+
+
+The full vertex function $F = \Gamma + \Gamma_P$ contains the fully irreducible terms produced by the input $\Lambda$ (which is fully irreducible) and the reducible part from the repeated scattering terms (iterations). 
+At the two-body level, there are three different channels for the reducible vertices: one pp channel $\Gamma^\pp$, and two ph (horizontal and vertical) channels, $\Bar{\Gamma}^\ph$ and $\Gamma^\ph$.
+For the pp case, reducible diagrams are defined as the ones that can be separated into two pieces by cutting two fermion lines.
+ph irreducibility is tricker as two channels exist.
+
+
+Diagrams irreducible in the horizontal channel (i.e., those which cannot be split by a vertical cut through two lines) contribute to $\Gamma^\ph$, while diagrams irreducible in the vertical channel contribute to $\Bar{\Gamma}^\ph$. 
+The quantities $\Gamma^\ph$ and $\Gamma^\pp$ are analogs for ph and pp states of the irreducible self-energy $\Sigma$ for one-body states.
+
+\begin{equation}
+\begin{split}
+	\frac{1}{2} \sum_i \Gamma^\ph(12;34) \cre{1} \ani{2} \cre{4} \ani{3} 
+	& = - \frac{1}{2} \sum_i \Gamma^\ph(12;34) \cre{4} \ani{2} \cre{1} \ani{3} 
+	\\
+	& = - \frac{1}{2} \sum_i \Bar{\Gamma}^\ph(42;31) \cre{1} \ani{2} \cre{4} \ani{3} 
+\end{split}
+\end{equation}
+hence $\Gamma^\ph(12;34) = -\Bar{\Gamma}^\ph(42;31)$.
+The complete vertices $\Gamma$ and $\Gamma_P$ may be recovered from the irreducible vertices by using the Bethe-Salpeter equations:
+\begin{gather}
+	\Gamma(12;34) = \Gamma^\ph(12;34) + \Gamma(12;56) G^\ph(56;78) \Gamma^\ph(78;34)
+	\\
+	\Gamma(12;34) = \Bar{\Gamma}^\ph(12;34) + \Gamma(42;56) G^\ph(56;78) \Bar{\Gamma}^\ph(18;37)
+	\\
+	\Gamma_P(12;34) = \Gamma^\pp(12;34) + \Gamma_P(12;56) G^\pp(56;78) \Gamma^\pp(78;34)	
+\end{gather}
+with 
+\begin{gather}
+	G^\ph(12;34) = G(13) G(42)
+	\\
+	G^\pp(12;34) = -\frac{1}{2} G(13) G(14)
+\end{gather}
+One must be very careful not to double-count diagrams in the pp sector.
+
+The complete ($\Gamma$ and $\Gamma_P$) and irreducible vertices ($\Gamma^\pp$, $\Gamma^\ph$, and $\Bar{\Gamma}^\ph$) are usually spin adapted (see below).
+For example, $\Gamma^\ph$ is written as a sum of its density ($\Gamma^\ph_\text{d}$) and magnetic ($\Gamma^\ph_\text{m}$) components, while $\Gamma^\pp$ is decomposed in its singlet ($\Gamma^\pp_\text{s}$) and triplet ($\Gamma^\pp_\text{t}$) components.
+Similar expressions can be found for $\Bar{\Gamma}^\ph$ (crossing relation), and the approximated forms of $\Gamma$ and $\Gamma_P$ (but usually violate crossing conditions).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parquet equations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let us first focus on the two-body vertices following the presentation of Bickers. \cite{Bickers_2004}
+The so-called parquet equations are
+\begin{align}
+	\begin{split}
+    	\Gamma^\ph(12;34) 
+    	= \Lambda^\irr(12;34) 
+    	& + \Gamma(42;56) G^\ph(56;78)\Bar{\Gamma}^\ph(18;37)
+    	\\
+    	& + \Gamma_P(41;56) G^\pp(56;78)\Gamma^\pp(78;32)
+	\end{split}
+	\\
+	\begin{split}
+    	\Bar{\Gamma}^\ph(12;34) 
+    	= \Lambda^\irr(12;34) 
+    	& + \Gamma(12;56) G^\ph(56;78)\Gamma^\ph(78;34)
+    	\\
+    	& - \Gamma_P(14;56) G^\pp(56;78)\Gamma^\pp(78;34)
+	\end{split}
+	\\
+	\begin{split}
+    	\Gamma^\pp(12;34) 
+    	= \Lambda_P^\irr(12;34) 
+    	& - \Gamma(24;45) G^\ph(56;78)\Bar{\Gamma}^\ph(18;37)
+    	\\
+    	& + \Gamma(14;56) G^\ph(56;78)\Bar{\Gamma}^\ph(28;37)
+	\end{split}
+\end{align}
+Taking advantage of the relation between $\Gamma^\ph$ and $\Bar{\Gamma}^\ph$, one can reduce the problem to two coupled equations:
+\begin{align}
+	\begin{split}
+    	\Gamma^\ph(12;34) 
+    	= \Lambda^\irr(12;34) 
+    	& - \Gamma(42;56) G^\ph(56;78)\Gamma^\ph(78;31)
+    	\\
+    	& + \Gamma_P(41;56) G^\pp(56;78)\Gamma^\pp(78;32)
+	\end{split}
+	\\
+	\begin{split}
+    	\Gamma^\pp(12;34) 
+    	= - \Lambda_P^\irr(12;34) 
+    	& + \Gamma(24;56) G^\ph(56;78)\Gamma^\ph(78;31)
+    	\\
+    	& - \Gamma(14;56) G^\ph(56;78)\Gamma^\ph(78;32)
+	\end{split}
+\end{align}
+$\Gamma$ and $\Gamma_P$ can be also removed using the Bethe-Salpeter equations written above.
+To do so, Let us introduce the shortcut notation:
+\begin{equation}
+	(\Gamma_A \Gamma_B)(12;34) = \Gamma_A(12;56) \Gamma_B(56;34)
+\end{equation}
+and $\bI(12;34) = \delta_{13} \delta_{24}$.
+With these conventions, we have
+\begin{gather}
+    \Gamma^\ph(12;34) = + \Lambda^\irr(12;34) - \Phi(42;31) + \Psi(41;32)
+    \\
+    \Gamma^\pp(12;34) = - \Lambda^\irr(14;32) + \Phi(24;31) - \Phi(14;42)
+\end{gather}
+with
+\begin{gather}
+    \Phi(12;34) = \qty[ \Gamma^\ph (\bI - G^\ph \Gamma^\ph)^{-1} G^\ph \Gamma^\ph ](12;34)
+    \\
+    \Psi(12;34) = \qty[ \Gamma^\pp (\bI - G^\pp \Gamma^\pp)^{-1} G^\pp \Gamma^\pp ](12;34)
+\end{gather}
+With these notations, the crossing relations are
+\begin{gather}
+	\qty[ \Gamma^\ph + \Phi ](12;34) = - \qty[ \Gamma^\ph + \Phi ](42;31)
+	\\
+	\qty[ \Gamma^\ph + \Phi ](12;34) = - \qty[ \Gamma^\pp + \Psi ](14;32)
+\end{gather}
+To ensure crossing symmetry, one must start the self-consistent process with quantities preserving crossing symmetries.
+The easiest way of doing this is to use $\Lambda^\irr = v$  (with direct and exchange parts) for a starting point.
+
+Now, we focus on the self-energy which can be written as a non-scattering and a scattering part
+\begin{equation}
+	\Sigma(11') = \Sigma_1(11') + \Sigma_2(11')
+\end{equation}
+where, after various manipulations, one gets
+\begin{equation}
+\begin{split}
+	\Sigma_2(11') 
+	= \frac{1}{2} \Bigg\{ 
+	& - \frac{1}{2} G(76) \qty[ 
+	\Lambda^\irr G^\ph v ](17;1'6) 
+	\\
+	& + G(67) \qty[ \Lambda^\irr_P G^\pp v_P ](17;1'6)
+	\Bigg\}
+	\\
+	& - G(76) \qty[ \Phi G^\ph v ](17;1'6)
+	\\
+	& + G(67) \qty[ \Psi G^\pp v_P ](17;1'6)
+\end{split}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Spin adaptation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+Thanks to the spin adaptation, we have the following picture: the electrons interacting through the exchange of four varieties of composite ``bosons'' made of electrons and holes which themselves strongly interact through the exchange of other bosons: density, magnetic, singlet-pair, and triplet-pair fluctuations. 
+Thanks to the crossing symmetry of the complete vertices, the parquet equations automatically build in the nonlinear coupling between dressed electron and boson excitations necessary for full consistency.
+
+We now explicitly treat the spin degrees of freedom starting from the ph vertex functions that we decompose in density and magnetic components.
+We hence remove the spin variable from the composite variable $1 \equiv (\br_1,t_1)$.
+Defining the density and magnetic operators
+\begin{gather}
+	d(12) = \frac{1}{\sqrt{2}} \qty[ \cre{1\up}\ani{2\up} + \cre{1\dw}\ani{2\dw} ]
+	\\
+	m(12) = \frac{1}{\sqrt{2}} \qty[ \cre{1\up}\ani{2\up} - \cre{1\dw}\ani{2\dw} ]
+\end{gather}
+we have
+\begin{gather}
+	\Gamma_\text{m}^{+1}(12;34) = \Gamma_{\updw,\updw}(12;34) 
+	\\
+	\Gamma_\text{m}^{-1}(12;34) = \Gamma_{\dwup,\dwup}(12;34)
+\end{gather}
+and
+\begin{gather}
+	\Gamma_\text{d}(12;34) = \Gamma_{\upup,\upup}(12;34) + \Gamma_{\upup,\dwdw}(12;34)
+	\\
+	\Gamma_\text{m}^{0}(12;34) = \Gamma_{\upup,\upup}(12;34) - \Gamma_{\upup,\dwdw}(12;34)
+\end{gather}
+Hence, $\Gamma_\text{m} \equiv \Gamma_\text{m}^{0} = \Gamma_\text{m}^{\pm1}$.
+
+Now, let us decompose the pp vertex functions into their singlet and triplet components in very much the same way.
+Again, the 3 triplet components
+\begin{gather}
+	\Gamma_\text{t}^{+1}(12;34) = \Gamma_{\upup,\upup}(12;34)
+	\\
+	\Gamma_\text{t}^{-1}(12;34) = \Gamma_{\dwdw,\dwdw}(12;34)
+	\\
+	\Gamma_\text{t}^{0}(12;34) = \Gamma_{\updw,\updw}(12;34) - \Gamma_{\updw,\dwup}(12;34)
+\end{gather}
+are equal and abbreviated as $\Gamma_\text{t}$ while the singlet component reads
+\begin{equation}
+	\Gamma_\text{s}^{0}(12;34) = \Gamma_{\updw,\updw}(12;34) + \Gamma_{\updw,\dwup}(12;34)
+\end{equation}
+We recover the fact that the singlet component is symmetric under the exchange of space-time labels, while the triplets are antisymmetric, i.e.
+\begin{gather}
+	\Gamma_\text{s}(12;34) = + \Gamma_\text{s}(12;43)
+	\\
+	\Gamma_\text{t}(12;34) = - \Gamma_\text{t}(12;43)
+\end{gather}
+
+We are now ready to write down the parquet equations in a spin-adapted basis.
+Defining
+\begin{gather}
+	\Phi_\text{d/m}(12;34) = \qty[ \Gamma_\text{d/m}^\ph (\bI - G^\ph \Gamma_\text{d/m}^\ph)^{-1} G^\ph \Gamma_\text{d/m}^\ph ](12;34)
+	\\
+	\Psi_\text{s/t}(12;34) = \qty[ \Gamma_\text{s/t}^\pp (\bI - G^\pp \Gamma_\text{s/t}^\pp)^{-1} G^\pp \Gamma_\text{s/t}^\pp ](12;34)
+\end{gather}
+we get
+\begin{align}
+	\begin{split}
+		\Gamma_\text{d}^\ph(12;34) 
+		= \Lambda_\text{d}^\irr(12;34) 
+		& - \frac{1}{2} \Phi_\text{d}(42;31) 
+		- \frac{3}{2} \Phi_\text{m}(42;31)
+		\\
+		& + \frac{1}{2} \Psi_\text{s}(41;32) 
+		+ \frac{3}{2} \Psi_\text{t}(41;32)
+	\end{split}
+	\\
+	\begin{split}
+		\Gamma_\text{m}^\ph(12;34) 
+		= \Lambda_\text{m}^\irr(12;34) 
+		& - \frac{1}{2} \Phi_\text{d}(42;31) 
+		+ \frac{1}{2} \Phi_\text{m}(42;31)
+		\\
+		& - \frac{1}{2} \Psi_\text{s}(41;32) 
+		+ \frac{1}{2} \Psi_\text{t}(41;32)
+	\end{split}
+	\\
+	\begin{split}
+		\Gamma_\text{s}^\pp(12;34) 
+		= \Lambda_\text{s}^\irr(12;34) 
+		& + \frac{1}{2} \Phi_\text{d}(24;31) 
+		- \frac{3}{2} \Phi_\text{m}(24;31)
+		\\
+		& + \frac{1}{2} \Psi_\text{s}(14;32) 
+		- \frac{3}{2} \Psi_\text{t}(14;32)
+	\end{split}
+	\\
+	\begin{split}
+		\Gamma_\text{t}^\pp(12;34) 
+		= \Lambda_\text{t}^\irr(12;34) 
+		& + \frac{1}{2} \Phi_\text{d}(24;31) 
+		+ \frac{1}{2} \Phi_\text{m}(24;31)
+		\\
+		& - \frac{1}{2} \Psi_\text{s}(14;32) 
+		- \frac{1}{2} \Psi_\text{t}(14;32)
+	\end{split}
+\end{align}
+Check out this nice symmetry!
+Now that we have the parquet equations written in a convenient spin-adapted form, the last step is to write down the self-energy via the Dyson-Schwinger equation.
+Doing so displays the four varieties of composite bosons mentioned previously:
+\begin{equation}
+\label{eq:Sig2_sa}
+\begin{split}
+	\Sigma_2(11') 
+	= \frac{1}{2} \Bigg\{ 
+	& - \frac{1}{2} G(76) \qty[ 
+	\frac{1}{2} \Lambda_\text{d}^\irr G^\ph v_\text{d} + \frac{3}{2} \Lambda_\text{m}^\irr G^\ph v_\text{m} ](17;1'6) 
+	\\
+	& + G(67) \qty[ \frac{1}{2} \Lambda_\text{s}^\irr G^\pp v_\text{s} + \frac{3}{2} \Lambda_\text{t}^\irr G^\pp v_\text{t} ](17;1'6)
+	\Bigg\}
+	\\
+	& - G(76) \qty[ \frac{1}{2} \Phi_\text{d} G^\ph v_\text{d} + \frac{3}{2} \Phi_\text{m} G^\ph v_\text{m} ](17;1'6)
+	\\
+	& + G(67) \qty[ \frac{1}{2} \Psi_\text{s} G^\pp v_\text{s} + \frac{3}{2} \Psi_\text{t} G^\pp v_\text{t} ](17;1'6)
+\end{split}
+\end{equation}
+Finally, the crossing relations become
+\begin{gather}
+	\Gamma_\text{m}(12;34) = - \frac{1}{2} \Gamma_\text{d}(42;31) + \frac{1}{2} \Gamma_\text{m}(42;31)
+	\\
+	\Gamma_\text{m}(12;34) = - \frac{1}{2} \Gamma_\text{s}(14;32) - \frac{1}{2} \Gamma_\text{t}(14;32)
+\end{gather}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fluctuation-exchange approximation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+The FLEX approximation is a variant of the Baym-Kadanoff approximation and then focuses on the self-energy itself.
+This lack of two-body self-consistency limits the quantitative accuracy of FLEX compared to parquet.
+In FLEX, one sets $\Lambda^\irr = \Gamma^\ph = \Gamma^\pp = v$.
+Equation \eqref{eq:Sig2_sa} then becomes
+\begin{equation}
+\begin{split}
+	\Sigma_2(11') 
+	= \frac{1}{2} \Bigg\{ 
+	& - \frac{1}{2} G(76) \qty[ 
+	\frac{1}{2} v_\text{d} G^\ph v_\text{d} + \frac{3}{2} v_\text{m} G^\ph v_\text{m} ](17;1'6) 
+	\\
+	& + G(67) \qty[ \frac{1}{2} v_\text{s} G^\pp v_\text{s} + \frac{3}{2} v_\text{t} G^\pp v_\text{t} ](17;1'6)
+	\Bigg\}
+	\\
+	& - G(76) \Big[ 
+	\frac{1}{2} v_\text{d} (\bI - G^\ph v_\text{d})^{-1} (G^\ph v_\text{d})^2 
+	\\
+	& + \frac{3}{2} v_\text{m} (\bI - G^\ph v_\text{m})^{-1} (G^\ph v_\text{m})^2 
+	\Big](17;1'6)
+	\\
+	& + G(67) \Big[ 
+	\frac{1}{2} v_\text{s} (\bI - G^\pp)^{-1} (G^\pp v_\text{s})^2 
+	\\
+	& + \frac{3}{2} v_\text{t} (\bI - G^\pp)^{-1} (G^\pp v_\text{t})^2
+	\Big](17;1'6)
+\end{split}
+\end{equation}
+Because FLEX is a parquet with non-self-consistent two-body vertices, their expressions are a bit different and two flavours exist.
+The first flavor includes the single-fluctuation-exchange diagrams while the second flavor includes also the so-called Aslamazov-Larkin diagrams.
+When the vertex functions are spin-diagonalized omitting the Aslamazov-Larkin contributions, we recover the parquet equations where one sets $\Lambda^\irr = \Gamma^\ph = \Gamma^\pp = v$.
+It has been shown that the Aslamazov-Larkin diagrams deteriorate the accuracy of the two-body vertices obtained via FLEX.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\acknowledgements{
+This project has received funding from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation programme (Grant agreement No.~863481).}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{Data availability statement}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%The data that supports the findings of this study are available within the article.% and its supplementary material.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

@@ -1,0 +1,3210 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+	colorlinks=true,
+    citecolor=blue,
+    breaklinks=true
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+\newcommand{\Hx}{\text{Hx}}
+
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+\begin{document}	
+
+\title{From Parquet to Hedin's Equations}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\begin{abstract}
+Hedin's and parquet equations provide two formally exact but apparently
+rather different organizations of many-body perturbation theory.
+Hedin's equations are formulated in terms of a self-energy, a screened
+interaction, and a 3-point vertex, whereas parquet theory resolves the
+full 4-point vertex into contributions associated with the three
+two-particle scattering channels.
+In these notes, we examine explicitly the connection between these two
+formulations.
+We show that the electron-hole Bethe--Salpeter equation of parquet theory,
+once the external propagators are attached, is identical to the 4-point
+form of the Hedin response equation.
+The corresponding Hedin kernel is therefore the electron-hole irreducible
+parquet vertex,
+$
+	\fdv*{\Sigma}{G}
+	=
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp.
+$
+This identity provides a simple interpretation of the relation between the
+two theories: parquet keeps the different scattering channels explicit,
+whereas the 4-point Hedin formulation downfolds the crossed
+electron-hole and particle-particle channels into a single three-frequency
+kernel.
+Starting from this 4-point formulation, the usual Hedin equations are
+then recovered by separating the direct Coulomb contribution and exploiting
+the density-density structure of the Coulomb interaction.
+This converts the 4-point screened interaction into the usual two-point
+screened interaction $W$ and the 4-point response vertex into the
+standard 3-point Hedin vertex.
+The analogous construction in the particle-particle channel is also briefly
+discussed, providing a direct connection with particle-particle Hedin's
+equations and $T$-matrix theory.
+%\bigskip
+%\begin{center}
+%	\boxed{\includegraphics[width=0.5\linewidth]{TOC}}
+%\end{center}
+%\bigskip
+\end{abstract}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Many-body perturbation theory admits several formally exact organizations
+of the same underlying many-electron problem.
+Among the most prominent are Hedin's equations and the parquet equations.\cite{Hedin1965,DeDominicis_1964b,Bickers_2004}
+Although both formulations ultimately describe the same one- and
+two-particle correlation functions, their structures appear rather
+different.
+
+The standard Hedin equations are built around the one-particle Green's
+function $G$, the self-energy $\Sigma$, the screened Coulomb interaction
+$W$, the irreducible polarizability $P$, and a 3-point vertex.\cite{Hedin1965,MarieAmmarLoos2024}
+The central 4-point quantity entering the vertex equation is the
+functional derivative
+\begin{equation}
+	\Xi
+	=
+	\frac{\delta \Sigma}{\delta G},
+	\label{eq:Hedin_kernel_intro}
+\end{equation}
+which is, in general, a three-frequency object.
+Despite the compact appearance of Hedin's equations, the exact kernel
+$\Xi$ therefore contains a highly nontrivial amount of two-particle
+physics.
+
+Parquet theory organizes the same physics differently.\cite{DeDominicis_1964b,Eckhardt2023,MarieLoos2025}
+The full 4-point vertex $F$ is decomposed according to its
+two-particle reducibility in the three possible scattering channels:
+the electron-hole ($\eh$), transverse electron-hole
+($\teh$), and particle-particle ($\pp$) channels.
+Introducing the fully two-particle-irreducible vertex $\Lambda$ and the
+three channel-reducible vertices
+$\Phi^\eh$, $\Phi^{\teh}$, and $\Phi^\pp$, one writes
+\begin{equation}
+	\boxed{
+	F
+	=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:parquet_decomposition_intro}
+\end{equation}
+Correspondingly, the vertex irreducible in the $\eh$ channel is
+\begin{equation}
+	\boxed{
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:Gamma_eh_intro}
+\end{equation}
+Analogous expressions hold for the vertices irreducible in the
+$\teh$ and $\pp$ channels.
+
+Equations~\eqref{eq:Hedin_kernel_intro}
+and~\eqref{eq:Gamma_eh_intro} already suggest a close connection between
+the two formalisms.
+Indeed, as we shall show explicitly, the 4-point Hedin kernel and the
+$\eh$-irreducible parquet vertex are the same exact object,
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	\frac{\delta\Sigma}{\delta G}
+	=
+	\Gamma^{\eh}
+	}.
+	\label{eq:central_identity_intro}
+\end{equation}
+Consequently,
+\begin{equation}
+	\boxed{
+	\frac{\delta\Sigma}{\delta G}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:central_parquet_hedin_intro}
+\end{equation}
+The Hedin kernel is therefore $\eh$ irreducible, but it does not contain
+only electron-hole physics.
+Rather, the fully irreducible vertex and the contributions reducible in
+the other two channels are all contained in the same kernel.
+
+This observation suggests a useful way of interpreting the relation
+between parquet and Hedin theories.
+Parquet may be viewed as a \emph{channel-resolved} representation in which
+the different two-particle scattering processes are retained as explicit
+variables.
+Conversely, the 4-point Hedin formulation may be viewed as a
+\emph{channel-downfolded} representation in which the crossed
+electron-hole and particle-particle contributions are incorporated into
+the single kernel $\Xi$.
+The terminology ``upfolding'' and ``downfolding'' used throughout these
+notes is meant in this representational sense and does not imply an
+approximation.
+
+Because I suck at diagrams, the purpose of these notes is to make this connection explicit without
+relying primarily on diagrammatic arguments.
+The central route will be
+\begin{equation}
+	\boxed{
+	\text{parquet}
+	\qq{$\longrightarrow$}
+	\text{4-point Hedin}
+	\qq{$\longrightarrow$}
+	\text{3-point Hedin}
+	}.
+	\label{eq:route_intro}
+\end{equation}
+The first transformation follows directly from the $\eh$ Bethe--Salpeter
+equation of parquet theory.
+Attaching the external one-particle propagators converts this equation
+into the 4-point Hedin response equation and identifies its kernel with
+$\Gamma^\eh$.
+\titou{The second transformation relies on the special density-density structure
+of the Coulomb interaction.}
+After separating the direct Coulomb contribution from the full 4-point
+kernel, the corresponding repeated electron-hole scattering can be
+resummed into the screened interaction $W$.
+\titou{At the same time, contraction of one fermionic pair with the bare density
+vertex converts the 4-point response vertex into the familiar
+3-point Hedin vertex.}
+
+This derivation also clarifies why the standard Hedin formulation appears
+considerably more compact than parquet theory.
+The three parquet channels are not absent from Hedin theory; rather, two
+of them have been absorbed into the three-frequency functional kernel.
+Parquet reverses this compression by assigning the different classes of
+two-particle-reducible diagrams to separate channel equations.
+In this sense, the two formulations differ primarily in how the
+two-particle information is distributed among their fundamental
+variables.
+
+For completeness, we shall also consider the analogous construction in
+the particle-particle channel.
+Selecting the $\pp$ parquet equation leads naturally to a 4-point
+particle-particle Hedin formulation in which the other two parquet
+channels are contained in the $\pp$-irreducible kernel.
+The corresponding repeated pair scattering is described by a
+4-point $T$ matrix. 
+This parallel construction illustrates that ordinary Hedin theory is one
+particular channel-centered representation of the more symmetric parquet
+structure.
+
+Throughout most of the derivation, infinitesimal equal-time shifts are
+suppressed to lighten the notation.
+They are restored whenever an equal-coordinate projection is performed
+or the instantaneous Coulomb interaction is involved.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{One- and two-particle quantities}
+\label{sec:quantities}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Throughout these notes, numerical labels denote collective
+space-spin-time variables,
+\begin{equation}
+	1 \equiv (\bx_1,t_1)
+	= (\br_1,\sigma_1,t_1),
+\end{equation}
+and integration over repeated labels is implied.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{One-particle Green's function}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The time-ordered one-particle Green's function is defined as
+\begin{equation}
+	G(11')
+	=
+	-\ii
+	\mel{
+		\Psi_0^N
+		}{
+		\hat{T}
+		[
+			\hat{\psi}(1)
+			\hat{\psi}^{\dagger}(1')
+		]
+		}{
+		\Psi_0^N
+	},
+	\label{eq:G_def}
+\end{equation}
+where $\ket*{\Psi_0^N}$ is the exact $N$-electron ground state and
+$\hat{T}$ is the time-ordering operator.
+
+The interacting Green's function satisfies the Dyson equation
+\begin{equation}
+	\boxed{
+	G(11')
+	=
+	G_0(11')
+	+
+	G_0(12)
+	\Sigma(22')
+	G(2'1')
+	},
+	\label{eq:Dyson}
+\end{equation}
+where $G_0$ is the non-interacting Green's function and $\Sigma$ is
+the one-particle irreducible self-energy.
+
+The Dyson equation provides the first example of a recurring idea in
+many-body theory: reducible contributions are generated by iterating
+an irreducible kernel.
+The same principle will appear at the two-particle level through the
+Bethe--Salpeter and parquet equations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Two-particle Green's function and full vertex}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The time-ordered two-particle Green's function is
+\begin{equation}
+	\begin{split}
+	G_2(12;1'2')
+	=
+	(-\ii)^2
+	\mel{
+		\Psi_0^N
+		}{
+		\hat{T}
+		[
+			\hat{\psi}(1)
+			\hat{\psi}(2)
+			\hat{\psi}^{\dagger}(2')
+			\hat{\psi}^{\dagger}(1')
+		]
+		}{
+		\Psi_0^N
+	}.
+	\end{split}
+	\label{eq:G2_def}
+\end{equation}
+
+The full two-particle vertex $F$ is defined by amputating the
+connected part of $G_2$.
+With the conventions adopted here,
+\begin{align}
+	G_2(12;34)
+	={}&
+	G(13)G(24)
+	-
+	G(14)G(23)
+	\nonumber
+	\\
+	&-
+	G(11')
+	G(3'3)
+	F(1'2';3'4')
+	G(4'4)
+	G(22').
+	\label{eq:G2_F}
+\end{align}
+The first two terms correspond to the two possible independent
+propagations of a pair of fermions, while $F$ contains all connected
+two-particle scattering processes.
+
+Fermionic antisymmetry implies the crossing relations
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	F(12;34)
+	&=
+	-F(21;34)
+	\\
+	&=
+	-F(12;43)
+	\\
+	&=
+	+F(21;43).
+	\end{aligned}
+	}
+	\label{eq:F_crossing}
+\end{equation}
+These relations will play an important role when connecting the two
+electron-hole channels.
+
+For a time-independent Hamiltonian, time-translation invariance removes
+one overall time variable from a 4-point quantity.
+Consequently, the full vertex $F$ depends on three independent time
+differences or, equivalently, three independent frequencies.
+Different choices of these frequency variables are naturally adapted to
+the different parquet channels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Electron-hole correlation function}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For the connection with Hedin's equations, it is convenient to introduce
+the electron-hole correlation function
+\begin{equation}
+	\boxed{
+	L(12;1'2')
+	=
+	G(11')G(22')
+	-
+	G_2(12;1'2')
+	}.
+	\label{eq:L_def}
+\end{equation}
+Its independent-propagation contribution is
+\begin{equation}
+	\boxed{
+	L_0(12;1'2')
+	=
+	G(12')G(21')
+	}.
+	\label{eq:L0_def}
+\end{equation}
+Indeed, in the absence of a connected two-particle vertex,
+\begin{equation}
+	G_2^{(0)}(12;1'2')
+	=
+	G(11')G(22')
+	-
+	G(12')G(21'),
+\end{equation}
+so that $L=L_0$.
+
+Substituting Eq.~\eqref{eq:G2_F} into Eq.~\eqref{eq:L_def} gives
+\begin{align}
+	L(12;1'2')
+	={}&
+	L_0(12;1'2')
+	\nonumber
+	\\
+	&+
+	G(13)
+	G(3'1')
+	F(34;3'4')
+	G(4'2')
+	G(24).
+	\label{eq:L_F_explicit}
+\end{align}
+Using Eq.~\eqref{eq:L0_def}, this can be written more compactly as
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	L(12;1'2')
+	={}&
+	L_0(12;1'2')
+	\\
+	&+
+	L_0(13';1'3)
+	F(34;3'4')
+	L_0(4'2;42').
+	\end{aligned}
+	}
+	\label{eq:L_F}
+\end{equation}
+
+Equation~\eqref{eq:L_F} establishes the direct relation between the
+full 4-point vertex and the electron-hole response.
+In symbolic notation,
+\begin{equation}
+	\boxed{
+	L
+	=
+	L_0
+	+
+	L_0 F L_0
+	}.
+	\label{eq:L_F_symbolic}
+\end{equation}
+This identity will be central below: inserting the electron-hole
+Bethe--Salpeter equation for $F$ into Eq.~\eqref{eq:L_F_symbolic}
+immediately produces the 4-point form of Hedin's response equation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Two-particle reducibility and parquet equations}
+\label{sec:parquet}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In contrast to the one-particle case, where reducibility is associated
+with cutting a single propagator line, a 4-point diagram may become
+disconnected by cutting two propagator lines.
+For a number-conserving fermionic system, there are three topologically
+distinct ways of performing such a cut.
+They define the electron-hole ($\eh$), transverse electron-hole
+($\teh$), and particle-particle ($\pp$) channels.
+
+A connected 4-point diagram is said to be \emph{reducible} in a given
+channel if it can be separated into two disconnected pieces by cutting
+the corresponding pair of one-particle propagators.
+Otherwise, it is irreducible in that channel.
+A diagram that is irreducible in all three channels is said to be
+\emph{fully two-particle irreducible}.
+
+For a number-conserving theory, a two-particle-reducible diagram belongs
+to one and only one of the three channels.
+The full vertex therefore admits the exact decomposition
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	F(12;34)
+	={}&
+	\Lambda(12;34)
+	+
+	\Phi^\eh(12;34)
+	\\
+	&+
+	\Phi^{\teh}(12;34)
+	+
+	\Phi^\pp(12;34),
+	\end{aligned}
+	}
+	\label{eq:parquet_decomposition}
+\end{equation}
+where $\Lambda$ is the fully two-particle-irreducible vertex and
+$\Phi^\eh$, $\Phi^{\teh}$, and $\Phi^\pp$ collect all
+diagrams reducible in the corresponding channel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Channel-irreducible vertices}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+It is useful to introduce vertices that are irreducible in one specific
+channel but may be reducible in the other two.
+For the $\eh$ channel,
+\begin{equation}
+	\boxed{
+	\Gamma^\eh(12;34)
+	=
+	\Lambda(12;34)
+	+
+	\Phi^{\teh}(12;34)
+	+
+	\Phi^\pp(12;34)
+	}.
+	\label{eq:Gamma_eh}
+\end{equation}
+Similarly,
+\begin{equation}
+	\boxed{
+	\Gamma^{\teh}(12;34)
+	=
+	\Lambda(12;34)
+	+
+	\Phi^\eh(12;34)
+	+
+	\Phi^\pp(12;34)
+	},
+	\label{eq:Gamma_ehbar}
+\end{equation}
+and
+\begin{equation}
+	\boxed{
+	\Gamma^\pp(12;34)
+	=
+	\Lambda(12;34)
+	+
+	\Phi^\eh(12;34)
+	+
+	\Phi^{\teh}(12;34)
+	}.
+	\label{eq:Gamma_pp}
+\end{equation}
+
+The parquet decomposition,
+Eq.~\eqref{eq:parquet_decomposition}, can therefore be written in three
+equivalent forms,
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	F
+	&=
+	\Gamma^\eh
+	+
+	\Phi^\eh
+	\\
+	&=
+	\Gamma^{\teh}
+	+
+	\Phi^{\teh}
+	\\
+	&=
+	\Gamma^\pp
+	+
+	\Phi^\pp.
+	\end{aligned}
+	}
+	\label{eq:F_Gamma_Phi}
+\end{equation}
+
+Equation~\eqref{eq:F_Gamma_Phi} is particularly important for what
+follows.
+Choosing one of the three channels does not amount to neglecting the
+other two.
+For example, $\Gamma^\eh$ already contains the complete
+$\teh$ and $\pp$ contributions through
+Eq.~\eqref{eq:Gamma_eh}.
+The distinction between the three formulations is therefore a distinction
+in how the two-particle information is organized rather than in the
+information retained.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bethe--Salpeter equations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The reducible contribution in each channel can be generated by iterating
+the corresponding channel-irreducible vertex.
+This leads to three Bethe--Salpeter equations for the same full vertex
+$F$.
+
+In the $\eh$ channel,
+\begin{align}
+	F(12;34)
+	={}&
+	\Gamma^\eh(12;34)
+	\nonumber
+	\\
+	&+
+	\Gamma^\eh(13';31')
+	G(1'4')
+	G(2'3')
+	F(4'2;2'4).
+	\label{eq:BSE_eh}
+\end{align}
+The second term is, by construction, reducible in the $\eh$ channel.
+Hence,
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\Phi^\eh(12;34)
+	={}&
+	\Gamma^\eh(13';31')
+	G(1'4')
+	G(2'3')
+	F(4'2;2'4).
+	\end{aligned}
+	}
+	\label{eq:Phi_eh}
+\end{equation}
+
+In the transverse electron-hole channel,
+\begin{align}
+	F(12;34)
+	={}&
+	\Gamma^{\teh}(12;34)
+	\nonumber
+	\\
+	&-
+	\Gamma^{\teh}(3'2;32')
+	G(1'3')
+	G(2'4')
+	F(14';1'4),
+	\label{eq:BSE_ehbar}
+\end{align}
+so that
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\Phi^{\teh}(12;34)
+	={}&
+	-
+	\Gamma^{\teh}(3'2;32')
+	G(1'3')
+	G(2'4')
+	F(14';1'4).
+	\end{aligned}
+	}
+	\label{eq:Phi_ehbar}
+\end{equation}
+The minus sign follows from fermionic crossing.
+
+Finally, the particle-particle BSE reads
+\begin{align}
+	F(12;34)
+	={}&
+	\Gamma^\pp(12;34)
+	\nonumber
+	\\
+	&-
+	\frac{1}{2}
+	\Gamma^\pp(12;1'2')
+	G(1'3')
+	G(2'4')
+	F(3'4';34),
+	\label{eq:BSE_pp}
+\end{align}
+and therefore
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\Phi^\pp(12;34)
+	={}&
+	-
+	\frac{1}{2}
+	\Gamma^\pp(12;1'2')
+	G(1'3')
+	G(2'4')
+	F(3'4';34).
+	\end{aligned}
+	}
+	\label{eq:Phi_pp}
+\end{equation}
+The factor $1/2$ originates from the antisymmetry of the two-fermion
+pair space and avoids double counting equivalent particle-particle
+configurations.
+
+Equations~\eqref{eq:BSE_eh}--\eqref{eq:BSE_pp}, together with
+Eqs.~\eqref{eq:Gamma_eh}--\eqref{eq:Gamma_pp}, form the two-particle
+core of the parquet equations.
+Each BSE resums diagrams reducible in one particular channel, while its
+irreducible kernel contains the fully irreducible vertex and the
+contributions reducible in the other two channels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Crossing relations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The three channel equations are not independent.
+Their mutual consistency is enforced by fermionic crossing symmetry.
+While the $\pp$-irreducible vertex possesses the same antisymmetry as the
+full vertex, the two electron-hole irreducible vertices are related to
+one another through
+\begin{equation}
+	\boxed{
+	\Gamma^\eh(21;34)
+	=
+	-
+	\Gamma^{\teh}(12;34)
+	},
+	\label{eq:Gamma_crossing_1}
+\end{equation}
+and
+\begin{equation}
+	\boxed{
+	\Gamma^\eh(12;43)
+	=
+	-
+	\Gamma^{\teh}(12;34)
+	}.
+	\label{eq:Gamma_crossing_2}
+\end{equation}
+
+Consequently, the three BSEs should not be viewed as three independent
+descriptions of different physical systems.
+They are three channel-resolved representations of the same full
+4-point vertex.
+Their simultaneous solution makes the different two-particle scattering
+processes explicit while avoiding double counting between the channels.
+
+This observation will be central in the following section.
+In particular, selecting the $\eh$ Bethe--Salpeter equation while retaining
+the exact kernel $\Gamma^\eh$ does not discard either the
+$\teh$ or the $\pp$ channel.
+Rather, according to Eq.~\eqref{eq:Gamma_eh}, these two channels are
+already contained in the $\eh$-irreducible kernel.
+This provides the starting point for the connection between parquet theory
+and the 4-point Hedin equations.\cite{StarkeKresse2012,OrlandoRomanielloLoos2023}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Closing the parquet equations}
+\label{sec:closing_parquet}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The parquet equations determine the full two-particle vertex once the
+fully irreducible vertex $\Lambda$ and the one-particle Green's function
+are known.
+To obtain a closed many-body theory, the two-particle vertex must in turn
+be connected to the one-particle self-energy.
+
+This connection follows from the equation of motion for the one-particle
+Green's function.\cite{MarieLoos2025}
+It yields the exact Dyson--Schwinger equation
+\begin{equation}
+	\boxed{
+	\Sigma(11')
+	=
+	-\ii
+	v(12;3'2')
+	G_2(3'2';32)
+	G^{-1}(31')
+	},
+	\label{eq:SDE_G2}
+\end{equation}
+where $v$ is the bare Coulomb interaction.
+
+Using the decomposition of the two-particle Green's function in terms of
+the full vertex $F$, Eq.~\eqref{eq:G2_F}, one obtains
+\begin{align}
+	\Sigma(11')
+	={}&
+	\Sigma_{\Hx}(11')
+	\nonumber
+	\\
+	&-
+	\ii
+	v(12;3'2')
+	G(3'3)
+	G(4'2)
+	G(2'4)
+	F(34;4'1').
+	\label{eq:SDE_F}
+\end{align}
+Here $\Sigma_{\Hx}$ denotes the Hartree--exchange self-energy.
+The second term is the exact correlation self-energy,
+\begin{equation}
+	\boxed{
+	\Sigma_\text{c}(11')
+	=
+	-\ii
+	v(12;3'2')
+	G(3'3)
+	G(4'2)
+	G(2'4)
+	F(34;4'1')
+	}.
+	\label{eq:Sigma_c_F}
+\end{equation}
+
+Equation~\eqref{eq:Sigma_c_F} is the one-particle counterpart of the
+parquet equations.
+It shows that the full two-particle vertex feeds back into the
+one-particle propagator through the self-energy.
+Together with the Dyson equation,
+\begin{equation}
+	G
+	=
+	G_0
+	+
+	G_0 \Sigma G,
+	\label{eq:Dyson_compact}
+\end{equation}
+the parquet decomposition and the three Bethe--Salpeter equations therefore
+form a closed self-consistent hierarchy, provided that the fully
+irreducible vertex $\Lambda$ is known.
+
+For reference, the exact parquet system may be summarized schematically as
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	G
+	&=
+	G_0 + G_0 \Sigma G,
+	\\[1mm]
+	\Sigma
+	&=
+	\Sigma_{\Hx}
+	+
+	\Sigma_\text{c}[G,F],
+	\\[1mm]
+	F
+	&=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp,
+	\\[1mm]
+	F
+	&=
+	\Gamma^{r}
+	+
+	\Phi^{r},
+	\qquad
+	r\in\{\eh,\teh,\pp\},
+	\\[1mm]
+	\Gamma^{r}
+	&=
+	\Lambda
+	+
+	\sum_{r'\neq r}\Phi^{r'}.
+	\end{aligned}
+	}
+	\label{eq:parquet_system_summary}
+\end{equation}
+
+The fully irreducible vertex $\Lambda$ is the only quantity in this set
+that is not determined by the parquet equations themselves.
+At the exact level it contains all diagrams that are irreducible in each
+of the three two-particle channels.
+
+A frequently employed closure is the \emph{parquet approximation}, in
+which $\Lambda$ is replaced by the antisymmetrized bare interaction,
+\begin{equation}
+	\Lambda(12;1'2')
+	\approx
+	-\ii \bar v(12;1'2')
+	=
+	-\ii
+	\left[
+		v(12;1'2')
+		-
+		v(12;2'1')
+	\right].
+	\label{eq:parquet_approximation}
+\end{equation}
+This approximation will not be required in the following derivation:
+the connection with Hedin's equations is established at the exact level.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{From parquet to the 4-point Hedin equation}
+\label{sec:parquet_to_hedin4}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now establish the central connection between parquet theory and the
+4-point formulation of Hedin's equations.
+
+The derivation relies on two identities introduced in the preceding
+sections.
+The first relates the electron-hole correlation function to the full
+4-point vertex,
+\begin{equation}
+	\boxed{
+	L
+	=
+	L_0
+	+
+	L_0 F L_0
+	},
+	\label{eq:L_F_again}
+\end{equation}
+whereas the second is the electron-hole Bethe--Salpeter equation,
+\begin{equation}
+	\boxed{
+	F
+	=
+	\Gamma^\eh
+	+
+	\Gamma^\eh L_0 F
+	}.
+	\label{eq:BSE_eh_symbolic}
+\end{equation}
+No approximation is involved in either relation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Attaching the external propagators}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Substituting Eq.~\eqref{eq:BSE_eh_symbolic} into
+Eq.~\eqref{eq:L_F_again} gives
+\begin{align}
+	L
+	&=
+	L_0
+	+
+	L_0
+	\left(
+		\Gamma^\eh
+		+
+		\Gamma^\eh L_0F
+	\right)
+	L_0
+	\nonumber
+	\\
+	&=
+	L_0
+	+
+	L_0\Gamma^\eh L_0
+	+
+	L_0\Gamma^\eh L_0FL_0
+	\nonumber
+	\\
+	&=
+	L_0
+	+
+	L_0\Gamma^\eh
+	\left(
+		L_0+L_0FL_0
+	\right).
+\end{align}
+Using Eq.~\eqref{eq:L_F_again} once more, one immediately obtains
+\begin{equation}
+	\boxed{
+	L
+	=
+	L_0
+	+
+	L_0\Gamma^\eh L
+	}.
+	\label{eq:L_BSE_Gammaeh}
+\end{equation}
+
+In explicit space-spin-time notation,
+Eq.~\eqref{eq:L_BSE_Gammaeh} reads
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	L(12;1'2')
+	={}&
+	L_0(12;1'2')
+	\\
+	&+
+	L_0(13';1'3)
+	\Gamma^\eh(34;3'4')
+	L(4'2;42').
+	\end{aligned}
+	}
+	\label{eq:L_BSE_Gammaeh_explicit}
+\end{equation}
+
+Equation~\eqref{eq:L_BSE_Gammaeh} is precisely the 4-point
+Bethe--Salpeter form of the Hedin response equation.
+Thus, attaching the external one-particle propagators to the $\eh$ parquet
+Bethe--Salpeter equation converts it directly into the 4-point Hedin
+equation.
+
+Conversely, amputating the external propagators in
+Eq.~\eqref{eq:L_BSE_Gammaeh} reproduces
+Eq.~\eqref{eq:BSE_eh_symbolic}.
+The two equations therefore contain exactly the same two-particle
+information.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Identification of the Hedin kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the 4-point formulation of Hedin's equations, the response function
+satisfies\cite{StarkeKresse2012,OrlandoRomanielloLoos2023}
+\begin{equation}
+	\boxed{
+	L
+	=
+	L_0
+	+
+	L_0 \Xi L
+	},
+	\label{eq:Hedin4_response}
+\end{equation}
+where the 4-point irreducible kernel is defined by the functional
+derivative
+\begin{equation}
+	\boxed{
+	\Xi(12;1'2')
+	=
+	\frac{\delta\Sigma(11')}
+	     {\delta G(2'2)}
+	}.
+	\label{eq:Xi_def}
+\end{equation}
+
+Comparison of Eqs.~\eqref{eq:L_BSE_Gammaeh} and
+\eqref{eq:Hedin4_response} therefore yields the exact identity
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	\Gamma^\eh
+	}.
+	\label{eq:Xi_Gammaeh}
+\end{equation}
+Equivalently,
+\begin{equation}
+	\boxed{
+	\frac{\delta\Sigma(11')}
+	     {\delta G(2'2)}
+	=
+	\Gamma^\eh(12;1'2')
+	}.
+	\label{eq:functional_Gammaeh}
+\end{equation}
+
+It is important that Eq.~\eqref{eq:functional_Gammaeh} involves the
+\emph{full} self-energy.
+The separation of the Hartree contribution from the exchange-correlation
+kernel will be performed in Sec.~\ref{sec:fourpoint_hedin}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parquet content of the Hedin kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The parquet decomposition now gives an immediate interpretation of the
+4-point Hedin kernel.
+From Eq.~\eqref{eq:Gamma_eh},
+\begin{equation}
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp.
+\end{equation}
+Combining this relation with Eq.~\eqref{eq:Xi_Gammaeh} gives
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	\frac{\delta\Sigma}{\delta G}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:central_identity}
+\end{equation}
+
+Equation~\eqref{eq:central_identity} is the central relation connecting
+the Hedin and parquet organizations of the two-particle problem.
+
+The Hedin kernel is irreducible in the $\eh$ channel, but this does not
+mean that it contains only electron-hole physics.
+On the contrary, its exact content consists of the fully
+two-particle-irreducible vertex together with all contributions reducible
+in the transverse electron-hole and particle-particle channels.
+
+In parquet theory these three contributions,
+\begin{equation}
+	\Lambda,
+	\qquad
+	\Phi^{\teh},
+	\qquad
+	\Phi^\pp,
+\end{equation}
+are retained as separate objects and determined through coupled channel
+equations.
+In the 4-point Hedin representation they are combined into the single
+three-frequency kernel $\Xi$.
+
+This provides a precise meaning to the notion of \emph{channel
+downfolding} used in these notes:
+\begin{equation}
+	\boxed{
+	\left\{
+		\Lambda,
+		\Phi^{\teh},
+		\Phi^\pp
+	\right\}
+	\qq{$\longrightarrow$}
+	\Xi
+	=
+	\Gamma^\eh
+	}.
+	\label{eq:channel_downfolding}
+\end{equation}
+No physical contribution has been discarded in this transformation.
+Only the choice of explicit variables has changed.
+
+Conversely, parquet theory may be regarded as a channel-resolved
+representation of the same kernel,
+\begin{equation}
+	\boxed{
+	\Xi
+	\qq{$\longrightarrow$}
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:channel_upfolding}
+\end{equation}
+
+The distinction between the two formulations is therefore particularly
+transparent at the exact level:
+Hedin theory retains one channel-irreducible kernel as a fundamental
+quantity, whereas parquet theory resolves the internal two-particle
+structure of this kernel according to reducibility in the remaining
+scattering channels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Separating the direct Coulomb interaction}
+\label{sec:fourpoint_hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\PFL{I don't like this section. I need to work on it further.}
+
+The 4-point Hedin equation obtained in the previous section involves
+the full kernel
+\begin{equation}
+	\Xi
+	=
+	\frac{\delta \Sigma}{\delta G}
+	=
+	\Gamma^\eh.
+\end{equation}
+To recover the conventional form of Hedin's equations, we first separate
+the Hartree contribution from the remaining exchange-correlation part of
+the self-energy.\cite{Hedin1965,OrlandoRomanielloLoos2023,MarieAmmarLoos2024}
+
+We write
+\begin{equation}
+	\Sigma
+	=
+	\Sigma_\text{H}
+	+
+	\Sigma_{\xc},
+	\label{eq:Sigma_H_xc}
+\end{equation}
+and therefore
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	-\ii v
+	+
+	\Xi_{\xc}
+	},
+	\label{eq:Xi_split}
+\end{equation}
+where
+\begin{equation}
+	\boxed{
+	v(12;1'2')
+	=
+	\delta(11')
+	\delta(22')
+	v(12)
+	}
+	\label{eq:V_def}
+\end{equation}
+is the 4-point representation of the bare direct Coulomb interaction,
+and
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}(12;1'2')
+	=
+	\frac{
+		\delta \Sigma_{\xc}(11')
+	}{
+		\delta G(2'2)
+	}
+	}
+	\label{eq:Xi_xc_def}
+\end{equation}
+is the exchange-correlation kernel.
+
+Combining Eq.~\eqref{eq:Xi_split} with the exact parquet relation
+\begin{equation}
+	\Xi
+	=
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp,
+\end{equation}
+we obtain
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	+
+	\ii v
+	}.
+	\label{eq:Xi_xc_parquet}
+\end{equation}
+
+Equation~\eqref{eq:Xi_xc_parquet} gives the exact parquet content of the
+exchange-correlation kernel entering the conventional Hedin equations.
+The transverse electron-hole and particle-particle channels remain
+present in full, but they are no longer retained as explicit variables.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{First-order consistency}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+It is useful to verify Eq.~\eqref{eq:Xi_xc_parquet} at first order.
+Introducing
+\begin{equation}
+	v_\text{x}(12;1'2')
+	=
+	V(12;2'1'),
+\end{equation}
+the first-order fully irreducible vertex is
+\begin{equation}
+	\boxed{
+	\Lambda^{(1)}
+	=
+	-\ii
+	\left(
+		V
+	-
+		V^{\rm x}
+	\right).
+	}
+	\label{eq:Lambda_first_order}
+\end{equation}
+Since the two-particle-reducible vertices start at second order,
+\begin{equation}
+	\Phi^{\teh,(1)}
+	=
+	\Phi^{\pp,(1)}
+	=
+	0,
+\end{equation}
+and Eq.~\eqref{eq:Xi_xc_parquet} gives
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}^{(1)}
+	=
+	+\ii V^\text{x}.
+	}
+	\label{eq:Xi_xc_first_order}
+\end{equation}
+This is precisely the functional derivative of the Fock self-energy in
+the present convention.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Response irreducible with respect to the direct interaction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Using Eq.~\eqref{eq:Xi_split}, the full 4-point response equation reads
+\begin{equation}
+	L
+	=
+	L_0
+	+
+	L_0
+	\left(
+		-\ii V
+		+
+		\Xi_{\xc}
+	\right)
+	L.
+	\label{eq:L_split}
+\end{equation}
+
+We introduce the response function $\widetilde L$ that is irreducible
+with respect to insertions of the direct Coulomb interaction,
+\begin{equation}
+	\boxed{
+	\widetilde L
+	=
+	L_0
+	+
+	L_0
+	\Xi_{\xc}
+	\widetilde L.
+	}
+	\label{eq:Ltilde_def}
+\end{equation}
+In explicit notation,
+\begin{equation}
+	\begin{aligned}
+	\widetilde L(12;1'2')
+	={}&
+	L_0(12;1'2')
+	\\
+	&+
+	L_0(14;1'3)
+	\Xi_{\xc}(35;46)
+	\widetilde L(62;52').
+	\end{aligned}
+	\label{eq:Ltilde_explicit}
+\end{equation}
+
+Equations~\eqref{eq:L_split} and \eqref{eq:Ltilde_def} imply
+\begin{equation}
+	\boxed{
+	L
+	=
+	\widetilde L
+	-
+	\ii
+	\widetilde L
+	V
+	L.
+	}
+	\label{eq:L_Ltilde}
+\end{equation}
+
+Thus $\widetilde L$ contains all exchange-correlation vertex corrections,
+including the downfolded $\teh$ and $\pp$ channels, while repeated
+insertions of the direct Coulomb interaction are excluded from
+$\widetilde L$ and may be resummed separately.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{4-point screened interaction}
+\label{sec:fourpoint_screening}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now collect the repeated insertions of the direct Coulomb interaction
+into a screened 4-point interaction.\cite{StarkeKresse2012,MarieAmmarLoos2024}
+
+With the conventions introduced above, the full Hedin kernel is
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	-\ii V
+	+
+	\Xi_{\xc}
+	},
+	\label{eq:Xi_split_correct}
+\end{equation}
+where
+\begin{equation}
+	V(12;1'2')
+	=
+	\delta(11')
+	\delta(22')
+	v(12)
+	\label{eq:V_fourpoint}
+\end{equation}
+is the 4-point representation of the bare Coulomb interaction.
+
+The response function irreducible with respect to insertions of $V$
+is defined by
+\begin{equation}
+	\boxed{
+	\widetilde L
+	=
+	L_0
+	+
+	L_0
+	\Xi_{\xc}
+	\widetilde L
+	}.
+	\label{eq:Ltilde_again}
+\end{equation}
+As shown in the previous section, the full response can then be written as
+\begin{equation}
+	\boxed{
+	L
+	=
+	\widetilde L
+	-
+	\ii
+	\widetilde L
+	V
+	L
+	}.
+	\label{eq:L_Ltilde_correct}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Definition of the screened interaction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The dynamically screened 4-point interaction is defined by
+\begin{equation}
+	\boxed{
+	W
+	=
+	V
+	-
+	\ii
+	V L V
+	}.
+	\label{eq:W4_def}
+\end{equation}
+Here and in the following, products between 4-point quantities imply
+integration over the intermediate fermionic coordinates, with the
+external-leg ordering determined by the electron-hole channel.
+
+Equation~\eqref{eq:W4_def} is the 4-point analogue of the familiar
+relation
+\begin{equation}
+	W
+	=
+	v
+	+
+	v\chi v
+\end{equation}
+between the screened Coulomb interaction and the reducible density
+response.
+The apparent difference in sign follows from the convention relating
+the electron-hole correlation function $L$ to the density response.
+
+Substituting Eq.~\eqref{eq:L_Ltilde_correct} into
+Eq.~\eqref{eq:W4_def}, we obtain
+\begin{align}
+	W
+	&=
+	V
+	-
+	\ii
+	V
+	\left(
+		\widetilde L
+		-
+		\ii
+		\widetilde L V L
+	\right)
+	V
+	\nonumber
+	\\
+	&=
+	V
+	-
+	\ii
+	V\widetilde L V
+	-
+	V\widetilde L V L V.
+	\label{eq:W4_intermediate}
+\end{align}
+Using again the definition
+\begin{equation}
+	W
+	=
+	V
+	-
+	\ii V L V,
+\end{equation}
+the last two terms can be collected to give
+\begin{equation}
+	\boxed{
+	W
+	=
+	V
+	-
+	\ii
+	V
+	\widetilde L
+	W
+	}.
+	\label{eq:W4_Dyson}
+\end{equation}
+
+Equation~\eqref{eq:W4_Dyson} is the 4-point screening equation.
+It has precisely the same Dyson structure as the usual Hedin equation
+for the screened interaction, but all quantities still carry four
+fermionic coordinates.
+
+The physical meaning of Eq.~\eqref{eq:W4_Dyson} is particularly simple.
+The response $\widetilde L$ contains all exchange-correlation vertex
+effects through $\Xi_{\xc}$, while repeated insertions of the direct
+Coulomb interaction are resummed into $W$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{4-point irreducible response vertex}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+It is useful to factor the response $\widetilde L$ into independent
+propagation and a 4-point vertex.
+We therefore introduce the 4-point irreducible response vertex
+$\widetilde\Gamma$ through
+\begin{equation}
+	\boxed{
+	\widetilde\Gamma
+	=
+	1
+	+
+	\Xi_{\xc}
+	L_0
+	\widetilde\Gamma
+	}.
+	\label{eq:Gamma4_def}
+\end{equation}
+Here the identity operator in electron-hole pair space is understood as
+\begin{equation}
+	1(12;1'2')
+	=
+	\delta(12')
+	\delta(21').
+	\label{eq:eh_identity}
+\end{equation}
+
+Multiplication by $L_0$ immediately gives
+\begin{equation}
+	\boxed{
+	\widetilde L
+	=
+	L_0
+	\widetilde\Gamma
+	}.
+	\label{eq:Ltilde_Gamma4}
+\end{equation}
+Indeed,
+\begin{align}
+	L_0\widetilde\Gamma
+	&=
+	L_0
+	+
+	L_0
+	\Xi_{\xc}
+	L_0
+	\widetilde\Gamma
+	\nonumber
+	\\
+	&=
+	L_0
+	+
+	L_0
+	\Xi_{\xc}
+	\widetilde L,
+\end{align}
+which coincides with Eq.~\eqref{eq:Ltilde_again}.
+
+The 4-point screening equation can therefore also be written as
+\begin{equation}
+	\boxed{
+	W
+	=
+	V
+	-
+	\ii
+	V
+	L_0
+	\widetilde\Gamma
+	W
+	}.
+	\label{eq:W4_Gamma4}
+\end{equation}
+
+At this stage the relation with the conventional Hedin equations is
+already apparent.
+The quantity
+\begin{equation}
+	-\ii
+	L_0
+	\widetilde\Gamma
+\end{equation}
+is the 4-point precursor of the irreducible polarization, while
+$\widetilde\Gamma$ is the 4-point precursor of the usual 3-point
+Hedin vertex.
+
+Importantly, the complete parquet content of the vertex corrections
+remains contained in
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	+
+	\ii V
+	}.
+	\label{eq:Xi_xc_parquet_again}
+\end{equation}
+Thus the introduction of the screened interaction $W$ has not removed
+the transverse electron-hole or particle-particle channels.
+It has only resummed the direct Coulomb part of the distinguished
+electron-hole channel into a separate effective interaction.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{4-point self-energy}
+\label{sec:fourpoint_selfenergy}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+It remains to express the one-particle self-energy in terms of the
+quantities introduced in the previous section.\cite{StarkeKresse2012,MarieAmmarLoos2024}
+Starting from the exact equation of motion, the exchange-correlation
+self-energy can be written in the 4-point form
+\begin{equation}
+	\boxed{
+	\Sigma_{\xc}(11')
+	=
+	\ii
+	G(33')
+	W(12';32)
+	\widetilde\Gamma(3'2;1'2')
+	}.
+	\label{eq:Sigma_xc_fourpoint}
+\end{equation}
+As throughout these notes, integration over repeated space-spin-time
+variables is implied.
+
+Equation~\eqref{eq:Sigma_xc_fourpoint} is the 4-point counterpart of
+the familiar Hedin expression
+\begin{equation}
+	\Sigma_{\xc}
+	=
+	\ii G W \Gamma.
+\end{equation}
+At this stage, however, both $W$ and $\widetilde\Gamma$ remain genuine
+4-point quantities.
+
+The vertex $\widetilde\Gamma$ is the irreducible response vertex introduced
+in the previous section,
+\begin{equation}
+	\boxed{
+	\widetilde\Gamma(12;1'2')
+	=
+	\delta(12')
+	\delta(1'2)
+	+
+	\Xi_{\xc}(13';1'3)
+	G(34)
+	G(4'3')
+	\widetilde\Gamma(42;4'2')
+	}.
+	\label{eq:Gamma4_explicit}
+\end{equation}
+Correspondingly, the irreducible electron-hole response is
+\begin{equation}
+	\boxed{
+	\widetilde L(12;1'2')
+	=
+	G(13)
+	G(3'1')
+	\widetilde\Gamma(32;3'2')
+	}.
+	\label{eq:Ltilde_Gamma_explicit}
+\end{equation}
+
+Together with
+\begin{equation}
+	\boxed{
+	W
+	=
+	V
+	-
+	\ii
+	V\widetilde L W
+	},
+	\label{eq:W4_again}
+\end{equation}
+Eqs.~\eqref{eq:Sigma_xc_fourpoint}--\eqref{eq:W4_again} constitute the
+4-point form of the central Hedin relations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Connection with the Schwinger--Dyson equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Equation~\eqref{eq:Sigma_xc_fourpoint} does not introduce a new
+approximation or an additional physical ingredient.
+It is an exact reorganization of the Schwinger--Dyson equation introduced
+in Sec.~\ref{sec:closing_parquet}.
+
+Indeed, the exchange-correlation self-energy consists of the exchange
+contribution together with the correlation term generated by the full
+4-point vertex,
+\begin{equation}
+	\Sigma_{\xc}
+	=
+	\Sigma_\text{x}
+	+
+	\Sigma_\text{c}[F].
+	\label{eq:Sigma_xc_SDE}
+\end{equation}
+The exchange term corresponds to the bare part of the screened
+interaction and of the response vertex, whereas the remaining terms are
+generated by repeated insertions of the electron-hole response.
+
+The identities
+\begin{equation}
+	L
+	=
+	\widetilde L
+	-
+	\ii
+	\widetilde L V L
+	\label{eq:L_Ltilde_selfenergy}
+\end{equation}
+and
+\begin{equation}
+	W
+	=
+	V
+	-
+	\ii
+	V L V
+	\label{eq:W_L_selfenergy}
+\end{equation}
+allow these repeated direct Coulomb insertions to be collected into $W$,
+while
+\begin{equation}
+	\widetilde L
+	=
+	L_0\widetilde\Gamma
+\end{equation}
+collects the remaining vertex corrections into
+$\widetilde\Gamma$.
+The result of this exact rearrangement is
+Eq.~\eqref{eq:Sigma_xc_fourpoint}.
+
+Thus the two exact representations
+\begin{equation}
+	\boxed{
+	\Sigma_{\xc}
+	=
+	\Sigma_\text{c}
+	+
+	\Sigma_\text{c}[F]
+	=
+	\ii G W\widetilde\Gamma
+	}
+	\label{eq:SDE_Hedin_equivalence}
+\end{equation}
+contain identical information.
+The first expression is naturally associated with the full 4-point
+scattering vertex $F$, whereas the second separates direct electron-hole
+screening from the remaining vertex corrections.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The complete 4-point Hedin system}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We may now collect the equations obtained so far.
+Using a Hartree Green's function $G_H$ as the reference propagator,
+the exact 4-point Hedin equations can be written schematically as
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	G
+	&=
+	G_H
+	+
+	G_H\Sigma_{\xc}G,
+	\\[1mm]
+	\Sigma_{\xc}
+	&=
+	\ii G W\widetilde\Gamma,
+	\\[1mm]
+	\widetilde L
+	&=
+	L_0\widetilde\Gamma,
+	\\[1mm]
+	W
+	&=
+	V
+	-
+	\ii V\widetilde L W,
+	\\[1mm]
+	\widetilde\Gamma
+	&=
+	1
+	+
+	\Xi_{\xc}
+	L_0
+	\widetilde\Gamma.
+	\end{aligned}
+	}
+	\label{eq:fourpoint_Hedin_system}
+\end{equation}
+The exchange-correlation kernel closing this system is
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}
+	=
+	\frac{\delta\Sigma_{\xc}}{\delta G}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	+
+	\ii V
+	}.
+	\label{eq:Xi_xc_parquet_complete}
+\end{equation}
+
+Equation~\eqref{eq:fourpoint_Hedin_system} is already Hedin's theory.
+The usual distinction between two-point, 3-point, and 4-point
+objects has simply not yet been exploited.
+All quantities are expressed in a representation that remains covariant
+under unitary transformations of the one-particle basis.
+
+From the parquet perspective, the structure of the 4-point theory is
+particularly transparent.
+The transverse electron-hole and particle-particle channels are contained
+in $\Xi_{\xc}$ through Eq.~\eqref{eq:Xi_xc_parquet_complete}, whereas
+repeated scattering associated with the direct Coulomb interaction is
+resummed explicitly into $W$.
+
+The remaining step in recovering the conventional Hedin equations is
+therefore not another many-body approximation or channel elimination.
+It is a reduction in representation that exploits the special
+density-density structure of the Coulomb interaction.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{From 4-point to conventional Hedin equations}
+\label{sec:four_to_three}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The equations obtained in the preceding section are already an exact
+formulation of Hedin's theory.\cite{StarkeKresse2012,MarieAmmarLoos2024}
+The remaining step is a reduction of representation.
+
+This reduction relies on the local density structure of the Coulomb
+interaction in the space-time representation.
+It should not be confused with a reduction in the number of orbital
+indices in an arbitrary one-particle basis.
+In particular, a three-leg field-theoretical quantity may still possess
+four orbital indices after projection onto a finite basis.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Screened interaction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the space-time representation, the direct 4-point screened
+interaction has the structure
+\begin{equation}
+	\boxed{
+	\mathcal W(12;1'2')
+	=
+	\delta(11')
+	\delta(22')
+	W(12).
+	}
+	\label{eq:W4_W2}
+\end{equation}
+The nontrivial screened interaction is therefore the usual two-point
+quantity $W(12)$.
+
+The irreducible polarizability is obtained from the equal-coordinate
+projection
+\begin{equation}
+	\boxed{
+	P(12)
+	=
+	-\ii
+	\widetilde L(12;1^+2^+).
+	}
+	\label{eq:P_projection}
+\end{equation}
+
+Applying Eqs.~\eqref{eq:W4_W2} and
+\eqref{eq:P_projection} to the 4-point Dyson equation
+\eqref{eq:W4} yields
+\begin{equation}
+	\boxed{
+	W(12)
+	=
+	v(12)
+	+
+	v(13)
+	P(34)
+	W(42).
+	}
+	\label{eq:W_standard}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{3-point vertex}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The conventional 3-point Hedin vertex is obtained by identifying one
+incoming and outgoing coordinate of the 4-point vertex,
+\begin{equation}
+	\boxed{
+	\gamma(123)
+	=
+	\widetilde\Gamma(13;23).
+	}
+	\label{eq:gamma_projection}
+\end{equation}
+
+The zeroth-order term provides an immediate consistency check,
+\begin{equation}
+	\widetilde\Gamma_0(13;23)
+	=
+	\delta(13)
+	\delta(23)
+	=
+	\delta(12)
+	\delta(13),
+\end{equation}
+which is precisely the bare 3-point Hedin vertex.
+
+Applying the projection
+Eq.~\eqref{eq:gamma_projection} to
+Eq.~\eqref{eq:Gamma4} gives
+\begin{equation}
+	\boxed{
+	\gamma(123)
+	=
+	\delta(12)
+	\delta(13)
+	+
+	\Xi_{\xc}(12;45)
+	G(46)
+	G(75)
+	\gamma(673).
+	}
+	\label{eq:gamma_standard}
+\end{equation}
+
+This is the conventional Hedin vertex equation.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Polarizability}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Combining Eqs.~\eqref{eq:Ltilde_Gamma4},
+\eqref{eq:P_projection}, and
+\eqref{eq:gamma_projection} gives
+\begin{equation}
+	\boxed{
+	P(12)
+	=
+	-\ii
+	G(13)
+	G(41)
+	\gamma(342).
+	}
+	\label{eq:P_standard}
+\end{equation}
+
+Thus the conventional irreducible polarizability is simply the
+equal-coordinate projection of the 4-point irreducible response.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Self-energy}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The same projections reduce
+Eq.~\eqref{eq:Sigma_xc_fourpoint} to
+\begin{equation}
+	\boxed{
+	\Sigma_{\xc}(12)
+	=
+	\ii
+	G(14)
+	W(1^+3)
+	\gamma(423).
+	}
+	\label{eq:Sigma_standard}
+\end{equation}
+
+The infinitesimal positive time shift in $W(1^+3)$ specifies the
+appropriate ordering at the interaction vertex.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Standard Hedin equations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Collecting the preceding results gives the conventional Hedin equations,
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\gamma(123)
+	&=
+	\delta(12)\delta(13)
+	+
+	\Xi_{\xc}(12;45)
+	G(46)G(75)
+	\gamma(673),
+	\\[1mm]
+	P(12)
+	&=
+	-\ii
+	G(13)G(41)
+	\gamma(342),
+	\\[1mm]
+	W(12)
+	&=
+	v(12)
+	+
+	v(13)P(34)W(42),
+	\\[1mm]
+	\Sigma_{\xc}(12)
+	&=
+	\ii
+	G(14)W(1^+3)
+	\gamma(423),
+	\\[1mm]
+	G(12)
+	&=
+	G_H(12)
+	+
+	G_H(13)
+	\Sigma_{\xc}(34)
+	G(42).
+	\end{aligned}
+	}
+	\label{eq:Hedin_standard}
+\end{equation}
+
+The kernel appearing in the vertex equation is
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}(12;1'2')
+	=
+	\frac{
+		\delta\Sigma_{\xc}(11')
+	}{
+		\delta G(2'2)
+	}.
+	}
+	\label{eq:Hedin_kernel_standard}
+\end{equation}
+
+The complete route developed in these notes can therefore be summarized as
+\begin{equation}
+	\boxed{
+	\begin{array}{ccccc}
+	\text{parquet}
+	&
+	\longrightarrow
+	&
+	\text{4-point Hedin}
+	&
+	\longrightarrow
+	&
+	\text{conventional Hedin},
+	\\[1mm]
+	\Lambda,\Phi^{\teh},\Phi^\pp
+	&
+	\longrightarrow
+	&
+	\Xi=\Gamma^\eh
+	&
+	\longrightarrow
+	&
+	W,P,\gamma.
+	\end{array}
+	}
+	\label{eq:complete_route}
+\end{equation}
+
+The two arrows have different meanings.
+The first is a channel downfolding:
+the fully irreducible, transverse electron-hole, and particle-particle
+contributions are combined into the single $\eh$-irreducible kernel
+$\Xi$.
+The second performs no additional channel elimination.
+It is an equal-coordinate projection that exploits the local
+density-density structure of the Coulomb interaction in the space-time
+representation.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parquet as a channel-resolved Hedin theory}
+\label{sec:interpretation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The preceding derivation establishes an exact connection between parquet
+theory and Hedin's equations.
+It is useful to pause at this stage and examine what this connection means
+for the organization of the two-particle problem.
+
+The central identity is
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}.
+	\label{eq:interpretation_central}
+\end{equation}
+The 4-point Hedin kernel is therefore nothing but the vertex irreducible
+in the distinguished electron-hole channel.
+
+This result immediately clarifies an apparent difference between Hedin
+and parquet theories.
+Parquet treats the different two-particle scattering channels as explicit
+objects, whereas Hedin combines the channels that are irreducible with
+respect to the selected electron-hole propagation into a single kernel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Channel downfolding}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The $\eh$-irreducible parquet vertex satisfies
+\begin{equation}
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp.
+	\label{eq:Gamma_eh_interpretation}
+\end{equation}
+Thus, passing from parquet to the 4-point Hedin representation amounts
+to replacing the three explicit quantities
+\begin{equation}
+	\Lambda,
+	\qquad
+	\Phi^{\teh},
+	\qquad
+	\Phi^\pp,
+\end{equation}
+by their sum,
+\begin{equation}
+	\boxed{
+	\left\{
+	\Lambda,
+	\Phi^{\teh},
+	\Phi^\pp
+	\right\}
+	\longrightarrow
+	\Gamma^\eh.
+	}
+	\label{eq:channel_downfolding_interpretation}
+\end{equation}
+
+The term \emph{downfolding} is used here only to describe this change of
+representation.
+No approximation is implied.
+The full transverse electron-hole and particle-particle dynamics remain
+present in $\Gamma^\eh$.
+
+Conversely, parquet theory may be regarded as an \emph{upfolding} of the
+Hedin kernel in which its internal two-particle structure is resolved
+according to reducibility in the other scattering channels,
+\begin{equation}
+	\boxed{
+	\Gamma^\eh
+	\longrightarrow
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp.
+	}
+	\label{eq:channel_upfolding_interpretation}
+\end{equation}
+
+The advantage of the parquet representation is that the different
+scattering processes obey separate Bethe--Salpeter equations.
+The price is an enlarged set of coupled 4-point quantities.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{What is resummed into the screened interaction?}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A second reorganization occurs when the full Hedin kernel is separated
+into its direct Hartree contribution and its exchange-correlation part,
+\begin{equation}
+	\Xi
+	=
+	-\ii V
+	+
+	\Xi_{\xc}.
+\end{equation}
+Using Eq.~\eqref{eq:interpretation_central},
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	+
+	\ii V.
+	}
+	\label{eq:Xi_xc_interpretation}
+\end{equation}
+
+The direct Coulomb interaction is therefore treated differently from the
+remaining pieces of the $\eh$-irreducible vertex.
+Repeated insertions of $V$ are resummed explicitly into the screened
+interaction $W$, whereas the remaining vertex corrections stay inside
+$\Xi_{\xc}$.
+
+Schematically,
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\text{direct $\eh$ Coulomb scattering}
+	&\longrightarrow
+	W,
+	\\
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	+\ii V
+	&\longrightarrow
+	\Xi_{\xc}.
+	\end{aligned}
+	}
+	\label{eq:two_downfoldings}
+\end{equation}
+
+This provides a useful interpretation of the conventional Hedin
+organization.
+One particular part of the electron-hole channel---the repeated direct
+Coulomb interaction---is represented explicitly by a bosonic screened
+interaction.
+The remaining two-particle structure is retained in the
+three-frequency kernel $\Xi_{\xc}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Frequency structure}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A general 4-point vertex depends on three independent frequencies.
+Parquet theory exploits the fact that the three scattering channels are
+naturally described using different transfer frequencies.
+
+For the direct electron-hole channel one may use variables of the form
+\begin{equation}
+	(\nu,\nu',\omega_\eh),
+\end{equation}
+whereas the transverse electron-hole and particle-particle channels are
+naturally associated with
+\begin{equation}
+	(\nu,\nu',\omega_{\teh})
+	\qquad\text{and}\qquad
+	(\nu,\nu',\omega_\pp),
+\end{equation}
+respectively.
+
+These are different parametrizations of the same three-frequency
+4-point object.
+In parquet theory, each reducible contribution is described in the
+frequency variables naturally adapted to its own scattering channel.
+
+After downfolding to the Hedin representation, the contributions
+$\Phi^{\teh}$ and $\Phi^\pp$ are contained in
+\begin{equation}
+	\Xi_{\xc}
+	(
+		\nu,
+		\nu',
+		\omega_\eh
+	).
+\end{equation}
+Their natural transfer-frequency dependence is therefore encoded in the
+full three-frequency structure of the Hedin kernel.
+
+By contrast, the repeated direct electron-hole screening is isolated into
+the simpler bosonic quantity
+\begin{equation}
+	W(\omega_\eh).
+\end{equation}
+
+Thus the conventional Hedin representation may be viewed schematically as
+\begin{equation}
+	\boxed{
+	\text{three channel-resolved frequency structures}
+	\qq{$\longrightarrow$}
+	W(\omega_\eh)
+	+
+	\Xi_{\xc}(\nu,\nu',\omega_\eh).
+	}
+	\label{eq:frequency_downfolding}
+\end{equation}
+
+This is another way of seeing that Hedin theory has not discarded the
+other parquet channels.
+Their frequency dependence has simply been absorbed into the
+multifrequency vertex kernel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Explicit versus implicit channel coupling}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The different organization of the two theories also affects the way their
+nonlinearity appears.
+
+For a fixed channel-irreducible vertex, each parquet Bethe--Salpeter
+equation is linear in the full vertex.
+For example,
+\begin{equation}
+	F
+	=
+	\Gamma^\eh
+	+
+	\Gamma^\eh
+	L_0
+	F
+\end{equation}
+is a linear integral equation for $F$ if $\Gamma^\eh$ is known.
+
+The complete parquet problem is nevertheless nonlinear because the
+channel-irreducible vertices depend on the reducible contributions in the
+other channels,
+\begin{equation}
+	\Gamma^{r}
+	=
+	\Lambda
+	+
+	\sum_{r'\neq r}
+	\Phi^{r'}.
+\end{equation}
+The nonlinearity therefore appears as an explicit feedback between
+different channel equations.
+
+In Hedin theory, these channel variables are no longer retained
+separately.
+Instead, their coupled dynamics are compressed into the functional kernel
+\begin{equation}
+	\boxed{
+	\Xi_{\xc}
+	=
+	\frac{\delta\Sigma_{\xc}}{\delta G}.
+	}
+	\label{eq:implicit_channel_coupling}
+\end{equation}
+
+This suggests the qualitative distinction
+\begin{equation}
+	\boxed{
+	\begin{array}{ll}
+	\text{parquet:}
+	&
+	\text{explicit channel coupling in an enlarged variable space},
+	\\[1mm]
+	\text{Hedin:}
+	&
+	\text{compact but functionally entangled channel dependence}.
+	\end{array}
+	}
+	\label{eq:nonlinearity_comparison}
+\end{equation}
+This statement should not be interpreted as defining an invariant
+mathematical ``degree of nonlinearity.''
+The exact theories contain the same information.
+Rather, the nonlinearity is distributed differently among the variables.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Two distinct transformations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The complete parquet-to-Hedin construction contains two conceptually
+different steps.
+
+The first,
+\begin{equation}
+	\boxed{
+	\text{parquet}
+	\longrightarrow
+	\text{4-point Hedin},
+	}
+\end{equation}
+changes the organization of the two-particle physics by replacing the
+explicit channel decomposition with the single irreducible kernel
+$\Gamma^\eh$.
+
+The second,
+\begin{equation}
+	\boxed{
+	\text{4-point Hedin}
+	\longrightarrow
+	\text{conventional Hedin},
+	}
+\end{equation}
+does not perform any additional channel elimination.
+The second transformation does not involve any further channel
+downfolding.
+In the space-time representation, the density-density structure of the
+Coulomb interaction permits equal-coordinate projections of the covariant
+4-point quantities,
+\begin{equation}
+	\boxed{
+	P(12)
+	=
+	-\ii\widetilde L(12;1^+2^+),
+	\qquad
+	\gamma(123)
+	=
+	\widetilde\Gamma(13;23).
+	}
+\end{equation}
+These projections yield the conventional two-point polarizability and
+3-point Hedin vertex.
+In a generic orbital representation, the corresponding objects may still
+carry four orbital indices.
+The complete construction can therefore be summarized as
+\begin{equation}
+	\boxed{
+	\begin{array}{ccccc}
+	\Lambda,\Phi^{\teh},\Phi^\pp
+	&
+	\longrightarrow
+	&
+	\Gamma^\eh=\Xi
+	&
+	\longrightarrow
+	&
+	W,\gamma
+	\\[1mm]
+	\text{parquet}
+	&&
+	\text{4-point Hedin}
+	&&
+	\text{conventional Hedin}.
+	\end{array}
+	}
+	\label{eq:complete_conceptual_map}
+\end{equation}
+
+The first arrow is a channel downfolding.
+The second is a reduction of representation.
+This distinction provides a useful conceptual separation between the
+parquet and Hedin organizations of the exact many-body problem.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Particle-particle analogue}
+\label{sec:pp_analogue}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The preceding construction singled out the $\eh$ channel and led naturally
+to the conventional Hedin equations.\cite{MarieRomanielloLoos2024,MarieRomanielloBlaseLoos2025}
+The same reasoning can be applied to the particle-particle channel.
+This provides a useful complementary example of the channel-downfolding
+picture developed above.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle Bethe--Salpeter equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The parquet Bethe--Salpeter equation in the $\pp$ channel reads
+\begin{align}
+	F(12;34)
+	={}&
+	\Gamma^\pp(12;34)
+	\nonumber
+	\\
+	&-
+	\frac{1}{2}
+	\Gamma^\pp(12;1'2')
+	G(1'3')
+	G(2'4')
+	F(3'4';34).
+	\label{eq:BSE_pp_again}
+\end{align}
+The corresponding $\pp$ propagator satisfies
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	K(12;1'2')
+	={}&
+	K_0(12;1'2')
+	\\
+	&-
+	\frac{1}{2}
+	K(12;44')
+	\Gamma^\pp(44';33')
+	K_0(33';1'2'),
+	\end{aligned}
+	}
+	\label{eq:K_parquet}
+\end{equation}
+where
+\begin{equation}
+	\boxed{
+	K_0(12;1'2')
+	=
+	\frac{1}{2}
+	\left[
+		G(11')G(22')
+		-
+		G(21')G(12')
+	\right].
+	}
+	\label{eq:K0_def}
+\end{equation}
+
+The factor $1/2$ reflects the antisymmetry of the fermionic pair space.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle Hedin kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The same $\pp$ response can be obtained from an anomalous functional
+derivative.\cite{MarieRomanielloBlaseLoos2025}
+Introducing a pairing field and taking the number-conserving limit after
+differentiation gives
+\begin{equation}
+	\boxed{
+	K
+	=
+	K_0
+	-
+	K
+	\Xi^\pp
+	K_0,
+	}
+	\label{eq:K_pp_Hedin}
+\end{equation}
+with
+\begin{equation}
+	\boxed{
+	\Xi^\pp(12;1'2')
+	=
+	\left.
+	\frac{
+		\delta\Sigma^{ee}(1'2')
+	}{
+		\delta G^{ee}(12)
+	}
+	\right|_{U=0}.
+	}
+	\label{eq:Xi_pp_def}
+\end{equation}
+
+Comparison of Eqs.~\eqref{eq:K_parquet} and
+\eqref{eq:K_pp_Hedin} immediately yields
+\begin{equation}
+	\boxed{
+	\Gamma^\pp
+	=
+	2\Xi^\pp.
+	}
+	\label{eq:Gamma_pp_Xi_pp}
+\end{equation}
+The factor of two is purely conventional and originates from the
+normalization of the antisymmetric pair space.
+
+Using the parquet decomposition,
+\begin{equation}
+	\Gamma^\pp
+	=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh},
+\end{equation}
+we therefore obtain
+\begin{equation}
+	\boxed{
+	2\Xi^\pp
+	=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}.
+	}
+	\label{eq:Xi_pp_parquet}
+\end{equation}
+
+Equation~\eqref{eq:Xi_pp_parquet} is the particle-particle counterpart of
+the central relation
+\begin{equation}
+	\Xi
+	=
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp.
+\end{equation}
+In the $\pp$ representation, the two electron-hole channels are downfolded
+into the $\pp$-irreducible kernel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle Hedin equations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To resum repeated particle-particle scattering, one introduces the
+4-point effective interaction $T$.\cite{MarieRomanielloLoos2024}
+In the number-conserving limit, the particle-particle Hedin equations can
+be written schematically as
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	G
+	&=
+	G_0
+	+
+	G_0\Sigma G,
+	\\[1mm]
+	\Sigma
+	&=
+	\ii G T \widetilde\Gamma^\pp,
+	\\[1mm]
+	T
+	&=
+	-\bar v
+	-
+	T\widetilde K v,
+	\\[1mm]
+	\widetilde K
+	&=
+	\ii GG\widetilde\Gamma^\pp,
+	\\[1mm]
+	\widetilde\Gamma^\pp
+	&=
+	\mathcal A
+	-
+	\Xi^\pp GG\widetilde\Gamma^\pp,
+	\end{aligned}
+	}
+	\label{eq:pp_Hedin_system}
+\end{equation}
+where
+\begin{equation}
+	\mathcal A(12;1'2')
+	=
+	\frac{1}{2}
+	\left[
+		\delta(1'2)\delta(2'1)
+		-
+		\delta(1'1)\delta(2'2)
+	\right]
+	\label{eq:pair_identity}
+\end{equation}
+is the identity in the antisymmetric pair space.
+
+The quantity $T$ plays a role analogous to the screened interaction $W$
+in the conventional Hedin equations.
+Whereas $W$ resums repeated direct electron-hole screening processes,
+$T$ resums repeated particle-particle scattering processes.
+Unlike $W$, however, $T$ remains a genuine 4-point interaction.
+
+The simplest approximation is obtained by neglecting the vertex-correction
+term in the last line of Eq.~\eqref{eq:pp_Hedin_system},
+\begin{equation}
+	\widetilde\Gamma^\pp
+	\approx
+	\mathcal A.
+\end{equation}
+The corresponding effective interaction reduces to the familiar
+particle-particle $T$ matrix, and the associated self-energy is the
+standard $T$-matrix self-energy.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Role of anomalous propagators}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+There is an important formal difference between the conventional and
+particle-particle Hedin constructions.
+
+In the conventional case, the kernel
+\begin{equation}
+	\Xi_{\xc}
+	=
+	\frac{\delta\Sigma_{\xc}}{\delta G}
+\end{equation}
+is defined entirely within the normal one-particle sector.
+
+By contrast,
+\begin{equation}
+	\Xi^\pp
+	=
+	\left.
+	\frac{\delta\Sigma^{ee}}
+	     {\delta G^{ee}}
+	\right|_{U=0}
+\end{equation}
+involves anomalous quantities.
+Although $G^{ee}$ and $\Sigma^{ee}$ vanish in the normal phase, their
+functional derivative does not.
+A pairing field must therefore be introduced during the derivation and
+the number-conserving limit taken only afterwards.
+
+Consequently, the normal-state equations
+Eq.~\eqref{eq:pp_Hedin_system} should be regarded as the physical limit of
+a more general Nambu--Gorkov construction.
+Beyond the lowest-order vertex approximation, the anomalous sector is
+required to generate $\Xi^\pp$ consistently.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{A common channel-downfolding principle}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The conventional and particle-particle Hedin formulations can now be
+placed side by side:
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\Gamma^\eh
+	&=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp,
+	\\[1mm]
+	\Gamma^\pp
+	&=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}.
+	\end{aligned}
+	}
+	\label{eq:two_Hedin_channels}
+\end{equation}
+
+In each case, one parquet channel is selected as the explicit response
+channel while the other two channels are incorporated into its
+irreducible kernel.
+
+Schematically,
+\begin{equation}
+	\boxed{
+	\begin{array}{ccc}
+	\text{parquet}
+	&
+	\longrightarrow
+	&
+	\text{$\eh$-Hedin}
+	\\[1mm]
+	\Phi^{\teh},\Phi^\pp
+	&&
+	\Gamma^\eh
+	\\[4mm]
+	\text{parquet}
+	&
+	\longrightarrow
+	&
+	\text{$\pp$-Hedin}
+	\\[1mm]
+	\Phi^\eh,\Phi^{\teh}
+	&&
+	\Gamma^\pp.
+	\end{array}
+	}
+	\label{eq:channel_Hedin_summary}
+\end{equation}
+
+The difference between the two formulations lies in the channel that is
+retained explicitly and in the effective interaction used to resum its
+repeated scattering:
+\begin{equation}
+	\boxed{
+	\begin{array}{lll}
+	eh\text{ channel:}
+	&
+	W
+	&
+	\text{screening},
+	\\[1mm]
+	pp\text{ channel:}
+	&
+	T
+	&
+	\text{pair scattering}.
+	\end{array}
+	}
+	\label{eq:W_T_comparison}
+\end{equation}
+
+This parallel construction supports the interpretation of Hedin-type
+equations as channel-centered reductions of the more symmetric parquet
+description.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exact equivalence and approximate closures}
+\label{sec:approximations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The connection established in the preceding sections is exact.\cite{KuglerVonDelft2018}
+In particular,
+\begin{equation}
+	\boxed{
+	\Gamma^\eh
+	=
+	\Xi
+	=
+	\frac{\delta\Sigma}{\delta G}
+	}
+	\label{eq:exact_kernel_identity}
+\end{equation}
+and
+\begin{equation}
+	\boxed{
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}
+	\label{eq:exact_parquet_identity}
+\end{equation}
+are simultaneously satisfied by the exact theory.
+
+Consequently, the Hedin and parquet formulations contain identical
+information before any approximation is introduced.
+This exact equivalence does not, however, imply that independently
+truncated Hedin and parquet theories remain equivalent.\cite{KuglerVonDelft2018,Baym_1961,Baym_1962}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Two different closure strategies}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The distinction can be understood by considering how the hierarchy is
+closed in the two formulations.
+
+A Hedin-type approximation naturally starts from an approximation to the
+self-energy,
+\begin{equation}
+	\Sigma
+	\longrightarrow
+	\Sigma^{\rm app},
+\end{equation}
+and determines the corresponding two-particle kernel by functional
+differentiation,
+\begin{equation}
+	\boxed{
+	\Xi^{\rm app}
+	=
+	\frac{\delta\Sigma^{\rm app}}{\delta G}.
+	}
+	\label{eq:Hedin_closure}
+\end{equation}
+The vertex equation then uses this kernel to construct the corresponding
+response vertex.
+
+Parquet theory proceeds in the opposite direction.
+One first chooses an approximation to the fully two-particle-irreducible
+vertex,
+\begin{equation}
+	\Lambda
+	\longrightarrow
+	\Lambda^{\rm app},
+\end{equation}
+and solves
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	F^{\rm app}
+	&=
+	\Lambda^{\rm app}
+	+
+	\Phi^\eh_{\rm app}
+	+
+	\Phi^{\teh}_{\rm app}
+	+
+	\Phi^\pp_{\rm app},
+	\\
+	\Gamma^{r}_{\rm app}
+	&=
+	\Lambda^{\rm app}
+	+
+	\sum_{r'\neq r}
+	\Phi^{r'}_{\rm app},
+	\end{aligned}
+	}
+	\label{eq:parquet_closure}
+\end{equation}
+together with the three Bethe--Salpeter equations.
+The resulting full vertex is subsequently inserted into the
+Schwinger--Dyson equation to obtain
+\begin{equation}
+	\Sigma^{\rm app}_{\rm P}
+	=
+	\Sigma[F^{\rm app}].
+	\label{eq:parquet_selfenergy}
+\end{equation}
+
+Thus the two closure strategies may be summarized as
+\begin{equation}
+	\boxed{
+	\begin{array}{lll}
+	\text{Hedin closure:}
+	&
+	\Sigma^{\rm app}
+	&
+	\longrightarrow
+	\displaystyle
+	\frac{\delta\Sigma^{\rm app}}{\delta G},
+	\\[4mm]
+	\text{parquet closure:}
+	&
+	\Lambda^{\rm app}
+	&
+	\longrightarrow
+	F^{\rm app}
+	\longrightarrow
+	\Sigma^{\rm app}_{\rm P}.
+	\end{array}
+	}
+	\label{eq:two_closures}
+\end{equation}
+
+These operations are equivalent only when the underlying quantities are
+exact.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Loss of the functional identity after truncation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Suppose that an approximate fully irreducible vertex
+$\Lambda^{\rm app}$ is used to solve the parquet equations and the
+corresponding self-energy is evaluated from the Schwinger--Dyson equation.
+
+The $\eh$-irreducible parquet vertex is then
+\begin{equation}
+	\boxed{
+	\Gamma^\eh_{\rm P}
+	=
+	\Lambda^{\rm app}
+	+
+	\Phi^{\teh}_{\rm app}
+	+
+	\Phi^\pp_{\rm app}.
+	}
+	\label{eq:Gamma_parquet_approx}
+\end{equation}
+
+One may independently differentiate the resulting parquet self-energy,
+\begin{equation}
+	\boxed{
+	\Xi_{\rm FD}
+	=
+	\frac{
+		\delta\Sigma^{\rm app}_{\rm P}
+	}{
+		\delta G
+	}.
+	}
+	\label{eq:Xi_functional_derivative}
+\end{equation}
+
+In general,
+\begin{equation}
+	\boxed{
+	\Xi_{\rm FD}
+	\neq
+	\Gamma^\eh_{\rm P}.
+	}
+	\label{eq:approx_mismatch}
+\end{equation}
+
+The reason is that functional differentiation acts on every propagator
+appearing implicitly and explicitly in the approximate parquet
+self-energy.
+It therefore generates contributions that are not necessarily contained
+in the independently truncated parquet kernel
+$\Gamma^\eh_{\rm P}$.
+
+Equation~\eqref{eq:approx_mismatch} is not a contradiction with the exact
+identity
+\begin{equation}
+	\frac{\delta\Sigma}{\delta G}
+	=
+	\Gamma^\eh.
+\end{equation}
+Rather, it shows that the operations
+\begin{equation}
+	\boxed{
+	\text{truncate}
+	\qquad\text{and}\qquad
+	\text{take a functional derivative}
+	}
+\end{equation}
+do not generally commute.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parquet approximation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The distinction is particularly transparent for the parquet approximation,
+\begin{equation}
+	\boxed{
+	\Lambda^{\rm PA}
+	=
+	-\ii\bar v.
+	}
+	\label{eq:PA_again}
+\end{equation}
+The coupled parquet equations then generate a crossing-consistent full
+vertex containing all diagrams obtained by repeated two-particle
+scattering from the bare fully irreducible interaction.
+
+The corresponding self-energy,
+\begin{equation}
+	\Sigma^{\rm PA}
+	=
+	\Sigma[F^{\rm PA}],
+\end{equation}
+satisfies the Schwinger--Dyson relation by construction.
+
+However, the functional derivative
+\begin{equation}
+	\frac{\delta\Sigma^{\rm PA}}{\delta G}
+\end{equation}
+generates a new two-particle kernel that is, in general, different from
+the $\eh$-irreducible parquet vertex obtained directly from the parquet
+equations.
+Functional differentiation can therefore be used to construct a
+two-particle vertex consistent with the approximate self-energy, but this
+new vertex no longer coincides with the vertex of the original parquet
+closure.\cite{KuglerVonDelft2018}
+
+This illustrates a general tension between two desirable forms of
+self-consistency:
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\text{parquet consistency:}
+	&\qquad
+	F
+	=
+	\Lambda+\sum_r\Phi^r,
+	\\[1mm]
+	\text{functional consistency:}
+	&\qquad
+	\Gamma^\eh
+	=
+	\frac{\delta\Sigma}{\delta G}.
+	\end{aligned}
+	}
+	\label{eq:two_consistencies}
+\end{equation}
+
+At the exact level both conditions hold simultaneously.
+For an approximate closure, enforcing one does not in general guarantee
+the other.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implication for the Hedin--parquet connection}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This distinction is particularly important for the interpretation
+developed in these notes.
+
+At the exact level,
+\begin{equation}
+	\boxed{
+	\Xi
+	=
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	}
+\end{equation}
+provides a reversible map between Hedin and parquet representations.
+
+After approximation, however, there are two different possible objects:
+\begin{equation}
+	\boxed{
+	\begin{aligned}
+	\Xi_{\rm Hedin}^{\rm app}
+	&=
+	\frac{\delta\Sigma^{\rm app}}{\delta G},
+	\\[2mm]
+	\Xi_{\rm parquet}^{\rm app}
+	&=
+	\Lambda^{\rm app}
+	+
+	\Phi^{\teh}_{\rm app}
+	+
+	\Phi^\pp_{\rm app}.
+	\end{aligned}
+	}
+	\label{eq:two_approx_kernels}
+\end{equation}
+There is no general reason for these two approximations to coincide.
+
+Thus the statement that parquet is a channel-resolved or upfolded version
+of Hedin should be understood as an exact structural relation.
+It does not imply a one-to-one correspondence between arbitrary
+approximations constructed independently in the two formalisms.
+
+This observation also suggests two complementary strategies for developing
+approximate many-body theories:
+one may approximate the self-energy and obtain its response kernel by
+functional differentiation, or approximate the fully irreducible vertex
+and reconstruct the different scattering channels through the parquet
+equations.
+The two routes organize the missing diagrams differently and should not
+be expected to generate identical finite-order approximations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
