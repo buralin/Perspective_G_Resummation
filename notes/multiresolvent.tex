@@ -95,7 +95,9 @@ The resulting formulation provides a compact recipe for reconstructing the full 
 
 \maketitle
 
+\onecolumngrid
 \tableofcontents
+\twocolumngrid
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -490,21 +492,21 @@ For occupied and virtual HF orbitals,
 	\frac{1}{\nu-\eps_a+\ii\eta}
 	\label{eq:G0}
 \end{align}
-We use the ordered pair $ia$ for forward propagation $i\to a$ and $ai$ for
-backward propagation $a\to i$.
+We use $+$ for forward propagation $i\to a$ and $-$ for backward propagation
+$a\to i$, while keeping the orbital pair label $ia$ in both cases.
 The corresponding three-frequency noninteracting pair propagators are
 \begin{align}
-	L_{0,ia}(\nu,\nu',\omega)
+	L_{0,ia}^{+}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
 	G_{0,a}(\nu+\omega)G_{0,i}(\nu)
-	\label{eq:L0_three_frequency_ia}
+	\label{eq:L0_three_frequency_plus}
 	\\
-	L_{0,ai}(\nu,\nu',\omega)
+	L_{0,ia}^{-}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
 	G_{0,i}(\nu+\omega)G_{0,a}(\nu)
-	\label{eq:L0_three_frequency_ai}
+	\label{eq:L0_three_frequency_minus}
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -514,79 +516,81 @@ The corresponding three-frequency noninteracting pair propagators are
 The key observation is that each three-frequency pair propagator factorizes
 exactly into a normalized two-frequency factor and the usual one-frequency
 pair propagator.
-Define the one-frequency pair propagators
-\begin{align}
-	(L_0)_{ia}(\omega)
+Define
+\begin{equation}
+	\begin{aligned}
+	(L_0^+)_{ia}(\omega)
 	&=
 	\frac{\ii}
 	{\omega-(\eps_a-\eps_i)+2\ii\eta}
-	\label{eq:L0_ia}
 	\\
-	(L_0)_{ai}(\omega)
+	(L_0^-)_{ia}(\omega)
 	&=
 	-\frac{\ii}
 	{\omega+(\eps_a-\eps_i)-2\ii\eta}
-	\label{eq:L0_ai}
-\end{align}
+	\end{aligned}
+	\label{eq:L0_pm}
+\end{equation}
 and the corresponding one-sided factors
-\begin{align}
-	Q_{ia}(\nu,\omega)
+\begin{equation}
+	\begin{aligned}
+	Q^+_{ia}(\nu,\omega)
 	&=
 	-\ii
 	\left[
 	G_{0,i}(\nu)-G_{0,a}(\nu+\omega)
 	\right]
-	\label{eq:Q_ia}
 	\\
-	Q_{ai}(\nu,\omega)
+	Q^-_{ia}(\nu,\omega)
 	&=
 	+\ii
 	\left[
 	G_{0,a}(\nu)-G_{0,i}(\nu+\omega)
 	\right]
-	\label{eq:Q_ai}
-\end{align}
-Partial fractioning then gives the exact identities
+	\end{aligned}
+	\label{eq:Q_pm}
+\end{equation}
+Partial fractioning gives the exact identities
 \begin{align}
-	L_{0,ia}(\nu,\nu',\omega)
+	L_{0,ia}^{+}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
-	Q_{ia}(\nu,\omega)
-	(L_0)_{ia}(\omega)
-	\label{eq:L0_factorization_ia}
+	Q^+_{ia}(\nu,\omega)
+	(L_0^+)_{ia}(\omega)
+	\label{eq:L0_factorization_plus}
 	\\
-	L_{0,ai}(\nu,\nu',\omega)
+	L_{0,ia}^{-}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
-	Q_{ai}(\nu,\omega)
-	(L_0)_{ai}(\omega)
-	\label{eq:L0_factorization_ai}
+	Q^-_{ia}(\nu,\omega)
+	(L_0^-)_{ia}(\omega)
+	\label{eq:L0_factorization_minus}
 \end{align}
-No approximation is involved in Eqs.~\eqref{eq:L0_factorization_ia} and
-\eqref{eq:L0_factorization_ai}.
+No approximation is involved in Eqs.~\eqref{eq:L0_factorization_plus} and
+\eqref{eq:L0_factorization_minus}.
 The explicit factors $2\eta$ are retained here because they are required for
 the identities to hold exactly at finite $\eta$.
 In the remainder of the notes, integer multiples of $\eta$ are denoted by the
 generic causal prescription $0^+$.
 
-The one-sided factors are normalized as
+The one-sided factors satisfy
 \begin{align}
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	&=1
 	&
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ai}(\bar\nu,\omega)
+	Q^-_{ia}(\bar\nu,\omega)
 	&=1
 	\label{eq:Q_normalization}
 \end{align}
 and pair reversal gives
 \begin{equation}
-	Q_{ai}(\nu,\omega)
+	Q^-_{ia}(\nu,\omega)
 	=
-	Q_{ia}(\nu+\omega,-\omega)
+	Q^+_{ia}(\nu+\omega,-\omega)
 	\label{eq:Q_reversal}
 \end{equation}
 
@@ -596,58 +600,62 @@ and pair reversal gives
 
 We now use the exact factorization above to remove only one fermionic
 frequency from a BSE kernel insertion.
-To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected external
-vertices are defined from $\ii\Gamma^\eh$.
-Let $A\in\{ia,ai\}$ and $B\in\{jb,bj\}$ denote ordered eh pairs.
+Let $\sigma,\sigma'=\pm$ denote the propagation directions of the left pair
+$ia$ and right pair $jb$, respectively. Thus $++$ denotes forward propagation
+on both pairs, whereas $+-$ denotes forward propagation on $ia$ and backward
+propagation on $jb$.
 In this pair-space discussion we suppress the channel superscript $\eh$ on
 $U$ and $V$.
-Suppressing the explicit orbital sums, the projection on the left side of the
-kernel gives
+To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected external
+vertices are defined from $\ii\Gamma^\eh$.
+
+Projecting the left pair gives
 \begin{align}
 	&\frac{1}{(2\pi)^2}
 	\int d\bar\nu_1\,d\bar\nu_2\,
-	L_{0,A}(\bar\nu_1,\bar\nu_2,\omega)
+	L_{0,ia}^{\sigma}(\bar\nu_1,\bar\nu_2,\omega)
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\bar\nu_2,\nu',\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu_2,\nu',\omega)
 	\nonumber
 	\\
 	&\qquad=
-	(L_0)_A(\omega)
+	(L_0^\sigma)_{ia}(\omega)
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_A(\bar\nu,\omega)
+	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\bar\nu,\nu',\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\nu',\omega)
 	\label{eq:BSE_right_factorization}
 \end{align}
-This defines the right external vertex
+which defines the right external vertex
 \begin{equation}
-	V_{A,B}(\nu',\omega)
+	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	=
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_A(\bar\nu,\omega)
+	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\bar\nu,\nu',\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\nu',\omega)
 	\label{eq:V_def}
 \end{equation}
 so that Eq.~\eqref{eq:BSE_right_factorization} becomes
 \begin{equation}
-	(L_0)_A(\omega)V_{A,B}(\nu',\omega)
+	(L_0^\sigma)_{ia}(\omega)
+	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	\label{eq:BSE_right_compact}
 \end{equation}
 
-Projecting on the right side gives analogously
+Projecting the right pair gives analogously
 \begin{align}
 	&\frac{1}{(2\pi)^2}
 	\int d\bar\nu'_1\,d\bar\nu'_2\,
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\nu,\bar\nu'_1,\omega)
-	L_{0,B}(\bar\nu'_1,\bar\nu'_2,\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu'_1,\omega)
+	L_{0,jb}^{\sigma'}(\bar\nu'_1,\bar\nu'_2,\omega)
 	\nonumber
 	\\
 	&\qquad=
@@ -655,26 +663,27 @@ Projecting on the right side gives analogously
 	\int d\bar\nu'\,
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\nu,\bar\nu',\omega)
-	Q_B(\bar\nu',\omega)
-	(L_0)_B(\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
+	Q^{\sigma'}_{jb}(\bar\nu',\omega)
+	(L_0^{\sigma'})_{jb}(\omega)
 	\label{eq:BSE_left_factorization}
 \end{align}
 which defines the left external vertex
 \begin{equation}
-	U_{A,B}(\nu,\omega)
+	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
 	=
 	\frac{1}{2\pi}
 	\int d\bar\nu'\,
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\nu,\bar\nu',\omega)
-	Q_B(\bar\nu',\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
+	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	\label{eq:U_def}
 \end{equation}
 and therefore
 \begin{equation}
-	U_{A,B}(\nu,\omega)(L_0)_B(\omega)
+	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
+	(L_0^{\sigma'})_{jb}(\omega)
 	\label{eq:BSE_left_compact}
 \end{equation}
 
@@ -696,17 +705,17 @@ We define the one-frequency projected eh kernel by
 	\begin{split}
 	\left[
 	\ii\widetilde{\Gamma}^\eh
-	\right]_{A,B}(\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
 	={}&
 	\frac{1}{(2\pi)^2}
 	\int d\bar\nu\,d\bar\nu'\,
-	Q_A(\bar\nu,\omega)
+	Q^\sigma_{ia}(\bar\nu,\omega)
 	\\
 	&\times
 	\left[
 	\ii\Gamma^\eh
-	\right]_{A,B}(\bar\nu,\bar\nu',\omega)
-	Q_B(\bar\nu',\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\bar\nu',\omega)
+	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	\end{split}
 	\label{eq:Gamma_tilde_def}
 \end{equation}
@@ -715,19 +724,19 @@ in either order
 \begin{align}
 	\left[
 	\ii\widetilde{\Gamma}^\eh
-	\right]_{A,B}(\omega)
+	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
 	&=
 	\frac{1}{2\pi}
 	\int d\bar\nu'\,
-	V_{A,B}(\bar\nu',\omega)
-	Q_B(\bar\nu',\omega)
+	V^{\sigma\sigma'}_{ia,jb}(\bar\nu',\omega)
+	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	\label{eq:Gamma_tilde_from_V}
 	\\
 	&=
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_A(\bar\nu,\omega)
-	U_{A,B}(\bar\nu,\omega)
+	Q^\sigma_{ia}(\bar\nu,\omega)
+	U^{\sigma\sigma'}_{ia,jb}(\bar\nu,\omega)
 	\label{eq:Gamma_tilde_from_U}
 \end{align}
 The frequency reduction is therefore
@@ -1003,28 +1012,29 @@ and
 	\right]^{-1}
 	\label{eq:R_eh_zero}
 \end{equation}
-The ordered central pair itself identifies the propagation sector.
-The first-order external vertices are
+The two blocks of the central resolvent correspond to forward ($+$) and
+backward ($-$) eh propagation.
+The corresponding first-order external-vertex components are
 \begin{align}
-	U^{\eh,(1)}_{pr,ia}
+	U^{\eh,+,(1)}_{pr,ia}
 	&=
 	\mel{pa}{}{ri}
 	&
-	V^{\eh,(1)}_{ia,sq}
+	V^{\eh,+,(1)}_{ia,sq}
 	&=
 	\mel{qi}{}{sa}
-	\label{eq:UV_eh_first_ia}
+	\label{eq:UV_eh_first_plus}
 	\\
-	U^{\eh,(1)}_{pr,ai}
+	U^{\eh,-,(1)}_{pr,ia}
 	&=
 	\mel{pi}{}{ra}
 	&
-	V^{\eh,(1)}_{ai,sq}
+	V^{\eh,-,(1)}_{ia,sq}
 	&=
 	\mel{qa}{}{si}
-	\label{eq:UV_eh_first_ai}
+	\label{eq:UV_eh_first_minus}
 \end{align}
-so that
+These are the two block components of $U^{\eh,(1)}$ and $V^{\eh,(1)}$, so that
 \begin{equation}
 	\ii\Phi^{\eh,(2)}
 	=
@@ -1121,12 +1131,12 @@ The only external-vertex pole energies are
 \end{align}
 corresponding to $\hhp$ states in the $(N-1)$ sector and $\pph$ states in
 the $(N+1)$ sector.
-For a forward pair $ia$, the four elementary contour integrations are
+For a forward ($+$) pair $ia$, the four elementary contour integrations are
 \begin{equation}
 	\begin{split}
 	&\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\frac{1}{\nu'-\bar\nu+(\eps_c-\eps_k)-\ii0^+}
 	\\
 	&\qquad=
@@ -1138,7 +1148,7 @@ For a forward pair $ia$, the four elementary contour integrations are
 	\begin{split}
 	&\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\frac{1}{\nu'-\bar\nu-(\eps_c-\eps_k)+\ii0^+}
 	\\
 	&\qquad=
@@ -1150,7 +1160,7 @@ For a forward pair $ia$, the four elementary contour integrations are
 	\begin{split}
 	&\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\frac{1}{\bar\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
 	\\
 	&\qquad=
@@ -1162,7 +1172,7 @@ For a forward pair $ia$, the four elementary contour integrations are
 	\begin{split}
 	&\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\frac{1}{\bar\nu+\nu'+\omega-\eps_k-\eps_l-\ii0^+}
 	\\
 	&\qquad=
@@ -1174,24 +1184,24 @@ The signs multiplying these terms are inherited from
 $\Gamma^{\eh,(2)}$ in Eq.~\eqref{eq:Gamma_eh_second_explicit}; they do not
 arise from the contour integration.
 
-For the $ia,jb$ block,
+For the $++$ block,
 \begin{equation}
-	\left[\ii\Gamma^\eh\right]_{ia,jb}
+	\left[\ii\Gamma^\eh\right]^{++}_{ia,jb}
 	\equiv
 	\ii\Gamma^\eh_{aj\,ib}
-	\label{eq:Gamma_ia_jb_block}
+	\label{eq:Gamma_pp_block}
 \end{equation}
 so that
 \begin{equation}
-	V^{(1)}_{ia,jb}
+	V^{++,(1)}_{ia,jb}
 	=
 	\mel{aj}{}{ib}
-	\label{eq:V_ia_jb_first}
+	\label{eq:V_pp_first}
 \end{equation}
 and
 \begin{equation}
 	\begin{split}
-	V^{(2)}_{ia,jb}(\nu',\omega)
+	V^{++,(2)}_{ia,jb}(\nu',\omega)
 	={}&
 	\sum_{kc}
 	\frac{\mel{jc}{}{ik}\mel{ka}{}{cb}}
@@ -1214,26 +1224,26 @@ and
 	\frac{\mel{aj}{}{cd}\mel{dc}{}{bi}}
 	{\nu'+\omega-E^+_{cd;i}+\ii0^+}
 	\end{split}
-	\label{eq:V_ia_jb_second}
+	\label{eq:V_pp_second}
 \end{equation}
-For the $ia,bj$ block,
+For the $+-$ block,
 \begin{equation}
-	\left[\ii\Gamma^\eh\right]_{ia,bj}
+	\left[\ii\Gamma^\eh\right]^{+-}_{ia,jb}
 	\equiv
 	\ii\Gamma^\eh_{ab\,ij}
-	\label{eq:Gamma_ia_bj_block}
+	\label{eq:Gamma_pm_block}
 \end{equation}
 with
 \begin{equation}
-	V^{(1)}_{ia,bj}
+	V^{+-,(1)}_{ia,jb}
 	=
 	\mel{ab}{}{ij}
-	\label{eq:V_ia_bj_first}
+	\label{eq:V_pm_first}
 \end{equation}
 and
 \begin{equation}
 	\begin{split}
-	V^{(2)}_{ia,bj}(\nu',\omega)
+	V^{+-,(2)}_{ia,jb}(\nu',\omega)
 	={}&
 	\sum_{kc}
 	\frac{\mel{bc}{}{ik}\mel{ka}{}{cj}}
@@ -1256,23 +1266,23 @@ and
 	\frac{\mel{ab}{}{cd}\mel{dc}{}{ij}}
 	{\nu'+\omega-E^+_{cd;i}+\ii0^+}
 	\end{split}
-	\label{eq:V_ia_bj_second}
+	\label{eq:V_pm_second}
 \end{equation}
-The backward blocks follow by pair reversal
+The $--$ and $-+$ blocks follow by pair reversal
 \begin{align}
-	V_{ai,bj}(\nu',\omega)
+	V^{--}_{ia,jb}(\nu',\omega)
 	&=
 	\left[
-	V_{ia,jb}(\nu'+\omega,-\omega)
+	V^{++}_{ia,jb}(\nu'+\omega,-\omega)
 	\right]^*
-	\label{eq:V_ai_bj_reversal}
+	\label{eq:V_mm_reversal}
 	\\
-	V_{ai,jb}(\nu',\omega)
+	V^{-+}_{ia,jb}(\nu',\omega)
 	&=
 	\left[
-	V_{ia,bj}(\nu'+\omega,-\omega)
+	V^{+-}_{ia,jb}(\nu'+\omega,-\omega)
 	\right]^*
-	\label{eq:V_ai_jb_reversal}
+	\label{eq:V_mp_reversal}
 \end{align}
 For real orbitals this is sufficient for the present construction.
 The fermionic frequency associated with each pole is summarized by
@@ -1281,9 +1291,9 @@ The fermionic frequency associated with each pole is summarized by
 	& \hhp & \pph
 	\\
 	\hline
-	ia & \nu' & \nu'+\omega
+	+ & \nu' & \nu'+\omega
 	\\
-	ai & \nu'+\omega & \nu'
+	- & \nu'+\omega & \nu'
 	\end{array}
 	\label{eq:external_frequency_table}
 \end{equation}
@@ -1318,30 +1328,30 @@ Using ordered intermediate configurations
 	\eps_\alpha+\eps_\beta-\eps_\mu
 	\label{eq:E_plus_general}
 \end{align}
-the right external vertex for a forward first pair has the form
+the right external vertex for a forward ($+$) first pair has the form
 \begin{equation}
 	\begin{split}
-	V^{(2)}_{ia,B}(\nu',\omega)
+	V^{+\sigma',(2)}_{ia,jb}(\nu',\omega)
 	={}&
 	\sum_{I^-}
-	\frac{\mathcal R^-_{ia,B;I^-}}
+	\frac{\mathcal R^{+\sigma',-}_{ia,jb;I^-}}
 	{\nu'-E^-_{I^-}-\ii0^+}
 	\\
 	&+
 	\sum_{I^+}
-	\frac{\mathcal R^+_{ia,B;I^+}}
+	\frac{\mathcal R^{+\sigma',+}_{ia,jb;I^+}}
 	{\nu'+\omega-E^+_{I^+}+\ii0^+}
 	\end{split}
 	\label{eq:V_residue_general}
 \end{equation}
-with $B=jb$ or $bj$.
+with $\sigma'=+$ or $-$.
 The ordered-tuple convention keeps the $1/2$ factors of the pair channel
 explicit.
 
-For the $ia,jb$ block,
+For the $++$ block,
 \begin{equation}
 	\begin{split}
-	\mathcal R^-_{ia,jb;\mu\nu;\alpha}
+	\mathcal R^{++,-}_{ia,jb;\mu\nu;\alpha}
 	={}&
 	\delta_{\mu i}
 	\mel{j\alpha}{}{\mu\nu}
@@ -1353,11 +1363,11 @@ For the $ia,jb$ block,
 	\mel{aj}{}{\mu\nu}
 	\mel{\nu\mu}{}{bi}
 	\end{split}
-	\label{eq:R_ia_jb_minus}
+	\label{eq:R_pp_minus}
 \end{equation}
 \begin{equation}
 	\begin{split}
-	\mathcal R^+_{ia,jb;\alpha\beta;\mu}
+	\mathcal R^{++,+}_{ia,jb;\alpha\beta;\mu}
 	={}&
 	-
 	\delta_{\alpha a}
@@ -1370,12 +1380,12 @@ For the $ia,jb$ block,
 	\mel{aj}{}{\alpha\beta}
 	\mel{\beta\alpha}{}{bi}
 	\end{split}
-	\label{eq:R_ia_jb_plus}
+	\label{eq:R_pp_plus}
 \end{equation}
-For the $ia,bj$ block,
+For the $+-$ block,
 \begin{equation}
 	\begin{split}
-	\mathcal R^-_{ia,bj;\mu\nu;\alpha}
+	\mathcal R^{+-,-}_{ia,jb;\mu\nu;\alpha}
 	={}&
 	\delta_{\mu i}
 	\mel{b\alpha}{}{\mu\nu}
@@ -1387,11 +1397,11 @@ For the $ia,bj$ block,
 	\mel{ab}{}{\mu\nu}
 	\mel{\nu\mu}{}{ij}
 	\end{split}
-	\label{eq:R_ia_bj_minus}
+	\label{eq:R_pm_minus}
 \end{equation}
 \begin{equation}
 	\begin{split}
-	\mathcal R^+_{ia,bj;\alpha\beta;\mu}
+	\mathcal R^{+-,+}_{ia,jb;\alpha\beta;\mu}
 	={}&
 	-
 	\delta_{\alpha a}
@@ -1404,9 +1414,9 @@ For the $ia,bj$ block,
 	\mel{ab}{}{\alpha\beta}
 	\mel{\beta\alpha}{}{ij}
 	\end{split}
-	\label{eq:R_ia_bj_plus}
+	\label{eq:R_pm_plus}
 \end{equation}
-The backward blocks follow from pair reversal, and the left external vertex
+The $--$ and $-+$ blocks follow from pair reversal, and the left external vertex
 has the analogous residue structure.
 The pole spaces are universal ($\hhp$ and $\pph$), while the residues retain
 the topology of their parquet channel.
@@ -1430,7 +1440,7 @@ For a forward closure, the elementary $\hhp$ and $\pph$ frequency integrations a
 \begin{equation}
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{jb}(\bar\nu,\omega)
+	Q^+_{jb}(\bar\nu,\omega)
 	\frac{1}
 	{\bar\nu-E^- -\ii0^+}
 	=
@@ -1441,7 +1451,7 @@ For a forward closure, the elementary $\hhp$ and $\pph$ frequency integrations a
 \begin{equation}
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
-	Q_{jb}(\bar\nu,\omega)
+	Q^+_{jb}(\bar\nu,\omega)
 	\frac{1}
 	{\bar\nu+\omega-E^+ +\ii0^+}
 	=
@@ -1449,11 +1459,11 @@ For a forward closure, the elementary $\hhp$ and $\pph$ frequency integrations a
 	{\omega-(E^+-\eps_j)+\ii0^+}
 	\label{eq:second_contraction_plus}
 \end{equation}
-Applying these identities to Eq.~\eqref{eq:V_ia_jb_second} gives the
+Applying these identities to Eq.~\eqref{eq:V_pp_second} gives the
 second-order resonant block of the effective kernel
 \begin{equation}
 	\begin{split}
-	(\widetilde\Xi_c^{(2)})^{jb}_{ia}(\omega)
+	\left[\widetilde\Xi_c^{(2)}(\omega)\right]^{++}_{ia,jb}
 	={}&
 	-
 	\sum_{kc}
@@ -1492,10 +1502,10 @@ second-order resonant block of the effective kernel
 	\label{eq:GF2_A}
 \end{equation}
 
-Closing the $ia,bj$ right external vertex with a backward pair gives
+Closing the $+-$ right external vertex with a backward ($-$) pair gives
 \begin{equation}
 	\begin{split}
-	(\widetilde\Xi_c^{(2)})^{bj}_{ia}
+	\left[\widetilde\Xi_c^{(2)}\right]^{+-}_{ia,jb}
 	={}&
 	-
 	\sum_{kc}
@@ -1966,7 +1976,7 @@ third-order reducible vertices.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is useful to distinguish two closely related partially integrated objects.
-The pair-space vertices $V_{ia,jb}$ and $V_{ia,bj}$ derived in
+The pair-space vertices $V^{++}_{ia,jb}$ and $V^{+-}_{ia,jb}$ derived in
 Sec.~\ref{sec:half_contraction_second} were introduced to validate the
 reduction to the one-frequency GF2 kernel.
 The external vertices entering Eq.~\eqref{eq:target_eh} have instead one
@@ -2043,10 +2053,10 @@ The new ingredients required at third order are therefore the second-order exter
 \subsection{Second-order corrections to the external vertices}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The left external-vertex correction for the central pair $ia$ is obtained by integrating over one
+The left external-vertex correction for forward ($+$) central propagation through the pair $ia$ is obtained by integrating over one
 fermionic frequency of the second-order irreducible kernel,
 \begin{equation}
-	U^{\eh,(2)}_{pr,ia}(\nu,\omega)
+	U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
 	=
 	\frac{1}{2\pi}
 	\int d\bar\nu
@@ -2054,13 +2064,13 @@ fermionic frequency of the second-order irreducible kernel,
 	\ii\Gamma^{\eh,(2)}_{pa\,ri}
 	(\nu,\bar\nu,\omega)
 	\right]
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\label{eq:U_eh_second_def}
 \end{equation}
 The explicit result is
 \begin{equation}
 	\begin{split}
-	U^{\eh,(2)}_{pr,ia}(\nu,\omega)
+	U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
 	={}&
 	\sum_{jb}
 	\frac{
@@ -2100,13 +2110,13 @@ The explicit result is
 The first two terms originate from the transverse $\eh$ channel
 and the last two from the $\hh$ and $\pp$ branches.
 
-The right external-vertex correction for the central pair $ia$ is
+The right external-vertex correction for forward ($+$) central propagation through the pair $ia$ is
 \begin{equation}
-	V^{\eh,(2)}_{ia,sq}(\nu',\omega)
+	V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
 	=
 	\frac{1}{2\pi}
 	\int d\bar\nu
-	Q_{ia}(\bar\nu,\omega)
+	Q^+_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^{\eh,(2)}_{sa\,qi}
 	(\bar\nu,\nu',\omega)
@@ -2116,7 +2126,7 @@ The right external-vertex correction for the central pair $ia$ is
 which gives
 \begin{equation}
 	\begin{split}
-	V^{\eh,(2)}_{ia,sq}(\nu',\omega)
+	V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
 	={}&
 	\sum_{kc}
 	\frac{
@@ -2153,7 +2163,7 @@ which gives
 	\end{split}
 	\label{eq:V_eh_second_explicit}
 \end{equation}
-The backward external vertices follow from the same pair-reversal operation as
+The backward ($-$) external-vertex components follow from the same pair-reversal operation as
 the pair-space external vertices.
 The explicit formulas are not required for the third-order matching.
 
@@ -2185,7 +2195,7 @@ with
 	\mel{aj}{}{ib}
 	\label{eq:A_eh_first}
 	\\
-	B^{(1)}_{ia,bj}
+	B^{(1)}_{ia,jb}
 	&=
 	\mel{ab}{}{ij}
 	\label{eq:B_eh_first}
