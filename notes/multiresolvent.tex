@@ -148,15 +148,7 @@ The transverse electron-hole contribution is obtained from $\Phi^\eh$ by
 fermionic crossing.
 Consequently, only two primitive multiresolvent constructions are needed, $\Phi^\eh$ and $\Phi^\pp$.
 
-In each channel, the channel-reducible four-point vertex $\Phi$ is represented as the product of a left external vertex, a channel-specific central resolvent, and a right external vertex
-\begin{equation}
-	\text{external vertex}
-	\;\times\;
-	\text{central resolvent}
-	\;\times\;
-	\text{external vertex}
-	\label{eq:architecture}
-\end{equation}
+In each channel, the channel-reducible four-point vertex $\Phi$ is represented as the product of a left external vertex, a channel-specific central resolvent, and a right external vertex (see below).
 The central resolvent carries the natural bosonic transfer of the channel,
 while the two external vertices retain the remaining fermionic-frequency
 dependence.
@@ -181,9 +173,10 @@ provides a route to a multiresolvent representation of the Hedin kernel.
 
 The purpose of the present notes is to establish this construction through
 third order in the interaction.
-We first fix the frequency conventions and introduce the exact
-three-frequency Bethe--Salpeter equation.
-We then integrate over only one fermionic frequency to define the
+We first fix the frequency conventions and state explicitly the
+multiresolvent representation that we seek to construct.
+We then introduce the exact three-frequency Bethe--Salpeter equation and
+integrate over only one fermionic frequency to determine the
 two-frequency external vertices.
 At second order, the transverse electron-hole and particle-particle
 contributions to $\Gamma^\eh$ can be transformed into the same direct
@@ -282,9 +275,25 @@ which identifies the pair transfer frequency as
 
 These three bosonic combinations are responsible for the characteristic
 frequency structures of the parquet vertex.
-At low order, direct electron-hole poles occur at fixed $\omega$,
-transverse electron-hole poles occur at fixed $\nu'-\nu$, and
-particle-particle poles occur at fixed $\nu+\nu'+\omega$.
+At the lowest non-vanishing order, the reducible vertices depend only on
+the natural bosonic transfer of their channel,
+\begin{equation}
+	\begin{array}{rcl}
+	\Phi^{\eh,(2)} &\equiv& \Phi^{\eh,(2)}(\omega)
+	\\[3pt]
+	\Phi^{\teh,(2)} &\equiv& \Phi^{\teh,(2)}(\nu'-\nu)
+	\\[3pt]
+	\Phi^{\pp,(2)} &\equiv& \Phi^{\pp,(2)}(\nu+\nu'+\omega)
+	\end{array}
+	\label{eq:Phi_frequency_second_order}
+\end{equation}
+Beyond second order, however, the primitive reducible vertices are genuine
+three-frequency objects.
+The construction developed below assigns the natural bosonic transfer to a
+central resolvent and the remaining fermionic-frequency dependence to two
+external vertices.
+Thus, the central resolvent remains a one-frequency object even when the
+full reducible vertex depends on all three independent frequencies.
 
 The exact channel-irreducible vertices satisfy
 \begin{gather}
@@ -326,6 +335,194 @@ At second order this gives
 	\Phi^{\pp,(2)}
 	\label{eq:Gamma_eh_second}
 \end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Target multiresolvent representation}
+\label{sec:target_representation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Having fixed the channel frequencies, we can now state precisely the
+representation that we seek to construct before deriving any of its
+perturbative ingredients.
+
+In conventional algebraic-diagrammatic construction of the self-energy,
+one starts from its diagonal spectral representation in the exact
+$(N\pm1)$-electron eigenstate basis.
+The unitary freedom within this intermediate-state space can then be used to
+recast the diagonal resolvent into the non-diagonal ADC representation, whose
+coupling and secular matrices are determined perturbatively.
+For a general four-point vertex, there is no analogous single diagonal
+spectral representation because three independent frequencies cannot be
+carried by one resolvent.
+There is therefore no direct analogue of the usual ADC transformation from
+a diagonal three-frequency representation to a non-diagonal one.
+
+Our strategy is instead to exploit the parquet decomposition before
+constructing the algebraic representation.
+For each primitive channel, we seek a factorization in which the natural
+bosonic transfer is carried by a central resolvent and the two remaining
+fermionic-frequency dependences are carried by external vertices.
+For the direct electron-hole primitive, the target form is
+\begin{equation}
+	\ii\Phi^\eh(\nu,\nu',\omega)
+	=
+	U_L^\eh(\nu,\omega)
+	R_\eh(\omega)
+	U_R^\eh(\nu',\omega)
+	\label{eq:target_eh}
+\end{equation}
+with the neutral central resolvent
+\begin{equation}
+	R_\eh(\omega)
+	=
+	\left[
+	\omega\eta_\eh-M_\eh
+	\right]^{-1}
+	\label{eq:target_R_eh}
+\end{equation}
+The central resolvent depends only on the direct electron-hole transfer
+$\omega$, while the left and right external vertices carry the remaining
+dependence on $\nu$ and $\nu'$, respectively.
+The transverse electron-hole contribution is not constructed independently but
+follows from crossing, so its central frequency is $\nu'-\nu$.
+
+For the particle-particle primitive, it is most transparent to use its
+natural frequency variables and seek
+\begin{equation}
+	\ii\Phi_P^\pp(\nu_\pp,\nu'_\pp,\Omega_\pp)
+	=
+	U_L^\pp(\nu_\pp,\Omega_\pp)
+	R_\pp(\Omega_\pp)
+	U_R^\pp(\nu'_\pp,\Omega_\pp)
+	\label{eq:target_pp}
+\end{equation}
+with the pair central resolvent
+\begin{equation}
+	R_\pp(\Omega_\pp)
+	=
+	\left[
+	\Omega_\pp\eta_\pp-M_\pp
+	\right]^{-1}
+	\label{eq:target_R_pp}
+\end{equation}
+In the direct electron-hole convention, the corresponding bosonic transfer
+is $\Omega_\pp=\nu+\nu'+\omega$.
+In Eqs.~\eqref{eq:target_R_eh} and \eqref{eq:target_R_pp}, $\eta_r$ denotes
+the metric that distinguishes the forward and backward sectors of the
+corresponding two-particle propagation.
+The symbols $U_L^r$ and $U_R^r$ denote the left and right external vertices
+and should not be confused with the unitary rotation used in the conventional
+ADC construction.
+The corresponding particle-number sectors are
+\begin{gather}
+	\Phi^\eh
+	\colon
+	N\pm1
+	\longrightarrow
+	N
+	\longrightarrow
+	N\pm1
+	\label{eq:target_sector_eh}
+	\\
+	\Phi^\pp
+	\colon
+	N\pm1
+	\longrightarrow
+	N\pm2
+	\longrightarrow
+	N\pm1
+	\label{eq:target_sector_pp}
+\end{gather}
+The central propagation therefore distinguishes the two primitive channels,
+whereas the external vertices are associated with $N\pm1$ propagation.
+At the perturbative orders considered below, their non-trivial poles are the
+$\hhp$ and $\pph$ poles of the $(N-1)$- and $(N+1)$-electron sectors.
+
+The objective is to determine the ingredients of
+Eqs.~\eqref{eq:target_eh} and \eqref{eq:target_pp} by matching their
+perturbative expansions to the exact channel-resolved Bethe--Salpeter equations.
+We write
+\begin{equation}
+	U_{L/R}^r
+	=
+	U_{L/R}^{r,(1)}
+	+
+	U_{L/R}^{r,(2)}
+	+
+	O(V^3)
+	\label{eq:target_U_expansion}
+\end{equation}
+and
+\begin{equation}
+	M_r
+	=
+	M_r^{(0)}
+	+
+	M_r^{(1)}
+	+
+	O(V^2)
+	\label{eq:target_M_expansion}
+\end{equation}
+where $r=\eh$ or $\pp$.
+The central resolvent consequently has the perturbative expansion
+\begin{equation}
+	R_r
+	=
+	R_{r,0}
+	+
+	R_{r,0}
+	M_r^{(1)}
+	R_{r,0}
+	+
+	O(V^2)
+	\label{eq:target_R_expansion}
+\end{equation}
+The proposed representation must therefore reproduce at second order
+\begin{equation}
+	\ii\Phi^{r,(2)}
+	=
+	U_L^{r,(1)}
+	R_{r,0}
+	U_R^{r,(1)}
+	\label{eq:target_second_order}
+\end{equation}
+and at third order
+\begin{equation}
+	\begin{split}
+	\ii\Phi^{r,(3)}
+	={}&
+	U_L^{r,(2)}
+	R_{r,0}
+	U_R^{r,(1)}
+	\\
+	&+
+	U_L^{r,(1)}
+	R_{r,0}
+	U_R^{r,(2)}
+	\\
+	&+
+	U_L^{r,(1)}
+	R_{r,0}
+	M_r^{(1)}
+	R_{r,0}
+	U_R^{r,(1)}
+	\end{split}
+	\label{eq:target_third_order}
+\end{equation}
+Equations~\eqref{eq:target_second_order} and
+\eqref{eq:target_third_order} define the constructive problem addressed in
+the remainder of these notes.
+The first-order external vertices are generated by the bare interaction.
+The second-order external vertices and the first-order corrections to the
+central matrices must be extracted from the exact perturbative vertex.
+
+Unlike conventional ADC, we therefore do not obtain the desired
+multiresolvent form by transforming a pre-existing diagonal
+three-frequency representation.
+Instead, the representation is constructed directly by perturbative matching
+to the channel-resolved Bethe--Salpeter equations.
+The second- and third-order derivations below show that this ansatz reproduces
+the complete reducible vertices through third order.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Three-frequency Bethe--Salpeter equation}
@@ -451,7 +648,7 @@ with fully contracted form
 \end{equation}
 
 It is convenient to introduce the normalized one-sided factors
-\begin{equation}
+\begin{gather}
 	Q^+_{ia}(\nu,\omega)
 	=
 	-\ii
@@ -461,8 +658,7 @@ It is convenient to introduce the normalized one-sided factors
 	G_{0,a}(\nu+\omega)
 	\right]
 	\label{eq:Q_plus}
-\end{equation}
-\begin{equation}
+	\\
 	Q^-_{ia}(\nu,\omega)
 	=
 	+\ii
@@ -472,7 +668,7 @@ It is convenient to introduce the normalized one-sided factors
 	G_{0,i}(\nu+\omega)
 	\right]
 	\label{eq:Q_minus}
-\end{equation}
+\end{gather}
 With the infinitesimal time shifts implied in the time-ordered
 frequency integrations, these satisfy
 \begin{equation}
@@ -498,10 +694,11 @@ and pair reversal gives
 The conventional frequency-dependent Bethe--Salpeter kernel is obtained
 by integrating over both fermionic frequencies of the full three-frequency
 kernel.
-For the present purpose, we integrate over only one fermionic frequency and
-define a two-frequency external vertex.
+To construct the external vertices appearing in
+Eq.~\eqref{eq:target_eh}, we instead integrate over only one fermionic
+frequency and retain the other one explicitly.
 It is convenient to absorb the factor of $\ii$ multiplying the
-channel-irreducible vertex and define the right external vertex as
+channel-irreducible vertex and write the right external vertex as
 \begin{equation}
 	U_R^{\sigma\sigma'}{}_{ia,jb}(\nu',\omega)
 	=
@@ -551,14 +748,9 @@ Antisymmetrized two-electron integrals are denoted as
 \begin{equation}
 	V_{pqrs}
 	=
-	\braket{pq||rs}
+	\mel{pq}{}{rs}
 	\label{eq:V_def}
 \end{equation}
-The perturbation expansion is understood with respect to the
-Hartree--Fock reference in a M\o ller--Plesset partition.
-The first-order one-body self-energy is therefore already included in the
-reference propagator and does not generate additional third-order line
-insertions below.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Direct electron-hole reducible vertex}
@@ -1859,17 +2051,8 @@ The complete third-order result is
 	\end{split}
 	\label{eq:Phi_eh_third_final}
 \end{equation}
-Together with Eq.~\eqref{eq:Phi_eh_second_resolvent}, this is exactly the
-expansion of the master expression
-\begin{equation}
-	\ii\Phi^\eh
-	=
-	U_L^\eh
-	R_\eh
-	U_R^\eh
-	\label{eq:Phi_eh_master_repeated}
-\end{equation}
-through third order.
+Together with Eq.~\eqref{eq:Phi_eh_second_resolvent}, this reproduces the
+target representation of Eq.~\eqref{eq:target_eh} through third order.
 
 The three terms in Eq.~\eqref{eq:Phi_eh_third_final} have a transparent
 interpretation.
@@ -1999,16 +2182,8 @@ The corresponding right external vertices have the same pole spaces.
 The detailed residues are not required for the third-order parquet
 closure and are therefore left in channel-adapted form.
 
-In the antisymmetric pair basis, the master pair representation is
-\begin{equation}
-	\ii\Phi_P^\pp
-	=
-	U_L^\pp
-	R_\pp
-	U_R^\pp
-	\label{eq:master_pp}
-\end{equation}
-At second order,
+In the antisymmetric pair basis, the target representation of
+Eq.~\eqref{eq:target_pp} gives at second order
 \begin{equation}
 	\ii\Phi_P^{\pp,(2)}
 	=
