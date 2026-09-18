@@ -1,0 +1,1528 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+\newcommand{\Hx}{\text{Hx}}
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+\begin{document}
+
+\title{Multiresolvent Representation of the Parquet Vertex}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\begin{abstract}
+A general four-point vertex depends on three independent frequencies and
+cannot, in general, be represented by the single resolvent familiar from
+linear-response theory or conventional algebraic-diagrammatic construction.
+In these notes, we develop a channel-resolved route toward a
+multiresolvent representation of the parquet vertex.
+The central idea is to construct the channel-reducible vertices
+$\Phi^\eh$ and $\Phi^\pp$ in their natural propagation channels and to
+recover the transverse electron-hole contribution by crossing.
+The electron-hole irreducible vertex, and therefore the corresponding
+four-point Hedin kernel, is then reconstructed from
+$\Gamma^\eh=\Lambda+\Phi^{\teh}+\Phi^\pp$.
+We introduce a half-contraction of the exact three-frequency kernel that
+retains one fermionic frequency and show explicitly at second order that
+its only side poles belong to the $N-1$ $\hhp$ and $N+1$ $\pph$
+sectors.
+The resulting two-frequency couplings possess matrix-valued residues that
+retain the topology of the transverse electron-hole and particle-particle
+channels.
+A second contraction recovers the usual one-frequency GF2
+Bethe--Salpeter kernel, providing an independent check of the frequency
+routing, signs, and combinatorial factors.
+These results establish the second-order building blocks required for a
+systematic multiresolvent ADC construction of the three-frequency vertex.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A general four-point quantity contains substantially more analytic
+structure than a one-particle Green's function or a linear-response
+propagator.
+For a time-independent Hamiltonian, time-translation invariance removes
+one overall time variable, leaving three independent time differences or,
+equivalently, three independent frequencies.
+The full two-particle vertex can therefore be written as
+$F(\nu,\nu',\omega)$, where the three frequency variables are naturally
+associated with different two-particle scattering channels.
+
+This three-frequency dependence makes a direct extension of conventional
+spectral or algebraic-diagrammatic representations non-trivial.
+A one-particle self-energy can be written in terms of resolvents in the
+$N-1$ and $N+1$ particle sectors, while a polarization propagator is
+naturally expressed through an $N$-electron neutral-excitation resolvent.
+For a four-point vertex, these different propagation sectors coexist.
+The natural objective is therefore not to introduce a single formal
+resolvent depending simultaneously on three frequencies, but to organize
+the vertex as a product or chain of ordinary resolvents, each associated
+with a physically well-defined intermediate-state space.
+
+Parquet theory provides a particularly natural starting point for such a
+construction.
+The full vertex is decomposed according to two-particle reducibility in
+the electron-hole ($\eh$), transverse electron-hole ($\teh$), and
+particle-particle ($\pp$) channels\cite{DeDominicis_1964b,Bickers_2004,MarieLoos2025}
+\begin{equation}
+	F
+	=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	\label{eq:parquet_decomposition}
+\end{equation}
+where $\Lambda$ is fully two-particle irreducible.
+Each reducible contribution has a preferred bosonic transfer frequency
+and a natural propagation channel.
+The direct electron-hole vertex $\Phi^\eh$ is associated with neutral
+$N$-electron propagation, while $\Phi^\pp$ is associated with the
+$N\pm2$ pair sectors.
+The transverse electron-hole contribution is obtained from $\Phi^\eh$ by
+fermionic crossing.
+Consequently, only two primitive multiresolvent constructions are needed
+\begin{equation}
+	\Phi^\eh
+	\qquad
+	\Phi^\pp
+	\label{eq:minimal_primitives}
+\end{equation}
+
+This choice also provides a direct route to the four-point Hedin kernel.
+The vertex irreducible in the direct electron-hole channel is
+\begin{equation}
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	\label{eq:Gamma_eh_parquet}
+\end{equation}
+At the exact level, this is the same four-point kernel that appears in the
+Hedin Bethe--Salpeter equation through the functional derivative
+$\Xi=\delta\Sigma/\delta G$, once a common index convention is adopted\cite{Hedin1965,MarieAmmarLoos2024}
+Thus a multiresolvent construction of $\Phi^\eh$ and $\Phi^\pp$ also
+provides a route to a multiresolvent representation of the Hedin kernel.
+
+The purpose of the present notes is to establish this construction through
+second order in the interaction.
+We first fix the frequency conventions and introduce the exact
+three-frequency Bethe--Salpeter equation.
+We then define a half-contraction that integrates only one fermionic
+frequency and therefore generates a two-frequency coupling.
+At second order, the transverse electron-hole and particle-particle
+contributions to $\Gamma^\eh$ can be transformed into the same direct
+$\eh$ convention and half-contracted explicitly.
+The resulting analytic structure contains only $\hhp$ and $\pph$ side
+poles.
+A final contraction recovers the known GF2 effective kernel and provides a
+stringent consistency check.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Frequency conventions and channel organization}
+\label{sec:frequencies}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The direct electron-hole convention will be used throughout these notes.
+The four external fermionic line energies are chosen as
+\begin{equation}
+	\nu
+	\qquad
+	\nu+\omega
+	\qquad
+	\nu'
+	\qquad
+	\nu'+\omega
+	\label{eq:eh_frequencies}
+\end{equation}
+The bosonic transfer in the direct electron-hole channel is therefore
+\begin{equation}
+	\Omega_\eh
+	=
+	\omega
+	\label{eq:Omega_eh}
+\end{equation}
+
+The two other parquet channels are associated with different linear
+combinations of the same three independent frequencies.
+For the transverse electron-hole channel, exchanging the third and fourth
+external legs gives
+\begin{equation}
+	\left(
+	\nu_{\teh},
+	\nu'_{\teh},
+	\Omega_{\teh}
+	\right)
+	=
+	\left(
+	\nu,
+	\nu+\omega,
+	\nu'-\nu
+	\right)
+	\label{eq:crossed_frequency_map}
+\end{equation}
+so that the transverse transfer frequency is
+\begin{equation}
+	\Omega_{\teh}
+	=
+	\nu'-\nu
+	\label{eq:Omega_ehbar}
+\end{equation}
+
+The particle-particle convention is related to the direct electron-hole
+convention through
+\begin{equation}
+	\left(
+	\nu_\pp,
+	\nu'_\pp,
+	\Omega_\pp
+	\right)
+	=
+	\left(
+	-\omega-\nu',
+	-\nu',
+	\omega+\nu+\nu'
+	\right)
+	\label{eq:pp_frequency_map}
+\end{equation}
+which identifies the pair transfer frequency as
+\begin{equation}
+	\Omega_\pp
+	=
+	\omega+\nu+\nu'
+	\label{eq:Omega_pp}
+\end{equation}
+
+These three bosonic combinations are responsible for the characteristic
+frequency structures of the parquet vertex.
+At low order, direct electron-hole poles occur at fixed $\omega$,
+transverse electron-hole poles occur at fixed $\nu'-\nu$, and
+particle-particle poles occur at fixed $\nu+\nu'+\omega$.
+
+The exact channel-irreducible vertices satisfy
+\begin{equation}
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	\label{eq:Gamma_eh}
+\end{equation}
+\begin{equation}
+	\Gamma^\pp
+	=
+	\Lambda
+	+
+	\Phi^\eh
+	+
+	\Phi^{\teh}
+	\label{eq:Gamma_pp}
+\end{equation}
+For a two-body interaction, the first correction to the fully irreducible
+vertex beyond the bare interaction occurs at fourth order.
+Consequently, through third order one may use
+\begin{equation}
+	\Lambda
+	=
+	\Lambda^{(1)}
+	+
+	O(v^4)
+	\label{eq:Lambda_order}
+\end{equation}
+At second order this gives
+\begin{equation}
+	\Gamma^{\eh,(2)}
+	=
+	\Phi^{\teh,(2)}
+	+
+	\Phi^{\pp,(2)}
+	\label{eq:Gamma_eh_second}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Three-frequency Bethe--Salpeter equation}
+\label{sec:three_frequency_bse}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The exact electron-hole correlation function obeys a four-point
+Bethe--Salpeter equation
+\begin{equation}
+	L
+	=
+	L_0
+	+
+	L_0\Gamma^\eh L
+	\label{eq:BSE_symbolic}
+\end{equation}
+where the products imply integrations over internal space-spin-time
+variables.
+Before the instantaneous-pair approximation, all quantities depend on
+three independent time differences.
+In frequency space, the Bethe--Salpeter equation therefore contains two
+internal fermionic-frequency integrations
+\begin{multline}
+	L(\nu,\nu',\omega)
+	=
+	L_0(\nu,\nu',\omega)
+	\\
+	+
+	\frac{1}{(2\pi)^2}
+	\int d\bar\nu d\bar\nu'
+	L_0(\nu,\bar\nu,\omega)
+	\Gamma^\eh(\bar\nu,\bar\nu',\omega)
+	L(\bar\nu',\nu',\omega)
+	\label{eq:BSE_three_frequency}
+\end{multline}
+
+For a non-interacting reference, the three-frequency electron-hole
+propagator is diagonal in the fermionic frequency
+\begin{equation}
+	L_0(\nu,\nu',\omega)
+	=
+	2\pi
+	\delta(\nu-\nu')
+	G_0(\nu+\omega)
+	G_0(\nu)
+	\label{eq:L0_three_frequency}
+\end{equation}
+The ordering of the two one-particle Green's functions in
+Eq.~\eqref{eq:L0_three_frequency} fixes the frequency convention adopted
+below.
+It is chosen such that a forward pair $i\to a$ propagates through
+$G_i(\nu)$ and $G_a(\nu+\omega)$.
+
+The reference one-particle Green's function is
+\begin{equation}
+	G_{0,p}(\nu)
+	=
+	\frac{1}
+	{\nu-\eps_p+\ii\eta\operatorname{sgn}(\eps_p-\mu)}
+	\label{eq:G0_orbital}
+\end{equation}
+For occupied and virtual orbitals this gives
+\begin{equation}
+	G_{0,i}(\nu)
+	=
+	\frac{1}{\nu-\eps_i-\ii\eta}
+	\label{eq:G0_occ}
+\end{equation}
+\begin{equation}
+	G_{0,a}(\nu)
+	=
+	\frac{1}{\nu-\eps_a+\ii\eta}
+	\label{eq:G0_vir}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Forward and backward pair propagation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For a forward electron-hole pair, the two one-particle propagators are
+\begin{equation}
+	\ell^+_{ia}(\nu,\omega)
+	=
+	G_{0,a}(\nu+\omega)
+	G_{0,i}(\nu)
+	\label{eq:ell_plus}
+\end{equation}
+Partial fractioning gives
+\begin{equation}
+	\ell^+_{ia}(\nu,\omega)
+	=
+	\frac{
+	G_{0,i}(\nu)-G_{0,a}(\nu+\omega)
+	}
+	{
+	\omega-(\eps_a-\eps_i)+2\ii\eta
+	}
+	\label{eq:ell_plus_pf}
+\end{equation}
+The fully contracted forward propagator is therefore
+\begin{equation}
+	(L_0^+)_{ia}(\omega)
+	=
+	\frac{\ii}
+	{\omega-(\eps_a-\eps_i)+2\ii\eta}
+	\label{eq:L0_plus}
+\end{equation}
+
+For the backward pair
+\begin{equation}
+	\ell^-_{ia}(\nu,\omega)
+	=
+	G_{0,i}(\nu+\omega)
+	G_{0,a}(\nu)
+	\label{eq:ell_minus}
+\end{equation}
+with fully contracted form
+\begin{equation}
+	(L_0^-)_{ia}(\omega)
+	=
+	-\frac{\ii}
+	{\omega+(\eps_a-\eps_i)-2\ii\eta}
+	\label{eq:L0_minus}
+\end{equation}
+
+It is convenient to introduce the normalized one-sided factors
+\begin{equation}
+	Q^+_{ia}(\nu,\omega)
+	=
+	-\ii
+	\left[
+	G_{0,i}(\nu)
+	-
+	G_{0,a}(\nu+\omega)
+	\right]
+	\label{eq:Q_plus}
+\end{equation}
+\begin{equation}
+	Q^-_{ia}(\nu,\omega)
+	=
+	+\ii
+	\left[
+	G_{0,a}(\nu)
+	-
+	G_{0,i}(\nu+\omega)
+	\right]
+	\label{eq:Q_minus}
+\end{equation}
+With the infinitesimal time shifts implied in the time-ordered
+contractions, these satisfy
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu
+	Q^\pm_{ia}(\nu,\omega)
+	=
+	1
+	\label{eq:Q_normalization}
+\end{equation}
+and pair reversal gives
+\begin{equation}
+	Q^-_{ia}(\nu,\omega)
+	=
+	Q^+_{ia}(\nu+\omega,-\omega)
+	\label{eq:Q_reversal}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Half-contracted kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The conventional frequency-dependent Bethe--Salpeter kernel is obtained
+by contracting both fermionic frequencies of the full three-frequency
+kernel.
+For the present purpose, we stop after the first contraction and define a
+two-frequency half-coupling.
+It is convenient to absorb the factor of $\ii$ multiplying the
+channel-irreducible vertex and define the right half-coupling as
+\begin{equation}
+	U_R^{\sigma\sigma'}{}_{ia,jb}(\nu',\omega)
+	=
+	\frac{1}{2\pi}
+	\int d\nu
+	Q^\sigma_{ia}(\nu,\omega)
+	\left[
+	\ii\Gamma^\eh
+	\right]^{\sigma\sigma'}_{ia,jb}
+	(\nu,\nu',\omega)
+	\label{eq:U_R_def}
+\end{equation}
+Similarly, the left half-coupling is
+\begin{equation}
+	U_L^{\sigma\sigma'}{}_{ia,jb}(\nu,\omega)
+	=
+	\frac{1}{2\pi}
+	\int d\nu'
+	\left[
+	\ii\Gamma^\eh
+	\right]^{\sigma\sigma'}_{ia,jb}
+	(\nu,\nu',\omega)
+	Q^{\sigma'}_{jb}(\nu',\omega)
+	\label{eq:U_L_def}
+\end{equation}
+The sequence of contractions is therefore
+\begin{equation}
+	\Gamma^\eh(\nu,\nu',\omega)
+	\longrightarrow
+	U(\nu,\omega)
+	\longrightarrow
+	\widetilde\Gamma^\eh(\omega)
+	\label{eq:contraction_hierarchy}
+\end{equation}
+The first step retains one fermionic frequency and is the central object
+of the present construction.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Second-order primitive vertices}
+\label{sec:second_order_primitives}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now construct the second-order electron-hole irreducible vertex from
+the two channels that are irreducible with respect to direct electron-hole
+propagation.
+Antisymmetrized two-electron integrals are denoted as
+\begin{equation}
+	V_{pqrs}
+	=
+	\braket{pq||rs}
+	\label{eq:V_def}
+\end{equation}
+The perturbation expansion is understood with respect to a fixed
+non-interacting reference, such as the Hartree--Fock reference used in a
+M\o ller--Plesset partition.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Direct electron-hole reducible vertex}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+At first order, the electron-hole irreducible interaction is the bare
+antisymmetrized interaction
+\begin{equation}
+	\ii\Gamma^{\eh,(1)}_{pqrs}
+	=
+	V_{pqrs}
+	\label{eq:Gamma_eh_first}
+\end{equation}
+The second-order direct electron-hole reducible vertex follows from the
+zeroth-order neutral excitations $i\to a$
+\begin{equation}
+	\begin{split}
+	\ii\Phi^{\eh,(2)}_{pqrs}(\omega)
+	={}&
+	\sum_{ia}
+	\frac{
+	V_{pa\,ri}
+	V_{qi\,sa}
+	}
+	{\omega-(\eps_a-\eps_i)+\ii0^+}
+	\\
+	&-
+	\sum_{ia}
+	\frac{
+	V_{pi\,ra}
+	V_{qa\,si}
+	}
+	{\omega+(\eps_a-\eps_i)-\ii0^+}
+	\end{split}
+	\label{eq:Phi_eh_second}
+\end{equation}
+At this order the two end vertices are instantaneous and
+$\Phi^{\eh,(2)}$ depends only on the direct electron-hole transfer
+frequency $\omega$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transverse electron-hole contribution from crossing}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Fermionic crossing gives
+\begin{equation}
+	\Phi^{\teh}_{pqrs}(\nu,\nu',\omega)
+	=
+	-
+	\Phi^\eh_{pqsr}
+	\left(
+	\nu,
+	\nu+\omega,
+	\nu'-\nu
+	\right)
+	\label{eq:Phi_ehbar_crossing}
+\end{equation}
+Using Eq.~\eqref{eq:Phi_eh_second} therefore yields
+\begin{equation}
+	\begin{split}
+	\ii\Phi^{\teh,(2)}_{pqrs}(\nu,\nu',\omega)
+	={}&
+	-
+	\sum_{kc}
+	\frac{
+	V_{pc\,sk}
+	V_{qk\,rc}
+	}
+	{\nu'-\nu-(\eps_c-\eps_k)+\ii0^+}
+	\\
+	&+
+	\sum_{kc}
+	\frac{
+	V_{pk\,sc}
+	V_{qc\,rk}
+	}
+	{\nu'-\nu+(\eps_c-\eps_k)-\ii0^+}
+	\end{split}
+	\label{eq:Phi_ehbar_second}
+\end{equation}
+The characteristic transverse electron-hole poles are therefore controlled
+by $\nu'-\nu$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle reducible vertex}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The particle-particle channel contains particle-particle and hole-hole
+propagation.
+Using unrestricted orbital sums, the second-order pair-reducible vertex
+is
+\begin{equation}
+	\begin{split}
+	\ii\Phi_P^{\pp,(2)}{}_{pqrs}(\Omega)
+	={}&
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{pq\,cd}
+	V_{cd\,rs}
+	}
+	{\Omega-(\eps_c+\eps_d)+\ii0^+}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{pq\,kl}
+	V_{kl\,rs}
+	}
+	{\Omega-(\eps_k+\eps_l)-\ii0^+}
+	\end{split}
+	\label{eq:Phi_pp_second_native}
+\end{equation}
+The factors $1/2$ remove the double counting associated with unrestricted
+antisymmetric pair sums.
+They are absent when the sums are restricted to unique pairs.
+
+Transforming Eq.~\eqref{eq:Phi_pp_second_native} to the direct
+$\eh$ convention with Eq.~\eqref{eq:pp_frequency_map} gives
+\begin{equation}
+	\begin{split}
+	\ii\Phi^{\pp,(2)}_{pqrs}(\nu,\nu',\omega)
+	={}&
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{pq\,cd}
+	V_{cd\,rs}
+	}
+	{\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{pq\,kl}
+	V_{kl\,rs}
+	}
+	{\nu+\nu'+\omega-\eps_k-\eps_l-\ii0^+}
+	\end{split}
+	\label{eq:Phi_pp_second_eh}
+\end{equation}
+The characteristic pair poles are therefore controlled by
+$\nu+\nu'+\omega$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Second-order electron-hole irreducible kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Combining the transverse electron-hole and particle-particle
+contributions gives
+\begin{equation}
+	\ii\Gamma^{\eh,(2)}
+	=
+	\ii\Phi^{\teh,(2)}
+	+
+	\ii\Phi^{\pp,(2)}
+	\label{eq:Gamma_eh_second_i}
+\end{equation}
+Explicitly,
+\begin{equation}
+	\begin{split}
+	\ii\Gamma^{\eh,(2)}_{pqrs}(\nu,\nu',\omega)
+	={}&
+	-
+	\sum_{kc}
+	\frac{
+	V_{pc\,sk}
+	V_{qk\,rc}
+	}
+	{\nu'-\nu-(\eps_c-\eps_k)+\ii0^+}
+	\\
+	&+
+	\sum_{kc}
+	\frac{
+	V_{pk\,sc}
+	V_{qc\,rk}
+	}
+	{\nu'-\nu+(\eps_c-\eps_k)-\ii0^+}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{pq\,cd}
+	V_{cd\,rs}
+	}
+	{\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{pq\,kl}
+	V_{kl\,rs}
+	}
+	{\nu+\nu'+\omega-\eps_k-\eps_l-\ii0^+}
+	\end{split}
+	\label{eq:Gamma_eh_second_explicit}
+\end{equation}
+Equation~\eqref{eq:Gamma_eh_second_explicit} is the starting point for
+the half-contraction.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Half-contraction at second order}
+\label{sec:half_contraction_second}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The half-contraction integrates one fermionic frequency while retaining
+the other.
+The resulting poles can be identified before considering the detailed
+orbital numerators.
+For a forward external pair $i\to a$, the relevant contour integrations
+transform the transverse electron-hole poles according to
+\begin{equation}
+	\begin{split}
+	&\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{ia}(\nu,\omega)
+	\frac{1}
+	{\nu'-\nu+(\eps_c-\eps_k)-\ii0^+}
+	\\
+	&\qquad=
+	\frac{1}
+	{\nu'-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+	\end{split}
+	\label{eq:contour_ehbar_hhp}
+\end{equation}
+\begin{equation}
+	\begin{split}
+	&\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{ia}(\nu,\omega)
+	\frac{1}
+	{\nu'-\nu-(\eps_c-\eps_k)+\ii0^+}
+	\\
+	&\qquad=
+	-\frac{1}
+	{\nu'+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+	\end{split}
+	\label{eq:contour_ehbar_pph}
+\end{equation}
+The particle-particle poles give
+\begin{equation}
+	\begin{split}
+	&\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{ia}(\nu,\omega)
+	\frac{1}
+	{\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
+	\\
+	&\qquad=
+	\frac{1}
+	{\nu'+\omega-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+	\end{split}
+	\label{eq:contour_pp_pph}
+\end{equation}
+\begin{equation}
+	\begin{split}
+	&\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{ia}(\nu,\omega)
+	\frac{1}
+	{\nu+\nu'+\omega-\eps_k-\eps_l-\ii0^+}
+	\\
+	&\qquad=
+	-\frac{1}
+	{\nu'-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+	\end{split}
+	\label{eq:contour_pp_hhp}
+\end{equation}
+
+The only side energies that appear are therefore
+\begin{equation}
+	E^-_{ij a}
+	=
+	\eps_i+\eps_j-\eps_a
+	\label{eq:E_minus}
+\end{equation}
+\begin{equation}
+	E^+_{ab i}
+	=
+	\eps_a+\eps_b-\eps_i
+	\label{eq:E_plus}
+\end{equation}
+which correspond to $\hhp$ states in the $N-1$ sector and $\pph$ states
+in the $N+1$ sector.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Forward-forward block}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The forward-forward block is identified as
+\begin{equation}
+	\left[
+	\ii\Gamma^\eh
+	\right]^{++}_{ia,jb}
+	=
+	\ii\Gamma^\eh_{aj\,ib}
+	\label{eq:Gamma_pp_block}
+\end{equation}
+At first order,
+\begin{equation}
+	U^{++,(1)}_{ia,jb}
+	=
+	V_{aj\,ib}
+	\label{eq:U_pp_first}
+\end{equation}
+At second order, inserting Eq.~\eqref{eq:Gamma_eh_second_explicit} in
+Eq.~\eqref{eq:U_R_def} gives
+\begin{equation}
+	\begin{split}
+	U^{++,(2)}_{ia,jb}(\nu,\omega)
+	={}&
+	\sum_{kc}
+	\frac{
+	V_{jc\,ik}
+	V_{ka\,cb}
+	}
+	{\nu-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+	\\
+	&-
+	\sum_{kc}
+	\frac{
+	V_{jk\,ic}
+	V_{ca\,kb}
+	}
+	{\nu+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{aj\,kl}
+	V_{lk\,bi}
+	}
+	{\nu-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{aj\,cd}
+	V_{dc\,bi}
+	}
+	{\nu+\omega-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+	\end{split}
+	\label{eq:U_pp_second}
+\end{equation}
+The first two terms originate from the transverse electron-hole channel,
+while the last two originate from the hole-hole and particle-particle
+branches of $\Phi^\pp$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Forward-backward block}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The forward-backward block is
+\begin{equation}
+	\left[
+	\ii\Gamma^\eh
+	\right]^{+-}_{ia,jb}
+	=
+	\ii\Gamma^\eh_{ab\,ij}
+	\label{eq:Gamma_pm_block}
+\end{equation}
+At first order,
+\begin{equation}
+	U^{+-,(1)}_{ia,jb}
+	=
+	V_{ab\,ij}
+	\label{eq:U_pm_first}
+\end{equation}
+At second order,
+\begin{equation}
+	\begin{split}
+	U^{+-,(2)}_{ia,jb}(\nu,\omega)
+	={}&
+	\sum_{kc}
+	\frac{
+	V_{bc\,ik}
+	V_{ka\,cj}
+	}
+	{\nu-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+	\\
+	&-
+	\sum_{kc}
+	\frac{
+	V_{bk\,ic}
+	V_{ca\,kj}
+	}
+	{\nu+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{ab\,kl}
+	V_{lk\,ij}
+	}
+	{\nu-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{ab\,cd}
+	V_{dc\,ij}
+	}
+	{\nu+\omega-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+	\end{split}
+	\label{eq:U_pm_second}
+\end{equation}
+The same $\hhp$ and $\pph$ pole spaces therefore appear in both upper
+pair-orientation blocks.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Backward blocks}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For real orbitals, pair reversal relates the remaining two blocks to the
+upper blocks
+\begin{equation}
+	U^{--}_{ai,bj}(\nu,\omega)
+	=
+	\left[
+	U^{++}_{ia,jb}(\nu+\omega,-\omega)
+	\right]^*
+	\label{eq:U_mm_reversal}
+\end{equation}
+\begin{equation}
+	U^{-+}_{ai,jb}(\nu,\omega)
+	=
+	\left[
+	U^{+-}_{ia,jb}(\nu+\omega,-\omega)
+	\right]^*
+	\label{eq:U_mp_reversal}
+\end{equation}
+The side frequency carried by a given particle-number sector is therefore
+controlled by the orientation of the external pair
+\begin{equation}
+	\begin{array}{c|cc}
+	& \hhp & \pph
+	\\
+	\hline
+	+ & \nu & \nu+\omega
+	\\
+	- & \nu+\omega & \nu
+	\end{array}
+	\label{eq:side_frequency_table}
+\end{equation}
+A derivation for complex orbitals requires the corresponding explicit
+Hermitian and crossing relations and will not be needed below.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Residue-tensor representation}
+\label{sec:residue_tensor}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The second-order half-couplings admit a compact spectral representation.
+We first use ordered intermediate configurations
+\begin{equation}
+	I^-
+	=
+	(\mu\nu;\alpha)
+	\in
+	\hhp
+	\label{eq:I_minus}
+\end{equation}
+\begin{equation}
+	I^+
+	=
+	(\alpha\beta;\mu)
+	\in
+	\pph
+	\label{eq:I_plus}
+\end{equation}
+with zeroth-order energies
+\begin{equation}
+	E^-_{\mu\nu;\alpha}
+	=
+	\eps_\mu+\eps_\nu-\eps_\alpha
+	\label{eq:E_minus_general}
+\end{equation}
+\begin{equation}
+	E^+_{\alpha\beta;\mu}
+	=
+	\eps_\alpha+\eps_\beta-\eps_\mu
+	\label{eq:E_plus_general}
+\end{equation}
+The ordered-tuple convention is used here only to keep the $1/2$ factors
+of the pair channel explicit.
+A transformation to normalized antisymmetric ADC intermediate states can
+be performed afterwards.
+
+For a forward pair, the general second-order structure is
+\begin{equation}
+	U^{\sigma\sigma',(2)}_{AB}(\nu,\omega)
+	=
+	\sum_{I^-}
+	\frac{
+	\mathcal R^{\sigma\sigma',-}_{AB;I^-}
+	}
+	{\nu-E^-_{I^-}-\ii0^+}
+	+
+	\sum_{I^+}
+	\frac{
+	\mathcal R^{\sigma\sigma',+}_{AB;I^+}
+	}
+	{\nu+\omega-E^+_{I^+}+\ii0^+}
+	\label{eq:U_residue_general}
+\end{equation}
+
+For the forward-forward block, the $\hhp$ residue is
+\begin{equation}
+	\begin{split}
+	\mathcal R^{++,-}_{ia,jb;\mu\nu;\alpha}
+	={}&
+	\delta_{\mu i}
+	V_{j\alpha\,\mu\nu}
+	V_{\nu a\,\alpha b}
+	\\
+	&-
+	\frac{1}{2}
+	\delta_{\alpha a}
+	V_{aj\,\mu\nu}
+	V_{\nu\mu\,bi}
+	\end{split}
+	\label{eq:R_pp_minus}
+\end{equation}
+and the $\pph$ residue is
+\begin{equation}
+	\begin{split}
+	\mathcal R^{++,+}_{ia,jb;\alpha\beta;\mu}
+	={}&
+	-
+	\delta_{\alpha a}
+	V_{j\mu\,i\beta}
+	V_{\beta a\,\mu b}
+	\\
+	&+
+	\frac{1}{2}
+	\delta_{\mu i}
+	V_{aj\,\alpha\beta}
+	V_{\beta\alpha\,bi}
+	\end{split}
+	\label{eq:R_pp_plus}
+\end{equation}
+
+For the forward-backward block, the $\hhp$ residue is
+\begin{equation}
+	\begin{split}
+	\mathcal R^{+-,-}_{ia,jb;\mu\nu;\alpha}
+	={}&
+	\delta_{\mu i}
+	V_{b\alpha\,\mu\nu}
+	V_{\nu a\,\alpha j}
+	\\
+	&-
+	\frac{1}{2}
+	\delta_{\alpha a}
+	V_{ab\,\mu\nu}
+	V_{\nu\mu\,ij}
+	\end{split}
+	\label{eq:R_pm_minus}
+\end{equation}
+and the $\pph$ residue is
+\begin{equation}
+	\begin{split}
+	\mathcal R^{+-,+}_{ia,jb;\alpha\beta;\mu}
+	={}&
+	-
+	\delta_{\alpha a}
+	V_{b\mu\,i\beta}
+	V_{\beta a\,\mu j}
+	\\
+	&+
+	\frac{1}{2}
+	\delta_{\mu i}
+	V_{ab\,\alpha\beta}
+	V_{\beta\alpha\,ij}
+	\end{split}
+	\label{eq:R_pm_plus}
+\end{equation}
+The lower-block residues follow from pair reversal.
+
+Equations~\eqref{eq:R_pp_minus}--\eqref{eq:R_pm_plus} reveal an important
+feature of the multiresolvent construction.
+The side pole spaces are universally the $\hhp$ and $\pph$ sectors, but
+the residues retain the topology of the parquet channel from which they
+originate.
+The transverse electron-hole terms factor naturally in the transverse
+pairing of the external indices, while the particle-particle terms factor
+naturally in the pair channel.
+Consequently, a representation of the form
+$U=CRD$ in the direct electron-hole pair grouping is not generally the
+minimal representation of the exact residue structure.
+The safer second-order statement is the matrix-valued spectral form of
+Eq.~\eqref{eq:U_residue_general}.
+
+A simple vertex--resolvent--vertex factorization can still be recovered
+channel by channel in the native pairing of each contribution or by
+introducing a larger auxiliary space containing the required spectator
+labels.
+Neither construction is required at second order and the residue-tensor
+form will be retained below.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Second contraction and the GF2 kernel}
+\label{sec:second_contraction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The remaining fermionic frequency can now be contracted with the
+one-sided propagator of the second external pair.
+For a forward closure, the elementary $\hhp$ and $\pph$ contractions are
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{jb}(\nu,\omega)
+	\frac{1}
+	{\nu-E^- -\ii0^+}
+	=
+	-\frac{1}
+	{\omega-(\eps_b-E^-)+\ii0^+}
+	\label{eq:second_contraction_minus}
+\end{equation}
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu
+	Q^+_{jb}(\nu,\omega)
+	\frac{1}
+	{\nu+\omega-E^+ +\ii0^+}
+	=
+	\frac{1}
+	{\omega-(E^+-\eps_j)+\ii0^+}
+	\label{eq:second_contraction_plus}
+\end{equation}
+Applying these identities to Eq.~\eqref{eq:U_pp_second} gives the
+second-order resonant block of the effective kernel
+\begin{equation}
+	\begin{split}
+	(\widetilde\Xi_c^{(2)})^{jb}_{ia}(\omega)
+	={}&
+	-
+	\sum_{kc}
+	\frac{
+	V_{jc\,ik}
+	V_{ka\,cb}
+	}
+	{\omega-(\eps_b-\eps_i+\eps_c-\eps_k)}
+	\\
+	&-
+	\sum_{kc}
+	\frac{
+	V_{jk\,ic}
+	V_{ca\,kb}
+	}
+	{\omega-(\eps_a-\eps_j+\eps_c-\eps_k)}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{aj\,kl}
+	V_{lk\,bi}
+	}
+	{\omega-(\eps_a+\eps_b-\eps_k-\eps_l)}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{aj\,cd}
+	V_{dc\,bi}
+	}
+	{\omega-(\eps_c+\eps_d-\eps_i-\eps_j)}
+	\end{split}
+	\label{eq:GF2_A}
+\end{equation}
+
+Closing the forward-backward half-coupling with a backward pair gives
+\begin{equation}
+	\begin{split}
+	(\widetilde\Xi_c^{(2)})^{bj}_{ia}
+	={}&
+	-
+	\sum_{kc}
+	\frac{
+	V_{bc\,ik}
+	V_{ka\,cj}
+	}
+	{-(\eps_b-\eps_i+\eps_c-\eps_k)}
+	\\
+	&-
+	\sum_{kc}
+	\frac{
+	V_{bk\,ic}
+	V_{ca\,kj}
+	}
+	{-(\eps_a-\eps_j+\eps_c-\eps_k)}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	V_{ab\,kl}
+	V_{lk\,ij}
+	}
+	{-(\eps_a+\eps_b-\eps_k-\eps_l)}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	V_{ab\,cd}
+	V_{dc\,ij}
+	}
+	{-(\eps_c+\eps_d-\eps_i-\eps_j)}
+	\end{split}
+	\label{eq:GF2_B}
+\end{equation}
+The external transfer frequency cancels in the coupling block.
+This is a consequence of closing the side resolvents with a backward
+external pair rather than a new type of intermediate-state propagation.
+
+The complete effective kernel therefore has the familiar Casida-like
+structure
+\begin{equation}
+	\widetilde{\boldsymbol\Xi}^{(2)}(\omega)
+	=
+	\begin{pmatrix}
+	A_c^{(2)}(\omega)
+	&
+	B_c^{(2)}
+	\\
+	B_c^{(2)\dagger}
+	&
+	A_c^{(2)\dagger}(-\omega)
+	\end{pmatrix}
+	\label{eq:GF2_matrix}
+\end{equation}
+Equations~\eqref{eq:GF2_A} and \eqref{eq:GF2_B} reproduce the effective
+dynamic kernel obtained independently by differentiating the GF2
+self-energy and performing the conventional two-frequency contraction.
+This agreement provides a stringent check of the channel frequency maps,
+fermionic signs, and pair-channel factors.
+
+The conventional effective kernel involves an additional approximation at
+the level of the exact three-frequency Bethe--Salpeter equation, where the
+full correlation function appearing inside the contraction is replaced by
+$L_0$.
+The comparison made here is therefore with this $L_0$-projected dynamic
+kernel rather than with the exact uncontracted three-frequency kernel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Channel consistency at second order}
+\label{sec:channel_consistency}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The second-order construction can be checked in several independent ways.
+The first check is crossing.
+The complete transverse electron-hole contribution must be obtained from
+the direct electron-hole reducible vertex through
+Eq.~\eqref{eq:Phi_ehbar_crossing}.
+This fixes both the orbital permutation and the frequency combination
+$\nu'-\nu$.
+
+The second check uses the particle-particle convention.
+The native pair propagator depends only on $\Omega_\pp$, and the exact
+frequency transformation of Eq.~\eqref{eq:pp_frequency_map} fixes the
+combination $\nu+\nu'+\omega$ in the direct electron-hole convention.
+Half-contraction of this object must produce the same $\hhp$ and $\pph$
+side poles obtained from the transverse electron-hole contribution.
+
+The third check is the recovery of the effective GF2 kernel through the
+second contraction, as shown in Sec.~\ref{sec:second_contraction}.
+This check is independent of the initial channel-resolved derivation and
+is sensitive to the signs, orbital-index permutations, and the $1/2$
+factors in the pair channel.
+
+Finally, the full second-order vertex must be independent of the channel
+through which it is reconstructed.
+Using the parquet relations,
+\begin{equation}
+	\Gamma^{\eh,(2)}
+	+
+	\Phi^{\eh,(2)}
+	=
+	\Phi^{\eh,(2)}
+	+
+	\Phi^{\teh,(2)}
+	+
+	\Phi^{\pp,(2)}
+	\label{eq:F_second_eh}
+\end{equation}
+while
+\begin{equation}
+	\Gamma^{\pp,(2)}
+	+
+	\Phi^{\pp,(2)}
+	=
+	\Phi^{\eh,(2)}
+	+
+	\Phi^{\teh,(2)}
+	+
+	\Phi^{\pp,(2)}
+	\label{eq:F_second_pp}
+\end{equation}
+Hence
+\begin{equation}
+	F^{(2)}
+	=
+	\Gamma^{\eh,(2)}
+	+
+	\Phi^{\eh,(2)}
+	=
+	\Gamma^{\pp,(2)}
+	+
+	\Phi^{\pp,(2)}
+	\label{eq:channel_consistency_second}
+\end{equation}
+The same channel organization reconstructs the direct electron-hole Hedin
+kernel through Eq.~\eqref{eq:Gamma_eh}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Second-order multiresolvent structure}
+\label{sec:multiresolvent_second}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The second-order analysis establishes the analytic structure of the side
+couplings needed in a multiresolvent representation of the direct
+electron-hole reducible vertex.
+For a forward external pair,
+\begin{equation}
+	U^{(2)}_{AB}(\nu,\omega)
+	=
+	\sum_{I^-}
+	\frac{
+	\mathcal R^-_{AB;I^-}
+	}
+	{\nu-E^-_{I^-}-\ii0^+}
+	+
+	\sum_{I^+}
+	\frac{
+	\mathcal R^+_{AB;I^+}
+	}
+	{\nu+\omega-E^+_{I^+}+\ii0^+}
+	\label{eq:U_second_summary}
+\end{equation}
+The $N-1$ side propagation is therefore carried entirely by $\hhp$
+states and the $N+1$ side propagation entirely by $\pph$ states.
+Pair reversal exchanges which of the two external fermionic energies
+enters the two sectors.
+
+The central direct electron-hole propagation is associated with neutral
+$N$-electron excitations and will eventually be represented by a
+Casida-like resolvent
+\begin{equation}
+	R_\eh(\omega)
+	=
+	\left[
+	\omega\eta-M_\eh
+	\right]^{-1}
+	\label{eq:R_eh_future}
+\end{equation}
+with
+\begin{equation}
+	\eta
+	=
+	\begin{pmatrix}
+	1&0
+	\\
+	0&-1
+	\end{pmatrix}
+	\label{eq:eta_metric}
+\end{equation}
+The working multiresolvent architecture is therefore
+\begin{equation}
+	\boldsymbol\Phi^\eh(\nu,\nu',\omega)
+	=
+	\mathbf U_L(\nu,\omega)
+	R_\eh(\omega)
+	\mathbf U_R(\nu',\omega)
+	\label{eq:multiresolvent_architecture}
+\end{equation}
+At second order,
+$\Phi^{\eh,(2)}$ itself contains only the bare side couplings and the
+zeroth-order central electron-hole propagation.
+The second-order half-couplings derived above first contribute to
+$\Phi^\eh$ at the next perturbative order.
+Their role is nevertheless essential because they determine the complete
+fermionic-frequency dependence of the side vertices at the first
+non-trivial order.
+
+The second-order analysis also shows that the simple schematic form
+$U=CRD$ should not be imposed in the direct electron-hole pair basis.
+The pole spaces are universal, but the residues carry channel-dependent
+index topology.
+A channel-adapted factorization or an enlarged auxiliary space may provide
+a useful ADC representation at higher order, but the minimal statement
+established here is the residue-tensor representation of
+Eq.~\eqref{eq:U_second_summary}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recipe through second order}
+\label{sec:recipe}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The construction through second order can be summarized as follows.
+First, construct the direct electron-hole primitive
+$\Phi^{\eh,(2)}(\omega)$ in its natural transfer frequency.
+Second, generate the transverse electron-hole contribution exclusively by
+crossing and transform the particle-particle primitive from its natural
+pair convention to the direct electron-hole convention.
+This gives
+\begin{equation}
+	\Gamma^{\eh,(2)}
+	=
+	\Phi^{\teh,(2)}
+	+
+	\Phi^{\pp,(2)}
+	\label{eq:recipe_Gamma}
+\end{equation}
+Third, contract one fermionic frequency with $Q^+$ or $Q^-$ while leaving
+the other fermionic frequency explicit.
+The result contains only $\hhp$ and $\pph$ side poles and can be written in
+terms of the residue tensors $\mathcal R^-$ and $\mathcal R^+$.
+Fourth, obtain the lower pair-orientation blocks by pair reversal.
+Finally, contract the remaining fermionic frequency and verify the
+resulting one-frequency kernel against the GF2 Bethe--Salpeter kernel.
+
+The full hierarchy is therefore
+\begin{equation}
+	\begin{split}
+	\Phi^{\eh,(2)}
+	&\xrightarrow{\text{crossing}}
+	\Phi^{\teh,(2)}
+	\\
+	\Phi_P^{\pp,(2)}
+	&\xrightarrow{\pp\to\eh}
+	\Phi^{\pp,(2)}
+	\\
+	\Phi^{\teh,(2)}+\Phi^{\pp,(2)}
+	&\longrightarrow
+	\Gamma^{\eh,(2)}
+	\\
+	\Gamma^{\eh,(2)}
+	&\xrightarrow{\text{one contraction}}
+	U^{(2)}(\nu,\omega)
+	\\
+	U^{(2)}(\nu,\omega)
+	&\xrightarrow{\text{second contraction}}
+	\widetilde\Gamma^{\eh,(2)}(\omega)
+	\end{split}
+	\label{eq:recipe_hierarchy}
+\end{equation}
+The channel consistency conditions provide independent checks at each
+stage of this sequence.
+
+The essential second-order result is that the side analytic structure is
+completely exhausted by the $N-1$ $\hhp$ and $N+1$ $\pph$ sectors, while
+the information about the transverse electron-hole and particle-particle
+channels remains encoded in the residues.
+This provides the starting point for the higher-order construction of the
+central neutral resolvent and the systematic ADC dressing of the side
+intermediate-state spaces.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
