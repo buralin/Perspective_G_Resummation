@@ -1,0 +1,1289 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+\newcommand{\Hx}{\text{Hx}}
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+\begin{document}
+
+\title{Algebraic Reduction and Linearization of the Three-Frequency Bethe--Salpeter Equation through Third Order}
+
+\author{Pierre-Fran\c{c}ois \surname{Loos}}
+	\email{loos@irsamc.ups-tlse.fr}
+	\affiliation{\LCPQ}
+
+\begin{abstract}
+The exact electron-hole Bethe--Salpeter equation is an integral equation in two fermionic frequencies in addition to the bosonic transfer frequency.
+These notes examine when this genuine three-frequency problem can be reduced to a one-frequency algebraic eigenvalue problem without changing its perturbative excitation poles.
+Using the exact factorization of the noninteracting electron-hole pair propagator, the transition amplitude is separated into the usual $Q^\pm$ frequency shape and a complementary frequency-dependent component.
+The feedback of this complementary component is analyzed explicitly at second order in the interaction.
+After centering the one-sided external vertices, same-sector $\hhp$--$\hhp$ and $\pph$--$\pph$ covariances vanish identically, while the mixed $\hhp$--$\pph$ covariance contains a factor that cancels the potentially resonant one-particle--one-hole propagator.
+Under the usual non-intruder assumptions, the first contribution of the discarded frequency-shape sector to the excitation pole therefore occurs at fourth order.
+Consequently, the two-sided projected Bethe--Salpeter equation is perturbatively equivalent to the full three-frequency pole equation through third order.
+The projected kernel is then organized into static terms, neutral-double resolvents, second-order corrections to the external couplings, and a first-order interaction inside the neutral-double space.
+This rational one-frequency kernel can be linearized exactly through third order as a frequency-independent generalized eigenvalue problem in an enlarged auxiliary space.
+A spectator-labelled construction is introduced for the third-order external residues, together with a compact recipe for constructing and checking the resulting algebraic problem.
+\end{abstract}
+
+\maketitle
+
+\onecolumngrid
+\tableofcontents
+\twocolumngrid
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scope and notation}
+\label{sec:scope}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The objective is to connect two descriptions of neutral excitations.
+The first is the exact three-frequency electron-hole Bethe--Salpeter equation (BSE), in which the irreducible vertex depends on two fermionic frequencies and one bosonic transfer.
+The second is an algebraic Casida-like eigenvalue problem containing ordinary frequency-independent matrices and auxiliary resolvents.
+The construction is developed perturbatively through third order in the two-electron interaction $v$ using a Hartree--Fock (HF) reference and a M\o ller--Plesset partition.
+
+The direct $\eh$ convention is used throughout.
+The four external fermionic line energies are
+\begin{equation}
+	\nu
+	\qquad
+	\nu+\omega
+	\qquad
+	\nu'
+	\qquad
+	\nu'+\omega
+	\label{eq:external_frequencies}
+\end{equation}
+The transverse $\eh$ and particle-particle transfers are
+\begin{align}
+	\Omega_{\teh}
+	&=
+	\nu'-\nu
+	\\
+	\Omega_\pp
+	&=
+	\omega+\nu+\nu'
+	\label{eq:channel_transfers}
+\end{align}
+The parquet decomposition relevant to the direct $\eh$ irreducible vertex is
+\begin{equation}
+	\Gamma^\eh
+	=
+	\Lambda
+	+
+	\Phi^{\teh}
+	+
+	\Phi^\pp
+	\label{eq:Gamma_parquet}
+\end{equation}
+For a two-body interaction,
+\begin{equation}
+	\Lambda
+	=
+	v
+	+
+	\mathcal O(v^4)
+	\label{eq:Lambda_order}
+\end{equation}
+so that through third order all nontrivial corrections to $\Gamma^\eh$ are generated by the transverse $\eh$ and $\pp$ reducible vertices.
+
+It is convenient to absorb the conventional factor of $\ii$ into the BSE kernel
+\begin{equation}
+	\mathcal K
+	=
+	\ii\Gamma^\eh
+	\label{eq:K_def}
+\end{equation}
+and to use the composite pair index
+\begin{equation}
+	\alpha
+	=
+	(ia,\sigma)
+	\qquad
+	\sigma=\pm
+	\label{eq:alpha_def}
+\end{equation}
+The labels $+$ and $-$ denote forward and backward $\eh$ propagation, while $ia$ remains the orbital-pair label in both sectors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Exact three-frequency BSE]{Exact three-frequency BSE and one-sided factors}
+\label{sec:exact_bse}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The exact correlation function obeys
+\begin{equation}
+	L
+	=
+	L_0
+	+
+	L_0\Gamma^\eh L
+	\label{eq:BSE_symbolic}
+\end{equation}
+which in frequency space contains two internal fermionic-frequency integrations
+\begin{equation}
+	\begin{split}
+	L(\nu,\nu',\omega)
+	={}&
+	L_0(\nu,\nu',\omega)
+	\\
+	&+
+	\frac{1}{(2\pi)^2}
+	\int d\bar\nu\,d\bar\nu'
+	L_0(\nu,\bar\nu,\omega)
+	\Gamma^\eh(\bar\nu,\bar\nu',\omega)
+	L(\bar\nu',\nu',\omega)
+	\end{split}
+	\label{eq:BSE_three_frequency}
+\end{equation}
+For occupied and virtual HF orbitals,
+\begin{align}
+	G_{0,i}(\nu)
+	&=
+	\frac{1}{\nu-\eps_i-\ii\eta}
+	&
+	G_{0,a}(\nu)
+	&=
+	\frac{1}{\nu-\eps_a+\ii\eta}
+	\label{eq:G0}
+\end{align}
+The forward and backward one-frequency pair propagators are
+\begin{align}
+	(L_0^+)_{ia}(\omega)
+	&=
+	\frac{\ii}
+	{\omega-(\eps_a-\eps_i)+2\ii\eta}
+	\\
+	(L_0^-)_{ia}(\omega)
+	&=
+	-\frac{\ii}
+	{\omega+(\eps_a-\eps_i)-2\ii\eta}
+	\label{eq:L0_pm}
+\end{align}
+Define
+\begin{align}
+	Q^+_{ia}(\nu,\omega)
+	&=
+	-\ii
+	\left[
+	G_{0,i}(\nu)
+	-
+	G_{0,a}(\nu+\omega)
+	\right]
+	\\
+	Q^-_{ia}(\nu,\omega)
+	&=
+	+\ii
+	\left[
+	G_{0,a}(\nu)
+	-
+	G_{0,i}(\nu+\omega)
+	\right]
+	\label{eq:Q_pm}
+\end{align}
+Then the three-frequency noninteracting pair propagator factorizes exactly
+\begin{equation}
+	L_{0,ia}^{\sigma}(\nu,\nu',\omega)
+	=
+	2\pi\delta(\nu-\nu')
+	Q^\sigma_{ia}(\nu,\omega)
+	(L_0^\sigma)_{ia}(\omega)
+	\label{eq:L0_factorization}
+\end{equation}
+with
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu\,
+	Q^\sigma_{ia}(\nu,\omega)
+	=
+	1
+	\label{eq:Q_normalization}
+\end{equation}
+and
+\begin{equation}
+	Q^-_{ia}(\nu,\omega)
+	=
+	Q^+_{ia}(\nu+\omega,-\omega)
+	\label{eq:Q_reversal}
+\end{equation}
+In the remainder, integer multiples of $\eta$ are written as $0^+$ when only the causal prescription matters.
+
+Near a neutral pole $\Omega_n$, write
+\begin{equation}
+	L_{\alpha\beta}(\nu,\nu',\omega)
+	\underset{\omega\to\Omega_n}{\sim}
+	\frac{
+	\mathcal X_\alpha(\nu)
+	\overline{\mathcal X}_\beta(\nu')
+	}{
+	\omega-\Omega_n
+	}
+	\label{eq:pole_form}
+\end{equation}
+Using Eq.~\eqref{eq:L0_factorization}, the homogeneous BSE for the transition amplitude becomes
+\begin{equation}
+	\mathcal X_\alpha(\nu)
+	=
+	Q_\alpha(\nu,\Omega)
+	(L_0)_\alpha(\Omega)
+	\sum_\beta
+	\int\frac{d\nu'}{2\pi}
+	\mathcal K_{\alpha\beta}(\nu,\nu',\Omega)
+	\mathcal X_\beta(\nu')
+	\label{eq:pole_equation}
+\end{equation}
+No frequency projection has been made in Eq.~\eqref{eq:pole_equation}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Kernel projections]{One-sided and two-sided kernel projections}
+\label{sec:projections}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The exact one-sided projections of the irreducible kernel are
+\begin{equation}
+	U_{\alpha\beta}(\nu,\omega)
+	=
+	\frac{1}{2\pi}
+	\int d\nu'
+	\mathcal K_{\alpha\beta}(\nu,\nu',\omega)
+	Q_\beta(\nu',\omega)
+	\label{eq:U_def}
+\end{equation}
+\begin{equation}
+	V_{\alpha\beta}(\nu',\omega)
+	=
+	\frac{1}{2\pi}
+	\int d\nu
+	Q_\alpha(\nu,\omega)
+	\mathcal K_{\alpha\beta}(\nu,\nu',\omega)
+	\label{eq:V_def}
+\end{equation}
+The two-sided projected kernel is
+\begin{equation}
+	\widetilde{\mathcal K}_{\alpha\beta}(\omega)
+	=
+	\frac{1}{(2\pi)^2}
+	\int d\nu\,d\nu'
+	Q_\alpha(\nu,\omega)
+	\mathcal K_{\alpha\beta}(\nu,\nu',\omega)
+	Q_\beta(\nu',\omega)
+	\label{eq:K_tilde_def}
+\end{equation}
+so that
+\begin{align}
+	\widetilde{\mathcal K}_{\alpha\beta}(\omega)
+	&=
+	\frac{1}{2\pi}
+	\int d\nu\,
+	Q_\alpha(\nu,\omega)
+	U_{\alpha\beta}(\nu,\omega)
+	\\
+	&=
+	\frac{1}{2\pi}
+	\int d\nu'
+	V_{\alpha\beta}(\nu',\omega)
+	Q_\beta(\nu',\omega)
+	\label{eq:K_tilde_one_sided}
+\end{align}
+At this stage, Eq.~\eqref{eq:K_tilde_def} is a definition of a projected kernel and is not yet an identity for the full BSE pole equation.
+
+Define the integrated transition amplitude
+\begin{equation}
+	X_\alpha
+	=
+	\frac{1}{2\pi}
+	\int d\nu\,
+	\mathcal X_\alpha(\nu)
+	\label{eq:X_def}
+\end{equation}
+and the projector onto the canonical $Q$ frequency shape
+\begin{equation}
+	(\mathcal P f)_\alpha(\nu)
+	=
+	Q_\alpha(\nu,\Omega)
+	\frac{1}{2\pi}
+	\int d\bar\nu\,
+	f_\alpha(\bar\nu)
+	\label{eq:P_def}
+\end{equation}
+with complementary projector
+\begin{equation}
+	\mathcal C
+	=
+	1-\mathcal P
+	\label{eq:C_projector}
+\end{equation}
+The exact transition amplitude is decomposed as
+\begin{equation}
+	\mathcal X_\alpha(\nu)
+	=
+	Q_\alpha(\nu,\Omega)X_\alpha
+	+
+	\chi_\alpha(\nu)
+	\label{eq:X_decomposition}
+\end{equation}
+with
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu\,
+	\chi_\alpha(\nu)
+	=
+	0
+	\label{eq:chi_zero_average}
+\end{equation}
+The amplitude $\chi$ contains the frequency shapes discarded by the ordinary two-sided projection.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Centered external vertices]{Centered external vertices and complementary frequency shapes}
+\label{sec:centered_vertices}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Expand the kernel in the interaction
+\begin{equation}
+	\mathcal K
+	=
+	\mathcal K^{(1)}
+	+
+	\mathcal K^{(2)}
+	+
+	\mathcal K^{(3)}
+	+
+	\mathcal O(v^4)
+	\label{eq:K_expansion}
+\end{equation}
+The first-order kernel is frequency independent.
+It therefore maps the canonical $Q$ frequency shape into itself and annihilates every complementary shape with zero integral
+\begin{align}
+	\mathcal C\mathcal A^{(1)}\mathcal P
+	&=
+	0
+	\\
+	\mathcal P\mathcal A^{(1)}\mathcal C
+	&=
+	0
+	\\
+	\mathcal C\mathcal A^{(1)}\mathcal C
+	&=
+	0
+	\label{eq:first_order_decoupling}
+\end{align}
+where
+\begin{equation}
+	\mathcal A^{(n)}
+	=
+	Q L_0\mathcal K^{(n)}
+	\label{eq:A_def}
+\end{equation}
+
+At second order, define the centered one-sided vertices
+\begin{equation}
+	\delta U^{(2)}_{\alpha\beta}(\nu,\omega)
+	=
+	U^{(2)}_{\alpha\beta}(\nu,\omega)
+	-
+	\widetilde{\mathcal K}^{(2)}_{\alpha\beta}(\omega)
+	\label{eq:delta_U}
+\end{equation}
+\begin{equation}
+	\delta V^{(2)}_{\alpha\beta}(\nu,\omega)
+	=
+	V^{(2)}_{\alpha\beta}(\nu,\omega)
+	-
+	\widetilde{\mathcal K}^{(2)}_{\alpha\beta}(\omega)
+	\label{eq:delta_V}
+\end{equation}
+which satisfy
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu\,
+	Q_\alpha(\nu,\omega)
+	\delta U^{(2)}_{\alpha\beta}(\nu,\omega)
+	=
+	0
+	\label{eq:delta_U_zero}
+\end{equation}
+\begin{equation}
+	\frac{1}{2\pi}
+	\int d\nu\,
+	\delta V^{(2)}_{\alpha\beta}(\nu,\omega)
+	Q_\beta(\nu,\omega)
+	=
+	0
+	\label{eq:delta_V_zero}
+\end{equation}
+The leading feedback from the complementary frequency-shape space into the projected pole equation has the structure
+\begin{equation}
+	\begin{split}
+	\Delta\widetilde{\mathcal K}^{(4)}_{\alpha\gamma}(\omega)
+	={}&
+	\sum_\beta
+	(L_0)_\beta(\omega)
+	\frac{1}{2\pi}
+	\int d\nu\,
+	Q_\beta(\nu,\omega)
+	\\
+	&\times
+	\delta V^{(2)}_{\alpha\beta}(\nu,\omega)
+	\delta U^{(2)}_{\beta\gamma}(\nu,\omega)
+	\end{split}
+	\label{eq:complement_feedback}
+\end{equation}
+The superscript in Eq.~\eqref{eq:complement_feedback} anticipates the order established below.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Complementary-space feedback]{Audit of the complementary-space feedback}
+\label{sec:feedback_audit}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The second-order one-sided vertices contain only $\hhp$ and $\pph$ poles.
+For a forward intermediate pair $\beta=(jb,+)$, define
+\begin{align}
+	h^-_I(\nu)
+	&=
+	\frac{1}{\nu-E^-_I-\ii0^+}
+	\\
+	h^+_J(\nu)
+	&=
+	\frac{1}{\nu+\omega-E^+_J+\ii0^+}
+	\label{eq:h_pm}
+\end{align}
+with
+\begin{align}
+	d^-_{\beta I}
+	&=
+	\omega-\eps_b+E^-_I
+	\\
+	d^+_{\beta J}
+	&=
+	\omega+\eps_j-E^+_J
+	\label{eq:d_pm}
+\end{align}
+The causal prescriptions are understood in the following compact identities.
+Using the $Q^+$ contour,
+\begin{align}
+	\langle h^-_I\rangle_\beta
+	&=
+	-\frac{1}{d^-_{\beta I}}
+	\\
+	\langle h^+_J\rangle_\beta
+	&=
+	+\frac{1}{d^+_{\beta J}}
+	\label{eq:h_means}
+\end{align}
+where
+\begin{equation}
+	\langle f\rangle_\beta
+	=
+	\frac{1}{2\pi}
+	\int d\nu\,
+	Q^+_{jb}(\nu,\omega)f(\nu)
+	\label{eq:average_def}
+\end{equation}
+Partial fractions give
+\begin{equation}
+	\left\langle
+	\left(h^-_I-\langle h^-_I\rangle\right)
+	\left(h^-_K-\langle h^-_K\rangle\right)
+	\right\rangle_\beta
+	=
+	0
+	\label{eq:cov_mm}
+\end{equation}
+\begin{equation}
+	\left\langle
+	\left(h^+_J-\langle h^+_J\rangle\right)
+	\left(h^+_L-\langle h^+_L\rangle\right)
+	\right\rangle_\beta
+	=
+	0
+	\label{eq:cov_pp}
+\end{equation}
+Thus same-particle-number pole sectors do not couple through the complementary frequency-shape space.
+For a mixed pair of poles,
+\begin{equation}
+	\begin{split}
+	&\left\langle
+	\left(h^-_I-\langle h^-_I\rangle\right)
+	\left(h^+_J-\langle h^+_J\rangle\right)
+	\right\rangle_\beta
+	\\
+	&\qquad=
+	-
+	\frac{
+	\omega-(\eps_b-\eps_j)
+	}{
+	d^-_{\beta I}
+	d^+_{\beta J}
+	(\omega+E^-_I-E^+_J)
+	}
+	\end{split}
+	\label{eq:cov_mp}
+\end{equation}
+The potentially resonant factor is therefore proportional to the inverse free-pair denominator.
+Indeed,
+\begin{equation}
+	(L_0^+)_{jb}(\omega)
+	\left\langle
+	\delta h^-_I
+	\delta h^+_J
+	\right\rangle_\beta
+	=
+	-\ii
+	\frac{1}
+	{
+	d^-_{\beta I}
+	d^+_{\beta J}
+	(\omega+E^-_I-E^+_J)
+	}
+	\label{eq:L0_cov_cancel}
+\end{equation}
+up to the infinitesimal causal prescriptions.
+The apparent pole at $\omega=\eps_b-\eps_j$ cancels exactly.
+The backward identity follows from Eq.~\eqref{eq:Q_reversal}.
+
+Each residue of $\delta U^{(2)}$ and $\delta V^{(2)}$ is second order in the interaction.
+Provided the $\hhp$, $\pph$, and mixed denominators in Eq.~\eqref{eq:L0_cov_cancel} remain non-intrusive in the perturbative sense, Eq.~\eqref{eq:complement_feedback} is therefore genuinely fourth order
+\begin{equation}
+	\Delta\widetilde{\mathcal K}_{\rm comp}
+	=
+	\mathcal O(v^4)
+	\label{eq:feedback_order}
+\end{equation}
+This result is stronger than a naive order count because it explicitly removes the possible resonant enhancement of the intermediate $1h1p$ propagator.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Pole-equation equivalence]{Equivalence of the pole equations through third order}
+\label{sec:equivalence}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The preceding audit gives the central perturbative result.
+Under the usual non-intruder assumptions, the full three-frequency pole equation and the two-sided projected BSE have identical poles through third order
+\begin{equation}
+	\text{three-frequency BSE}
+	\overset{\mathcal O(v^3)}{\longleftrightarrow}
+	\text{two-sided projected BSE}
+	\label{eq:equivalence_statement}
+\end{equation}
+The projected equation is
+\begin{equation}
+	X
+	=
+	L_0(\omega)
+	\left[
+	\widetilde{\mathcal K}^{(1)}
+	+
+	\widetilde{\mathcal K}^{(2)}(\omega)
+	+
+	\widetilde{\mathcal K}^{(3)}(\omega)
+	\right]
+	X
+	+
+	\mathcal O(v^4)
+	\label{eq:projected_pole_equation}
+\end{equation}
+The first omitted contribution is the centered $\hhp$--$\pph$ feedback of Eq.~\eqref{eq:complement_feedback}.
+The statement is perturbative and assumes that no $N\pm1$ or mixed denominator becomes parametrically small with the interaction strength.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Projected kernel through third order}
+\label{sec:projected_third}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Separate the projected kernel into static and dynamic parts
+\begin{equation}
+	\widetilde{\mathcal K}^{[3]}(\omega)
+	=
+	\widetilde{\mathcal K}_{\rm stat}^{[3]}
+	+
+	\widetilde{\mathcal K}_{\rm dyn}^{[3]}(\omega)
+	\label{eq:static_dynamic}
+\end{equation}
+All frequency-independent contributions can be absorbed into a physical Casida matrix $M_1^{[3]}$.
+The dynamic terms inherit the three classes of the primitive multiresolvent expansion
+\begin{equation}
+	\widetilde{\mathcal K}_{\rm dyn}^{(2)}
+	=
+	C^{(1)}R^{(0)}D^{(1)}
+	\label{eq:K_dyn_second}
+\end{equation}
+\begin{equation}
+	\begin{split}
+	\widetilde{\mathcal K}_{\rm dyn}^{(3)}
+	={}&
+	C^{(2)}R^{(0)}D^{(1)}
+	+
+	C^{(1)}R^{(0)}D^{(2)}
+	\\
+	&+
+	C^{(1)}R^{(0)}M^{(1)}R^{(0)}D^{(1)}
+	\end{split}
+	\label{eq:K_dyn_third}
+\end{equation}
+The first two terms arise from second-order corrections to the two external couplings, while the third arises from a first-order interaction during the auxiliary propagation.
+The matrices $C$ and $D$ introduced here are auxiliary couplings of the projected kernel and should not be confused with the primitive external vertices $U$ and $V$ before the second frequency integration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Second-order neutral-double pole space}
+\label{sec:double_space}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The resonant $++$ block of the second-order GF2-type kernel can be written as
+\begin{equation}
+	\begin{split}
+	[A_c^{(2)}(\omega)]_{ia,jb}
+	={}&
+	-
+	\sum_{kc}
+	\frac{
+	\mel{jc}{}{ik}
+	\mel{ka}{}{cb}
+	}{
+	\omega-(\eps_b-\eps_i+\eps_c-\eps_k)
+	}
+	\\
+	&-
+	\sum_{kc}
+	\frac{
+	\mel{jk}{}{ic}
+	\mel{ca}{}{kb}
+	}{
+	\omega-(\eps_a-\eps_j+\eps_c-\eps_k)
+	}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{kl}
+	\frac{
+	\mel{aj}{}{kl}
+	\mel{lk}{}{bi}
+	}{
+	\omega-(\eps_a+\eps_b-\eps_k-\eps_l)
+	}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{cd}
+	\frac{
+	\mel{aj}{}{cd}
+	\mel{dc}{}{bi}
+	}{
+	\omega-(\eps_c+\eps_d-\eps_i-\eps_j)
+	}
+	\end{split}
+	\label{eq:GF2_A}
+\end{equation}
+Every pole is a neutral-double energy
+\begin{equation}
+	\Delta_{kl}^{cd}
+	=
+	\eps_c+\eps_d-\eps_k-\eps_l
+	\label{eq:Delta_double}
+\end{equation}
+For a unique double $I=(kl;cd)$ with $k<l$ and $c<d$, a convenient four-component attachment factorization is
+\begin{equation}
+	\mathbf C_{ia,I}
+	=
+	\begin{pmatrix}
+	\delta_{ik}\mel{al}{}{cd}
+	\\
+	-\delta_{il}\mel{ak}{}{cd}
+	\\
+	-\delta_{ac}\mel{kl}{}{id}
+	\\
+	+\delta_{ad}\mel{kl}{}{ic}
+	\end{pmatrix}
+	\label{eq:C_attach}
+\end{equation}
+\begin{equation}
+	\mathbf D_{I,jb}
+	=
+	\begin{pmatrix}
+	\delta_{jk}\mel{dc}{}{lb}
+	\\
+	-\delta_{jl}\mel{dc}{}{kb}
+	\\
+	-\delta_{bc}\mel{jd}{}{kl}
+	\\
+	+\delta_{bd}\mel{jc}{}{kl}
+	\end{pmatrix}
+	\label{eq:D_attach}
+\end{equation}
+with attachment matrix
+\begin{equation}
+	S
+	=
+	\begin{pmatrix}
+	0&1&1&1
+	\\
+	1&0&1&1
+	\\
+	1&1&0&1
+	\\
+	1&1&1&0
+	\end{pmatrix}
+	\label{eq:S_attach}
+\end{equation}
+The residue associated with the pole $I$ is
+\begin{equation}
+	\mathcal R^{(2)}_{ia,jb;I}
+	=
+	\mathbf C_{ia,I}^{\mathsf T}
+	S
+	\mathbf D_{I,jb}
+	\label{eq:residue_attach}
+\end{equation}
+The eigenvalues of $S$ are $3,-1,-1,-1$, so the generic residue has rank four in attachment space.
+One scalar auxiliary state per physical neutral double is therefore not sufficient in general.
+
+A convenient generalized-resolvent realization uses
+\begin{equation}
+	\eta_c
+	=
+	\mathbf 1_{2h2p}\otimes S^{-1}
+	\label{eq:eta_core}
+\end{equation}
+\begin{equation}
+	M_c^{(0)}
+	=
+	\Delta_2\otimes S^{-1}
+	\label{eq:M_core_zero}
+\end{equation}
+so that
+\begin{equation}
+	R_c^{(0)}(\omega)
+	=
+	[\omega\eta_c-M_c^{(0)}]^{-1}
+	\label{eq:R_core_zero}
+\end{equation}
+contains
+\begin{equation}
+	[R_c^{(0)}(\omega)]_{I\lambda,J\mu}
+	=
+	\delta_{IJ}
+	\frac{S_{\lambda\mu}}
+	{\omega-\Delta_I+\ii0^+}
+	\label{eq:R_core_elements}
+\end{equation}
+The backward sector follows by pair reversal and carries poles at $-\Delta_I$.
+This four-copy realization is convenient but not unique; any exact rank factorization of the residues is equivalent.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Neutral-double interaction]{First-order interaction inside the neutral-double space}
+\label{sec:double_interaction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The central third-order class is generated by a first-order interaction between neutral doubles.
+For an antisymmetric amplitude $T_{ij}^{ab}$, define
+\begin{equation}
+	\begin{split}
+	(H_2^{(1)}T)_{ij}^{ab}
+	={}&
+	\frac{1}{2}
+	\sum_{cd}
+	\mel{ab}{}{cd}
+	T_{ij}^{cd}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{kl}
+	\mel{kl}{}{ij}
+	T_{kl}^{ab}
+	\\
+	&+
+	\mathcal P(ij)\mathcal P(ab)
+	\sum_{kc}
+	\mel{kb}{}{cj}
+	T_{ik}^{ac}
+	\end{split}
+	\label{eq:H2_action}
+\end{equation}
+The first line describes particle-particle scattering, the second hole-hole scattering, and the last line the four possible particle-hole scatterings.
+The diagonal matrix element is
+\begin{equation}
+	\begin{split}
+	(H_2^{(1)})_{ijab,ijab}
+	={}&
+	\mel{ab}{}{ab}
+	+
+	\mel{ij}{}{ij}
+	\\
+	&-
+	\mel{ai}{}{ai}
+	-
+	\mel{aj}{}{aj}
+	-
+	\mel{bi}{}{bi}
+	-
+	\mel{bj}{}{bj}
+	\end{split}
+	\label{eq:H2_diagonal}
+\end{equation}
+which contains all six pairwise interactions among the four quasiparticles exactly once.
+In the four-copy realization of Sec.~\ref{sec:double_space}, one convenient lift is
+\begin{equation}
+	M_c^{(1)}
+	=
+	H_2^{(1)}\otimes S^{-1}
+	\label{eq:M_core_first}
+\end{equation}
+This choice reproduces the particle-particle, hole-hole, and particle-hole central third-order classes.
+The auxiliary matrix itself is representation dependent; Eq.~\eqref{eq:M_core_first} is a convenient realization rather than a unique definition.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[External residues and spectators]{Third-order external residues and spectator labels}
+\label{sec:spectator_space}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The external third-order classes generate single neutral-double poles with residues that are more general than the four attachment directions of Sec.~\ref{sec:double_space}.
+A representative fully audited $+-$ contribution from the crossed $\eh$ primitive is
+\begin{equation}
+	\begin{split}
+	\left[
+	\ii\widetilde\Gamma^{\teh,(3)}_{\rm ext}
+	\right]^{+-}_{ia,jb}(\omega)
+	\supset{}&
+	-
+	\sum_{mekc}
+	\frac{
+	\mel{ac}{}{mk}
+	\mel{ek}{}{jc}
+	\mel{bm}{}{ie}
+	}{
+	[\omega-\Delta_{mk}^{ac}+\ii0^+]
+	\Delta_{jm}^{ae}
+	}
+	\\
+	&+
+	\sum_{mekc}
+	\frac{
+	\mel{ak}{}{mc}
+	\mel{ec}{}{jk}
+	\mel{bm}{}{ie}
+	}{
+	[\omega+\Delta_{jk}^{ec}-\ii0^+]
+	\Delta_{jm}^{ae}
+	}
+	\\
+	&+
+	\frac{1}{2}
+	\sum_{mekl}
+	\frac{
+	\mel{ae}{}{kl}
+	\mel{kl}{}{jm}
+	\mel{bm}{}{ie}
+	}{
+	[\omega-\Delta_{kl}^{ae}+\ii0^+]
+	\Delta_{jm}^{ae}
+	}
+	\\
+	&-
+	\frac{1}{2}
+	\sum_{mecd}
+	\frac{
+	\mel{ae}{}{cd}
+	\mel{cd}{}{jm}
+	\mel{bm}{}{ie}
+	}{
+	[\omega+\Delta_{jm}^{cd}-\ii0^+]
+	\Delta_{jm}^{ae}
+	}
+	\end{split}
+	\label{eq:crossed_external_example}
+\end{equation}
+where
+\begin{equation}
+	\Delta_{ij}^{ab}
+	=
+	\eps_a+\eps_b-\eps_i-\eps_j
+	\label{eq:Delta_general}
+\end{equation}
+The first pole in Eq.~\eqref{eq:crossed_external_example}, for example, may be factorized using a spectator-labelled auxiliary state
+\begin{equation}
+	\mathfrak I
+	=
+	(i\,|\,mk;ac)
+	\label{eq:spectator_example}
+\end{equation}
+with
+\begin{equation}
+	C^{(1)}_{ia,\mathfrak I}
+	=
+	\mel{ac}{}{mk}
+	\label{eq:spectator_C}
+\end{equation}
+\begin{equation}
+	D^{(2)}_{\mathfrak I,jb}
+	=
+	-
+	\sum_e
+	\frac{
+	\mel{ek}{}{jc}
+	\mel{bm}{}{ie}
+	}{
+	\Delta_{jm}^{ae}
+	}
+	\label{eq:spectator_D}
+\end{equation}
+The spectator $i$ does not modify the pole energy $\Delta_{mk}^{ac}$; it retains an external-line degree of freedom required by the residue.
+
+A corresponding audited contribution from the two-particle branch of the $\pp$ primitive is
+\begin{equation}
+	\begin{split}
+	\left[
+	\ii\widetilde\Gamma^{\pp,(3)}_{\ee,\rm ext}
+	\right]^{+-}_{ia,jb}
+	={}&
+	-
+	\sum_{\substack{c<d\\me}}
+	\frac{
+	\mel{ab}{}{cd}
+	\mel{im}{}{ce}
+	\mel{je}{}{dm}
+	}{
+	\Delta_{ij}^{cd}
+	[\omega-\Delta_{im}^{ce}+\ii0^+]
+	}
+	\\
+	&-
+	\sum_{\substack{c<d\\me}}
+	\frac{
+	\mel{ab}{}{cd}
+	\mel{ie}{}{dm}
+	\mel{jm}{}{ce}
+	}{
+	\Delta_{ij}^{cd}
+	[\omega+\Delta_{jm}^{ce}-\ii0^+]
+	}
+	\\
+	&+
+	\sum_{\substack{c<d\\me}}
+	\frac{
+	\mel{ab}{}{cd}
+	\mel{ie}{}{cm}
+	\mel{jm}{}{de}
+	}{
+	\Delta_{ij}^{cd}
+	[\omega+\Delta_{jm}^{de}-\ii0^+]
+	}
+	\\
+	&+
+	\sum_{\substack{c<d\\me}}
+	\frac{
+	\mel{ab}{}{cd}
+	\mel{im}{}{de}
+	\mel{je}{}{cm}
+	}{
+	\Delta_{ij}^{cd}
+	[\omega-\Delta_{im}^{de}+\ii0^+]
+	}
+	\end{split}
+	\label{eq:pp_external_example}
+\end{equation}
+Equation~\eqref{eq:pp_external_example} uses a normalized unique central particle-pair basis $c<d$.
+With unrestricted $c,d$ sums the corresponding explicit pair factor must be restored.
+The two-hole pp branch and the opposite propagation orientations follow by the same pair-reversal operation used for the second-order external vertices.
+
+Equations~\eqref{eq:crossed_external_example} and \eqref{eq:pp_external_example} show that the four-copy second-order attachment space is not generically closed under third-order external corrections.
+A spectator-labelled construction gives an explicit polynomial residue factorization, while a minimal representation may instead be obtained by rank factorization of each pole residue.
+For a pole $I$, the minimal number of auxiliary copies is
+\begin{equation}
+	r_I
+	=
+	\operatorname{rank}
+	\mathcal R_I^{[3]}
+	\label{eq:minimal_rank}
+\end{equation}
+The spectator construction is therefore a convenient exact realization rather than a claim of minimality.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Frequency-independent linearization]{Frequency-independent linearization}
+\label{sec:linearization}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For bookkeeping, split the auxiliary space into three sectors
+\begin{equation}
+	\mathcal Q
+	=
+	\mathcal Q_c
+	\oplus
+	\mathcal Q_L
+	\oplus
+	\mathcal Q_R
+	\label{eq:Q_aux_split}
+\end{equation}
+The core sector $\mathcal Q_c$ contains the second-order neutral-double residues and the first-order internal interaction $M_c^{(1)}$.
+The sector $\mathcal Q_L$ contains residue directions for which the left coupling first appears at second order, while $\mathcal Q_R$ contains the mirror class for which the right coupling first appears at second order.
+Thus
+\begin{align}
+	C_c
+	&=
+	C_c^{(1)}
+	\\
+	D_c
+	&=
+	D_c^{(1)}
+	\\
+	C_L
+	&=
+	C_L^{(2)}
+	\\
+	D_L
+	&=
+	D_L^{(1)}
+	\\
+	C_R
+	&=
+	C_R^{(1)}
+	\\
+	D_R
+	&=
+	D_R^{(2)}
+	\label{eq:coupling_orders}
+\end{align}
+All static terms through third order are collected in $M_1^{[3]}$.
+The frequency-independent generalized eigenvalue problem is
+\begin{equation}
+	\begin{pmatrix}
+	M_1^{[3]}
+	& C_c^{(1)}
+	& C_L^{(2)}
+	& C_R^{(1)}
+	\\
+	D_c^{(1)}
+	& M_c^{(0)}+M_c^{(1)}
+	& 0
+	& 0
+	\\
+	D_L^{(1)}
+	& 0
+	& M_L^{(0)}
+	& 0
+	\\
+	D_R^{(2)}
+	& 0
+	& 0
+	& M_R^{(0)}
+	\end{pmatrix}
+	\begin{pmatrix}
+	X
+	\\
+	Y_c
+	\\
+	Y_L
+	\\
+	Y_R
+	\end{pmatrix}
+	=
+	\omega
+	\begin{pmatrix}
+	\eta_1&0&0&0
+	\\
+	0&\eta_c&0&0
+	\\
+	0&0&\eta_L&0
+	\\
+	0&0&0&\eta_R
+	\end{pmatrix}
+	\begin{pmatrix}
+	X
+	\\
+	Y_c
+	\\
+	Y_L
+	\\
+	Y_R
+	\end{pmatrix}
+	\label{eq:generalized_eigenproblem}
+\end{equation}
+Eliminating the auxiliary amplitudes gives
+\begin{equation}
+	\begin{split}
+	M_{\rm eff}(\omega)
+	={}&
+	M_1^{[3]}
+	+
+	C_c^{(1)}R_c^{(0)}D_c^{(1)}
+	\\
+	&+
+	C_L^{(2)}R_L^{(0)}D_L^{(1)}
+	+
+	C_R^{(1)}R_R^{(0)}D_R^{(2)}
+	\\
+	&+
+	C_c^{(1)}R_c^{(0)}M_c^{(1)}R_c^{(0)}D_c^{(1)}
+	+
+	\mathcal O(v^4)
+	\end{split}
+	\label{eq:Schur_effective}
+\end{equation}
+which reproduces Eqs.~\eqref{eq:K_dyn_second} and \eqref{eq:K_dyn_third} term by term.
+Therefore
+\begin{equation}
+	\begin{array}{c}
+	\text{projected BSE}
+	\\[-1mm]
+	\Updownarrow\;\mathcal O(v^3)
+	\\[-1mm]
+	\text{generalized eigenvalue problem}
+	\end{array}
+	\label{eq:linearization_equivalence}
+\end{equation}
+Combining Eqs.~\eqref{eq:equivalence_statement} and \eqref{eq:linearization_equivalence} gives the desired third-order chain
+\begin{equation}
+	\begin{array}{c}
+	\text{three-frequency BSE}
+	\\[-1mm]
+	\Updownarrow\;\mathcal O(v^3)
+	\\[-1mm]
+	\text{projected BSE}
+	\\[-1mm]
+	\Updownarrow\;\mathcal O(v^3)
+	\\[-1mm]
+	\text{frequency-independent enlarged eigenproblem}
+	\end{array}
+	\label{eq:full_chain}
+\end{equation}
+The matrices in Eq.~\eqref{eq:generalized_eigenproblem} are perturbatively constructed.
+Diagonalizing the truncated matrix without further expansion generates partial higher-order resummations, exactly as in standard secular perturbative constructions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Construction recipe}
+\label{sec:recipe}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The complete third-order construction can be organized as follows.
+
+\begin{enumerate}
+	\item Construct the direct $\eh$ irreducible vertex through third order from
+	\begin{equation}
+		\Gamma^\eh
+		=
+		\Lambda
+		+
+		\Phi^{\teh}
+		+
+		\Phi^\pp
+	\end{equation}
+	with $\Lambda=v+\mathcal O(v^4)$ and generate the transverse contribution by crossing
+
+	\item Form the exact one-sided projections $U$ and $V$ using Eqs.~\eqref{eq:U_def} and \eqref{eq:V_def}
+
+	\item Form the two-sided projected kernel $\widetilde{\mathcal K}$ using Eq.~\eqref{eq:K_tilde_def}
+
+	\item If equivalence with the full three-frequency pole equation is required, center the second-order one-sided vertices according to Eqs.~\eqref{eq:delta_U} and \eqref{eq:delta_V} and verify the covariance identities of Sec.~\ref{sec:feedback_audit}
+
+	\item Separate static and dynamic terms and absorb the static contribution through third order into $M_1^{[3]}$
+
+	\item Collect each dynamic denominator by its neutral-double pole $\omega=\pm\Delta_{ij}^{ab}$
+
+	\item Factor the second-order pole residues into the core auxiliary space $\mathcal Q_c$
+
+	\item Construct the first-order neutral-double interaction $M_c^{(1)}$ from Eq.~\eqref{eq:H2_action}
+
+	\item Factor the third-order single-pole residues generated by the two external classes into $\mathcal Q_L$ and $\mathcal Q_R$ using either spectator-labelled states or an exact rank factorization
+
+	\item Assemble Eq.~\eqref{eq:generalized_eigenproblem} and expand its Schur complement through third order
+
+	\item Verify pole positions, causal prescriptions, crossing, pair reversal, antisymmetry, unique-pair normalization, and the three perturbative classes in Eq.~\eqref{eq:K_dyn_third}
+\end{enumerate}
+
+The construction is representation independent: different factorizations of the same pole residues lead to algebraically equivalent enlarged eigenvalue problems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{What changes at fourth order}
+\label{sec:fourth_order}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The first contribution that is absent from the two-sided projected pole equation is the complementary-space feedback of Eq.~\eqref{eq:complement_feedback}.
+After the cancellation in Eq.~\eqref{eq:L0_cov_cancel}, its characteristic denominator structure is
+\begin{equation}
+	\frac{1}
+	{
+	d^-_{\beta I}
+	d^+_{\beta J}
+	(\omega+E^-_I-E^+_J)
+	}
+	\label{eq:fourth_denominator}
+\end{equation}
+so the first genuinely new frequency-shape feedback mixes the $(N-1)$ $\hhp$ and $(N+1)$ $\pph$ sectors.
+At the same perturbative order one also encounters the first correction to the fully irreducible vertex and higher corrections to the external and central auxiliary blocks.
+Third order is therefore the highest order for which the full three-frequency pole problem reduces to the projected kernel without introducing the mixed complementary frequency-shape sector explicitly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+\label{sec:summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The exact three-frequency BSE is not generally reducible to one frequency by simple integration.
+Through third order, however, centering the second-order one-sided vertices makes the same-sector $\hhp$ and $\pph$ covariances vanish, while the mixed covariance cancels the potentially resonant free $1h1p$ denominator.
+Under non-intruder conditions, the full and projected pole equations are therefore perturbatively equivalent through third order.
+The projected rational kernel contains neutral-double poles, a first-order interaction inside the neutral-double sector, and third-order external residues that may require spectator-labelled auxiliary directions.
+Its Schur-complement linearization yields a frequency-independent generalized Casida/ADC-like eigenvalue problem through third order.
+
+\end{document}
