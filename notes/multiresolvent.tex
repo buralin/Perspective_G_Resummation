@@ -81,10 +81,10 @@
 	\affiliation{\LCPQ}
 
 \begin{abstract}
-A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the familiar single-frequency resolvent structure encountered in one-body Green's-function, self-energy, and polarization-propagator theories, including the algebraic-diagrammatic construction (ADC).
+A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the familiar single-frequency resolvent structure encountered in one-body Green's function, self-energy, and polarization-propagator theories, including the algebraic-diagrammatic construction (ADC).
 In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, taking the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and generating the transverse electron-hole ($\teh$) contribution by crossing symmetry.
 Integrating over one fermionic frequency of the three-frequency non-interacting two-particle propagator generates two-frequency coupling vertices whose poles lie in the $(N\pm1)$-electron sectors.
-As independent checks, a second frequency integration recovers the corresponding single-frequency $\eh$ and $\pp$ kernels of second-order Green's-function theory (GF2), while application of the same reduction to the conventional dynamical $GW$ kernel, retained to first order in the screened interaction $W$, reproduces the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
+As independent checks, a second frequency integration recovers the corresponding single-frequency $\eh$ and $\pp$ kernels of second-order Green's function theory (GF2), while application of the same reduction to the conventional dynamical $GW$ kernel, retained to first order in the screened interaction $W$, reproduces the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
 \end{abstract}
 
 \maketitle
@@ -465,7 +465,7 @@ In the direct $\eh$ convention of Sec.~\ref{sec:frequencies},
 	\\
 	+
 	\frac{1}{(2\pi)^2}
-	\int d\bar\nu\,d\bar\nu'\,
+	\int \dd{\bar\nu}\,\dd{\bar\nu'}\,
 	L_0(\nu,\bar\nu,\omega)
 	\Gamma^\eh(\bar\nu,\bar\nu',\omega)
 	L(\bar\nu',\nu',\omega)
@@ -565,12 +565,12 @@ No approximation is involved in Eqs.~\eqref{eq:L0_factorization_plus} and
 The one-sided factors satisfy
 \begin{align}
 	\frac{1}{2\pi}
-	\int d\bar\nu\,
+	\int \dd{\bar\nu}\,
 	Q^+_{ia}(\bar\nu,\omega)
 	&=1
 	\\
 	\frac{1}{2\pi}
-	\int d\bar\nu\,
+	\int \dd{\bar\nu}\,
 	Q^-_{ia}(\bar\nu,\omega)
 	&=1
 	\label{eq:Q_normalization}
@@ -600,7 +600,7 @@ To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected coupling vertices a
 Projecting the left pair gives
 \begin{align}
 	&\frac{1}{(2\pi)^2}
-	\int d\bar\nu_1\,d\bar\nu_2\,
+	\int \dd{\bar\nu_1}\,\dd{\bar\nu_2}\,
 	L_{0,ia}^{\sigma}(\bar\nu_1,\bar\nu_2,\omega)
 	\left[
 	\ii\Gamma^\eh
@@ -610,7 +610,7 @@ Projecting the left pair gives
 	&\qquad=
 	(L_0^\sigma)_{ia}(\omega)
 	\frac{1}{2\pi}
-	\int d\bar\nu\,
+	\int \dd{\bar\nu}\,
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
@@ -622,7 +622,7 @@ which defines the right coupling vertex
 	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	=
 	\frac{1}{2\pi}
-	\int d\bar\nu\,
+	\int \dd{\bar\nu}\,
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
@@ -639,7 +639,7 @@ so that Eq.~\eqref{eq:BSE_right_factorization} becomes
 Projecting the right pair gives analogously
 \begin{align}
 	&\frac{1}{(2\pi)^2}
-	\int d\bar\nu'_1\,d\bar\nu'_2\,
+	\int \dd{\bar\nu'_1}\,\dd{\bar\nu'_2}\,
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu'_1,\omega)
@@ -648,7 +648,7 @@ Projecting the right pair gives analogously
 	\\
 	&\qquad=
 	\frac{1}{2\pi}
-	\int d\bar\nu'\,
+	\int \dd{\bar\nu'}\,
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
@@ -661,7 +661,7 @@ which defines the left coupling vertex
 	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
 	=
 	\frac{1}{2\pi}
-	\int d\bar\nu'\,
+	\int \dd{\bar\nu'}\,
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
@@ -696,7 +696,7 @@ We define the one-frequency projected eh kernel by
 	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
 	={}&
 	\frac{1}{(2\pi)^2}
-	\int d\bar\nu\,d\bar\nu'\,
+	\int \dd{\bar\nu}\,\dd{\bar\nu'}\,
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\\
 	&\times
@@ -715,14 +715,14 @@ in either order
 	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
 	&=
 	\frac{1}{2\pi}
-	\int d\bar\nu'\,
+	\int \dd{\bar\nu'}\,
 	V^{\sigma\sigma'}_{ia,jb}(\bar\nu',\omega)
 	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	\label{eq:Gamma_tilde_from_V}
 	\\
 	&=
 	\frac{1}{2\pi}
-	\int d\bar\nu\,
+	\int \dd{\bar\nu}\,
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	U^{\sigma\sigma'}_{ia,jb}(\bar\nu,\omega)
 	\label{eq:Gamma_tilde_from_U}
@@ -1107,7 +1107,7 @@ $\eps_a+\eps_b-\eps_i$.
 For a forward ($+$) pair $ia$, the four elementary contour integrations are
 \begin{align}
 \frac{1}{2\pi}
-\int d\bar\nu
+\int \dd{\bar\nu}
 \frac{Q^+_{ia}(\bar\nu,\omega)}{\nu'-\bar\nu+(\eps_c-\eps_k)-\ii0^+}
 & =
 \frac{1}
@@ -1115,7 +1115,7 @@ For a forward ($+$) pair $ia$, the four elementary contour integrations are
 \label{eq:contour_ehbar_hhp}
 \\
 \frac{1}{2\pi}
-\int d\bar\nu
+\int \dd{\bar\nu}
 \frac{Q^+_{ia}(\bar\nu,\omega)}{\nu'-\bar\nu-(\eps_c-\eps_k)+\ii0^+}
 & =
 \frac{1}
@@ -1123,7 +1123,7 @@ For a forward ($+$) pair $ia$, the four elementary contour integrations are
 \label{eq:contour_ehbar_pph}
 \\
 \frac{1}{2\pi}
-\int d\bar\nu
+\int \dd{\bar\nu}
 \frac{Q^+_{ia}(\bar\nu,\omega)}{\bar\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
 & =
 \frac{1}
@@ -1131,7 +1131,7 @@ For a forward ($+$) pair $ia$, the four elementary contour integrations are
 \label{eq:contour_pp_pph}
 \\
 \frac{1}{2\pi}
-\int d\bar\nu
+\int \dd{\bar\nu}
 \frac{Q^+_{ia}(\bar\nu,\omega)}{\bar\nu+\nu'+\omega-\eps_k-\eps_l-\ii0^+}
 & =
 \frac{1}
