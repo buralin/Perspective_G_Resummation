@@ -81,11 +81,11 @@
 	\affiliation{\LCPQ}
 
 \begin{abstract}
-A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the single resolvent familiar from linear-response theory or conventional algebraic-diagrammatic construction (ADC).
-In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, using the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and obtaining the transverse electron-hole ($\teh$) contribution by crossing symmetry.
-Integrating over one fermionic frequency of the three-frequency non-interacting pair propagator produces two-frequency external vertices whose nontrivial poles belong to the $(N\pm1)$-electron sectors.
-A second integration yields the corresponding one-frequency kernels of second-order Green's function theory (GF2): the two independent $\eh$ blocks and all three $\pp$ blocks.
-We then apply the same frequency reduction to the usual dynamical $GW$ kernel at first order in the screened interaction $W$ and recover independently the known $\eh$ and $\pp$ dynamical BSE kernels.
+A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the familiar single-frequency resolvent structure encountered in one-body Green's-function, self-energy, and polarization-propagator theories, including the algebraic-diagrammatic construction (ADC).
+In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, taking the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and generating the transverse electron-hole ($\teh$) contribution by crossing symmetry.
+Integrating over one fermionic frequency of the three-frequency non-interacting two-particle propagator generates two-frequency external coupling vertices whose poles lie in the $(N\pm1)$-electron sectors.
+A second frequency integration yields the corresponding single-frequency $\eh$ and $\pp$ kernels associated with second-order Green's function theory (GF2).
+We then apply the same frequency-reduction procedure to the conventional dynamical $GW$ kernel, retaining the kernel to first order in the screened interaction $W$, and independently recover the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
 \end{abstract}
 
 \maketitle
@@ -143,18 +143,10 @@ Consequently, only two primitive multiresolvent constructions are required:
 $\Phi^\eh$ and $\Phi^\pp$.
 
 In each primitive channel, the channel-reducible four-point vertex is
-represented as a left external vertex, a channel-specific central resolvent,
-and a right external vertex
-\begin{equation}
-	\text{left external vertex}
-	\;\times\;
-	\text{central resolvent}
-	\;\times\;
-	\text{right external vertex}
-	\label{eq:architecture}
-\end{equation}
+represented as a left external coupling vertex, a channel-specific central resolvent,
+and a right external coupling vertex.
 The central resolvent carries the natural bosonic transfer of the channel,
-while the two external vertices retain the remaining fermionic-frequency
+while the two external coupling vertices retain the remaining fermionic-frequency
 dependence.
 
 This construction also provides a direct route to the four-point Hedin
@@ -172,32 +164,32 @@ The vertex irreducible in the direct $\eh$ channel is
 \end{equation}
 At the exact level, this is the same four-point kernel that enters Hedin's
 Bethe--Salpeter equation (BSE) through the functional derivative
-$\Xi=\fdv*{\Sigma}{G}$, once a common index convention is adopted\cite{Hedin1965,MarieAmmarLoos2024}.
+$\Xi=\fdv*{\Sigma}{G}$, once a common index convention is adopted.~\cite{Hedin1965,MarieAmmarLoos2024}
 Thus, constructing $\Phi^\eh$ and $\Phi^\pp$ also yields a multiresolvent
 representation of the direct $\eh$ Hedin kernel.
 
 The present notes are deliberately restricted to the part of the construction
 that is fully controlled at second order in the bare interaction.
 We establish the channel frequency structure, primitive reducible vertices,
-one-sided frequency integrations, external-vertex pole spaces, recovery of
-the second-order Green's-function (GF2) $\eh$ kernel, and parquet consistency.
-A dedicated recipe summarizes this result.
+one-sided frequency integrations, the pole structure of the external coupling vertices, recovery of
+the second-order Green's function (GF2) $\eh$ kernel, and parquet consistency.
+A dedicated recipe summarizes these results.
 We then consider the usual dynamical $GW$ kernel at first order in the
-screened interaction, $K^{(1)}=W$, and show that it possesses the same
+screened interaction, and show that it possesses the same
 multiresolvent structure after a spectral decomposition of $W$.
 Higher-order bare-interaction extensions and the kernel contribution that is
 second order in $W$ are treated separately and are not part of the present
 document.
 
-Throughout the perturbative discussion, we use a non-interacting zeroth-order
-reference together with a M\o ller--Plesset (MP) partition.
+Throughout the perturbative discussion, we use a Hartree--Fock (HF) zeroth-order
+reference together with a M{\o}ller--Plesset (MP) partition.
 Accordingly, $G_0$ denotes the non-interacting one-particle propagator and
-$L_0=G_0G_0$ the corresponding disconnected non-interacting pair propagator throughout.
+$L_0=G_0G_0$ the corresponding non-interacting two-particle propagator throughout.
 For compactness, all expressions are written for real-valued orbitals.
-Left and right external vertices are kept distinct whenever this distinction
-matters, and all causal prescriptions are denoted by $0^+$ because integer
-multiples of the infinitesimal regulator carry no physical significance.
+Left and right external coupling vertices are kept distinct whenever this distinction
+matters, and all causal prescriptions are denoted by $0^+$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Frequency conventions and channel organization}
 \label{sec:frequencies}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -286,7 +278,7 @@ Beyond second order, the primitive reducible vertices are genuine
 three-frequency objects.
 The multiresolvent representation introduced below assigns the natural
 bosonic transfer to the central resolvent and the two remaining fermionic
-frequencies to the external vertices.
+frequencies to the external coupling vertices.
 
 The exact channel-irreducible vertices satisfy
 \begin{align}
@@ -318,6 +310,8 @@ vertex beyond the bare interaction occurs at fourth order, so that
 	O(v^4)
 	\label{eq:Lambda_order}
 \end{equation}
+where $v$ denotes the two-electron interaction.
+
 The second-order channel-irreducible vertices are therefore
 \begin{align}
 	\Gamma^{\eh,(2)}
@@ -356,8 +350,8 @@ Our construction is therefore channel resolved.
 
 For each primitive reducible vertex, the natural bosonic transfer is carried
 by a central resolvent, while the remaining fermionic-frequency dependences
-are carried by a left and a right external vertex.
-We denote these external vertices by $U^r$ and $V^r$, respectively, and keep
+are carried by a left and a right external coupling vertex.
+We denote these external coupling vertices by $U^r$ and $V^r$ (with $r = \eh$ or $\pp$), respectively, and keep
 them as independent objects unless a symmetry relation is explicitly used.
 The target forms are
 \begin{align}
@@ -368,7 +362,7 @@ The target forms are
 	V^\eh(\nu',\omega)
 	\label{eq:target_eh}
 	\\
-	\ii\Phi_P^\pp(\nu_\pp,\nu'_\pp,\Omega_\pp)
+	\ii\Phi^\pp(\nu_\pp,\nu'_\pp,\Omega_\pp)
 	&=
 	U^\pp(\nu_\pp,\Omega_\pp)
 	R^\pp(\Omega_\pp)
@@ -395,9 +389,8 @@ Here $\eta^r$ is the channel metric, with eigenvalues $+1$ and $-1$ for
 the two propagation sectors.
 Antisymmetrized two-electron integrals are written directly as
 $\mel{pq}{}{rs}$ throughout.
-The lowercase symbol $v$ is used only to denote the two-electron interaction
 when specifying perturbative orders and must not be confused with the right
-external vertex $V^r$.
+external coupling vertex $V^r$.
 
 The corresponding particle-number structures are
 \begin{align}
@@ -419,8 +412,8 @@ The corresponding particle-number structures are
 	N\pm1
 	\label{eq:target_sector_pp}
 \end{align}
-Thus, the central resolvent distinguishes neutral and pair propagation,
-whereas the external vertices are associated with $(N\pm1)$-electron
+Thus, the central resolvent distinguishes $\eh$ and $\pp$ propagation,
+whereas the external coupling vertices are associated with $(N\pm1)$-electron
 propagation.
 At second order, their non-trivial poles are the $\hhp$ and $\pph$ poles of
 the $(N-1)$- and $(N+1)$-electron sectors.
@@ -453,52 +446,38 @@ the usual dynamical $GW$ kernel at first order in $W$.
 \label{sec:three_frequency_bse}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-At the exact level, the electron-hole (eh) correlation function obeys the
+At the exact level, the $\eh$ correlation function obeys the
 four-point Bethe--Salpeter equation (BSE)
 \begin{equation}
 	L
 	=
-	L_{\rm d}
+	L_0
 	+
-	L_{\rm d}\Gamma^\eh L
+	L_0 \Gamma^\eh L
 	\label{eq:BSE_symbolic}
 \end{equation}
-where $L_{\rm d}=GG$ denotes the disconnected pair propagator constructed
-from dressed one-particle Green's functions and products imply integrations
-over internal space-spin-time variables.
-In the direct eh convention of Sec.~\ref{sec:frequencies},
+In the direct $\eh$ convention of Sec.~\ref{sec:frequencies},
 \begin{multline}
 	L(\nu,\nu',\omega)
 	=
-	L_{\rm d}(\nu,\nu',\omega)
+	L_0(\nu,\nu',\omega)
 	\\
 	+
 	\frac{1}{(2\pi)^2}
 	\int d\bar\nu\,d\bar\nu'\,
-	L_{\rm d}(\nu,\bar\nu,\omega)
+	L_0(\nu,\bar\nu,\omega)
 	\Gamma^\eh(\bar\nu,\bar\nu',\omega)
 	L(\bar\nu',\nu',\omega)
 	\label{eq:BSE_three_frequency}
 \end{multline}
 Barred frequencies denote integration variables throughout these notes.
 
-The perturbative construction below uses the non-interacting zeroth-order
-propagators associated with the MP partition.
-We denote the corresponding non-interacting one-particle propagator by $G_0$
-and the associated disconnected pair propagator by $L_0=G_0G_0$.
-Thus, $G_0$ and $L_0$ always refer to non-interacting reference propagators in
-what follows.
-No claim is made here that replacing the dressed disconnected propagator
-$L_{\rm d}=GG$ by the non-interacting reference propagator $L_0=G_0G_0$ yields exact
-physical excitation energies; the exact BSE and the non-interacting-reference
-perturbative construction should be kept conceptually distinct.
-
 For occupied and virtual reference orbitals,
 \begin{align}
 	G_{0,i}(\nu)
 	&=
 	\frac{1}{\nu-\eps_i-\ii\eta}
-	&
+	\\
 	G_{0,a}(\nu)
 	&=
 	\frac{1}{\nu-\eps_a+\ii\eta}
@@ -534,12 +513,12 @@ Define
 	(L_0^+)_{ia}(\omega)
 	&=
 	\frac{\ii}
-	{\omega-(\eps_a-\eps_i)+2\ii\eta}
+	{\omega-(\eps_a-\eps_i)+\ii0^+}
 	\\
 	(L_0^-)_{ia}(\omega)
 	&=
 	-\frac{\ii}
-	{\omega+(\eps_a-\eps_i)-2\ii\eta}
+	{\omega+(\eps_a-\eps_i)-\ii0^+}
 	\end{aligned}
 	\label{eq:L0_pm}
 \end{equation}
@@ -580,10 +559,7 @@ Partial fractioning gives the exact identities
 \end{align}
 No approximation is involved in Eqs.~\eqref{eq:L0_factorization_plus} and
 \eqref{eq:L0_factorization_minus}.
-The explicit factors $2\eta$ are retained here because they are required for
-the identities to hold exactly at finite $\eta$.
-In the remainder of the notes, integer multiples of $\eta$ are denoted by the
-generic causal prescription $0^+$.
+
 
 The one-sided factors satisfy
 \begin{align}
@@ -591,7 +567,7 @@ The one-sided factors satisfy
 	\int d\bar\nu\,
 	Q^+_{ia}(\bar\nu,\omega)
 	&=1
-	&
+	\\
 	\frac{1}{2\pi}
 	\int d\bar\nu\,
 	Q^-_{ia}(\bar\nu,\omega)
@@ -618,8 +594,7 @@ on both pairs, whereas $+-$ denotes forward propagation on $ia$ and backward
 propagation on $jb$.
 In this pair-space discussion we suppress the channel superscript $\eh$ on
 $U$ and $V$.
-To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected external
-vertices are defined from $\ii\Gamma^\eh$.
+To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected external coupling vertices are defined from $\ii\Gamma^\eh$.
 
 Projecting the left pair gives
 \begin{align}
@@ -641,7 +616,7 @@ Projecting the left pair gives
 	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\nu',\omega)
 	\label{eq:BSE_right_factorization}
 \end{align}
-which defines the right external vertex
+which defines the right external coupling vertex
 \begin{equation}
 	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	=
@@ -680,7 +655,7 @@ Projecting the right pair gives analogously
 	(L_0^{\sigma'})_{jb}(\omega)
 	\label{eq:BSE_left_factorization}
 \end{align}
-which defines the left external vertex
+which defines the left external coupling vertex
 \begin{equation}
 	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
 	=
@@ -986,7 +961,7 @@ the one-sided frequency integration.
 
 The primitive second-order vertices can now be written in the target form of
 Eq.~\eqref{eq:target_second_order}.
-At this order, the external vertices are the bare interaction and the central
+At this order, the external coupling vertices are the bare interaction and the central
 resolvent is the zeroth-order non-interacting resolvent.
 
 For the $\eh$ channel,
@@ -1026,7 +1001,7 @@ and
 \end{equation}
 The two blocks of the central resolvent correspond to forward ($+$) and
 backward ($-$) eh propagation.
-The corresponding first-order external-vertex components are
+The corresponding first-order external-coupling-vertex components are
 \begin{align}
 	U^{\eh,+,(1)}_{pr,ia}
 	&=
@@ -1085,7 +1060,7 @@ with
 	\right]^{-1}
 	\label{eq:R_pp_zero}
 \end{equation}
-The first-order external vertices are
+The first-order external coupling vertices are
 \begin{align}
 	U^{\pp,(1)}_{pq,ab}
 	&=
@@ -1120,17 +1095,17 @@ Equations~\eqref{eq:Phi_eh_second_resolvent} and
 \eqref{eq:Phi_pp_second_resolvent} establish the primitive multiresolvent
 representation completely through second order.
 
-\section{Pair-space external vertices at second order}
+\section{Pair-space external coupling vertices at second order}
 \label{sec:half_contraction_second}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 We now evaluate the one-sided projections of Sec.~\ref{sec:three_frequency_bse}
 for the second-order direct-$\eh$ irreducible vertex.
-It is sufficient to display the right external vertex $V$; the left vertex
+It is sufficient to display the right external coupling vertex $V$; the left external coupling vertex
 $U$ follows from Eq.~\eqref{eq:U_def} by the analogous integration on the
 opposite side.
 
-The only external-vertex pole energies are
+The only external-coupling-vertex pole energies are
 \begin{align}
 	E^-_{ij;a}
 	&=
@@ -1309,7 +1284,7 @@ The fermionic frequency associated with each pole is summarized by
 	\end{array}
 	\label{eq:external_frequency_table}
 \end{equation}
-The left external vertex $U$ has the same pole spaces, with the surviving
+The left external coupling vertex $U$ has the same pole spaces, with the surviving
 fermionic frequency $\nu$ instead of $\nu'$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1317,7 +1292,7 @@ fermionic frequency $\nu$ instead of $\nu'$.
 \label{sec:residue_tensor}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The second-order external vertices admit a compact spectral representation.
+The second-order external coupling vertices admit a compact spectral representation.
 Using ordered intermediate configurations
 \begin{align}
 	I^-
@@ -1340,7 +1315,7 @@ Using ordered intermediate configurations
 	\eps_\alpha+\eps_\beta-\eps_\mu
 	\label{eq:E_plus_general}
 \end{align}
-the right external vertex for a forward ($+$) first pair has the form
+the right external coupling vertex for a forward ($+$) first pair has the form
 \begin{equation}
 	\begin{split}
 	V^{+\sigma',(2)}_{ia,jb}(\nu',\omega)
@@ -1428,11 +1403,11 @@ For the $+-$ block,
 	\end{split}
 	\label{eq:R_pm_plus}
 \end{equation}
-The $--$ and $-+$ blocks follow from pair reversal, and the left external vertex
+The $--$ and $-+$ blocks follow from pair reversal, and the left external coupling vertex
 has the analogous residue structure.
 The pole spaces are universal ($\hhp$ and $\pph$), while the residues retain
 the topology of their parquet channel.
-A further coupling--resolvent--coupling factorization of an external vertex
+A further coupling--resolvent--coupling factorization of an external coupling vertex
 is not generally minimal in the direct-$\eh$ pair grouping; the residue-tensor
 form of Eq.~\eqref{eq:V_residue_general} is sufficient here.
 
@@ -1514,7 +1489,7 @@ second-order resonant block of the effective kernel
 	\label{eq:GF2_A}
 \end{equation}
 
-Closing the $+-$ right external vertex with a backward ($-$) pair gives
+Closing the $+-$ right external coupling vertex with a backward ($-$) pair gives
 \begin{equation}
 	\begin{split}
 	\left[\widetilde\Xi_c^{(2)}\right]^{+-}_{ia,jb}
@@ -1556,7 +1531,7 @@ Closing the $+-$ right external vertex with a backward ($-$) pair gives
 	\label{eq:GF2_B}
 \end{equation}
 The external transfer frequency cancels in the coupling block.
-This is a consequence of closing the resolvents entering the external vertices with a backward
+This is a consequence of closing the resolvents entering the external coupling vertices with a backward
 external pair rather than a new type of intermediate-state propagation.
 
 The complete effective kernel therefore has the familiar Casida-like
@@ -2368,7 +2343,7 @@ The native pair propagator depends only on $\Omega_\pp$, and the exact
 frequency transformation of Eq.~\eqref{eq:pp_frequency_map} fixes the
 combination $\nu+\nu'+\omega$ in the direct $\eh$ convention.
 One-sided frequency integration of this object must produce the same $\hhp$ and $\pph$
-external-vertex poles obtained from the transverse $\eh$ contribution.
+external-coupling-vertex poles obtained from the transverse $\eh$ contribution.
 
 The third check is the recovery of the $\eh$ GF2 kernel after integrating
 over the remaining fermionic frequency, as shown in
@@ -2418,7 +2393,7 @@ kernel through Eq.~\eqref{eq:Gamma_eh}.
 The construction is now complete through second order.
 Using the channel transfers defined in Sec.~\ref{sec:frequencies}, construct
 the two primitive reducible vertices $\Phi^{\eh,(2)}$ and
-$\Phi_P^{\pp,(2)}$ in their natural channels and obtain
+$\Phi^{\pp,(2)}$ in their natural channels and obtain
 $\Phi^{\teh,(2)}$ by crossing.
 The two primitive vertices are represented as
 \begin{align}
@@ -2427,29 +2402,23 @@ The two primitive vertices are represented as
 	U^{\eh,(1)}R^{\eh,(0)}V^{\eh,(1)}
 	\label{eq:recipe_second_eh}
 	\\
-	\ii\Phi_P^{\pp,(2)}
+	\ii\Phi^{\pp,(2)}
 	&=
 	U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(1)}
 	\label{eq:recipe_second_pp}
 \end{align}
-where the central resolvents describe neutral $N$-electron and pair
+where the central resolvents describe neutral $N$-electron and charged
 $(N\pm2)$-electron propagation, respectively.
 
 The second-order channel-irreducible vertices follow from the parquet
 relations of Eqs.~\eqref{eq:Gamma_eh_second} and \eqref{eq:Gamma_pp_second}.
-A one-sided frequency integration generates external vertices whose only
-non-trivial poles are
-\begin{equation}
-	N-1:\ \hhp
-	\qquad\qquad
-	N+1:\ \pph
-	\label{eq:recipe_second_external_spaces}
-\end{equation}
+A one-sided frequency integration generates external coupling vertices whose only
+non-trivial poles are of $\hhp$ and $\pph$ origin.
+
 A second frequency integration yields the one-frequency $\eh$ GF2 BSE
 kernel and all three independent blocks of the pp-GF2 kernel.
-The same projection machinery applied to the usual first-order-in-$W$ $GW$
-kernel reproduces the known dynamical $\eh$ blocks and the complete
-$C(\Omega)$, $B$, and $D(-\Omega)$ ppBSE@$GW$ kernel.
+The same projection machinery applied to the usual $GW$
+kernel reproduces the known dynamical $\eh$ blocks.
 Finally,
 \begin{equation}
 	F^{(2)}
