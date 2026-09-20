@@ -83,7 +83,7 @@
 \begin{abstract}
 A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the single resolvent familiar from linear-response theory or conventional algebraic-diagrammatic construction (ADC).
 In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, using the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and obtaining the transverse electron-hole ($\teh$) contribution by crossing symmetry.
-Integrating over one fermionic frequency of the three-frequency non-interacting kernel produces two-frequency external vertices whose nontrivial poles belong to the $(N\pm1)$-electron sectors.
+Integrating over one fermionic frequency of the three-frequency non-interacting pair propagator produces two-frequency external vertices whose nontrivial poles belong to the $(N\pm1)$-electron sectors.
 A second integration yields the corresponding one-frequency kernels of second-order Green's function theory (GF2): the two independent $\eh$ blocks and all three $\pp$ blocks.
 We then apply the same frequency reduction to the usual dynamical $GW$ kernel at first order in the screened interaction $W$ and recover independently the known $\eh$ and $\pp$ dynamical BSE kernels.
 \end{abstract}
@@ -189,8 +189,10 @@ Higher-order bare-interaction extensions and the kernel contribution that is
 second order in $W$ are treated separately and are not part of the present
 document.
 
-Throughout the perturbative discussion, we use a Hartree--Fock (HF) reference
-and a M\o ller--Plesset (MP) partition.
+Throughout the perturbative discussion, we use a non-interacting zeroth-order
+reference together with a M\o ller--Plesset (MP) partition.
+Accordingly, $G_0$ denotes the non-interacting one-particle propagator and
+$L_0=G_0G_0$ the corresponding disconnected non-interacting pair propagator throughout.
 For compactness, all expressions are written for real-valued orbitals.
 Left and right external vertices are kept distinct whenever this distinction
 matters, and all causal prescriptions are denoted by $0^+$ because integer
@@ -480,16 +482,18 @@ In the direct eh convention of Sec.~\ref{sec:frequencies},
 \end{multline}
 Barred frequencies denote integration variables throughout these notes.
 
-The perturbative construction below uses a HF/MP reference and replaces
-$L_{\rm d}$ by the zeroth-order pair propagator $L_0=G_0G_0$ in the
-second-order vertex construction.
-For the purpose of the present second-order derivation, this defines the
-reference-line approximation used throughout.
-No claim is made here that replacing the dressed disconnected propagator by
-$G_0G_0$ yields exact physical excitation energies; the exact BSE and the
-HF-reference perturbative construction should be kept conceptually distinct.
+The perturbative construction below uses the non-interacting zeroth-order
+propagators associated with the MP partition.
+We denote the corresponding non-interacting one-particle propagator by $G_0$
+and the associated disconnected pair propagator by $L_0=G_0G_0$.
+Thus, $G_0$ and $L_0$ always refer to non-interacting reference propagators in
+what follows.
+No claim is made here that replacing the dressed disconnected propagator
+$L_{\rm d}=GG$ by the non-interacting reference propagator $L_0=G_0G_0$ yields exact
+physical excitation energies; the exact BSE and the non-interacting-reference
+perturbative construction should be kept conceptually distinct.
 
-For occupied and virtual HF orbitals,
+For occupied and virtual reference orbitals,
 \begin{align}
 	G_{0,i}(\nu)
 	&=
@@ -502,7 +506,7 @@ For occupied and virtual HF orbitals,
 \end{align}
 We use $+$ for forward propagation $i\to a$ and $-$ for backward propagation
 $a\to i$, while keeping the orbital pair label $ia$ in both cases.
-The corresponding three-frequency noninteracting pair propagators are
+The corresponding three-frequency non-interacting pair propagators are
 \begin{align}
 	L_{0,ia}^{+}(\nu,\nu',\omega)
 	&=
@@ -518,7 +522,7 @@ The corresponding three-frequency noninteracting pair propagators are
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exact factorization of the noninteracting pair propagator}
+\subsection{Exact factorization of the non-interacting pair propagator}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 The key observation is that each three-frequency pair propagator factorizes
@@ -784,7 +788,7 @@ antisymmetrized interaction
 	\label{eq:Gamma_eh_first}
 \end{equation}
 The second-order direct $\eh$ reducible vertex follows from the
-zeroth-order neutral excitations $i\to a$
+non-interacting orbital transitions $i\to a$
 \begin{equation}
 	\begin{split}
 	\ii\Phi^{\eh,(2)}_{pqrs}(\omega)
@@ -983,7 +987,7 @@ the one-sided frequency integration.
 The primitive second-order vertices can now be written in the target form of
 Eq.~\eqref{eq:target_second_order}.
 At this order, the external vertices are the bare interaction and the central
-resolvent is noninteracting.
+resolvent is the zeroth-order non-interacting resolvent.
 
 For the $\eh$ channel,
 \begin{align}
@@ -1600,7 +1604,7 @@ No equivalence with the fully unprojected BSE is assumed in this section.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 The $\pp$ channel provides an especially stringent independent check because
-the noninteracting pair propagator is antisymmetric under exchange of the two
+the non-interacting pair propagator is antisymmetric under exchange of the two
 members of each pair.
 It is therefore important to distinguish a single oriented frequency routing
 from the full antisymmetrized pair projection used in the pp BSE.
@@ -1635,7 +1639,7 @@ For an oriented external pair, the elementary one-sided factors are useful
 for tracking the poles associated with the two individual legs.
 However, the physical pp BSE is formulated in a normalized antisymmetric
 pair basis.
-The free pp propagator therefore contains both the direct and exchange
+The non-interacting pp propagator therefore contains both the direct and exchange
 products of one-particle Green's functions,
 \begin{equation}
 	L_0^\pp
@@ -1825,10 +1829,10 @@ Equations~\eqref{eq:pp_GF2_C}--\eqref{eq:pp_GF2_D} coincide term by term
 with the independently derived anomalous-GF2 pp kernel in the normalized
 antisymmetric pair basis.\cite{MarieRomanielloBlaseLoos2025}
 The agreement simultaneously checks the direct and exchange pieces of the
-free pp propagator, the orbital-frequency routing, the relative signs of the
+non-interacting pp propagator, the orbital-frequency routing, the relative signs of the
 four attachments, and the pair normalization.
 In particular, the overall factor $1/2$ in the correlation blocks is the
-normalized-pair remnant of the direct-minus-exchange free-pair propagator.
+normalized-pair remnant of the direct-minus-exchange non-interacting pair propagator.
 Thus all three independent blocks, $C(\Omega)$, $B$, and $D(-\Omega)$,
 provide a complete second-order pp validation rather than only a routing
 check.
@@ -2373,7 +2377,7 @@ This check is independent of the initial channel-resolved derivation and is
 sensitive to signs, orbital-index permutations, and pair-channel factors.
 The pp reduction of Sec.~\ref{sec:pp_gf2_check} provides a second,
 fully independent validation.
-Using the complete antisymmetric free-pair propagator, all three pp-GF2
+Using the complete antisymmetric non-interacting pair propagator, all three pp-GF2
 blocks $C(\Omega)$, $B$, and $D(-\Omega)$ are recovered term by term.
 The first-order-in-$W$ $GW$ construction provides the same overdetermined
 check with independent RPA-mode residues in both the $\eh$ and $\pp$
