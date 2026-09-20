@@ -83,18 +83,14 @@
 \begin{abstract}
 A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the single resolvent familiar from linear-response theory or conventional algebraic-diagrammatic construction (ADC).
 In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, using the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and obtaining the transverse electron-hole ($\teh$) contribution by crossing symmetry.
-Integrating over one fermionic frequency of the three-frequency HF-reference kernel produces two-frequency external vertices whose nontrivial poles belong to the $(N\pm1)$-electron sectors.
-A second integration yields the corresponding one-frequency $\eh$ kernel of second-order Green's-function theory (GF2); the analogous $\pp$ reduction is derived in the same frequency convention, while its detailed mapping to the published anomalous-GF2 convention is kept separate.
-We then apply the same one-sided reduction to the usual dynamical $GW$ kernel at first order in the screened interaction, $K^{(1)}=W$.
-Using the spectral representation of $W$, the explicit particle--hole excitations of the second-order bare-interaction kernel are replaced by RPA neutral modes, leading again to ordinary one-frequency auxiliary resolvents without making a static-screening approximation.
-The contribution $G\,\delta W/\delta G$, which is second order in $W$, is outside the scope of the present notes.
+Integrating over one fermionic frequency of the three-frequency non-interacting kernel produces two-frequency external vertices whose nontrivial poles belong to the $(N\pm1)$-electron sectors.
+A second integration yields the corresponding one-frequency kernels of second-order Green's function theory (GF2): the two independent $\eh$ blocks and all three $\pp$ blocks.
+We then apply the same frequency reduction to the usual dynamical $GW$ kernel at first order in the screened interaction $W$ and recover independently the known $\eh$ and $\pp$ dynamical BSE kernels.
 \end{abstract}
 
 \maketitle
 
-\onecolumngrid
 \tableofcontents
-\twocolumngrid
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -344,10 +340,13 @@ The second-order channel-irreducible vertices are therefore
 Having fixed the channel frequencies, we can state the algebraic form that we
 seek before deriving any perturbative ingredient.
 
-In conventional ADC for the self-energy, one starts from a diagonal spectral
-representation in the exact $(N\pm1)$-electron eigenstate basis and exploits
-the freedom within the intermediate-state space to obtain a non-diagonal ADC
-representation.
+In conventional self-energy ADC, the exact Lehmann representation of the
+one-particle Green's function motivates an auxiliary charged-particle space,
+but the poles of the proper self-energy are not, in general, the exact
+$(N\pm1)$ addition and removal energies themselves.
+ADC instead constructs an intermediate-state representation of the proper
+self-energy in an $(N\pm1)$-type auxiliary space and exploits the freedom
+within that space to obtain a non-diagonal effective matrix representation.
 For a general four-point vertex, no analogous single diagonal representation
 exists because three independent frequencies cannot be carried by one
 resolvent.
@@ -1566,12 +1565,17 @@ structure
 	&
 	B_c^{(2)}
 	\\
-	B_c^{(2)\dagger}
+	B_c^{(2)\mathsf T}
 	&
-	A_c^{(2)\dagger}(-\omega)
+	A_c^{(2)\mathsf T}(-\omega)
 	\end{pmatrix}
 	\label{eq:GF2_matrix}
 \end{equation}
+Here $\mathsf T$ denotes transposition of the orbital-pair indices only.
+It does not complex-conjugate the time-ordered frequency denominators.
+This distinction is essential because pair reversal maps the analytic
+boundary value to the corresponding expression at $-\omega$ without changing
+the sign of its causal prescription.
 Equations~\eqref{eq:GF2_A} and \eqref{eq:GF2_B} give the effective
 GF2 correlation kernel in the present antisymmetrized pair convention.
 A direct contour evaluation of the original three-frequency kernel provides
@@ -1595,241 +1599,241 @@ No equivalence with the fully unprojected BSE is assumed in this section.
 \label{sec:pp_gf2_check}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The $\pp$ construction admits an independent second-order check analogous
-to the $\eh$ GF2 test of Sec.~\ref{sec:GF2_contraction}.
-Starting from the second-order $\pp$-irreducible kernel in
-Eq.~\eqref{eq:Gamma_pp_second}, integrating over one fermionic frequency with
-the corresponding noninteracting pair propagator produces a two-frequency
-pair-space right external vertex $V^{\pp,(2)}$.
-Contracting the remaining relative fermionic frequency must then recover
-the one-frequency second-order pp kernel obtained independently from the
-GF2 anomalous self-energy.
-This comparison provides a stringent test because it probes simultaneously
-the $\pph$ and $\hhp$ external-vertex poles, the antisymmetry of the pair space, and
-the relative signs of the four orbital attachments.
-
-Consider first a central two-particle pair $ab$ and an external pair $rs$.
-It is convenient in this subsection to use the centered relative frequency
-$\bar{\nu}_\pp$ for the external pair rather than the native right frequency
-$\nu'_\pp$ of Eq.~\eqref{eq:target_pp}.
-They are related by
+The $\pp$ channel provides an especially stringent independent check because
+the noninteracting pair propagator is antisymmetric under exchange of the two
+members of each pair.
+It is therefore important to distinguish a single oriented frequency routing
+from the full antisymmetrized pair projection used in the pp BSE.
+Let $x=\nu_\pp$ and $y=\nu'_\pp$ denote the native left and right fermionic
+frequencies.
+The four external orbital legs carry
 \begin{equation}
-	\bar{\nu}_\pp
-	=
-	\nu'_\pp+\frac{\Omega}{2}
-	\label{eq:pp_centered_frequency}
+\begin{array}{c|cccc}
+	& p & q & r & s
+	\\
+\hline
+\eh
+	& \nu & \nu'+\omega & \nu+\omega & \nu'
+	\\
+\pp
+	& \Omega+x & -x & \Omega+y & -y
+\end{array}
+\label{eq:pp_leg_frequency_table}
 \end{equation}
-After integrating over one fermionic frequency, the upper right external vertex can be written as
+which is consistent with Eq.~\eqref{eq:pp_frequency_map}.
+Equivalently, with centered relative frequencies
+\begin{equation}
+	\widetilde\nu=x+\frac{\Omega}{2}
+	\qquad
+	\overline\nu=y+\frac{\Omega}{2}
+	\label{eq:pp_centered_relative_frequencies}
+\end{equation}
+the two members of each pair carry $\Omega/2\pm\widetilde\nu$ or
+$\Omega/2\pm\overline\nu$.
+
+For an oriented external pair, the elementary one-sided factors are useful
+for tracking the poles associated with the two individual legs.
+However, the physical pp BSE is formulated in a normalized antisymmetric
+pair basis.
+The free pp propagator therefore contains both the direct and exchange
+products of one-particle Green's functions,
+\begin{equation}
+	L_0^\pp
+	\propto
+	\frac{1}{2}
+	\left(
+	G_0G_0-G_0G_0\big|_{p\leftrightarrow q}
+	\right)
+	\label{eq:pp_free_antisym_reminder}
+\end{equation}
+and both orientations must be retained in each frequency projection.
+Keeping only one oriented factor is sufficient to diagnose which external
+orbital is attached to a given pole, but it does not generate the complete
+antisymmetrized $C$, $B$, and $D$ blocks.
+This observation resolves the apparent mismatch encountered in a
+single-orientation closure.
+
+We define the energy-valued projected correlation kernel by
+\begin{equation}
+	\mathcal K_c^{\pp,(2)}
+	\equiv
+	\ii\widetilde\Xi_c^{\pp,(2)}
+	\label{eq:pp_Kc_definition}
+\end{equation}
+The full antisymmetric two-sided projection of
+$\Gamma^{\pp,(2)}=\Phi^{\eh,(2)}+\Phi^{\teh,(2)}$ then yields the three
+independent pp-GF2 blocks.
+For the $\ee\to\ee$ block, introduce
+\begin{align}
+	\mathcal C^{(1)}_{ab,cd;me}
+	&=
+	\mel{am}{}{ce}\mel{eb}{}{md}
+	-
+	\mel{bm}{}{ce}\mel{ea}{}{md}
+	\label{eq:pp_GF2_C_residue_1}
+	\\
+	\mathcal C^{(2)}_{ab,cd;me}
+	&=
+	\mel{ae}{}{cm}\mel{mb}{}{ed}
+	-
+	\mel{be}{}{cm}\mel{ma}{}{ed}
+	\label{eq:pp_GF2_C_residue_2}
+\end{align}
+so that
 \begin{equation}
 \begin{split}
-V_{ab,rs}^{\pp,(2)}(\bar{\nu}_\pp,\Omega)
+\left[\mathcal K_c^{\pp,(2)}(\Omega)\right]_{ab,cd}
 ={}&
-\sum_{me}
-\frac{
-\mel{rm}{}{ae}\mel{se}{}{bm}
-}
-{\bar{\nu}_\pp-(\eps_a+\eps_e-\eps_m-\Omega/2)+\ii0^+}
-\\
-&+
-\sum_{me}
-\frac{
-\mel{re}{}{bm}\mel{sm}{}{ae}
-}
-{\bar{\nu}_\pp-(\eps_m-\eps_a-\eps_e+\Omega/2)-\ii0^+}
-\\
-&-
-\sum_{me}
-\frac{
-\mel{re}{}{am}\mel{sm}{}{be}
-}
-{\bar{\nu}_\pp-(\eps_m-\eps_e-\eps_b+\Omega/2)-\ii0^+}
-\\
-&-
-\sum_{me}
-\frac{
-\mel{rm}{}{be}\mel{se}{}{am}
-}
-{\bar{\nu}_\pp-(\eps_b+\eps_e-\eps_m-\Omega/2)+\ii0^+}
-\end{split}
-\label{eq:pp_V_explicit}
-\end{equation}
-The two individual fermionic energies of the external pair are
-\begin{equation}
-	z_1
-	=
-	\frac{\Omega}{2}+\bar{\nu}_\pp
-	=
-	\Omega+\nu'_\pp
-	\qquad
-	z_2
-	=
-	\frac{\Omega}{2}-\bar{\nu}_\pp
-	=
-	-\nu'_\pp
-	\label{eq:pp_individual_energies}
-\end{equation}
-Using the direct-$\eh$ frequency map of Eq.~\eqref{eq:pp_frequency_map},
-\begin{equation}
-	z_1
-	=
-	\nu+\omega
-	\qquad
-	z_2
-	=
-	\nu'
-	\label{eq:pp_individual_energies_eh}
-\end{equation}
-so the poles of Eq.~\eqref{eq:pp_V_explicit} occur at $\pph$
-energies.
-The two terms associated with $z_1$ and $z_2$ correspond to attaching the
-particle-hole correction to either member of the antisymmetric pair.
-The $\hh$ external vertex is obtained in the same manner and contains the
-corresponding $\hhp$ energies.
-
-Projecting the remaining pair onto a two-particle state $cd$ yields the
-dynamic upper-left block of the effective pp kernel
-\begin{equation}
-\begin{split}
-\ii\widetilde\Xi_{ab,cd}^{\pp,(2)}(\Omega)
-={}&
-\ii\sum_{me}
-\frac{
-\mel{cm}{}{ae}\mel{de}{}{bm}
-}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(1)}_{ab,cd;me}}
 {\Omega-(\eps_a+\eps_c+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ce}{}{bm}\mel{dm}{}{ae}
-}
-{\Omega-(\eps_a+\eps_d+\eps_e-\eps_m)+\ii0^+}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(2)}_{ab,cd;me}}
+{\Omega-(\eps_b+\eps_d+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{cm}{}{be}\mel{de}{}{am}
-}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(1)}_{ab,cd;me}}
 {\Omega-(\eps_b+\eps_c+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{ce}{}{am}\mel{dm}{}{be}
-}
-{\Omega-(\eps_b+\eps_d+\eps_e-\eps_m)+\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(2)}_{ab,cd;me}}
+{\Omega-(\eps_a+\eps_d+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_C}
 \end{equation}
-This is the correlation contribution to the dynamic $C$ block of the GF2
-$\pp$ BSE matrix.
-The four residues appear with the relative pattern $+,-,-,+$, exactly as
-required by antisymmetry under interchange of either external pair.
 
-Projecting instead onto a two-hole state $ij$ produces the coupling block
+For the $\ee\leftrightarrow\hh$ coupling block, define
+\begin{align}
+	\mathcal B^{(1)}_{ab,ij;me}
+	&=
+	\mel{am}{}{ie}\mel{eb}{}{mj}
+	-
+	\mel{bm}{}{ie}\mel{ea}{}{mj}
+	\label{eq:pp_GF2_B_residue_1}
+	\\
+	\mathcal B^{(2)}_{ab,ij;me}
+	&=
+	\mel{ae}{}{im}\mel{mb}{}{ej}
+	-
+	\mel{be}{}{im}\mel{ma}{}{ej}
+	\label{eq:pp_GF2_B_residue_2}
+\end{align}
+which gives the static block
 \begin{equation}
 \begin{split}
-\ii\widetilde\Xi_{ab,ij}^{\pp,(2)}
+\left[\mathcal K_c^{\pp,(2)}\right]_{ab,ij}
 ={}&
-\ii\sum_{me}
-\frac{
-\mel{ie}{}{bm}\mel{jm}{}{ae}
-}
-{-(\eps_i-\eps_a+\eps_m-\eps_e)}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(1)}_{ab,ij;me}}
+{-(\eps_a-\eps_j+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{im}{}{ae}\mel{je}{}{bm}
-}
-{-(\eps_a-\eps_j+\eps_e-\eps_m)}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(2)}_{ab,ij;me}}
+{-(\eps_b-\eps_i+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ie}{}{am}\mel{jm}{}{be}
-}
-{-(\eps_i-\eps_b+\eps_m-\eps_e)}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(1)}_{ab,ij;me}}
+{-(\eps_b-\eps_j+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{im}{}{be}\mel{je}{}{am}
-}
-{-(\eps_b-\eps_j+\eps_e-\eps_m)}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(2)}_{ab,ij;me}}
+{-(\eps_a-\eps_i+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_B}
 \end{equation}
-The explicit dependence on the bosonic pair frequency cancels in this
-block.
-The static character of the $\ee$--$\hh$ coupling is therefore not an
-additional approximation but follows directly from the analytic structure
-of the partially integrated kernel.
-This is the precise $\pp$ analogue of the static $B$ block in
-the $\eh$ GF2 kernel.
+The cancellation of the external pair frequency is therefore a consequence
+of the complete $\ee$--$\hh$ closure, not an additional approximation.
 
-Starting from the two-hole external vertex and integrating the remaining fermionic frequency with
-a two-hole projector gives
+For the $\hh\to\hh$ block, define
+\begin{align}
+	\mathcal D^{(1)}_{ij,kl;me}
+	&=
+	\mel{im}{}{ke}\mel{ej}{}{ml}
+	-
+	\mel{jm}{}{ke}\mel{ei}{}{ml}
+	\label{eq:pp_GF2_D_residue_1}
+	\\
+	\mathcal D^{(2)}_{ij,kl;me}
+	&=
+	\mel{ie}{}{km}\mel{mj}{}{el}
+	-
+	\mel{je}{}{km}\mel{mi}{}{el}
+	\label{eq:pp_GF2_D_residue_2}
+\end{align}
+and obtain
 \begin{equation}
 \begin{split}
-\ii\widetilde\Xi_{ij,kl}^{\pp,(2)}(-\Omega)
+\left[\mathcal K_c^{\pp,(2)}(-\Omega)\right]_{ij,kl}
 ={}&
-\ii\sum_{me}
-\frac{
-\mel{ke}{}{im}\mel{lm}{}{je}
-}
-{-\Omega-(-\eps_i-\eps_k+\eps_e-\eps_m)-\ii0^+}
-\\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ke}{}{jm}\mel{lm}{}{ie}
-}
-{-\Omega-(-\eps_j-\eps_k+\eps_e-\eps_m)-\ii0^+}
-\\
-&-
-\ii\sum_{me}
-\frac{
-\mel{km}{}{je}\mel{le}{}{im}
-}
-{-\Omega-(-\eps_i-\eps_l+\eps_e-\eps_m)-\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(1)}_{ij,kl;me}}
+{\Omega-(-\eps_j-\eps_l+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{km}{}{ie}\mel{le}{}{jm}
-}
-{-\Omega-(-\eps_j-\eps_l+\eps_e-\eps_m)-\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(2)}_{ij,kl;me}}
+{\Omega-(-\eps_i-\eps_k+\eps_e-\eps_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(1)}_{ij,kl;me}}
+{\Omega-(-\eps_i-\eps_l+\eps_e-\eps_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(2)}_{ij,kl;me}}
+{\Omega-(-\eps_j-\eps_k+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_D}
 \end{equation}
-which is the dynamic $D$ block of the GF2 pp BSE matrix.
-Equations~\eqref{eq:pp_GF2_C}, \eqref{eq:pp_GF2_B}, and
-\eqref{eq:pp_GF2_D} are the result of the present two-step frequency
-projection in the antisymmetric pair convention used here.
-They should not presently be identified term by term with the published
-anomalous-GF2 pp kernel: in the standard reduced-kernel convention the
-published dynamic block contains two antisymmetrized products at a given
-denominator, whereas Eq.~\eqref{eq:pp_GF2_C} contains one.
-This difference cannot be removed by a global phase or pair-normalization
-factor alone and requires an explicit convention-by-convention derivation.
-Accordingly, the pp reduction is retained here as a useful analytic result
-but is not used as an independent validation of the second-order construction.
 
-The pair normalization itself follows directly from antisymmetry.
-In unrestricted orbital sums the pp BSE contains an explicit factor $1/2$
-because the ordered pairs $(p,q)$ and $(q,p)$ are both present.
-In a normalized antisymmetric basis with $p<q$, this double counting is
-removed and no additional $1/2$ appears in
-\begin{equation}
- \ii\Phi_P^\pp
- =
- U^\pp R^\pp V^\pp
- \label{eq:pp_master_normalization_check}
-\end{equation}
+The complete ppBSE matrix therefore contains
+\begin{align}
+	C^{\rm GF2}_{ab,cd}(\Omega)
+	&=
+	(\eps_a+\eps_b)\delta_{ac}\delta_{bd}
+	+
+	\mel{ab}{}{cd}
+	+
+	\left[\mathcal K_c^{\pp,(2)}(\Omega)\right]_{ab,cd}
+	\label{eq:pp_GF2_C_full}
+	\\
+	B^{\rm GF2}_{ab,ij}
+	&=
+	\mel{ab}{}{ij}
+	+
+	\left[\mathcal K_c^{\pp,(2)}\right]_{ab,ij}
+	\label{eq:pp_GF2_B_full}
+	\\
+	D^{\rm GF2}_{ij,kl}(-\Omega)
+	&=
+	-(\eps_i+\eps_j)\delta_{ik}\delta_{jl}
+	+
+	\mel{ij}{}{kl}
+	+
+	\left[\mathcal K_c^{\pp,(2)}(-\Omega)\right]_{ij,kl}
+	\label{eq:pp_GF2_D_full}
+\end{align}
+Equations~\eqref{eq:pp_GF2_C}--\eqref{eq:pp_GF2_D} coincide term by term
+with the independently derived anomalous-GF2 pp kernel in the normalized
+antisymmetric pair basis.\cite{MarieRomanielloBlaseLoos2025}
+The agreement simultaneously checks the direct and exchange pieces of the
+free pp propagator, the orbital-frequency routing, the relative signs of the
+four attachments, and the pair normalization.
+In particular, the overall factor $1/2$ in the correlation blocks is the
+normalized-pair remnant of the direct-minus-exchange free-pair propagator.
+Thus all three independent blocks, $C(\Omega)$, $B$, and $D(-\Omega)$,
+provide a complete second-order pp validation rather than only a routing
+check.
 
-The two primitive channels therefore exhibit a completely parallel
-frequency-integration structure
+The $\eh$ and $\pp$ reductions therefore exhibit the parallel structure
 \begin{equation}
 \begin{array}{ccc}
 \eh & & \pp
@@ -1838,18 +1842,13 @@ A(\omega) & \longleftrightarrow & C(\Omega)
 \\
 B & \longleftrightarrow & B
 \\
-A^\dagger(-\omega) & \longleftrightarrow & D(-\Omega)
+A^{\mathsf T}(-\omega) & \longleftrightarrow & D(-\Omega)
 \end{array}
 \label{eq:eh_pp_GF2_parallel}
 \end{equation}
-In both channels the diagonal blocks retain the bosonic frequency while
-the off-diagonal coupling block becomes static after the second
-frequency integration.
-This parallel analytic structure is useful, but the pp formulas are not
-used here as an independent GF2 validation until their projection convention
-has been mapped explicitly onto the anomalous-GF2 one.
+where $\mathsf T$ acts only on orbital-pair indices and does not conjugate
+the time-ordered boundary value.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Usual dynamical GW kernel: first order in $W$}
 \label{sec:gw_first}
@@ -1895,19 +1894,16 @@ Using the screened-interaction Dyson equation,
 	\label{eq:deltaW_deltaG_order}
 \end{equation}
 the last term of Eq.~\eqref{eq:Xi_GW_split} is explicitly second order in
-$W$.
-That $K^{GW,(2)}\sim G W(\delta P/\delta G)W$ contribution is not considered
-in the present notes.
+$W$ and is not considered here.
 Thus, throughout this section ``the $GW$ kernel'' means the usual dynamical
 first-order kernel $K^{GW,(1)}=W$, without a static-screening approximation.
 
 It is important to distinguish the direct Coulomb matrix elements entering
-$W$ from the antisymmetrized matrix elements used elsewhere in these notes.
+$W$ from the antisymmetrized matrix elements used in the GF2 construction.
 We denote a non-antisymmetrized Coulomb integral by $(pq|rs)$, whereas
 $\mel{pq}{}{rs}$ remains antisymmetrized.
 For real orbitals, the RPA spectral representation of the correlation part
-$W_c$, obtained by subtracting the instantaneous bare Coulomb interaction
-from $W$, can be written as
+$W_c$ is
 \begin{equation}
 	W^c_{pqrs}(\Omega)
 	=
@@ -1920,16 +1916,7 @@ from $W$, can be written as
 	\right]
 	\label{eq:Wc_spectral}
 \end{equation}
-For later use, define the mode propagator
-\begin{equation}
-	\mathcal W_m(x)
-	=
-	\frac{1}{x-\Omega_m+\ii0^+}
-	-
-	\frac{1}{x+\Omega_m-\ii0^+}
-	\label{eq:GW_mode_propagator}
-\end{equation}
-where $\Omega_m>0$ is an RPA neutral-excitation energy and
+with
 \begin{equation}
 	g^m_{pr}
 	=
@@ -1940,13 +1927,16 @@ where $\Omega_m>0$ is an RPA neutral-excitation energy and
 	\right)
 	\label{eq:gw_transition_integral}
 \end{equation}
-is the screened transition integral.
-The instantaneous bare part of $W$ reproduces the first-order exchange
-kernel and is therefore not included again in the correlation expressions
-below.
+The instantaneous bare part of $W$ reproduces the first-order interaction
+and is omitted from the correlation formulas below whenever it is displayed
+separately.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Electron-hole GW kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 With the direct-$\eh$ frequency convention of Sec.~\ref{sec:frequencies},
-the correlation part of the usual first-order-in-$W$ $GW$ kernel is
+the correlation part of the first-order-in-$W$ kernel is
 \begin{equation}
 	\left[
 	\ii\Gamma_{W,c}^{GW}
@@ -1957,38 +1947,46 @@ the correlation part of the usual first-order-in-$W$ $GW$ kernel is
 	W^c_{pqsr}(\nu'-\nu)
 	\label{eq:GW_three_frequency}
 \end{equation}
-Thus, the $++$ block is
+Thus,
 \begin{equation}
+\begin{split}
 	\left[
 	\ii\Gamma_{W,c}^{GW}
 	\right]^{++}_{ia,jb}
-	(\nu,\nu',\omega)
-	=
+	={}&
 	-
 	\sum_{m>0}
-	g^m_{ab}g^m_{ji}
-	\mathcal W_m(\nu'-\nu)
-	\label{eq:GW_three_frequency_pp}
+	\frac{g^m_{ab}g^m_{ji}}
+	{\nu'-\nu-\Omega_m+\ii0^+}
+	\\
+	&+
+	\sum_{m>0}
+	\frac{g^m_{ab}g^m_{ji}}
+	{\nu'-\nu+\Omega_m-\ii0^+}
+\end{split}
+\label{eq:GW_three_frequency_pp}
 \end{equation}
-while the $+-$ block is
 \begin{equation}
+\begin{split}
 	\left[
 	\ii\Gamma_{W,c}^{GW}
 	\right]^{+-}_{ia,jb}
-	(\nu,\nu',\omega)
-	=
+	={}&
 	-
 	\sum_{m>0}
-	g^m_{aj}g^m_{bi}
-	\mathcal W_m(\nu'-\nu)
-	\label{eq:GW_three_frequency_pm}
+	\frac{g^m_{aj}g^m_{bi}}
+	{\nu'-\nu-\Omega_m+\ii0^+}
+	\\
+	&+
+	\sum_{m>0}
+	\frac{g^m_{aj}g^m_{bi}}
+	{\nu'-\nu+\Omega_m-\ii0^+}
+\end{split}
+\label{eq:GW_three_frequency_pm}
 \end{equation}
-
-The first one-sided frequency integration is therefore identical to the
-transverse-$\eh$ contour calculation of Sec.~\ref{sec:half_contraction_second}.
-For the $++$ block,
+The first one-sided integration gives
 \begin{equation}
-	\begin{split}
+\begin{split}
 	V_{W,c}^{GW,++}{}_{ia,jb}(\nu',\omega)
 	={}&
 	\sum_{m>0}
@@ -1999,12 +1997,11 @@ For the $++$ block,
 	\sum_{m>0}
 	\frac{g^m_{ab}g^m_{ji}}
 	{\nu'+\omega-(\eps_a+\Omega_m)+\ii0^+}
-	\end{split}
-	\label{eq:GW_external_pp}
+\end{split}
+\label{eq:GW_external_pp}
 \end{equation}
-while
 \begin{equation}
-	\begin{split}
+\begin{split}
 	V_{W,c}^{GW,+-}{}_{ia,jb}(\nu',\omega)
 	={}&
 	\sum_{m>0}
@@ -2015,24 +2012,17 @@ while
 	\sum_{m>0}
 	\frac{g^m_{aj}g^m_{bi}}
 	{\nu'+\omega-(\eps_a+\Omega_m)+\ii0^+}
-	\end{split}
-	\label{eq:GW_external_pm}
+\end{split}
+\label{eq:GW_external_pm}
 \end{equation}
-The two external-vertex pole families are therefore
+with hole--mode and particle--mode pole energies
 \begin{equation}
-	E^-_{i;m}
-	=
-	\eps_i-\Omega_m
+	E^-_{i;m}=\eps_i-\Omega_m
 	\qquad
-	E^+_{a;m}
-	=
-	\eps_a+\Omega_m
+	E^+_{a;m}=\eps_a+\Omega_m
 	\label{eq:GW_external_poles}
 \end{equation}
-which may be viewed as hole--RPA-mode and particle--RPA-mode satellite
-energies.
-
-Performing the second frequency integration gives the resonant block
+The second integration yields the two independent $\eh$ blocks
 \begin{equation}
 	\begin{split}
 	\left[
@@ -2051,7 +2041,6 @@ Performing the second frequency integration gives the resonant block
 	\end{split}
 	\label{eq:GW_effective_A}
 \end{equation}
-and the coupling block
 \begin{equation}
 	\begin{split}
 	\left[
@@ -2069,14 +2058,17 @@ and the coupling block
 	\end{split}
 	\label{eq:GW_effective_B}
 \end{equation}
-The $--$ and $-+$ blocks follow from pair reversal.
-Equations~\eqref{eq:GW_effective_A} and \eqref{eq:GW_effective_B} reproduce
-the usual dynamical $GW$ kernel at first order in $W$, without making the
-static-screening approximation $W(\Omega)\to W(0)$.
+The $--$ and $-+$ blocks follow from the same pair-reversal operation as in
+Sec.~\ref{sec:half_contraction_second}.
+Equations~\eqref{eq:GW_effective_A} and \eqref{eq:GW_effective_B} are the
+standard fully dynamical first-order-in-$W$ $\eh$ kernel obtained directly
+from the $GW$ self-energy.\cite{MarieAmmarLoos2024}
+Thus the one-sided reduction reproduces both independent $\eh$ blocks before
+any static approximation is made.
 
-The multiresolvent interpretation is especially simple.
+The multiresolvent interpretation is immediate.
 Introduce an auxiliary neutral pair $kc$ together with an RPA mode $m$ and
-two attachment labels $\lambda=1,2$, with zeroth-order energy
+two attachment labels $\lambda=1,2$, with energy
 \begin{equation}
 	\mathcal E_{kc,m}
 	=
@@ -2103,8 +2095,7 @@ and couplings
 	\delta_{jk}g^m_{cb}
 	\label{eq:GW_aux_coupling_2}
 \end{align}
-Then the complete resonant contribution in Eq.~\eqref{eq:GW_effective_A}
-can be written as
+so that the resonant block can be written as
 \begin{equation}
 	\left[
 	\widetilde\Xi_{W,c}^{GW}(\omega)
@@ -2127,46 +2118,235 @@ with
 	\delta_{kk'}\delta_{cc'}\delta_{mn}
 	\label{eq:GW_aux_matrix}
 \end{equation}
-Thus dynamical screening replaces the explicit particle--hole excitation
-inside the GF2 external vertex by an RPA neutral mode, while preserving an
-ordinary one-frequency resolvent.
 
-In the independent-particle limit of the RPA spectrum, a mode
-$m\equiv(ld)$ obeys
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle GW kernel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The corresponding pp kernel is known independently from the anomalous
+$GW$ self-energy.\cite{MarieRomanielloBlaseLoos2025}
+In the normal limit,
 \begin{equation}
-	\Omega_m
-	\longrightarrow
-	\eps_d-\eps_l
+	\Sigma^{ee,GW}(11')
+	=
+	-\ii\,G^{ee}(33')W(33';11')
+	\label{eq:Sigma_ee_GW}
+\end{equation}
+and differentiation with respect to the anomalous propagator gives the
+first-order-in-$W$ pp kernel
+\begin{equation}
+	\ii\Xi^{\pp,GW}(11';22')
+	=
+	\frac{1}{2}
+	\left[
+	W(11';22')-W(11;2'2)
+	\right]
+	\label{eq:Xi_pp_GW_firstW}
+\end{equation}
+The derivative of $W$ itself does not contribute in the normal limit because
+it is multiplied by the anomalous propagator that is set to zero after the
+functional derivative.
+Hence Eq.~\eqref{eq:Xi_pp_GW_firstW} is precisely the pp counterpart of the
+usual first-order-in-$W$ $\eh$ kernel considered above.
+
+We define the energy-valued projected pp kernel by
+\begin{equation}
+	\mathcal K^{\pp,GW}
+	\equiv
+	\ii\widetilde\Xi^{\pp,GW}
+	\label{eq:K_pp_GW_definition}
+\end{equation}
+For real orbitals, introduce the two antisymmetrized transition-density
+combinations entering the $\ee\to\ee$ block,
+\begin{align}
+	\mathcal C^{GW,(1)}_{ab,cd;m}
+	&=
+	g^m_{ac}g^m_{db}-g^m_{bc}g^m_{da}
+	\label{eq:pp_GW_C_residue_1}
+	\\
+	\mathcal C^{GW,(2)}_{ab,cd;m}
+	&=
+	g^m_{ca}g^m_{bd}-g^m_{cb}g^m_{ad}
+	\label{eq:pp_GW_C_residue_2}
+\end{align}
+The complete dynamical $C$ block is
+\begin{equation}
+\begin{split}
+\mathcal K^{\pp,GW}_{ab,cd}(\Omega)
+={}&
+\mel{ab}{}{cd}
++
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal C^{GW,(1)}_{ab,cd;m}}
+{\Omega-(\eps_a+\eps_c+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal C^{GW,(2)}_{ab,cd;m}}
+{\Omega-(\eps_b+\eps_d+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal C^{GW,(1)}_{ab,cd;m}}
+{\Omega-(\eps_b+\eps_c+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal C^{GW,(2)}_{ab,cd;m}}
+{\Omega-(\eps_a+\eps_d+\Omega_m)+\ii0^+}
+\end{split}
+\label{eq:pp_GW_C}
+\end{equation}
+
+For the $\ee\leftrightarrow\hh$ block, define
+\begin{align}
+	\mathcal B^{GW,(1)}_{ab,ij;m}
+	&=
+	g^m_{ai}g^m_{jb}-g^m_{bi}g^m_{ja}
+	\label{eq:pp_GW_B_residue_1}
+	\\
+	\mathcal B^{GW,(2)}_{ab,ij;m}
+	&=
+	g^m_{ia}g^m_{bj}-g^m_{ib}g^m_{aj}
+	\label{eq:pp_GW_B_residue_2}
+\end{align}
+which gives
+\begin{equation}
+\begin{split}
+\mathcal K^{\pp,GW}_{ab,ij}
+={}&
+\mel{ab}{}{ij}
++
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal B^{GW,(1)}_{ab,ij;m}}
+{-(\eps_a-\eps_j+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal B^{GW,(2)}_{ab,ij;m}}
+{-(\eps_b-\eps_i+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal B^{GW,(1)}_{ab,ij;m}}
+{-(\eps_b-\eps_j+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal B^{GW,(2)}_{ab,ij;m}}
+{-(\eps_a-\eps_i+\Omega_m)+\ii0^+}
+\end{split}
+\label{eq:pp_GW_B}
+\end{equation}
+which is static with respect to the external pair frequency.
+
+For the $\hh\to\hh$ block, define
+\begin{align}
+	\mathcal D^{GW,(1)}_{ij,kl;m}
+	&=
+	g^m_{ik}g^m_{lj}-g^m_{jk}g^m_{li}
+	\label{eq:pp_GW_D_residue_1}
+	\\
+	\mathcal D^{GW,(2)}_{ij,kl;m}
+	&=
+	g^m_{ki}g^m_{jl}-g^m_{kj}g^m_{il}
+	\label{eq:pp_GW_D_residue_2}
+\end{align}
+and obtain
+\begin{equation}
+\begin{split}
+\mathcal K^{\pp,GW}_{ij,kl}(-\Omega)
+={}&
+\mel{ij}{}{kl}
++
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal D^{GW,(1)}_{ij,kl;m}}
+{\Omega-(-\eps_j-\eps_l+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal D^{GW,(2)}_{ij,kl;m}}
+{\Omega-(-\eps_i-\eps_k+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal D^{GW,(1)}_{ij,kl;m}}
+{\Omega-(-\eps_i-\eps_l+\Omega_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{m>0}
+\frac{\mathcal D^{GW,(2)}_{ij,kl;m}}
+{\Omega-(-\eps_j-\eps_k+\Omega_m)+\ii0^+}
+\end{split}
+\label{eq:pp_GW_D}
+\end{equation}
+The factor $1/2$ in each dynamical sum of Eq.~\eqref{eq:pp_GW_D} is essential;
+it is the corrected expression of the $\hh$--$\hh$ dynamical ppBSE@$GW$
+kernel.\cite{MarieRomanielloBlaseLoosErratum2026}
+
+Equations~\eqref{eq:pp_GW_C}--\eqref{eq:pp_GW_D} provide an independent
+first-order-in-$W$ validation of exactly the same antisymmetric pp frequency
+projection used in Sec.~\ref{sec:pp_gf2_check}.
+The check is genuinely independent of GF2 because the bare second-order
+particle--hole intermediate state is replaced by an RPA neutral mode.
+Nevertheless, the block topology is identical:
+$C(\Omega)$ and $D(-\Omega)$ remain dynamical, whereas the coupling block
+$B$ is static.
+In the static-screening limit $W(\Omega)\to W(0)$ these expressions reduce to
+\begin{align}
+	\mathcal K^{\pp,GW}_{ab,cd}
+	&=
+	W_{abcd}(0)-W_{abdc}(0)
+	\\
+	\mathcal K^{\pp,GW}_{ab,ij}
+	&=
+	W_{abij}(0)-W_{abji}(0)
+	\\
+	\mathcal K^{\pp,GW}_{ij,kl}
+	&=
+	W_{ijkl}(0)-W_{ijlk}(0)
+	\label{eq:pp_GW_static_limit}
+\end{align}
+which is the standard static ppBSE@$GW$ kernel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Comparison of the GF2 and GW checks}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The complete validation pattern can now be summarized as
+\begin{equation}
+\begin{array}{c|cc}
+	& \eh & \pp
+	\\
+\hline
+\text{GF2}
+	& A(\omega),\ B
+	& C(\Omega),\ B,\ D(-\Omega)
+	\\
+GW[W]
+	& A^{GW}(\omega),\ B^{GW}
+	& C^{GW}(\Omega),\ B^{GW},\ D^{GW}(-\Omega)
+\end{array}
+\label{eq:complete_validation_table}
+\end{equation}
+The GF2 and $GW$ tests therefore probe the same frequency-reduction
+machinery with two independent physical kernels.
+For $GW$, the independent-particle limit of an RPA mode,
+\begin{equation}
+	\Omega_m\longrightarrow\eps_d-\eps_l
 	\qquad
 	X^m_{kc}+Y^m_{kc}
 	\longrightarrow
 	\delta_{kl}\delta_{cd}
 	\label{eq:GW_IP_limit}
 \end{equation}
-the auxiliary pole energies become ordinary $2h2p$ energies
-\begin{equation}
-	\mathcal E_{kc,m}
-	\longrightarrow
-	\eps_c+\eps_d-\eps_k-\eps_l
-	\label{eq:GW_IP_poles}
-\end{equation}
-This identifies the same neutral-double pole manifold that appears in the
-particle--hole-like terms of the GF2 kernel.
-The residues should not, however, be identified with the complete GF2
-residues.
-The present kernel is first order in the screened interaction $W$, whereas
-$G\,\delta W/\delta G$ is second order in $W$ and is deliberately excluded.
-Moreover, GF2 contains exchange as well as explicit $\pp$ and $\hh$ pole
-classes that are not generated by the screened-interaction term alone.
+reduces the RPA-mode denominators to the corresponding particle--hole-like
+second-order pole manifold.
+The residues do not become the complete GF2 residues because the screened
+interaction resums the direct ring channel, while GF2 also contains exchange
+and explicit pair-channel contributions.
 
-The construction in this section concerns the ordinary direct-$\eh$ Hedin
-kernel.
-A particle-particle screened-interaction kernel would require the
-corresponding anomalous/Gorkov $GW$ functional derivative; that explicit
-kernel is not part of the present derivation and should not be obtained by
-the formal replacement $\mel{pq}{}{rs}\to W_{pqrs}$ in the $\pp$ primitive.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Channel consistency at second order}
 \label{sec:channel_consistency}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2191,10 +2371,13 @@ over the remaining fermionic frequency, as shown in
 Sec.~\ref{sec:second_contraction}.
 This check is independent of the initial channel-resolved derivation and is
 sensitive to signs, orbital-index permutations, and pair-channel factors.
-The analogous pp reduction of Sec.~\ref{sec:pp_gf2_check} has the expected
-frequency and antisymmetry structure but is not used as a term-by-term GF2
-validation pending an explicit mapping to the anomalous-GF2 projection
-convention.
+The pp reduction of Sec.~\ref{sec:pp_gf2_check} provides a second,
+fully independent validation.
+Using the complete antisymmetric free-pair propagator, all three pp-GF2
+blocks $C(\Omega)$, $B$, and $D(-\Omega)$ are recovered term by term.
+The first-order-in-$W$ $GW$ construction provides the same overdetermined
+check with independent RPA-mode residues in both the $\eh$ and $\pp$
+channels.
 
 Finally, the full second-order vertex must be independent of the channel
 through which it is reconstructed.
@@ -2259,10 +2442,10 @@ non-trivial poles are
 	\label{eq:recipe_second_external_spaces}
 \end{equation}
 A second frequency integration yields the one-frequency $\eh$ GF2 BSE
-kernel and, in the $\pp$ channel, the corresponding projected pair kernel.
-The latter has the expected frequency and antisymmetry structure but is not
-identified term by term with the published anomalous-GF2 kernel without an
-explicit mapping of projection conventions.
+kernel and all three independent blocks of the pp-GF2 kernel.
+The same projection machinery applied to the usual first-order-in-$W$ $GW$
+kernel reproduces the known dynamical $\eh$ blocks and the complete
+$C(\Omega)$, $B$, and $D(-\Omega)$ ppBSE@$GW$ kernel.
 Finally,
 \begin{equation}
 	F^{(2)}
@@ -2304,6 +2487,17 @@ J. Chem. Phys. \textbf{163}, 194115 (2025)
 A.~Marie, A.~Ammar, and P.-F.~Loos,
 ``The $GW$ approximation: A quantum chemistry perspective,''
 Adv. Quantum Chem. \textbf{90}, 157--184 (2024)
+
+
+\bibitem{MarieRomanielloBlaseLoos2025}
+A.~Marie, P.~Romaniello, X.~Blase, and P.-F.~Loos,
+``Anomalous propagators and the particle-particle channel: Bethe--Salpeter equation,''
+J. Chem. Phys. \textbf{162}, 134105 (2025)
+
+\bibitem{MarieRomanielloBlaseLoosErratum2026}
+A.~Marie, P.~Romaniello, X.~Blase, and P.-F.~Loos,
+``Erratum: Anomalous propagators and the particle-particle channel: Bethe--Salpeter equation,''
+J. Chem. Phys. \textbf{164}, 039901 (2026)
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%

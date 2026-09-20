@@ -343,10 +343,13 @@ The second-order channel-irreducible vertices are therefore
 Having fixed the channel frequencies, we can state the algebraic form that we
 seek before deriving any perturbative ingredient.
 
-In conventional ADC for the self-energy, one starts from a diagonal spectral
-representation in the exact $(N\pm1)$-electron eigenstate basis and exploits
-the freedom within the intermediate-state space to obtain a non-diagonal ADC
-representation.
+In conventional self-energy ADC, the exact Lehmann representation of the
+one-particle Green's function motivates an auxiliary charged-particle space,
+but the poles of the proper self-energy are not, in general, the exact
+$(N\pm1)$ addition and removal energies themselves.
+ADC instead constructs an intermediate-state representation of the proper
+self-energy in an $(N\pm1)$-type auxiliary space and exploits the freedom
+within that space to obtain a non-diagonal effective matrix representation.
 For a general four-point vertex, no analogous single diagonal representation
 exists because three independent frequencies cannot be carried by one
 resolvent.
@@ -1567,12 +1570,17 @@ structure
 	&
 	B_c^{(2)}
 	\\
-	B_c^{(2)\dagger}
+	B_c^{(2)\mathsf T}
 	&
-	A_c^{(2)\dagger}(-\omega)
+	A_c^{(2)\mathsf T}(-\omega)
 	\end{pmatrix}
 	\label{eq:GF2_matrix}
 \end{equation}
+Here $\mathsf T$ denotes transposition of the orbital-pair indices only.
+It does not complex-conjugate the time-ordered frequency denominators.
+This distinction is essential because pair reversal maps the analytic
+boundary value to the corresponding expression at $-\omega$ without changing
+the sign of its causal prescription.
 Equations~\eqref{eq:GF2_A} and \eqref{eq:GF2_B} give the effective
 GF2 correlation kernel in the present antisymmetrized pair convention.
 A direct contour evaluation of the original three-frequency kernel provides
@@ -1604,241 +1612,241 @@ algebraic reduction and linearization of the three-frequency BSE.
 \label{sec:pp_gf2_check}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The $\pp$ construction admits an independent second-order check analogous
-to the $\eh$ GF2 test of Sec.~\ref{sec:GF2_contraction}.
-Starting from the second-order $\pp$-irreducible kernel in
-Eq.~\eqref{eq:Gamma_pp_second}, integrating over one fermionic frequency with
-the corresponding noninteracting pair propagator produces a two-frequency
-pair-space right external vertex $V^{\pp,(2)}$.
-Contracting the remaining relative fermionic frequency must then recover
-the one-frequency second-order pp kernel obtained independently from the
-GF2 anomalous self-energy.
-This comparison provides a stringent test because it probes simultaneously
-the $\pph$ and $\hhp$ external-vertex poles, the antisymmetry of the pair space, and
-the relative signs of the four orbital attachments.
-
-Consider first a central two-particle pair $ab$ and an external pair $rs$.
-It is convenient in this subsection to use the centered relative frequency
-$\bar{\nu}_\pp$ for the external pair rather than the native right frequency
-$\nu'_\pp$ of Eq.~\eqref{eq:target_pp}.
-They are related by
+The $\pp$ channel provides an especially stringent independent check because
+the noninteracting pair propagator is antisymmetric under exchange of the two
+members of each pair.
+It is therefore important to distinguish a single oriented frequency routing
+from the full antisymmetrized pair projection used in the pp BSE.
+Let $x=\nu_\pp$ and $y=\nu'_\pp$ denote the native left and right fermionic
+frequencies.
+The four external orbital legs carry
 \begin{equation}
-	\bar{\nu}_\pp
-	=
-	\nu'_\pp+\frac{\Omega}{2}
-	\label{eq:pp_centered_frequency}
+\begin{array}{c|cccc}
+	& p & q & r & s
+	\\
+\hline
+\eh
+	& \nu & \nu'+\omega & \nu+\omega & \nu'
+	\\
+\pp
+	& \Omega+x & -x & \Omega+y & -y
+\end{array}
+\label{eq:pp_leg_frequency_table}
 \end{equation}
-After integrating over one fermionic frequency, the upper right external vertex can be written as
+which is consistent with Eq.~\eqref{eq:pp_frequency_map}.
+Equivalently, with centered relative frequencies
+\begin{equation}
+	\widetilde\nu=x+\frac{\Omega}{2}
+	\qquad
+	\overline\nu=y+\frac{\Omega}{2}
+	\label{eq:pp_centered_relative_frequencies}
+\end{equation}
+the two members of each pair carry $\Omega/2\pm\widetilde\nu$ or
+$\Omega/2\pm\overline\nu$.
+
+For an oriented external pair, the elementary one-sided factors are useful
+for tracking the poles associated with the two individual legs.
+However, the physical pp BSE is formulated in a normalized antisymmetric
+pair basis.
+The free pp propagator therefore contains both the direct and exchange
+products of one-particle Green's functions,
+\begin{equation}
+	L_0^\pp
+	\propto
+	\frac{1}{2}
+	\left(
+	G_0G_0-G_0G_0\big|_{p\leftrightarrow q}
+	\right)
+	\label{eq:pp_free_antisym_reminder}
+\end{equation}
+and both orientations must be retained in each frequency projection.
+Keeping only one oriented factor is sufficient to diagnose which external
+orbital is attached to a given pole, but it does not generate the complete
+antisymmetrized $C$, $B$, and $D$ blocks.
+This observation resolves the apparent mismatch encountered in a
+single-orientation closure.
+
+We define the energy-valued projected correlation kernel by
+\begin{equation}
+	\mathcal K_c^{\pp,(2)}
+	\equiv
+	\ii\widetilde\Xi_c^{\pp,(2)}
+	\label{eq:pp_Kc_definition}
+\end{equation}
+The full antisymmetric two-sided projection of
+$\Gamma^{\pp,(2)}=\Phi^{\eh,(2)}+\Phi^{\teh,(2)}$ then yields the three
+independent pp-GF2 blocks.
+For the $\ee\to\ee$ block, introduce
+\begin{align}
+	\mathcal C^{(1)}_{ab,cd;me}
+	&=
+	\mel{am}{}{ce}\mel{eb}{}{md}
+	-
+	\mel{bm}{}{ce}\mel{ea}{}{md}
+	\label{eq:pp_GF2_C_residue_1}
+	\\
+	\mathcal C^{(2)}_{ab,cd;me}
+	&=
+	\mel{ae}{}{cm}\mel{mb}{}{ed}
+	-
+	\mel{be}{}{cm}\mel{ma}{}{ed}
+	\label{eq:pp_GF2_C_residue_2}
+\end{align}
+so that
 \begin{equation}
 \begin{split}
-V_{ab,rs}^{\pp,(2)}(\bar{\nu}_\pp,\Omega)
+\left[\mathcal K_c^{\pp,(2)}(\Omega)\right]_{ab,cd}
 ={}&
-\sum_{me}
-\frac{
-\mel{rm}{}{ae}\mel{se}{}{bm}
-}
-{\bar{\nu}_\pp-(\eps_a+\eps_e-\eps_m-\Omega/2)+\ii0^+}
-\\
-&+
-\sum_{me}
-\frac{
-\mel{re}{}{bm}\mel{sm}{}{ae}
-}
-{\bar{\nu}_\pp-(\eps_m-\eps_a-\eps_e+\Omega/2)-\ii0^+}
-\\
-&-
-\sum_{me}
-\frac{
-\mel{re}{}{am}\mel{sm}{}{be}
-}
-{\bar{\nu}_\pp-(\eps_m-\eps_e-\eps_b+\Omega/2)-\ii0^+}
-\\
-&-
-\sum_{me}
-\frac{
-\mel{rm}{}{be}\mel{se}{}{am}
-}
-{\bar{\nu}_\pp-(\eps_b+\eps_e-\eps_m-\Omega/2)+\ii0^+}
-\end{split}
-\label{eq:pp_V_explicit}
-\end{equation}
-The two individual fermionic energies of the external pair are
-\begin{equation}
-	z_1
-	=
-	\frac{\Omega}{2}+\bar{\nu}_\pp
-	=
-	\Omega+\nu'_\pp
-	\qquad
-	z_2
-	=
-	\frac{\Omega}{2}-\bar{\nu}_\pp
-	=
-	-\nu'_\pp
-	\label{eq:pp_individual_energies}
-\end{equation}
-Using the direct-$\eh$ frequency map of Eq.~\eqref{eq:pp_frequency_map},
-\begin{equation}
-	z_1
-	=
-	\nu+\omega
-	\qquad
-	z_2
-	=
-	\nu'
-	\label{eq:pp_individual_energies_eh}
-\end{equation}
-so the poles of Eq.~\eqref{eq:pp_V_explicit} occur at $\pph$
-energies.
-The two terms associated with $z_1$ and $z_2$ correspond to attaching the
-particle-hole correction to either member of the antisymmetric pair.
-The $\hh$ external vertex is obtained in the same manner and contains the
-corresponding $\hhp$ energies.
-
-Projecting the remaining pair onto a two-particle state $cd$ yields the
-dynamic upper-left block of the effective pp kernel
-\begin{equation}
-\begin{split}
-\ii\widetilde\Xi_{ab,cd}^{\pp,(2)}(\Omega)
-={}&
-\ii\sum_{me}
-\frac{
-\mel{cm}{}{ae}\mel{de}{}{bm}
-}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(1)}_{ab,cd;me}}
 {\Omega-(\eps_a+\eps_c+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ce}{}{bm}\mel{dm}{}{ae}
-}
-{\Omega-(\eps_a+\eps_d+\eps_e-\eps_m)+\ii0^+}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(2)}_{ab,cd;me}}
+{\Omega-(\eps_b+\eps_d+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{cm}{}{be}\mel{de}{}{am}
-}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(1)}_{ab,cd;me}}
 {\Omega-(\eps_b+\eps_c+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{ce}{}{am}\mel{dm}{}{be}
-}
-{\Omega-(\eps_b+\eps_d+\eps_e-\eps_m)+\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal C^{(2)}_{ab,cd;me}}
+{\Omega-(\eps_a+\eps_d+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_C}
 \end{equation}
-This is the correlation contribution to the dynamic $C$ block of the GF2
-$\pp$ BSE matrix.
-The four residues appear with the relative pattern $+,-,-,+$, exactly as
-required by antisymmetry under interchange of either external pair.
 
-Projecting instead onto a two-hole state $ij$ produces the coupling block
+For the $\ee\leftrightarrow\hh$ coupling block, define
+\begin{align}
+	\mathcal B^{(1)}_{ab,ij;me}
+	&=
+	\mel{am}{}{ie}\mel{eb}{}{mj}
+	-
+	\mel{bm}{}{ie}\mel{ea}{}{mj}
+	\label{eq:pp_GF2_B_residue_1}
+	\\
+	\mathcal B^{(2)}_{ab,ij;me}
+	&=
+	\mel{ae}{}{im}\mel{mb}{}{ej}
+	-
+	\mel{be}{}{im}\mel{ma}{}{ej}
+	\label{eq:pp_GF2_B_residue_2}
+\end{align}
+which gives the static block
 \begin{equation}
 \begin{split}
-\ii\widetilde\Xi_{ab,ij}^{\pp,(2)}
+\left[\mathcal K_c^{\pp,(2)}\right]_{ab,ij}
 ={}&
-\ii\sum_{me}
-\frac{
-\mel{ie}{}{bm}\mel{jm}{}{ae}
-}
-{-(\eps_i-\eps_a+\eps_m-\eps_e)}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(1)}_{ab,ij;me}}
+{-(\eps_a-\eps_j+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{im}{}{ae}\mel{je}{}{bm}
-}
-{-(\eps_a-\eps_j+\eps_e-\eps_m)}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(2)}_{ab,ij;me}}
+{-(\eps_b-\eps_i+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ie}{}{am}\mel{jm}{}{be}
-}
-{-(\eps_i-\eps_b+\eps_m-\eps_e)}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(1)}_{ab,ij;me}}
+{-(\eps_b-\eps_j+\eps_e-\eps_m)+\ii0^+}
 \\
-&-
-\ii\sum_{me}
-\frac{
-\mel{im}{}{be}\mel{je}{}{am}
-}
-{-(\eps_b-\eps_j+\eps_e-\eps_m)}
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal B^{(2)}_{ab,ij;me}}
+{-(\eps_a-\eps_i+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_B}
 \end{equation}
-The explicit dependence on the bosonic pair frequency cancels in this
-block.
-The static character of the $\ee$--$\hh$ coupling is therefore not an
-additional approximation but follows directly from the analytic structure
-of the partially integrated kernel.
-This is the precise $\pp$ analogue of the static $B$ block in
-the $\eh$ GF2 kernel.
+The cancellation of the external pair frequency is therefore a consequence
+of the complete $\ee$--$\hh$ closure, not an additional approximation.
 
-Starting from the two-hole external vertex and integrating the remaining fermionic frequency with
-a two-hole projector gives
+For the $\hh\to\hh$ block, define
+\begin{align}
+	\mathcal D^{(1)}_{ij,kl;me}
+	&=
+	\mel{im}{}{ke}\mel{ej}{}{ml}
+	-
+	\mel{jm}{}{ke}\mel{ei}{}{ml}
+	\label{eq:pp_GF2_D_residue_1}
+	\\
+	\mathcal D^{(2)}_{ij,kl;me}
+	&=
+	\mel{ie}{}{km}\mel{mj}{}{el}
+	-
+	\mel{je}{}{km}\mel{mi}{}{el}
+	\label{eq:pp_GF2_D_residue_2}
+\end{align}
+and obtain
 \begin{equation}
 \begin{split}
-\ii\widetilde\Xi_{ij,kl}^{\pp,(2)}(-\Omega)
+\left[\mathcal K_c^{\pp,(2)}(-\Omega)\right]_{ij,kl}
 ={}&
-\ii\sum_{me}
-\frac{
-\mel{ke}{}{im}\mel{lm}{}{je}
-}
-{-\Omega-(-\eps_i-\eps_k+\eps_e-\eps_m)-\ii0^+}
-\\
-&-
-\ii\sum_{me}
-\frac{
-\mel{ke}{}{jm}\mel{lm}{}{ie}
-}
-{-\Omega-(-\eps_j-\eps_k+\eps_e-\eps_m)-\ii0^+}
-\\
-&-
-\ii\sum_{me}
-\frac{
-\mel{km}{}{je}\mel{le}{}{im}
-}
-{-\Omega-(-\eps_i-\eps_l+\eps_e-\eps_m)-\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(1)}_{ij,kl;me}}
+{\Omega-(-\eps_j-\eps_l+\eps_e-\eps_m)+\ii0^+}
 \\
 &+
-\ii\sum_{me}
-\frac{
-\mel{km}{}{ie}\mel{le}{}{jm}
-}
-{-\Omega-(-\eps_j-\eps_l+\eps_e-\eps_m)-\ii0^+}
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(2)}_{ij,kl;me}}
+{\Omega-(-\eps_i-\eps_k+\eps_e-\eps_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(1)}_{ij,kl;me}}
+{\Omega-(-\eps_i-\eps_l+\eps_e-\eps_m)+\ii0^+}
+\\
+&+
+\frac{1}{2}\sum_{me}
+\frac{\mathcal D^{(2)}_{ij,kl;me}}
+{\Omega-(-\eps_j-\eps_k+\eps_e-\eps_m)+\ii0^+}
 \end{split}
 \label{eq:pp_GF2_D}
 \end{equation}
-which is the dynamic $D$ block of the GF2 pp BSE matrix.
-Equations~\eqref{eq:pp_GF2_C}, \eqref{eq:pp_GF2_B}, and
-\eqref{eq:pp_GF2_D} are the result of the present two-step frequency
-projection in the antisymmetric pair convention used here.
-They should not presently be identified term by term with the published
-anomalous-GF2 pp kernel: in the standard reduced-kernel convention the
-published dynamic block contains two antisymmetrized products at a given
-denominator, whereas Eq.~\eqref{eq:pp_GF2_C} contains one.
-This difference cannot be removed by a global phase or pair-normalization
-factor alone and requires an explicit convention-by-convention derivation.
-Accordingly, the pp reduction is retained here as a useful analytic result
-but is not used as an independent validation of the second-order construction.
 
-The pair normalization itself follows directly from antisymmetry.
-In unrestricted orbital sums the pp BSE contains an explicit factor $1/2$
-because the ordered pairs $(p,q)$ and $(q,p)$ are both present.
-In a normalized antisymmetric basis with $p<q$, this double counting is
-removed and no additional $1/2$ appears in
-\begin{equation}
- \ii\Phi_P^\pp
- =
- U^\pp R^\pp V^\pp
- \label{eq:pp_master_normalization_check}
-\end{equation}
+The complete ppBSE matrix therefore contains
+\begin{align}
+	C^{\rm GF2}_{ab,cd}(\Omega)
+	&=
+	(\eps_a+\eps_b)\delta_{ac}\delta_{bd}
+	+
+	\mel{ab}{}{cd}
+	+
+	\left[\mathcal K_c^{\pp,(2)}(\Omega)\right]_{ab,cd}
+	\label{eq:pp_GF2_C_full}
+	\\
+	B^{\rm GF2}_{ab,ij}
+	&=
+	\mel{ab}{}{ij}
+	+
+	\left[\mathcal K_c^{\pp,(2)}\right]_{ab,ij}
+	\label{eq:pp_GF2_B_full}
+	\\
+	D^{\rm GF2}_{ij,kl}(-\Omega)
+	&=
+	-(\eps_i+\eps_j)\delta_{ik}\delta_{jl}
+	+
+	\mel{ij}{}{kl}
+	+
+	\left[\mathcal K_c^{\pp,(2)}(-\Omega)\right]_{ij,kl}
+	\label{eq:pp_GF2_D_full}
+\end{align}
+Equations~\eqref{eq:pp_GF2_C}--\eqref{eq:pp_GF2_D} coincide term by term
+with the independently derived anomalous-GF2 pp kernel in the normalized
+antisymmetric pair basis.\cite{MarieRomanielloBlaseLoos2025}
+The agreement simultaneously checks the direct and exchange pieces of the
+free pp propagator, the orbital-frequency routing, the relative signs of the
+four attachments, and the pair normalization.
+In particular, the overall factor $1/2$ in the correlation blocks is the
+normalized-pair remnant of the direct-minus-exchange free-pair propagator.
+Thus all three independent blocks, $C(\Omega)$, $B$, and $D(-\Omega)$,
+provide a complete second-order pp validation rather than only a routing
+check.
 
-The two primitive channels therefore exhibit a completely parallel
-frequency-integration structure
+The $\eh$ and $\pp$ reductions therefore exhibit the parallel structure
 \begin{equation}
 \begin{array}{ccc}
 \eh & & \pp
@@ -1847,18 +1855,13 @@ A(\omega) & \longleftrightarrow & C(\Omega)
 \\
 B & \longleftrightarrow & B
 \\
-A^\dagger(-\omega) & \longleftrightarrow & D(-\Omega)
+A^{\mathsf T}(-\omega) & \longleftrightarrow & D(-\Omega)
 \end{array}
 \label{eq:eh_pp_GF2_parallel}
 \end{equation}
-In both channels the diagonal blocks retain the bosonic frequency while
-the off-diagonal coupling block becomes static after the second
-frequency integration.
-This parallel analytic structure is useful, but the pp formulas are not
-used here as an independent GF2 validation until their projection convention
-has been mapped explicitly onto the anomalous-GF2 one.
+where $\mathsf T$ acts only on orbital-pair indices and does not conjugate
+the time-ordered boundary value.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Channel consistency at second order}
 \label{sec:channel_consistency}
@@ -1884,10 +1887,13 @@ over the remaining fermionic frequency, as shown in
 Sec.~\ref{sec:second_contraction}.
 This check is independent of the initial channel-resolved derivation and is
 sensitive to signs, orbital-index permutations, and pair-channel factors.
-The analogous pp reduction of Sec.~\ref{sec:pp_gf2_check} has the expected
-frequency and antisymmetry structure but is not used as a term-by-term GF2
-validation pending an explicit mapping to the anomalous-GF2 projection
-convention.
+The pp reduction of Sec.~\ref{sec:pp_gf2_check} provides a second,
+fully independent validation.
+Using the complete antisymmetric free-pair propagator, all three pp-GF2
+blocks $C(\Omega)$, $B$, and $D(-\Omega)$ are recovered term by term.
+This check fixes the direct and exchange parts of the pair propagator,
+the orbital-frequency routing, the relative signs, and the normalized-pair
+factors independently of the direct-$\eh$ reduction.
 
 Finally, the full second-order vertex must be independent of the channel
 through which it is reconstructed.
@@ -1952,10 +1958,9 @@ non-trivial poles are
 	\label{eq:recipe_second_external_spaces}
 \end{equation}
 A second frequency integration yields the one-frequency $\eh$ GF2 BSE
-kernel and, in the $\pp$ channel, the corresponding projected pair kernel.
-The latter has the expected frequency and antisymmetry structure but is not
-identified term by term with the published anomalous-GF2 kernel without an
-explicit mapping of projection conventions.
+kernel and all three independent blocks of the pp-GF2 kernel,
+$C(\Omega)$, $B$, and $D(-\Omega)$, in the normalized antisymmetric pair
+basis.
 Finally,
 \begin{equation}
 	F^{(2)}
@@ -2268,7 +2273,7 @@ The explicit result is
 The first two terms originate from the transverse $\eh$ channel
 and the last two from the $\hh$ and $\pp$ branches.
 
-The right external-vertex correction for forward ($+$) central propagation through the pair $ia$ is
+The right external-vertex correction for forward ($+$) central propagation through the pair $ia$ follows from the right side of the $\eh$ BSE with its orbital ordering kept explicit,
 \begin{equation}
 	V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
 	=
@@ -2276,7 +2281,7 @@ The right external-vertex correction for forward ($+$) central propagation throu
 	\int d\bar\nu
 	Q^+_{ia}(\bar\nu,\omega)
 	\left[
-	\ii\Gamma^{\eh,(2)}_{sa\,qi}
+	\ii\Gamma^{\eh,(2)}_{iq\,as}
 	(\bar\nu,\nu',\omega)
 	\right]
 	\label{eq:V_eh_second_def}
@@ -2288,16 +2293,16 @@ which gives
 	={}&
 	\sum_{kc}
 	\frac{
-	\mel{sk}{}{ic}
-	\mel{ac}{}{qk}
+	\mel{sc}{}{ik}
+	\mel{ak}{}{qc}
 	}
 	{\nu'-(\eps_i+\eps_k-\eps_c)-\ii0^+}
 	\\
 	&-
 	\sum_{kc}
 	\frac{
-	\mel{sc}{}{ik}
-	\mel{ak}{}{qc}
+	\mel{sk}{}{ic}
+	\mel{ac}{}{qk}
 	}
 	{\nu'+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
 	\\
@@ -2321,6 +2326,12 @@ which gives
 	\end{split}
 	\label{eq:V_eh_second_explicit}
 \end{equation}
+For an instantaneous first-order interaction, $\Gamma_{iq\,as}$ can be
+related to alternative index groupings by ordinary integral symmetries.
+For the frequency-dependent second-order kernel this replacement is not
+permitted unless the corresponding frequency transformation is applied as
+well; Eq.~\eqref{eq:V_eh_second_def} therefore fixes the right-side routing
+used below.
 The backward ($-$) external-vertex components follow from the same pair-reversal operation as
 the pair-space external vertices.
 The explicit formulas are not required for the third-order matching.
@@ -2531,16 +2542,26 @@ Here $z_\ell$ denotes the one-particle energy carried by either member of
 the external pair and $\ell$ labels the two antisymmetrically related
 attachments.
 The corresponding right external vertices $V^{\pp,(2)}$ have the same pole spaces.
-The detailed residues are not required for the third-order parquet
-closure and are therefore left in channel-adapted form.
+The residues $\mathcal S^{\pm,\ell}$ are not evaluated explicitly in the
+present document.
+They are not needed to state the formal parquet decomposition, but they are
+required for an explicit third-order calculation or implementation.
 
 The same orbital-sector issue appears in the $\pp$ channel.
 The standard pair resolvent contains the $\ee$ and $\hh$ sectors, whereas a
 frequency-dependent $\Gamma^{\pp,(2)}$ can activate mixed occupied--virtual
 internal pairs whose isolated free pair integral vanishes.
-Writing $\mathcal L_{0,\rm mix}^{\pp}$ for the mixed occupied--virtual
-part of the reduced pair propagator and
+Writing $\mathcal L_{0,\rm mix}^{\pp}$ symbolically for the mixed
+occupied--virtual part of the reduced pair propagator and
 $\mathcal G^{\pp}=\ii\Gamma^{\pp}$, define
+The symbol $\mathcal L_{0,\rm mix}^{\pp}$ is deliberately left unevaluated
+here: its phase, pair normalization, and frequency routing depend on the
+precise native pp BSE convention and cannot be inferred by copying the
+$\eh$ definition $-\ii GG$.
+Accordingly, the following equations are formal definitions of the missing
+mixed-sector contributions rather than an evaluated auxiliary-space
+representation.
+
 \begin{align}
 	\Delta_L^{\pp,(3)}
 	&=
@@ -2605,6 +2626,10 @@ space.
 The mixed-sector remainders must be included, or represented by an enlarged
 auxiliary space, before the unrestricted third-order $\pp$ vertex can be
 called complete.
+Because neither $\mathcal L_{0,\rm mix}^{\pp}$ nor the residues
+$\mathcal S^{\pm,\ell}$ have been reduced to explicit orbital sums here, the
+$\pp$ part of the present third-order extension should be regarded as a
+formal decomposition rather than an implementable final representation.
 
 With $\Omega_\pp$ given by Eq.~\eqref{eq:Omega_pp}, the central pair
 resolvent generates the characteristic anti-diagonal pair structure of the
@@ -2619,32 +2644,34 @@ terms, while the second-order checks have already been completed before
 Sec.~\ref{sec:recipe_second}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Second frequency integration}
+\subsection{Status of the two-sided projection}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Applying the same two-sided projection as in
-Eq.~\eqref{eq:Gamma_tilde_def} to the retained $\ph$ sector, define
-$\widetilde{\mathcal G}^{\eh,(2)}=\ii\widetilde\Gamma^{\eh,(2)}$ and
-$\widetilde{\mathcal P}^{\eh,(3)}=\ii\widetilde\Phi^{\eh,(3)}$.
-The projected $URV$ part obeys
+At second order, the two-sided $Q^\pm$ projection is unambiguous because the
+four-point kernel is mapped explicitly to pair-space blocks before the second
+frequency integration.
+At third order, the same shorthand cannot be used as an independent check
+without first specifying the permutation that maps the external indices of
+$\Phi_{pqrs}$ onto the pair-space matrix and the associated transformation of
+the transfer frequency.
+A literal reuse of the second-order block notation can otherwise map a
+forward pole at $\omega-\Delta\eps$ onto its reversed counterpart at
+$\omega+\Delta\eps$.
+
+We therefore do not use a projected one-frequency identity as a validation of
+the third-order construction in the present notes.
+The algebraic resolvent identity
 \begin{equation}
-	\begin{split}
-	\widetilde{\mathcal P}^{\eh,(3)}_{\ph}
-	={}&
-	\widetilde{\mathcal G}^{\eh,(2)}R^{\eh,(0)}\mathcal G^{\eh,(1)}
-	+
-	\mathcal G^{\eh,(1)}R^{\eh,(0)}\widetilde{\mathcal G}^{\eh,(2)}
-	\\
-	&+
-	\mathcal G^{\eh,(1)}R^{\eh,(1)}\mathcal G^{\eh,(1)}
-	\end{split}
-	\label{eq:third_one_frequency_check}
+	R^{\eh,(1)}
+	=
+	R^{\eh,(0)}M^{\eh,(1)}R^{\eh,(0)}
+	\label{eq:R_eh_first_repeated}
 \end{equation}
-which is the third-order expansion of the one-frequency BSE within the
-standard neutral pair space.
-The projections of $\Delta_L^{\eh,(3)}$ and
-$\Delta_R^{\eh,(3)}$ are additional contributions and must be treated
-separately in an unrestricted third-order reduction.
+remains exact for the stated resolvent definition, but a genuine two-sided
+third-order check requires an explicit four-point-to-pair-space mapping for
+every orientation before any projection is performed.
+The complementary-sector terms $\Delta_L^{\eh,(3)}$ and
+$\Delta_R^{\eh,(3)}$ must then be projected with the same mapping.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Crossing}
@@ -2864,6 +2891,12 @@ J. Chem. Phys. \textbf{163}, 194115 (2025)
 A.~Marie, A.~Ammar, and P.-F.~Loos,
 ``The $GW$ approximation: A quantum chemistry perspective,''
 Adv. Quantum Chem. \textbf{90}, 157--184 (2024)
+
+
+\bibitem{MarieRomanielloBlaseLoos2025}
+A.~Marie, P.~Romaniello, X.~Blase, and P.-F.~Loos,
+``Anomalous propagators and the particle-particle channel: Bethe--Salpeter equation,''
+J. Chem. Phys. \textbf{162}, 134105 (2025)
 
 \end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%
