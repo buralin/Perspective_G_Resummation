@@ -38,6 +38,11 @@
 \newcommand{\bx}{\boldsymbol{x}}
 \newcommand{\bI}{\boldsymbol{1}}
 \newcommand{\cK}{\mathcal{K}}
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
 
 % orbital energies
 \newcommand{\eps}{\epsilon}
@@ -104,6 +109,140 @@ relative to the parent spectral MR-$GW$ implementation.
 \end{abstract}
 
 \maketitle
+
+
+\section{Multireference Green's Function methods}
+
+Assuming the exact self-energy, the one-particle Green's function can be obtained from the Dyson equation
+\begin{equation}
+\bG(\omega) = \bG_0(\omega) + \bG_0(\omega) \bSigma(\omega) \bG(\omega),
+\end{equation}
+where $\bG_0$ is the non-interacting Green's function and $\bSigma$ is the exact self-energy.
+Now we can partition the self-energy into two contributions $\bSigma = \bSigma^{\text{init}} + \bSigma^{\text{corr}}$, where $\bSigma^{\text{init}}$ captures the contributions due to some initial treatment of correlation effects and $\bSigma^{\text{corr}}$ contains all the effects that are not contained within $\bSigma^{\text{init}}$.
+
+The Dyson equation becomes 
+\begin{align}
+\bG(\omega) &= \bG_0(\omega) + \bG_0(\omega) \left( \bSigma^{\text{init}}(\omega) + \bSigma^{\text{corr}}(\omega) \right) \bG(\omega).
+\end{align}
+After inversion, one finds 
+\begin{align}
+\bG(\omega) = \frac{1}{\bG_0^{-1}(\omega) - \bSigma^{\text{init}}(\omega) - \bSigma^{\text{corr}}(\omega)},
+\end{align}
+where the new initial Green's function is defined as 
+\begin{align}
+  \bG_{\text{init}}(\omega) = \frac{1}{\bG_0^{-1}(\omega) - \bSigma^{\text{init}}(\omega)} .
+\end{align}
+The full Green's function can be expressed in terms of the initial Green's function and the correlation self-energy as
+\begin{align}
+\bG(\omega) &= \frac{1}{\bG_{\text{init}}^{-1}(\omega) - \bSigma^{\text{corr}}(\omega)} \nonumber \\
+&= \bG_{\text{init}}(\omega) + \bG_{\text{init}}(\omega) \bSigma^{\text{corr}}(\omega) \bG(\omega).
+\end{align}
+
+Next we assume that the initial $\bSigma^{\text{init}}$ is obtained from an active space calculation, e.g., for a set of orbitals $\{ \phi_p \}$ defining the active space.
+The total orbital space can be partitioned into active and inactive orbitals, so that the ground-state wavefunction is 
+\begin{align}
+  | \Psi_0 \rangle = | \Phi_\mathrm{i} \rangle \otimes | \Psi_\mathrm{a} \rangle,
+\end{align}
+where $\mathrm{i}$ and $\mathrm{a}$ denote the inactive and active orbitals, respectively.
+
+Within the chosen partitioning, the initial Green's function $\bG_{\text{init}}$ can also be directly determined without resorting to the Dyson equation, for example, by using the spectral representation of the active space Hamiltonian in the $N\pm1$ particle sectors in combination with the coupling between the inactive orbitals to the active space. 
+$\bG_{\text{init}}$ reads
+\begin{align}
+\bG_{\text{init}}(\omega) = 
+\begin{pmatrix}
+  \mathbf{1} & 0 \\
+  0 & \bM
+\end{pmatrix}
+\begin{pmatrix}
+  \omega \mathbf{1} - \mathbf{F}^\mathrm{HF}_\mathrm{i,i} & \bH_\mathrm{i, a}\\
+   \bH^\dagger_\mathrm{i, a} & \omega \mathbf{1} - \bE^{N \pm 1}
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+  \mathbf{1} & 0 \\
+  0 & \bM^\dagger
+\end{pmatrix},
+\label{eq:Ginit}
+\end{align}
+with $\bM$ denoting the Dyson amplitudes within the active space, e.g.,
+\begin{align}
+  M^{N+1}_{p,\mu} &= \left( p | R^{N+1}_\mu \right) = \langle \Psi_0 | \left[ a_p, \hat{R}^{N+1}_\mu \right] | \Psi_0 \rangle = \langle \Psi_0 | a_p | \Psi_\mu^{N+1} \rangle, \nonumber \\
+  M^{N-1}_{p,\mu} &= \left( p | R^{N-1}_\mu \right) = \langle \Psi_0 | \left[ a_p^\dagger, \hat{R}^{N-1}_\mu \right] | \Psi_0 \rangle = \langle \Psi_0 | a_p^\dagger | \Psi_\mu^{N-1} \rangle,  \nonumber
+\end{align}
+where $\left( a | b \right)$ denotes the binary product 
+\begin{align}
+  \left( a | b \right) = \langle \Psi_0 | \left[ a^\dagger,  b \right] | \Psi_0 \rangle.
+\end{align}
+The excitation operators $\hat{R}^{N\pm1}_\mu$ act only within the active space, and satisfies the `killer condition', i.e.,
+\begin{align}
+  \langle \Psi_0 | \hat{R}^{N+1}_\mu  = 0, \quad  \langle \Psi_0 | \hat{R}^{N-1}_\mu = 0.
+\end{align}
+Finally, $\bE^{N \pm 1}$ denotes a diagonal matrix with the excitation energies of the active space in the $N\pm1$ particle sectors on the diagonal.
+
+Note that there are no Dyson amplitudes that couple the active and inactive spaces directly.
+However, there are Hamiltonian elements $ \bH_\mathrm{i, a}$ that couple the inactive and active spaces.
+Analytic expressions can be obtained by defining the excitation manifolds of the inactive orbitals as
+\begin{align}
+  \left\{ \hat{C}^{\dagger} \right\} = \left\{ a_i, a_a  \right\}.
+  \label{eq:C1}
+\end{align}
+The matrix elements $ \bH_\mathrm{i, a}$  read 
+\begin{align}
+  \bH_\mathrm{i, a}  = \langle \Psi_0  | \left[ \hat{C}, \left[ \hat{H}, \hat{R}^{N \pm 1} \right] \right] | \Psi_0 \rangle.
+\end{align}
+\textcolor{red}{\textbf{One has to be a little bit careful. There might be some problem with the sign convention}}
+Since the Hamiltonian contains only one- and two-body terms, only a limited number of excitation manifolds in the excitation operators $\hat{R}^{N \pm 1}$ need to be explicitly considered.
+
+With this, one can rewrite Eq.~\eqref{eq:Ginit} as
+\begin{align}
+  \bG_{\text{init}}(\omega) &= \nonumber \\
+ &\begin{pmatrix}
+    \bG_\mathrm{i}(\omega) & \bG_\mathrm{i}(\omega) \bSigma_\mathrm{i,a}(\omega) \\
+    \bSigma_\mathrm{a,i}(\omega) \bG_\mathrm{i}(\omega) & \bG_\mathrm{A} + \bSigma_\mathrm{a,i}(\omega) \bG_\mathrm{i}(\omega) \bSigma_\mathrm{i,a}(\omega) \\
+  \end{pmatrix},
+  \label{eq:Ginit2}
+\end{align}
+where 
+\begin{align}
+  \bSigma_\mathrm{i,a}(\omega) = - \bH_\mathrm{i, a} \left( \omega - \bE^{N \pm 1} \right)^{-1} \bM \nonumber ,
+\end{align}
+and
+\begin{align}
+  \bG_\mathrm{i}(\omega) = \left[ \bG^{-1}_{\mathrm{i,0}}(\omega) - \bSigma_\mathrm{i,i}(\omega) \right]^{-1} = \bG_{\mathrm{i,0}}(\omega) + \tilde{\bSigma}_\mathrm{i,i}(\omega),
+\end{align}
+with 
+\begin{align}
+    \bSigma_\mathrm{i,i}(\omega) = \bH_\mathrm{i, a} \left( \omega - \bE^{N \pm 1} \right)^{-1} \bH_\mathrm{a, i}.
+\end{align}
+Eq.~\eqref{eq:Ginit2} can be compactly written as
+\begin{align}
+  \bG_\mathrm{init} = \left( \mathbf{1} - \bSigma_\mathrm{a,i}(\omega) \right)^{-1} \left( \bG_{\mathrm{i,0}}(\omega) + \tilde{\bSigma}_\mathrm{i,i}(\omega)  \right) \left( \mathbf{1} - \bSigma_\mathrm{i,a}(\omega) \right)^{-1},
+  \label{eq:Ginit3}
+\end{align}
+with
+\begin{align}
+   \left( \mathbf{1} - \bSigma_\mathrm{a,i}(\omega) \right)^{-1} = 
+   \begin{pmatrix}
+    \mathbf{1} & 0  \\
+    - \bSigma_\mathrm{a,i}(\omega) & \mathbf{1}
+   \end{pmatrix}^{-1}
+   = 
+  \begin{pmatrix}
+    \mathbf{1} & 0  \\
+    \bSigma_\mathrm{a,i}(\omega) & \mathbf{1}
+   \end{pmatrix}.
+\end{align}
+
+Eq.~\eqref{eq:Ginit3} has the same structure as the initial Dyson equation in the MR-$GW$ paper. 
+However, in this derivation the meaning of the different terms becomes clearer.
+In particular, we have contributions reflecting the fact that an initial correlated state $| \Psi_0 \rangle$ is used.
+Furthermore, all remaining contributions in $\bSigma^\mathrm{corr.}$ describe two additional correlation effects missing in $G_{\mathrm{init}}$:
+\begin{itemize}
+\item Effects within the inactive space itself.
+\item Couplings between the inactive and active spaces that go beyond the operator manifold defined in Eq.~\eqref{eq:C1}.
+\end{itemize}
+
+\clearpage
+\newpage
 
 % ============================================================
 % Task 1: Exact Dyall-reference Hedin hierarchy
