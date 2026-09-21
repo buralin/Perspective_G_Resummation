@@ -83,23 +83,18 @@
 \begin{abstract}
 These companion notes extend the multiresolvent representation of the parquet
 vertex to third order in the bare interaction.
-The frequency conventions, channel decomposition, first frequency reduction,
-and complete second-order construction are taken from the second-order notes
-and are not repeated here.
-At third order, the standard $\eh$ and $\pp$ central spaces generate three
-contributions: a second-order correction to the left coupling vertex, a
-second-order correction to the right coupling vertex, and a first-order
-correction to the central resolvent.
-An unrestricted evaluation of the frequency convolutions shows, however, that
-a frequency-dependent second-order irreducible vertex also activates internal
-orbital sectors that vanish for an instantaneous kernel: same-occupancy
-virtual--virtual and occupied--occupied sectors in the $\eh$ channel and
-mixed occupied--virtual sectors in the $\pp$ channel.
-We keep these additional terms explicitly and identify where the auxiliary
-spaces of the second-order representation must be enlarged.
-The purpose of these notes is therefore to isolate the genuinely new
-third-order structures while keeping the notation and organization of the
-second-order construction.
+For the direct electron-hole ($\eh$) vertex, the complete third-order
+Bethe--Salpeter convolution is resolved into occupied--virtual ($ov$),
+virtual--occupied ($vo$), occupied--occupied ($oo$), and virtual--virtual
+($vv$) sectors of the non-interacting two-particle propagator.
+The $ov$ and $vo$ sectors recover the usual corrections to the coupling
+vertices and neutral resolvent, whereas the frequency dependence of
+$\Gamma^{\eh,(2)}$ makes the $oo$ and $vv$ sectors nonzero at third order.
+These latter contributions are evaluated directly as products of charged-state
+resolvents, without introducing denominators involving differences between two
+occupied or two virtual orbital energies.
+The particle-particle ($\pp$) extension is kept preliminary here and will be
+completed separately after the direct-$\eh$ construction has been audited.
 \end{abstract}
 
 \maketitle
@@ -132,81 +127,62 @@ prescriptions are denoted by $0^+$.
 
 We take the complete second-order multiresolvent construction as given and
 extend it by one perturbative order.
-Only the generic channel factorization is needed below,
-\begin{equation}
+For either primitive channel $r=\eh,\pp$,
+\begin{align}
     \ii\Phi^r
-    =
-    U^r R^r V^r,
-    \qquad
+    &=
+    U^rR^rV^r
+    \\
     R^r(\Omega_r)
-    =
-    [\Omega_r\eta^r-M^r]^{-1},
-    \qquad
-    r=\eh,\pp
+    &=
+    [\Omega_r\eta^r-M^r]^{-1}
     \label{eq:third_starting_point}
-\end{equation}
-with the frequency conventions, metrics, normalized one-frequency factors,
-and all zeroth- and first-order quantities defined in the second-order notes.
-Within the conventional central channel spaces, the third-order terms are
-organized by corrections to the two coupling vertices and to the central
-resolvent.
-The unrestricted frequency convolution will show that additional orbital
-sectors are activated at this order; these are introduced explicitly below
-rather than being hidden inside the restricted ansatz.
-
-For either primitive channel $r=\eh,\pp$, we expand
-\begin{align}
-	U^r
-	&=
-	U^{r,(1)}+U^{r,(2)}+\mathcal O(v^3)
-	\\
-	V^r
-	&=
-	V^{r,(1)}+V^{r,(2)}+\mathcal O(v^3)
-	\label{eq:target_UV_expansion}
-	\\
-	M^r
-	&=
-	M^{r,(0)}+M^{r,(1)}+\mathcal O(v^2)
-	\label{eq:target_M_expansion}
 \end{align}
-The corresponding central resolvent becomes
+with the frequency conventions, metrics, and lower-order quantities defined
+in the second-order notes.
+Expanding
 \begin{align}
-	R^r
-	&=
-	R^{r,(0)}
-	+
-	R^{r,(1)}
-	+
-	\mathcal O(v^2)
-	\label{eq:target_R_expansion}
-	\\
-	R^{r,(1)}
-	&=
-	R^{r,(0)}M^{r,(1)}R^{r,(0)}
-	\label{eq:target_R_first}
+    U^r
+    &=
+    U^{r,(1)}+U^{r,(2)}+\mathcal O(v^3)
+    \\
+    V^r
+    &=
+    V^{r,(1)}+V^{r,(2)}+\mathcal O(v^3)
+    \label{eq:target_UV_expansion}
+    \\
+    M^r
+    &=
+    M^{r,(0)}+M^{r,(1)}+\mathcal O(v^2)
+    \label{eq:target_M_expansion}
 \end{align}
-The third-order contribution generated within the standard central spaces is
+gives
+\begin{align}
+    R^r
+    &=
+    R^{r,(0)}+R^{r,(1)}+\mathcal O(v^2)
+    \\
+    R^{r,(1)}
+    &=
+    R^{r,(0)}M^{r,(1)}R^{r,(0)}
+    \label{eq:target_R_first}
+\end{align}
+and therefore the familiar third-order combination
 \begin{equation}
-	\begin{split}
-	\ii\Phi_{\rm std}^{r,(3)}
-	={}&
-	U^{r,(2)}R^{r,(0)}V^{r,(1)}
-	+
-	U^{r,(1)}R^{r,(0)}V^{r,(2)}
-	\\
-	&+
-	U^{r,(1)}R^{r,(1)}V^{r,(1)}
-	\end{split}
-	\label{eq:target_third_order}
+    U^{r,(2)}R^{r,(0)}V^{r,(1)}
+    +
+    U^{r,(1)}R^{r,(0)}V^{r,(2)}
+    +
+    U^{r,(1)}R^{r,(1)}V^{r,(1)}
+    \label{eq:target_third_order}
 \end{equation}
-The three terms correspond, respectively, to a second-order correction to
-the left coupling vertex, a second-order correction to the right coupling
-vertex, and a first-order correction to the central resolvent.
-They exhaust the contribution generated within the central spaces of the
-second-order construction, but not the unrestricted third-order convolution.
-The additional orbital-sector contributions are identified explicitly in the
-following sections.
+This algebraic expansion is useful, but at third order it should not be taken
+as the starting assumption for orbital-space completeness.
+For the direct-$\eh$ vertex we therefore return to the full BSE frequency
+convolution and resolve the internal non-interacting two-particle propagator
+into its $ov$, $vo$, $oo$, and $vv$ orbital sectors.
+The $ov$ and $vo$ terms will reproduce Eq.~\eqref{eq:target_third_order},
+whereas the $oo$ and $vv$ terms must be evaluated directly.
 
 \section{Direct eh vertex through third order}
 \label{sec:eh_third}
@@ -217,574 +193,643 @@ irreducible kernel $\Gamma^{\eh,(2)}$, the normalized factors $Q^\pm$,
 the zeroth-order neutral resolvent $R^{\eh,(0)}$, and the first-order
 coupling vertices $U^{\eh,(1)}$ and $V^{\eh,(1)}$ established in the
 second-order notes.
-The new ingredients are the second-order coupling-vertex corrections, the
-first-order correction to the neutral resolvent, and the orbital sectors
-that appear only in the unrestricted third-order convolution.
+The purpose of this section is to evaluate every orbital sector of the
+third-order frequency convolution before reorganizing the $ov/vo$ subset in
+multiresolvent form.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Perturbative BSE expansion}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 At third order, the direct-$\eh$ reducible vertex contains three
-topologically distinct contributions.
+contributions.
 Suppressing the explicit internal-frequency integrations with the convolution
 symbol $\circ$, and retaining the same phase convention as in the
-second-order notes, they can be written as
+second-order notes,
 \begin{equation}
-	\begin{split}
-	\ii\Phi^{\eh,(3)}
-	&=
-	\left[\ii\Gamma^{\eh,(2)}\right]
-	\circ\left[-\ii L_0\right]
-	\circ\left[\ii\Gamma^{\eh,(1)}\right]
-	\\
-	&+
-	\left[\ii\Gamma^{\eh,(1)}\right]
-	\circ\left[-\ii L_0\right]
-	\circ\left[\ii\Gamma^{\eh,(2)}\right]
-	\\
-	&+
-	\left[\ii\Gamma^{\eh,(1)}\right]
-	\circ\left[-\ii L_0\right]
-	\circ\left[\ii\Gamma^{\eh,(1)}\right]
-	\circ\left[-\ii L_0\right]
-	\circ\left[\ii\Gamma^{\eh,(1)}\right]
-	\end{split}
-	\label{eq:Phi_eh_third_convolution}
+    \begin{split}
+    \ii\Phi^{\eh,(3)}
+    & =
+    \left[\ii\Gamma^{\eh,(2)}\right]
+    \circ\left[-\ii L_0^\eh\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \\
+    &+
+    \left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^\eh\right]
+    \circ\left[\ii\Gamma^{\eh,(2)}\right]
+    \\
+    &+
+    \left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^\eh\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^\eh\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \end{split}
+    \label{eq:Phi_eh_third_convolution}
 \end{equation}
 The first two terms contain the frequency-dependent second-order irreducible
-kernel on the left or right of the central propagation.
-The last term is the three-interaction $\eh$ ladder.
+kernel on opposite sides of the internal propagation.
+The last term contains three instantaneous first-order interactions.
 
 For a two-body interaction, the fully two-particle-irreducible vertex has no
 second- or third-order contribution beyond the bare interaction,
 \begin{equation}
-	\ii\Lambda^{(1)}_{pqrs}
-	=
-	\mel{pq}{}{rs}
-	\qquad
-	\Lambda
-	=
-	\Lambda^{(1)}+\mathcal O(v^4)
-	\label{eq:Lambda_through_third}
+    \ii\Lambda^{(1)}_{pqrs}
+    =
+    \mel{pq}{}{rs}
+    \qquad
+    \Lambda
+    =
+    \Lambda^{(1)}+\mathcal O(v^4)
+    \label{eq:Lambda_through_third}
 \end{equation}
-so that all third-order contributions considered here are generated from
-the channel-reducible pieces.
+so that Eq.~\eqref{eq:Phi_eh_third_convolution} contains the complete
+third-order direct-$\eh$ reducible contribution.
 
-\subsection{Orbital sectors in the third-order convolution}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Orbital decomposition of the internal propagation}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The orbital restriction implicit in the ordinary $\eh$ central resolvent
-requires special care at third order.
-For an instantaneous interaction, same-occupancy non-interacting bubbles
-vanish,
+We resolve the internal non-interacting two-particle propagator as
 \begin{equation}
-	\int\frac{\dd{x}}{2\pi}
-	G_{0,a}(x+\omega)G_{0,b}(x)
-	=
-	0
-	\qquad
-	\int\frac{\dd{x}}{2\pi}
-	G_{0,i}(x+\omega)G_{0,j}(x)
-	=
-	0
-	\label{eq:same_occupancy_bubbles_zero}
+    L_0^\eh
+    =
+    L_0^{\eh,\mathrm{ov}}
+    +
+    L_0^{\eh,\mathrm{vo}}
+    +
+    L_0^{\eh,\mathrm{oo}}
+    +
+    L_0^{\eh,\mathrm{vv}}
+    \label{eq:L0_sector_decomposition}
+\end{equation}
+where $ov$ contains the $ia$ sector associated with $Q^+$, $vo$ contains the
+$ai$ sector associated with $Q^-$, and $oo$ and $vv$ contain $ij$ and $ab$,
+respectively.
+
+For an instantaneous interaction, the isolated $oo$ and $vv$ frequency
+integrals vanish,
+\begin{equation}
+    \int\frac{\dd{x}}{2\pi}
+    G_{0,i}(x+\omega)G_{0,j}(x)
+    =
+    0
+    \qquad
+    \int\frac{\dd{x}}{2\pi}
+    G_{0,a}(x+\omega)G_{0,b}(x)
+    =
+    0
+    \label{eq:same_occupancy_bubbles_zero}
 \end{equation}
 because the two one-particle poles lie in the same half-plane.
-This is why the second-order direct-$\eh$ construction can be represented
-entirely in the forward and backward electron-hole sectors.
-
-A frequency-dependent second-order irreducible vertex changes this
-conclusion.
+This is why only the $ov$ and $vo$ sectors contribute at second order.
+At third order, however, $\Gamma^{\eh,(2)}$ supplies an additional pole and
+the $oo$ and $vv$ sectors can survive.
 For example, with $a,b,c$ virtual and $k$ occupied,
 \begin{equation}
-	\begin{split}
-	&\int\frac{\dd{x}}{2\pi}
-	\frac{1}{x+\omega-\eps_a+\ii0^+}
-	\frac{1}{x-\eps_b+\ii0^+}
-	\frac{1}{x-\nu+(\eps_c-\eps_k)-\ii0^+}
-	\\
-	&\qquad=
-	\frac{\ii}
-	{\nu+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
-	\frac{1}
-	{\nu-(\eps_b+\eps_c-\eps_k)+\ii0^+}
-	\end{split}
-	\label{eq:vv_dynamic_counterexample}
+    \begin{split}
+    &\int\frac{\dd{x}}{2\pi}
+    \frac{1}{x+\omega-\eps_a+\ii0^+}
+    \frac{1}{x-\eps_b+\ii0^+}
+    \frac{1}{x-\nu+(\eps_c-\eps_k)-\ii0^+}
+    \\
+    &\qquad=
+    \frac{\ii}
+    {[\nu+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+]
+     [\nu-(\eps_b+\eps_c-\eps_k)+\ii0^+]}
+    \end{split}
+    \label{eq:vv_dynamic_counterexample}
 \end{equation}
-which is nonzero.
-The analogous occupied--occupied contributions are also nonzero when the
-dynamic kernel supplies a pole in the opposite half-plane.
+The corresponding $oo$ integral is nonzero when the second-order kernel
+provides a pole in the opposite half-plane.
 
-It is therefore useful to separate the non-interacting two-particle
-propagator into the conventional electron-hole sectors and the
-same-occupancy sectors,
-\begin{equation}
-	L_0
-	=
-	L_{0,\eh}
-	+
-	L_{0,\rm so}
-	\label{eq:L0_sector_decomposition}
-\end{equation}
-where $L_{0,\eh}$ contains the $ia$ and $ai$ sectors and
-$L_{0,\rm so}$ contains the $ab$ and $ij$ sectors.
-The $Q^\pm$ projections of the second-order construction account exactly for
-the $L_{0,\eh}$ contribution.
-The remaining third-order terms are defined by
-\begin{align}
-	\Delta_L^{\eh,(3)}
-	&=
-	\left[\ii\Gamma^{\eh,(2)}\right]
-	\circ\left[-\ii L_{0,\rm so}\right]
-	\circ\left[\ii\Gamma^{\eh,(1)}\right]
-	\label{eq:Delta_eh_left_same_occ}
-	\\
-	\Delta_R^{\eh,(3)}
-	&=
-	\left[\ii\Gamma^{\eh,(1)}\right]
-	\circ\left[-\ii L_{0,\rm so}\right]
-	\circ\left[\ii\Gamma^{\eh,(2)}\right]
-	\label{eq:Delta_eh_right_same_occ}
-\end{align}
-The purely first-order ladder has no analogous contribution because the
-interaction is frequency independent and the same-occupancy bubble vanishes
-before the next scattering event.
-Consequently, the ordinary electron-hole central resolvent gives the complete
-third-order contribution within the $ia/ai$ space, while
-Eqs.~\eqref{eq:Delta_eh_left_same_occ} and
-\eqref{eq:Delta_eh_right_same_occ} must be retained for the unrestricted
-three-frequency vertex.
+The third term of Eq.~\eqref{eq:Phi_eh_third_convolution} contains only
+instantaneous vertices.
+Its $oo$ and $vv$ integrations therefore vanish, so both internal
+propagations in that term belong to the $ov/vo$ sectors.
 
-\subsection{Second-order corrections to the coupling vertices}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{$ov$ and $vo$ sectors}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The left coupling-vertex correction for forward ($+$) central electron-hole propagation through $ia$ is obtained by integrating over one
-fermionic frequency of the second-order irreducible kernel,
+The $ov$ and $vo$ parts of the first two terms in
+Eq.~\eqref{eq:Phi_eh_third_convolution} can be reorganized as corrections to
+the coupling vertices.
+For the $ov$ sector, the left correction is
 \begin{equation}
-	U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
-	=
-	\frac{1}{2\pi}
-	\int \dd{\bar\nu}
-	\left[
-	\ii\Gamma^{\eh,(2)}_{pa\,ri}
-	(\nu,\bar\nu,\omega)
-	\right]
-	Q^+_{ia}(\bar\nu,\omega)
-	\label{eq:U_eh_second_def}
-\end{equation}
-The explicit result is
-\begin{equation}
-	\begin{split}
-	U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
-	&=
-	\sum_{jb}
-	\frac{
-	\mel{pb}{}{ij}
-	\mel{aj}{}{rb}
-	}
-	{\nu-(\eps_i+\eps_j-\eps_b)-\ii0^+}
-	\\
-	&-
-	\sum_{jb}
-	\frac{
-	\mel{pj}{}{ib}
-	\mel{ab}{}{rj}
-	}
-	{\nu+\omega-(\eps_a+\eps_b-\eps_j)+\ii0^+}
-	\\
-	&-
-	\frac{1}{2}
-	\sum_{jk}
-	\frac{
-	\mel{pa}{}{jk}
-	\mel{jk}{}{ri}
-	}
-	{\nu-(\eps_j+\eps_k-\eps_a)-\ii0^+}
-	\\
-	&+
-	\frac{1}{2}
-	\sum_{bc}
-	\frac{
-	\mel{pa}{}{bc}
-	\mel{bc}{}{ri}
-	}
-	{\nu+\omega-(\eps_b+\eps_c-\eps_i)+\ii0^+}
-	\end{split}
-	\label{eq:U_eh_second_explicit}
-\end{equation}
-The first two terms originate from the transverse $\eh$ channel
-and the last two from the $\hh$ and $\pp$ branches.
-
-The right coupling-vertex correction for forward ($+$) central electron-hole propagation through $ia$ follows from the right side of the $\eh$ BSE with its orbital ordering kept explicit,
-\begin{equation}
-	V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
-	=
-	\frac{1}{2\pi}
-	\int \dd{\bar\nu}
-	Q^+_{ia}(\bar\nu,\omega)
-	\left[
-	\ii\Gamma^{\eh,(2)}_{iq\,as}
-	(\bar\nu,\nu',\omega)
-	\right]
-	\label{eq:V_eh_second_def}
+    U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
+    =
+    \frac{1}{2\pi}
+    \int\dd{\bar\nu}
+    \left[
+    \ii\Gamma^{\eh,(2)}_{pa\,ri}(\nu,\bar\nu,\omega)
+    \right]
+    Q^+_{ia}(\bar\nu,\omega)
+    \label{eq:U_eh_second_def}
 \end{equation}
 which gives
 \begin{equation}
-	\begin{split}
-	V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
-	&=
-	\sum_{kc}
-	\frac{
-	\mel{sc}{}{ik}
-	\mel{ak}{}{qc}
-	}
-	{\nu'-(\eps_i+\eps_k-\eps_c)-\ii0^+}
-	\\
-	&-
-	\sum_{kc}
-	\frac{
-	\mel{sk}{}{ic}
-	\mel{ac}{}{qk}
-	}
-	{\nu'+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
-	\\
-	&-
-	\frac{1}{2}
-	\sum_{kl}
-	\frac{
-	\mel{sa}{}{kl}
-	\mel{kl}{}{qi}
-	}
-	{\nu'-(\eps_k+\eps_l-\eps_a)-\ii0^+}
-	\\
-	&+
-	\frac{1}{2}
-	\sum_{cd}
-	\frac{
-	\mel{sa}{}{cd}
-	\mel{cd}{}{qi}
-	}
-	{\nu'+\omega-(\eps_c+\eps_d-\eps_i)+\ii0^+}
-	\end{split}
-	\label{eq:V_eh_second_explicit}
+    \begin{split}
+    U^{\eh,+,(2)}_{pr,ia}(\nu,\omega)
+    & =
+    \sum_{jb}
+    \frac{\mel{pb}{}{ij}\mel{aj}{}{rb}}
+    {\nu-(\eps_i+\eps_j-\eps_b)-\ii0^+}
+    \\
+    &-
+    \sum_{jb}
+    \frac{\mel{pj}{}{ib}\mel{ab}{}{rj}}
+    {\nu+\omega-(\eps_a+\eps_b-\eps_j)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{jk}
+    \frac{\mel{pa}{}{jk}\mel{jk}{}{ri}}
+    {\nu-(\eps_j+\eps_k-\eps_a)-\ii0^+}
+    \\
+    &+
+    \frac12
+    \sum_{bc}
+    \frac{\mel{pa}{}{bc}\mel{bc}{}{ri}}
+    {\nu+\omega-(\eps_b+\eps_c-\eps_i)+\ii0^+}
+    \end{split}
+    \label{eq:U_eh_second_explicit}
 \end{equation}
-For the instantaneous first-order interaction, $\Gamma_{iq\,as}$ can be
-related to alternative index groupings by ordinary integral symmetries.
-For the frequency-dependent second-order kernel this replacement is not
-permitted unless the corresponding frequency transformation is applied as
-well; Eq.~\eqref{eq:V_eh_second_def} therefore fixes the right-side routing
-used below.
-The backward ($-$) coupling-vertex components follow from the same reversal operation as
-the corresponding second-order projections.
-The explicit formulas are not required for the third-order matching.
+The corresponding right correction is
+\begin{equation}
+    V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
+    =
+    \frac{1}{2\pi}
+    \int\dd{\bar\nu}
+    Q^+_{ia}(\bar\nu,\omega)
+    \left[
+    \ii\Gamma^{\eh,(2)}_{iq\,as}(\bar\nu,\nu',\omega)
+    \right]
+    \label{eq:V_eh_second_def}
+\end{equation}
+with
+\begin{equation}
+    \begin{split}
+    V^{\eh,+,(2)}_{ia,sq}(\nu',\omega)
+    & =
+    \sum_{kc}
+    \frac{\mel{sc}{}{ik}\mel{ak}{}{qc}}
+    {\nu'-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+    \\
+    &-
+    \sum_{kc}
+    \frac{\mel{sk}{}{ic}\mel{ac}{}{qk}}
+    {\nu'+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{kl}
+    \frac{\mel{sa}{}{kl}\mel{kl}{}{qi}}
+    {\nu'-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+    \\
+    &+
+    \frac12
+    \sum_{cd}
+    \frac{\mel{sa}{}{cd}\mel{cd}{}{qi}}
+    {\nu'+\omega-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+    \end{split}
+    \label{eq:V_eh_second_explicit}
+\end{equation}
 
-Equations~\eqref{eq:U_eh_second_explicit} and
-\eqref{eq:V_eh_second_explicit} show that the second-order coupling
-vertices retain exactly the $\hhp$ and $\pph$ pole spaces identified in
-the second-order notes, now with the orbital grouping appropriate to the
-left and right sides of the direct-$\eh$ reducible vertex.
+For the $vo$ sector,
+\begin{equation}
+    U^{\eh,-,(2)}_{pr,ia}(\nu,\omega)
+    =
+    \frac{1}{2\pi}
+    \int\dd{\bar\nu}
+    \left[
+    \ii\Gamma^{\eh,(2)}_{pi\,ra}(\nu,\bar\nu,\omega)
+    \right]
+    Q^-_{ia}(\bar\nu,\omega)
+    \label{eq:U_eh_second_minus_def}
+\end{equation}
+and the contour integrations give
+\begin{equation}
+    \begin{split}
+    U^{\eh,-,(2)}_{pr,ia}(\nu,\omega)
+    & =
+    \sum_{kc}
+    \frac{\mel{pc}{}{ak}\mel{ik}{}{rc}}
+    {\nu+\omega-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+    \\
+    &-
+    \sum_{kc}
+    \frac{\mel{pk}{}{ac}\mel{ic}{}{rk}}
+    {\nu-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+    \\
+    &+
+    \frac12
+    \sum_{cd}
+    \frac{\mel{pi}{}{cd}\mel{cd}{}{ra}}
+    {\nu-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{kl}
+    \frac{\mel{pi}{}{kl}\mel{kl}{}{ra}}
+    {\nu+\omega-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+    \end{split}
+    \label{eq:U_eh_second_minus_explicit}
+\end{equation}
+Likewise,
+\begin{equation}
+    V^{\eh,-,(2)}_{ia,sq}(\nu',\omega)
+    =
+    \frac{1}{2\pi}
+    \int\dd{\bar\nu}
+    Q^-_{ia}(\bar\nu,\omega)
+    \left[
+    \ii\Gamma^{\eh,(2)}_{aq\,is}(\bar\nu,\nu',\omega)
+    \right]
+    \label{eq:V_eh_second_minus_def}
+\end{equation}
+with
+\begin{equation}
+    \begin{split}
+    V^{\eh,-,(2)}_{ia,sq}(\nu',\omega)
+    & =
+    \sum_{kc}
+    \frac{\mel{ak}{}{sc}\mel{qc}{}{ik}}
+    {\nu'+\omega-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+    \\
+    &-
+    \sum_{kc}
+    \frac{\mel{ac}{}{sk}\mel{qk}{}{ic}}
+    {\nu'-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{kl}
+    \frac{\mel{aq}{}{kl}\mel{kl}{}{is}}
+    {\nu'+\omega-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+    \\
+    &+
+    \frac12
+    \sum_{cd}
+    \frac{\mel{aq}{}{cd}\mel{cd}{}{is}}
+    {\nu'-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+    \end{split}
+    \label{eq:V_eh_second_minus_explicit}
+\end{equation}
+The $+$ and $-$ components contain only the same $\hhp$ and $\pph$ pole
+families identified at second order.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{First-order correction to the neutral resolvent}
+\subsection{$oo$ and $vv$ sectors}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+The $vv$ sector selects the poles of $\Gamma^{\eh,(2)}$ lying in the
+half-plane opposite to the two virtual one-particle poles.
+For the first ordering in Eq.~\eqref{eq:Phi_eh_third_convolution},
+\begin{equation}
+    \begin{split}
+    &\left\{
+    \left[\ii\Gamma^{\eh,(2)}\right]
+    \circ\left[-\ii L_0^{\eh,\mathrm{vv}}\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \right\}_{pqrs}
+    \\
+    & =
+    \sum_{abkc}
+    \mel{pk}{}{bc}\mel{ac}{}{rk}\mel{qb}{}{sa}
+    \\
+    &\times
+    \frac{1}{\nu+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+    \frac{1}{\nu-(\eps_b+\eps_c-\eps_k)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{abkl}
+    \mel{pa}{}{kl}\mel{kl}{}{rb}\mel{qb}{}{sa}
+    \\
+    &\times
+    \frac{1}{\nu-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+    \frac{1}{\nu+\omega-(\eps_k+\eps_l-\eps_b)-\ii0^+}
+    \end{split}
+    \label{eq:Phi_eh_third_vv_left}
+\end{equation}
+and the opposite ordering gives
+\begin{equation}
+    \begin{split}
+    &\left\{
+    \left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^{\eh,\mathrm{vv}}\right]
+    \circ\left[\ii\Gamma^{\eh,(2)}\right]
+    \right\}_{pqrs}
+    \\
+    & =
+    \sum_{abkc}
+    \mel{pa}{}{rb}\mel{bc}{}{sk}\mel{qk}{}{ac}
+    \\
+    &\times
+    \frac{1}{\nu'+\omega-(\eps_a+\eps_c-\eps_k)+\ii0^+}
+    \frac{1}{\nu'-(\eps_b+\eps_c-\eps_k)+\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{abkl}
+    \mel{pa}{}{rb}\mel{bq}{}{kl}\mel{kl}{}{as}
+    \\
+    &\times
+    \frac{1}{\nu'-(\eps_k+\eps_l-\eps_a)-\ii0^+}
+    \frac{1}{\nu'+\omega-(\eps_k+\eps_l-\eps_b)-\ii0^+}
+    \end{split}
+    \label{eq:Phi_eh_third_vv_right}
+\end{equation}
+
+The $oo$ sector selects the opposite causal poles of the second-order kernel.
+For the first ordering,
+\begin{equation}
+    \begin{split}
+    &\left\{
+    \left[\ii\Gamma^{\eh,(2)}\right]
+    \circ\left[-\ii L_0^{\eh,\mathrm{oo}}\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \right\}_{pqrs}
+    \\
+    & =
+    \sum_{ijkc}
+    \mel{pc}{}{jk}\mel{ik}{}{rc}\mel{qj}{}{si}
+    \\
+    &\times
+    \frac{1}{\nu+\omega-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+    \frac{1}{\nu-(\eps_j+\eps_k-\eps_c)-\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{ijcd}
+    \mel{pi}{}{cd}\mel{cd}{}{rj}\mel{qj}{}{si}
+    \\
+    &\times
+    \frac{1}{\nu-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+    \frac{1}{\nu+\omega-(\eps_c+\eps_d-\eps_j)+\ii0^+}
+    \end{split}
+    \label{eq:Phi_eh_third_oo_left}
+\end{equation}
+and for the opposite ordering,
+\begin{equation}
+    \begin{split}
+    &\left\{
+    \left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^{\eh,\mathrm{oo}}\right]
+    \circ\left[\ii\Gamma^{\eh,(2)}\right]
+    \right\}_{pqrs}
+    \\
+    & =
+    \sum_{ijkc}
+    \mel{pi}{}{rj}\mel{jk}{}{sc}\mel{qc}{}{ik}
+    \\
+    &\times
+    \frac{1}{\nu'+\omega-(\eps_i+\eps_k-\eps_c)-\ii0^+}
+    \frac{1}{\nu'-(\eps_j+\eps_k-\eps_c)-\ii0^+}
+    \\
+    &-
+    \frac12
+    \sum_{ijcd}
+    \mel{pi}{}{rj}\mel{jq}{}{cd}\mel{cd}{}{is}
+    \\
+    &\times
+    \frac{1}{\nu'-(\eps_c+\eps_d-\eps_i)+\ii0^+}
+    \frac{1}{\nu'+\omega-(\eps_c+\eps_d-\eps_j)+\ii0^+}
+    \end{split}
+    \label{eq:Phi_eh_third_oo_right}
+\end{equation}
+These expressions are deliberately left as products of charged-state
+resolvents.
+No partial-fraction decomposition is introduced, so no denominator involving
+$\eps_a-\eps_b$ or $\eps_i-\eps_j$ appears.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Three-interaction term}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Because all three vertices in the last term of
+Eq.~\eqref{eq:Phi_eh_third_convolution} are instantaneous, only the $ov$ and
+$vo$ sectors survive the internal frequency integrations.
 The first-order neutral interaction matrix is
 \begin{equation}
-	M^{\eh,(1)}
-	=
-	\begin{pmatrix}
-	A^{(1)}&B^{(1)}
-	\\
-	B^{(1)\intercal}&A^{(1)\intercal}
-	\end{pmatrix}
-	\label{eq:M_eh_first}
+    M^{\eh,(1)}
+    =
+    \begin{pmatrix}
+    A^{(1)}&B^{(1)}
+    \\
+    B^{(1)\intercal}&A^{(1)\intercal}
+    \end{pmatrix}
+    \label{eq:M_eh_first}
 \end{equation}
 with
 \begin{align}
-	A^{(1)}_{ia,jb}
-	&=
-	\mel{aj}{}{ib}
-	\label{eq:A_eh_first}
-	\\
-	B^{(1)}_{ia,jb}
-	&=
-	\mel{ab}{}{ij}
-	\label{eq:B_eh_first}
+    A^{(1)}_{ia,jb}
+    &=
+    \mel{aj}{}{ib}
+    \\
+    B^{(1)}_{ia,jb}
+    &=
+    \mel{ab}{}{ij}
 \end{align}
-Using the general expansion of Eq.~\eqref{eq:target_R_first}, the first-order neutral-resolvent correction is
-\begin{equation}
-	R^{\eh,(1)}
-	=
-	R^{\eh,(0)}
-	M^{\eh,(1)}
-	R^{\eh,(0)}
-	\label{eq:R_eh_first}
-\end{equation}
-No additional metric matrix appears in Eq.~\eqref{eq:R_eh_first} because the
-metric is already included in the definition of the resolvent.
-
-Keeping only the forward electron-hole block for illustration, the
-corresponding central third-order contribution is
-\begin{equation}
-	\begin{split}
-	\left[
-	\ii\Phi_{\rm cent}^{\eh,(3)}
-	\right]_{pqrs}
-	={}&
-	\sum_{ia,jb}
-	\frac{
-	\mel{pa}{}{ri}
-	\mel{aj}{}{ib}
-	\mel{qj}{}{sb}
-	}
-	{
-	[\omega-(\eps_a-\eps_i)+\ii0^+]
-	[\omega-(\eps_b-\eps_j)+\ii0^+]
-	}
-	\end{split}
-	\label{eq:Phi_eh_third_central_tda}
-\end{equation}
-The full forward-backward expression is generated automatically by the
-first-order correction to the neutral resolvent
-\begin{equation}
-	U^{\eh,(1)}
-	R^{\eh,(1)}
-	V^{\eh,(1)}
-	=
-	U^{\eh,(1)}
-	R^{\eh,(0)}
-	M^{\eh,(1)}
-	R^{\eh,(0)}
-	V^{\eh,(1)}
-	\label{eq:Phi_eh_third_central_matrix}
-\end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Direct eh result through third order}
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Within the conventional forward/backward electron-hole space, the third-order
-contribution has the same multiresolvent organization as at second order,
-\begin{equation}
-	\begin{split}
-	\ii\Phi_{\rm std}^{\eh,(3)}
-	={}&
-	U^{\eh,(2)}R^{\eh,(0)}V^{\eh,(1)}
-	+
-	U^{\eh,(1)}R^{\eh,(0)}V^{\eh,(2)}
-	\\
-	&+
-	U^{\eh,(1)}R^{\eh,(1)}V^{\eh,(1)}
-	\end{split}
-	\label{eq:Phi_eh_third_standard}
-\end{equation}
-The three terms correct, respectively, the left coupling vertex, the right
-coupling vertex, and the central electron-hole resolvent.
-The unrestricted result additionally contains the same-occupancy
-contributions,
-\begin{equation}
-	\ii\Phi^{\eh,(3)}
-	=
-	\ii\Phi_{\rm std}^{\eh,(3)}
-	+
-	\Delta_L^{\eh,(3)}
-	+
-	\Delta_R^{\eh,(3)}
-	\label{eq:Phi_eh_third_final}
-\end{equation}
-
-The multiresolvent character is already explicit in the first two terms.
-For example, the forward left correction contains products of the form
-\begin{equation}
-	\frac{1}
-	{\nu-(\eps_i+\eps_j-\eps_b)-\ii0^+}
-	\frac{1}
-	{\omega-(\eps_a-\eps_i)+\ii0^+}
-	\label{eq:multi_resolvent_left_hhp}
-\end{equation}
 and
 \begin{equation}
-	\frac{1}
-	{\nu+\omega-(\eps_a+\eps_b-\eps_j)+\ii0^+}
-	\frac{1}
-	{\omega-(\eps_a-\eps_i)+\ii0^+}
-	\label{eq:multi_resolvent_left_pph}
+    R^{\eh,(1)}
+    =
+    R^{\eh,(0)}M^{\eh,(1)}R^{\eh,(0)}
+    \label{eq:R_eh_first}
 \end{equation}
-which combine an $(N-1)$ or $(N+1)$ coupling-vertex pole with the neutral
-$N$-electron central resolvent.
-The third term of Eq.~\eqref{eq:Phi_eh_third_standard} instead contains two
-neutral resolvents separated by the first-order interaction matrix.
+Thus the complete contribution from the three instantaneous interactions is
+\begin{equation}
+    U^{\eh,(1)}R^{\eh,(0)}M^{\eh,(1)}R^{\eh,(0)}V^{\eh,(1)}
+    \label{eq:Phi_eh_third_three_bare}
+\end{equation}
+For example, its forward-forward block is
+\begin{equation}
+    \begin{split}
+    &\left[
+    U^{\eh,(1)}R^{\eh,(0)}M^{\eh,(1)}R^{\eh,(0)}V^{\eh,(1)}
+    \right]^{++}_{pqrs}
+    \\
+    &\quad=
+    \sum_{ia,jb}
+    \frac{
+    \mel{pa}{}{ri}\mel{aj}{}{ib}\mel{qj}{}{sb}
+    }
+    {[\omega-(\eps_a-\eps_i)+\ii0^+]
+     [\omega-(\eps_b-\eps_j)+\ii0^+]}
+    \end{split}
+    \label{eq:Phi_eh_third_three_bare_pp}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Complete direct eh result through third order}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The complete result is most transparently written by retaining the four
+orbital sectors of Eq.~\eqref{eq:L0_sector_decomposition},
+\begin{equation}
+    \begin{split}
+    \ii\Phi^{\eh,(3)}
+    ={}&
+    \sum_{x\in\{\mathrm{ov},\mathrm{vo},\mathrm{oo},\mathrm{vv}\}}
+    \Big(
+    \left[\ii\Gamma^{\eh,(2)}\right]
+    \circ\left[-\ii L_0^{\eh,x}\right]
+    \circ\left[\ii\Gamma^{\eh,(1)}\right]
+    \\
+    &\qquad+
+    \left[\ii\Gamma^{\eh,(1)}\right]
+    \circ\left[-\ii L_0^{\eh,x}\right]
+    \circ\left[\ii\Gamma^{\eh,(2)}\right]
+    \Big)
+    \\
+    &+
+    U^{\eh,(1)}R^{\eh,(0)}M^{\eh,(1)}R^{\eh,(0)}V^{\eh,(1)}
+    \end{split}
+    \label{eq:Phi_eh_third_final}
+\end{equation}
+The $ov$ and $vo$ subset of the first two lines is equivalently
+\begin{equation}
+    U^{\eh,(2)}R^{\eh,(0)}V^{\eh,(1)}
+    +
+    U^{\eh,(1)}R^{\eh,(0)}V^{\eh,(2)}
+    \label{eq:Phi_eh_third_ovvo_resolvent}
+\end{equation}
+while the $oo$ and $vv$ terms are given explicitly in
+Eqs.~\eqref{eq:Phi_eh_third_vv_left}--\eqref{eq:Phi_eh_third_oo_right}.
+The three-interaction term is Eq.~\eqref{eq:Phi_eh_third_three_bare} and is
+equivalent to $U^{\eh,(1)}R^{\eh,(1)}V^{\eh,(1)}$.
+No additional orbital sector or third-order topology occurs in the direct
+$\eh$ reducible vertex.
 
 \section{pp vertex through third order}
 \label{sec:pp_third}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The $\pp$ construction is organized in direct analogy with the $\eh$
-channel.
-We take the zeroth-order metric, central resolvent, and first-order coupling
-vertices from the second-order notes and introduce only the ingredients that
-first enter at third order.
-
+The $\pp$ construction will be completed after the direct-$\eh$ expressions
+have been audited.
+For the moment, we retain only the part that follows immediately from the
+second-order multiresolvent representation.
 The first-order correction to the central $\pp$ matrix is
 \begin{equation}
-	M^{\pp,(1)}
-	=
-	\begin{pmatrix}
-	\mel{ab}{}{cd}&\mel{ab}{}{ij}
-	\\
-	\mel{ij}{}{cd}&\mel{ij}{}{kl}
-	\end{pmatrix}
-	\label{eq:M_pp_first}
+    M^{\pp,(1)}
+    =
+    \begin{pmatrix}
+    \mel{ab}{}{cd}&\mel{ab}{}{ij}
+    \\
+    \mel{ij}{}{cd}&\mel{ij}{}{kl}
+    \end{pmatrix}
+    \label{eq:M_pp_first}
 \end{equation}
-where the upper-left block acts in the $N+2$ sector, the lower-right block
-in the $N-2$ sector, and the off-diagonal blocks couple the two sectors.
-Accordingly,
+and
 \begin{equation}
-	R^{\pp,(1)}
-	=
-	R^{\pp,(0)}
-	M^{\pp,(1)}
-	R^{\pp,(0)}
-	\label{eq:R_pp_first}
+    R^{\pp,(1)}
+    =
+    R^{\pp,(0)}M^{\pp,(1)}R^{\pp,(0)}
+    \label{eq:R_pp_first}
 \end{equation}
-
-The second-order corrections $U^{\pp,(2)}$ and $V^{\pp,(2)}$ are obtained by
-the same first frequency reduction as in the $\eh$ channel, now starting
-from $\Gamma^{\pp,(2)}=\Phi^{\eh,(2)}+\Phi^{\teh,(2)}$.
-Their poles again belong to the $(N-1)$ $\hhp$ and $(N+1)$ $\pph$ sectors,
-with orbital-energy combinations of the form
-$\eps_i+\eps_j-\eps_a$ and $\eps_a+\eps_b-\eps_i$.
-The precise surviving fermionic frequency depends on which member of the
-antisymmetrized $\pp$ external state is attached to the second-order kernel.
-Since no new pole space is introduced, we do not introduce any additional
-intermediate-state shorthand here.
-
-Within the conventional $\ee/\hh$ central space, the third-order contribution
-is therefore
+The second-order coupling-vertex corrections $U^{\pp,(2)}$ and
+$V^{\pp,(2)}$ are generated by
+$\Gamma^{\pp,(2)}=\Phi^{\eh,(2)}+\Phi^{\teh,(2)}$ and retain the same
+$(N-1)$ $\hhp$ and $(N+1)$ $\pph$ pole families as in the direct-$\eh$
+construction.
+The $\ee/\hh$ part therefore contains
 \begin{equation}
-	\begin{split}
-	\ii\Phi_{\rm std}^{\pp,(3)}
-	={}&
-	U^{\pp,(2)}R^{\pp,(0)}V^{\pp,(1)}
-	+
-	U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(2)}
-	\\
-	&+
-	U^{\pp,(1)}R^{\pp,(1)}V^{\pp,(1)}
-	\end{split}
-	\label{eq:Phi_pp_third_standard}
+    U^{\pp,(2)}R^{\pp,(0)}V^{\pp,(1)}
+    +
+    U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(2)}
+    +
+    U^{\pp,(1)}R^{\pp,(1)}V^{\pp,(1)}
+    \label{eq:Phi_pp_third_eehh}
 \end{equation}
-The central term contains the third-order $\pp$ and $\hh$ ladders together
-with the corresponding forward/backward couplings.
-For example, the pure $\ee$ contribution is
+For example, the pure $\ee$ three-interaction contribution is
 \begin{equation}
-	\begin{split}
-	\left[
-	\ii\Phi_{\rm cent}^{\pp,(3)}
-	\right]_{pqrs}^{\ee}
-	={}&
-	\sum_{\substack{a<b\\c<d}}
-	\frac{
-	\mel{pq}{}{ab}
-	\mel{ab}{}{cd}
-	\mel{cd}{}{rs}
-	}
-	{\Omega_\pp-(\eps_a+\eps_b)+\ii0^+}
-	\\
-	&\times
-	\frac{1}
-	{\Omega_\pp-(\eps_c+\eps_d)+\ii0^+}
-	\end{split}
-	\label{eq:Phi_pp_third_central_ee}
+    \begin{split}
+    &\left[
+    U^{\pp,(1)}R^{\pp,(0)}M^{\pp,(1)}R^{\pp,(0)}V^{\pp,(1)}
+    \right]_{pqrs}^{\ee}
+    \\
+    &\quad=
+    \sum_{\substack{a<b\\c<d}}
+    \frac{
+    \mel{pq}{}{ab}\mel{ab}{}{cd}\mel{cd}{}{rs}
+    }
+    {[\Omega_\pp-(\eps_a+\eps_b)+\ii0^+]
+     [\Omega_\pp-(\eps_c+\eps_d)+\ii0^+]}
+    \end{split}
+    \label{eq:Phi_pp_third_central_ee}
 \end{equation}
-
-As in the $\eh$ channel, the conventional central space is not sufficient
-for the unrestricted convolution when the second-order irreducible vertex is
-frequency dependent.
-Mixed occupied--virtual internal sectors, which vanish for an isolated
-instantaneous $\pp$ contraction, can then contribute.
-We denote the corresponding left and right contributions by
-$\Delta_L^{\pp,(3)}$ and $\Delta_R^{\pp,(3)}$.
-Their explicit phase, normalization, and frequency routing depend on the
-native antisymmetrized $\pp$ BSE convention and are not evaluated here.
-The unrestricted result is therefore organized as
-\begin{equation}
-	\ii\Phi^{\pp,(3)}
-	=
-	\ii\Phi_{\rm std}^{\pp,(3)}
-	+
-	\Delta_L^{\pp,(3)}
-	+
-	\Delta_R^{\pp,(3)}
-	\label{eq:Phi_pp_third_final}
-\end{equation}
-At this stage the $\pp$ extension should therefore be regarded as a formal
-organization of the third-order contributions rather than a complete
-implementable orbital expression.
-
+A complete $\pp$ derivation must still resolve the internal two-particle
+propagation by orbital sector and evaluate the sectors that become nonzero
+when $\Gamma^{\pp,(2)}$ is frequency dependent.
+Those terms are intentionally not introduced here before their frequency
+routing and antisymmetric-pair normalization have been derived explicitly.
 In the direct-$\eh$ frequency convention,
-$\Omega_\pp=\omega+\nu+\nu'$, so the central $\pp$ resolvent carries the
-characteristic anti-diagonal bosonic frequency of this channel.
+$\Omega_\pp=\omega+\nu+\nu'$.
 
 \section{Consistency checks at third order}
 \label{sec:checks_third}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The third-order extension is deliberately overdetermined.
-Several independent checks can therefore be applied to the new terms; the
-second-order validations are not repeated here.
+The direct-$\eh$ formulas admit several independent checks.
+These checks will be applied in the final audit of
+Sec.~\ref{sec:eh_third}; the second-order validations are not repeated here.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Status of the second frequency reduction}
+\subsection{Orbital-sector completeness}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The second frequency reduction provides a useful check only after the
-four-point object has been mapped unambiguously onto the corresponding
-forward/backward channel blocks.
-At third order this mapping must be applied separately to each left, right,
-and central contribution, including the complementary orbital sectors.
-A direct reuse of a second-order block formula without the associated index
-and frequency transformation can interchange a forward denominator
-$\omega-(\eps_a-\eps_i)$ with its reversed counterpart
-$\omega+(\eps_a-\eps_i)$.
+Equation~\eqref{eq:L0_sector_decomposition} is an identity at the level of
+the internal orbital sum.
+Consequently, the first two terms of
+Eq.~\eqref{eq:Phi_eh_third_convolution} are complete only when all four
+$ov$, $vo$, $oo$, and $vv$ sectors have been evaluated.
+The $ov/vo$ subset is represented compactly by
+Eq.~\eqref{eq:Phi_eh_third_ovvo_resolvent}, whereas the $oo/vv$ subset is
+given directly by Eqs.~\eqref{eq:Phi_eh_third_vv_left}--
+\eqref{eq:Phi_eh_third_oo_right}.
+The last term of Eq.~\eqref{eq:Phi_eh_third_convolution} contains only
+$ov/vo$ propagation because its vertices are instantaneous.
 
-For this reason, we do not use a single projected one-frequency identity as
-an independent validation of the third-order construction.
-The algebraic resolvent relation
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pair reversal}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The backward coupling vertices can be checked independently from
 \begin{equation}
-	R^{r,(1)}
-	=
-	R^{r,(0)}M^{r,(1)}R^{r,(0)}
-	\qquad
-	r=\eh,\pp
-	\label{eq:R_first_repeated}
+    Q^-_{ia}(\nu,\omega)
+    =
+    Q^+_{ia}(\nu+\omega,-\omega)
+    \label{eq:Q_reversal_third}
 \end{equation}
-is exact for the stated resolvent definition, while a complete second
-frequency reduction requires the same explicit orbital and frequency mapping
-for every term, including $\Delta_{L/R}^{r,(3)}$.
+together with the corresponding orbital-index reversal.
+This provides a direct check of the denominators and causal prescriptions in
+Eqs.~\eqref{eq:U_eh_second_minus_explicit} and
+\eqref{eq:V_eh_second_minus_explicit}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Crossing}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The transverse $\eh$ primitive is never constructed
-independently.
+The transverse $\eh$ contribution is generated from the direct channel by
+fermionic crossing.
 At every perturbative order,
 \begin{equation}
-	\Phi^{\teh,(n)}_{pqrs}(\nu,\nu',\omega)
-	=
-	-
-	\Phi^{\eh,(n)}_{pqsr}
-	\left(
-	\nu,
-	\nu+\omega,
-	\nu'-\nu
-	\right)
-	\label{eq:crossing_order_n}
+    \Phi^{\teh,(n)}_{pqrs}(\nu,\nu',\omega)
+    =
+    -
+    \Phi^{\eh,(n)}_{pqsr}
+    \left(
+    \nu,
+    \nu+\omega,
+    \nu'-\nu
+    \right)
+    \label{eq:crossing_order_n}
 \end{equation}
-This maps each left, right, and central third-order direct $\eh$
-contribution into the corresponding transverse topology and preserves the
-fermionic crossing symmetry order by order.
+The transformation must be applied to the complete direct-$\eh$ expression,
+including the $oo$ and $vv$ sectors.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Parquet reconstruction}
@@ -792,146 +837,67 @@ fermionic crossing symmetry order by order.
 
 Because the fully irreducible vertex has no third-order correction,
 \begin{align}
-	F^{(3)}
-	&=
-	\Phi^{\eh,(3)}+\Phi^{\teh,(3)}+\Phi^{\pp,(3)}
-	\label{eq:F_n_parquet}
-	\\
-	\Gamma^{\eh,(3)}
-	&=
-	\Phi^{\teh,(3)}+\Phi^{\pp,(3)}
-	\label{eq:Gamma_eh_n}
-	\\
-	\Gamma^{\pp,(3)}
-	&=
-	\Phi^{\eh,(3)}+\Phi^{\teh,(3)}
-	\label{eq:Gamma_pp_n}
-	\\
-	F^{(3)}
-	&=
-	\Gamma^{\eh,(3)}+\Phi^{\eh,(3)}
-	=
-	\Gamma^{\pp,(3)}+\Phi^{\pp,(3)}
-	\label{eq:channel_consistency_n}
+    F^{(3)}
+    &=
+    \Phi^{\eh,(3)}+\Phi^{\teh,(3)}+\Phi^{\pp,(3)}
+    \\
+    \Gamma^{\eh,(3)}
+    &=
+    \Phi^{\teh,(3)}+\Phi^{\pp,(3)}
+    \\
+    \Gamma^{\pp,(3)}
+    &=
+    \Phi^{\eh,(3)}+\Phi^{\teh,(3)}
+    \label{eq:parquet_third_reconstruction}
 \end{align}
-The direct $\eh$ Hedin kernel is therefore reconstructed from the
-two primitive multiresolvent objects through
-$\Gamma^\eh=\Lambda+\Phi^{\teh}+\Phi^\pp$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{High-frequency structure}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The second-order corrections to the coupling vertices decay as the inverse of their fermionic frequency,
+The second-order coupling-vertex corrections decay as
 \begin{equation}
-	U^{(2)}
-	=
-	\mathcal O(\nu^{-1})
-	\qquad
-	V^{(2)}
-	=
-	\mathcal O({\nu'}^{-1})
-	\label{eq:coupling_high_frequency}
+    U^{(2)}
+    =
+    \mathcal O(\nu^{-1})
+    \qquad
+    V^{(2)}
+    =
+    \mathcal O({\nu'}^{-1})
+    \label{eq:coupling_high_frequency}
 \end{equation}
-When both fermionic frequencies are large, only the central
-$\omega$-dependent contribution survives at third order.
-The resulting hierarchy is therefore consistent with the standard
-parquet asymptotic decomposition into a purely bosonic part and left and
-right one-fermionic-frequency corrections.
-
-The same argument applies in the $\pp$ channel with the central bosonic
-frequency $\Omega_\pp$ held fixed.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Diagram classes and orbital-space completeness}
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Every third-order diagram reducible in the direct $\eh$ channel belongs to
-one of the three classes displayed in
-Eq.~\eqref{eq:Phi_eh_third_convolution}: a second-order irreducible vertex
-on the left, a second-order irreducible vertex on the right, or three
-first-order interactions separated by two non-interacting propagations.
-The corresponding statement holds in the $\pp$ channel.
-
-This topological classification prevents double counting between parquet
-channels, but it does not justify restricting the internal orbital sums of
-the first two classes to the standard central spaces.
-Because $\Gamma^{(2)}$ is frequency dependent, same-occupancy sectors in
-the $\eh$ channel and mixed occupied--virtual sectors in the $\pp$ channel
-can survive the frequency integration.
-The standard $URV$ expressions are therefore complete within the
-second-order central spaces, while the unrestricted three-frequency vertex
-also contains $\Delta_{L/R}^{r,(3)}$.
-Crossing and parquet reconstruction remain valid once these additional
-terms are included.
+The explicit $oo$ and $vv$ expressions provide an additional check: each is
+a product of two charged-state denominators and therefore has the expected
+large-fermionic-frequency decay.
+No partial-fraction representation involving $\eps_a-\eps_b$ or
+$\eps_i-\eps_j$ is required for this check.
 
 \section{Recipe through third order}
 \label{sec:recipe}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Starting from the second-order quantities $U^{r,(1)}$, $V^{r,(1)}$,
-$R^{r,(0)}$, and $\Gamma^{r,(2)}$, with $r=\eh,\pp$, the third-order
-construction proceeds as follows.
+For the direct-$\eh$ vertex, begin from the three BSE contributions in
+Eq.~\eqref{eq:Phi_eh_third_convolution} and decompose every internal
+$L_0^\eh$ according to Eq.~\eqref{eq:L0_sector_decomposition}.
+Evaluate the $ov$ and $vo$ sectors with $Q^+$ and $Q^-$, respectively.
+They generate the second-order coupling vertices
+$U^{\eh,\pm,(2)}$ and $V^{\eh,\pm,(2)}$ and can be reorganized as
+Eq.~\eqref{eq:Phi_eh_third_ovvo_resolvent}.
 
-First, obtain the second-order corrections $U^{r,(2)}$ and $V^{r,(2)}$
-from the corresponding second-order channel-irreducible vertex using the
-same first frequency reduction as at second order.
-Their nontrivial poles remain in the $(N-1)$ $\hhp$ and $(N+1)$ $\pph$
-sectors.
+Evaluate the $oo$ and $vv$ sectors directly in the frequency convolution.
+Because $\Gamma^{\eh,(2)}$ is frequency dependent, these contributions do
+not vanish and are given by
+Eqs.~\eqref{eq:Phi_eh_third_vv_left}--\eqref{eq:Phi_eh_third_oo_right}.
+Keep the resulting products of charged-state resolvents in that form rather
+than introducing differences between two occupied or two virtual orbital
+energies.
 
-Second, construct the first-order correction $M^{r,(1)}$ to the central
-matrix and
-\begin{equation}
-	R^{r,(1)}
-	=
-	R^{r,(0)}M^{r,(1)}R^{r,(0)}
-	\label{eq:recipe_R_first}
-\end{equation}
-The central resolvent describes neutral $N$-electron propagation for
-$r=\eh$ and $(N\pm2)$-electron propagation for $r=\pp$.
-
-Third, inspect the internal orbital sectors before imposing the standard
-central-space restriction.
-The frequency-dependent second-order kernel activates same-occupancy
-virtual--virtual and occupied--occupied sectors in the $\eh$ channel and
-mixed occupied--virtual sectors in the $\pp$ channel.
-Their contributions are denoted by
-$\Delta_L^{r,(3)}$ and $\Delta_R^{r,(3)}$.
-
-The complete third-order organization is then
-\begin{equation}
-	\begin{split}
-	\ii\Phi^{r,(3)}
-	={}&
-	U^{r,(2)}R^{r,(0)}V^{r,(1)}
-	+
-	U^{r,(1)}R^{r,(0)}V^{r,(2)}
-	\\
-	&+
-	U^{r,(1)}R^{r,(1)}V^{r,(1)}
-	+
-	\Delta_L^{r,(3)}
-	+
-	\Delta_R^{r,(3)}
-	\end{split}
-	\label{eq:recipe_third_general}
-\end{equation}
-Generate $\Phi^{\teh,(3)}$ from $\Phi^{\eh,(3)}$ by crossing and reconstruct
-\begin{align}
-	\Gamma^{\eh,(3)}
-	&=
-	\Phi^{\teh,(3)}+\Phi^{\pp,(3)}
-	\\
-	F^{(3)}
-	&=
-	\Phi^{\eh,(3)}+\Phi^{\teh,(3)}+\Phi^{\pp,(3)}
-\end{align}
-
-The first three terms in Eq.~\eqref{eq:recipe_third_general} are the direct
-third-order continuation of the second-order multiresolvent representation.
-The $\Delta_{L/R}^{r,(3)}$ terms identify precisely where the standard
-second-order central spaces cease to span the unrestricted third-order
-frequency convolution.
-
+Finally, evaluate the three-interaction term.
+Only $ov/vo$ propagation survives and the result is
+Eq.~\eqref{eq:Phi_eh_third_three_bare}.
+Combining all sectors gives Eq.~\eqref{eq:Phi_eh_third_final}.
+After the direct-$\eh$ formulas have passed the sign, index-routing,
+pair-reversal, and crossing audit, the same sector-by-sector strategy can be
+applied to the $\pp$ channel.
 
 \end{document}
