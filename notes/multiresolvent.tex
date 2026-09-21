@@ -74,11 +74,11 @@
 
 \begin{document}
 
-\title{Multiresolvent Representation of Frequency-Dependent Bethe--Salpeter Kernels}
+\title{Multiresolvent Representation of Frequency-Dependent Vertices}
 
-\author{Pierre-Fran\c{c}ois \surname{Loos}}
-	\email{loos@irsamc.ups-tlse.fr}
-	\affiliation{\LCPQ}
+%\author{Pierre-Fran\c{c}ois \surname{Loos}}
+%	\email{loos@irsamc.ups-tlse.fr}
+%	\affiliation{\LCPQ}
 
 \begin{abstract}
 A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the familiar single-frequency resolvent structure encountered in one-body Green's function, self-energy, and polarization-propagator theories, including the algebraic-diagrammatic construction (ADC).
@@ -147,7 +147,6 @@ and a right coupling vertex.
 The central resolvent carries the natural bosonic transfer of the channel,
 while the two coupling vertices retain the remaining fermionic-frequency
 dependence.
-
 This construction also provides a direct route to the four-point Hedin
 kernel.
 The vertex irreducible in the direct $\eh$ channel is
@@ -163,15 +162,13 @@ The vertex irreducible in the direct $\eh$ channel is
 \end{equation}
 At the exact level, this is the same four-point kernel that enters Hedin's
 Bethe--Salpeter equation (BSE) through the functional derivative
-$\Xi=\fdv*{\Sigma}{G}$, once a common index convention is adopted.~\cite{Hedin1965,Onida2002,StarkeKresse2012,MarieAmmarLoos2024}
+$\Xi=\fdv*{\Sigma}{G}$, once a common index convention is adopted 
+(see the notes for additional details).~\cite{Hedin1965,Onida2002,StarkeKresse2012,MarieAmmarLoos2024}
 Thus, constructing $\Phi^\eh$ and $\Phi^\pp$ also yields a multiresolvent
 representation of the direct $\eh$ Hedin kernel.
 
 The present notes are deliberately restricted to the part of the construction
 that is fully controlled at second order in the bare interaction.
-We establish the channel frequency structure, primitive reducible vertices,
-one-sided frequency integrations, the pole structure of the coupling vertices,
-and parquet consistency.
 The resulting expressions have also been checked by carrying out the second
 frequency integration and recovering the known $\eh$ and $\pp$ GF2 kernels,
 as well as by applying the same reduction to the conventional dynamical $GW$
@@ -185,7 +182,7 @@ document.
 Throughout the perturbative discussion, we use a Hartree--Fock (HF) zeroth-order
 reference together with a M{\o}ller--Plesset (MP) partition.
 Accordingly, $G_0$ denotes the non-interacting one-particle propagator and
-$L_0=G_0G_0$ the corresponding non-interacting two-particle propagator throughout.
+$L_0=G_0G_0$ the corresponding non-interacting two-particle propagator.
 For compactness, all expressions are written for real-valued orbitals.
 Left and right coupling vertices are kept distinct whenever this distinction
 matters, and all causal prescriptions are denoted by $0^+$.
@@ -196,17 +193,17 @@ matters, and all causal prescriptions are denoted by $0^+$.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 The direct $\eh$ convention is used throughout these notes.
-The four external fermionic line energies are
-\begin{equation}
-	\nu
-	\qquad
-	\nu+\omega
-	\qquad
-	\nu'
-	\qquad
-	\nu'+\omega
-	\label{eq:eh_frequencies}
-\end{equation}
+%The four external fermionic line energies are
+%\begin{equation}
+%	\nu
+%	\qquad
+%	\nu+\omega
+%	\qquad
+%	\nu'
+%	\qquad
+%	\nu'+\omega
+%	\label{eq:eh_frequencies}
+%\end{equation}
 The natural bosonic transfer frequencies of the three parquet channels are\cite{OrlandoRomanielloLoos2023,MarieLoos2025}
 \begin{align}
 	\Omega_\eh
@@ -311,8 +308,7 @@ vertex beyond the bare interaction occurs at fourth order, so that
 	O(v^4)
 	\label{eq:Lambda_order}
 \end{equation}
-where $v$ denotes the two-electron interaction.
-
+where $v$ denotes the electron-electron interaction.
 The second-order channel-irreducible vertices are therefore
 \begin{align}
 	\Gamma^{\eh,(2)}
@@ -330,6 +326,7 @@ The second-order channel-irreducible vertices are therefore
 	\label{eq:Gamma_pp_second}
 \end{align}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Target multiresolvent representation}
 \label{sec:target_representation}
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -337,17 +334,13 @@ The second-order channel-irreducible vertices are therefore
 Having fixed the channel frequencies, we can state the algebraic form that we
 seek before deriving any perturbative ingredient.
 
-In conventional self-energy ADC, the exact Lehmann representation of the
-one-particle Green's function motivates an auxiliary charged-particle space,
-but the poles of the proper self-energy are not, in general, the exact
-$(N\pm1)$ addition and removal energies themselves.
-ADC instead constructs an intermediate-state representation of the proper
-self-energy in an $(N\pm1)$-type auxiliary space and exploits the freedom
-within that space to obtain a non-diagonal effective matrix representation.
-For a general four-point vertex, no analogous single diagonal representation
-exists because three independent frequencies cannot be carried by one
-resolvent.
-Our construction is therefore channel resolved.
+In self-energy ADC, the frequency dependence of the proper self-energy can be represented 
+through a resolvent acting in an auxiliary $(N\pm1)$-electron space. 
+This leads naturally to a matrix representation in terms of effective intermediate states. 
+A general four-point vertex is more complicated: it depends on three independent frequencies, 
+which cannot in general be accommodated by a single resolvent. A different representation 
+is therefore required, in which the frequency dependence is distributed among several 
+channel-specific resolvents and coupling vertices.
 
 For each primitive reducible vertex, the natural bosonic transfer is carried
 by a central resolvent, while the remaining fermionic-frequency dependences
@@ -390,7 +383,6 @@ Here $\eta^r$ is the channel metric, with eigenvalues $+1$ and $-1$ for
 the two propagation sectors.
 Antisymmetrized two-electron integrals are written directly as
 $\mel{pq}{}{rs}$ throughout.
-when specifying perturbative orders and must not be confused with the right coupling vertex $V^r$.
 
 The corresponding particle-number structures are
 \begin{align}
@@ -416,7 +408,7 @@ Thus, the central resolvent distinguishes $\eh$ and $\pp$ propagation,
 whereas the coupling vertices are associated with $(N\pm1)$-electron
 propagation.
 At second order, their non-trivial poles are the $\hhp$ and $\pph$ poles of
-the $(N-1)$- and $(N+1)$-electron sectors.
+the $(N\pm1)$-electron sectors.
 
 The zeroth-order central resolvent is
 \begin{equation}
@@ -448,7 +440,7 @@ Sec.~\ref{sec:channel_consistency}.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 At the exact level, the $\eh$ correlation function obeys the
-four-point Bethe--Salpeter equation (BSE)
+four-point BSE
 \begin{equation}
 	L
 	=
@@ -465,7 +457,7 @@ In the direct $\eh$ convention of Sec.~\ref{sec:frequencies},
 	\\
 	+
 	\frac{1}{(2\pi)^2}
-	\int \dd{\bar\nu}\,\dd{\bar\nu'}\,
+	\int \dd{\bar\nu}\dd{\bar\nu'}
 	L_0(\nu,\bar\nu,\omega)
 	\Gamma^\eh(\bar\nu,\bar\nu',\omega)
 	L(\bar\nu',\nu',\omega)
@@ -473,7 +465,7 @@ In the direct $\eh$ convention of Sec.~\ref{sec:frequencies},
 \end{multline}
 Barred frequencies denote integration variables throughout these notes.
 
-For occupied and virtual reference orbitals,
+For occupied and virtual reference orbitals, we have
 \begin{align}
 	G_{0,i}(\nu)
 	&=
@@ -565,12 +557,12 @@ No approximation is involved in Eqs.~\eqref{eq:L0_factorization_plus} and
 The one-sided factors satisfy
 \begin{align}
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu}\,
+	\int \dd{\bar\nu}
 	Q^+_{ia}(\bar\nu,\omega)
 	&=1
 	\\
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu}\,
+	\int \dd{\bar\nu}
 	Q^-_{ia}(\bar\nu,\omega)
 	&=1
 	\label{eq:Q_normalization}
@@ -588,7 +580,7 @@ and pair reversal gives
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 We now use the exact factorization above to remove only one fermionic
-frequency from a BSE kernel insertion.
+frequency from the BSE kernel.
 Let $\sigma,\sigma'=\pm$ denote the propagation directions of the left pair
 $ia$ and right pair $jb$, respectively. Thus $++$ denotes forward propagation
 on both pairs, whereas $+-$ denotes forward propagation on $ia$ and backward
@@ -598,31 +590,30 @@ $U$ and $V$.
 To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected coupling vertices are defined from $\ii\Gamma^\eh$.
 
 Projecting the left pair gives
-\begin{align}
-	&\frac{1}{(2\pi)^2}
-	\int \dd{\bar\nu_1}\,\dd{\bar\nu_2}\,
+\begin{multline}
+	\frac{1}{(2\pi)^2}
+	\int \dd{\bar\nu_1}\dd{\bar\nu_2}
 	L_{0,ia}^{\sigma}(\bar\nu_1,\bar\nu_2,\omega)
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu_2,\nu',\omega)
-	\nonumber
 	\\
-	&\qquad=
+	=
 	(L_0^\sigma)_{ia}(\omega)
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu}\,
+	\int \dd{\bar\nu}
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\nu',\omega)
 	\label{eq:BSE_right_factorization}
-\end{align}
+\end{multline}
 which defines the right coupling vertex
 \begin{equation}
 	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	=
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu}\,
+	\int \dd{\bar\nu}
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\left[
 	\ii\Gamma^\eh
@@ -637,31 +628,30 @@ so that Eq.~\eqref{eq:BSE_right_factorization} becomes
 \end{equation}
 
 Projecting the right pair gives analogously
-\begin{align}
-	&\frac{1}{(2\pi)^2}
-	\int \dd{\bar\nu'_1}\,\dd{\bar\nu'_2}\,
+\begin{multline}
+	\frac{1}{(2\pi)^2}
+	\int \dd{\bar\nu'_1}\dd{\bar\nu'_2}
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu'_1,\omega)
 	L_{0,jb}^{\sigma'}(\bar\nu'_1,\bar\nu'_2,\omega)
-	\nonumber
 	\\
-	&\qquad=
+	=
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu'}\,
+	\int \dd{\bar\nu'}
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
 	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	(L_0^{\sigma'})_{jb}(\omega)
 	\label{eq:BSE_left_factorization}
-\end{align}
+\end{multline}
 which defines the left coupling vertex
 \begin{equation}
 	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
 	=
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu'}\,
+	\int \dd{\bar\nu'}
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
@@ -689,24 +679,22 @@ resolvent are truncated in powers of the interaction.
 
 A second one-sided integration removes the remaining fermionic frequency.
 We define the one-frequency projected eh kernel by
-\begin{equation}
-	\begin{split}
+\begin{multline}
 	\left[
 	\ii\widetilde{\Gamma}^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
-	={}&
+	=
 	\frac{1}{(2\pi)^2}
-	\int \dd{\bar\nu}\,\dd{\bar\nu'}\,
+	\int \dd{\bar\nu}\dd{\bar\nu'}
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	\\
-	&\times
+	\times
 	\left[
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu,\bar\nu',\omega)
 	Q^{\sigma'}_{jb}(\bar\nu',\omega)
-	\end{split}
 	\label{eq:Gamma_tilde_def}
-\end{equation}
+\end{multline}
 Using Eqs.~\eqref{eq:U_def} and \eqref{eq:V_def}, the same object is obtained
 in either order
 \begin{align}
@@ -715,14 +703,14 @@ in either order
 	\right]^{\sigma\sigma'}_{ia,jb}(\omega)
 	&=
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu'}\,
+	\int \dd{\bar\nu'}
 	V^{\sigma\sigma'}_{ia,jb}(\bar\nu',\omega)
 	Q^{\sigma'}_{jb}(\bar\nu',\omega)
 	\label{eq:Gamma_tilde_from_V}
 	\\
 	&=
 	\frac{1}{2\pi}
-	\int \dd{\bar\nu}\,
+	\int \dd{\bar\nu}
 	Q^\sigma_{ia}(\bar\nu,\omega)
 	U^{\sigma\sigma'}_{ia,jb}(\bar\nu,\omega)
 	\label{eq:Gamma_tilde_from_U}
@@ -768,7 +756,7 @@ non-interacting orbital transitions $i\to a$
 \begin{equation}
 	\begin{split}
 	\ii\Phi^{\eh,(2)}_{pqrs}(\omega)
-	={}&
+	&=
 	\sum_{ia}
 	\frac{
 	\mel{pa}{}{ri}
@@ -811,7 +799,7 @@ Using Eq.~\eqref{eq:Phi_eh_second} therefore yields
 \begin{equation}
 	\begin{split}
 	\ii\Phi^{\teh,(2)}_{pqrs}(\nu,\nu',\omega)
-	={}&
+	&=
 	-
 	\sum_{kc}
 	\frac{
@@ -843,7 +831,7 @@ The second-order pair-reducible vertex is
 \begin{equation}
 	\begin{split}
 	\ii\Phi_{pqrs}^{\pp,(2)}(\Omega)
-	={}&
+	&=
 	\frac{1}{2}
 	\sum_{cd}
 	\frac{
@@ -869,7 +857,7 @@ $\eh$ convention with Eq.~\eqref{eq:pp_frequency_map} gives
 \begin{equation}
 	\begin{split}
 	\ii\Phi^{\pp,(2)}_{pqrs}(\nu,\nu',\omega)
-	={}&
+	&=
 	\frac{1}{2}
 	\sum_{cd}
 	\frac{
@@ -910,7 +898,7 @@ Explicitly,
 \begin{equation}
 	\begin{split}
 	\ii\Gamma^{\eh,(2)}_{pqrs}(\nu,\nu',\omega)
-	={}&
+	&=
 	-
 	\sum_{kc}
 	\frac{
