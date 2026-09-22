@@ -171,6 +171,7 @@ with $\bM$ denoting the Dyson amplitudes within the active space, e.g.,
 where $\left( a | b \right)$ denotes the binary product 
 \begin{align}
   \left( a | b \right) = \langle \Psi_0 | \left[ a^\dagger,  b \right] | \Psi_0 \rangle.
+  \label{eq:binary-product}
 \end{align}
 The excitation operators $\hat{R}^{N\pm1}_\mu$ act only within the active space, and satisfies the `killer condition', i.e.,
 \begin{align}
@@ -188,6 +189,7 @@ Analytic expressions can be obtained by defining the excitation manifolds of the
 The matrix elements $ \bH_\mathrm{i, a}$  read 
 \begin{align}
   \bH_\mathrm{i, a}  = \langle \Psi_0  | \left[ \hat{C}, \left[ \hat{H}, \hat{R}^{N \pm 1} \right] \right] | \Psi_0 \rangle.
+  \label{eq:Hia}
 \end{align}
 \textcolor{red}{\textbf{One has to be a little bit careful. There might be some problem with the sign convention}}
 Since the Hamiltonian contains only one- and two-body terms, only a limited number of excitation manifolds in the excitation operators $\hat{R}^{N \pm 1}$ need to be explicitly considered.
@@ -240,6 +242,497 @@ Furthermore, all remaining contributions in $\bSigma^\mathrm{corr.}$ describe tw
 \item Effects within the inactive space itself.
 \item Couplings between the inactive and active spaces that go beyond the operator manifold defined in Eq.~\eqref{eq:C1}.
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Supermatrix formulation: the initial Green's function combined with the MR-RPA screening}
+\label{sec:supermatrix}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This section derives, in the superoperator language of Sec.~I, the
+Hermitian supermatrix that combines the initial Green's function
+$\bG_{\rm init}$ of Eq.~\eqref{eq:Ginit} with the screened residual interaction of the
+MR-$GW$ method, and lists its matrix elements as implemented in
+\texttt{numerics/mrgw\_hermitian} (see \texttt{numerics/equations.pdf} for
+all conventions).  The derivation makes explicit which elements are exact,
+which are of first order in the residual interaction $\hat V_R$, and where
+the $GW$ (quasi-boson) closure enters.  Throughout, $P,Q$ denote inactive
+spin orbitals (core $i,j$, virtual $a,b$), $x,y,z,w$ active spin orbitals,
+$\mu,\nu$ eigenstates of the active Dyall Hamiltonian with $N_a\pm1$
+electrons, $I,J$ MR-RPA modes, and all quantities are real.  The
+Hamiltonian partition is $\hat H=\hat H_D+\hat V_R$ of
+Eq.~\eqref{eq:global-partition} with the Dyall Hamiltonian of
+Ref.~\cite{WangFangLi2026}; $v^R_{pr,qs}=\langle pq|rs\rangle$ without the
+all-active elements, $\bar v^R_{pr,qs}=v^R_{pr,qs}-v^R_{ps,qr}$, and
+$\gamma_{pq}=\langle\Psi_0|\hat a_p^\dagger\hat a_q|\Psi_0\rangle$ is the
+Dyall one-particle density.
+
+\subsection{Retarded propagator in an operator manifold}
+
+\Exact The binary product of Eq.~\eqref{eq:binary-product} is understood
+with the anticommutator for the odd operators used below,
+\begin{equation}
+  (X|Y)=\langle\Psi_0|\,[X^\dagger,Y]_+\,|\Psi_0\rangle ,
+  \label{eq:sm-binary}
+\end{equation}
+and the superoperator Hamiltonian acts as $\hat{\mathcal H}Y=[\hat H,Y]$.
+The retarded one-particle propagator is
+\begin{equation}
+  G_{pq}(z)=\bigl(\hat a_p^\dagger\big|(z-\hat{\mathcal H})^{-1}\big|\hat a_q^\dagger\bigr),
+  \qquad z=\omega+i0^+ .
+  \label{eq:sm-propagator}
+\end{equation}
+Equation~\eqref{eq:sm-propagator} reproduces the Lehmann representation of
+the retarded propagator: the operators $|m\rangle\langle n|$ built from
+exact eigenstates are eigenoperators of $\hat{\mathcal H}$ with eigenvalue
+$E_m-E_n$, so that
+$(z-\hat{\mathcal H})^{-1}\hat a_q^\dagger=\sum_{mn}\langle m|\hat a_q^\dagger|n\rangle\,|m\rangle\langle n|/[z-(E_m-E_n)]$,
+and the anticommutator in Eq.~\eqref{eq:sm-binary} retains exactly the two
+terms with $n=0$ ($m$ an $N+1$ state) and $m=0$ ($n$ an $N-1$ state),
+\begin{align}
+  G_{pq}(z)&=\sum_{m}^{N+1}\frac{\langle\Psi_0|\hat a_p|m\rangle\langle m|\hat a_q^\dagger|\Psi_0\rangle}{z-(E_m-E_0)}
+  \nonumber\\
+  &+\sum_{n}^{N-1}\frac{\langle\Psi_0|\hat a_q^\dagger|n\rangle\langle n|\hat a_p|\Psi_0\rangle}{z+(E_n-E_0)} .
+  \label{eq:sm-lehmann}
+\end{align}
+The anticommutator is essential: with a commutator the removal term would
+change sign.  The identity between Eqs.~\eqref{eq:sm-propagator} and
+\eqref{eq:sm-lehmann} is also verified numerically in
+\texttt{numerics/run\_checks.py} by explicit construction of the
+superoperator resolvent over all pairs of exact eigenstates.
+
+For an orthonormal operator manifold $\{h_k\}$, $(h_k|h_l)=\delta_{kl}$,
+the inner projection of Eq.~\eqref{eq:sm-propagator} onto the manifold
+gives
+\begin{align}
+  G(z)&=T\,(z\mathbf 1-\mathbb K)^{-1}\,T^{T},
+  \label{eq:sm-inner}\\
+  \mathbb K_{kl}&=(h_k|\hat{\mathcal H}|h_l)
+  =\langle\Psi_0|\,[h_k^\dagger,[\hat H,h_l]]_+\,|\Psi_0\rangle ,
+  \label{eq:sm-K-def}\\
+  T_{pk}&=(\hat a_p^\dagger|h_k)=\langle\Psi_0|\,[\hat a_p,h_k]_+\,|\Psi_0\rangle .
+  \label{eq:sm-T-def}
+\end{align}
+Equation~\eqref{eq:sm-inner} is exact if the manifold contains the exact
+eigenoperators of $\hat{\mathcal H}$ and is otherwise a Hermitian
+approximation: $\mathbb K$ is real symmetric, so $G(z)$ is causal with a
+positive-semidefinite spectral function, and its zeroth moment is $TT^{T}$.
+All constructions of this section are of this form; they differ only in
+the manifold and in the approximations made for the matrix elements
+\eqref{eq:sm-K-def}.
+
+\subsection{Top manifold: Eq.~\eqref{eq:Ginit} in the pole basis}
+\label{sec:sm-top}
+
+\Exact The manifold of Eq.~\eqref{eq:C1}, supplemented by the exact
+charged eigenoperators of the active space, is
+\begin{align}
+  h_P&=\hat a_P^\dagger\quad(P\in\text{inactive}),
+  \label{eq:sm-hP}\\
+  h_{\mu+}&=\hat R^{N+1}_\mu=|\Phi_{\rm i}\,\Xi^{N_a+1}_\mu\rangle\langle\Psi_0| ,
+  \label{eq:sm-hmu}\\
+  h_{\mu-}&=\hat R^{N-1}_\mu=|\Psi_0\rangle\langle\Phi_{\rm i}\,\Xi^{N_a-1}_\mu| ,
+  \nonumber
+\end{align}
+where $|\Phi_{\rm i}\rangle$ is the closed-shell inactive determinant and
+$|\Xi^{N_a\pm1}_\mu\rangle$ the eigenstates of the active Dyall Hamiltonian.
+The killer condition $\langle\Psi_0|\hat R^{N\pm1}_\mu=0$ of Sec.~I holds by
+construction, the manifold is orthonormal,
+\begin{align}
+  (h_P|h_Q)&=\delta_{PQ},\qquad (h_P|h_{\mu\sigma})=0 ,
+  \label{eq:sm-metric}\\
+  (h_{\mu\sigma}|h_{\nu\sigma'})&=\delta_{\mu\nu}\delta_{\sigma\sigma'},\nonumber
+\end{align}
+the last equality being the statement of Sec.~I that no Dyson amplitude
+couples the inactive and active spaces directly, and the transition matrix
+\eqref{eq:sm-T-def} is
+\begin{align}
+  T_{QP}&=\delta_{QP},\qquad
+  T_{x,\mu+}=\langle\Xi_0|\hat a_x|\Xi^{N_a+1}_\mu\rangle,
+  \label{eq:sm-T}\\
+  T_{x,\mu-}&=\langle\Xi^{N_a-1}_\mu|\hat a_x|\Xi_0\rangle ,\nonumber
+\end{align}
+i.e.\ $T=(\mathbf 1_{\rm i}\,|\,\bM)$ with the Dyson amplitudes $\bM$ of
+Sec.~I; the active columns are the vectors $d_\alpha$ of
+Eq.~\eqref{eq:GD-retarded-spectral} and $TT^{T}=\mathbf 1$ by completeness of
+the $N_a\pm1$ sectors, Eq.~\eqref{eq:TD-isometry}.
+
+\Exact The matrix elements \eqref{eq:sm-K-def} with the full Hamiltonian
+are as follows.
+\begin{align}
+  K_{PQ}&=\langle\Psi_0|[\hat a_P,[\hat H,\hat a_Q^\dagger]]_+|\Psi_0\rangle
+  =h_{PQ}+\sum_{rs}\bar v_{Pr,Qs}\gamma_{rs}=F_{PQ}
+  \nonumber\\
+  &=\epsilon_P\delta_{PQ}+[\Sigma^{11}_1]_{PQ},
+  \label{eq:sm-KPQ}\\
+  K_{\mu\sigma,\nu\sigma'}&=\kappa_{\mu\sigma}\,\delta_{\mu\nu}\delta_{\sigma\sigma'},
+  \qquad \kappa_{\mu\pm}=\pm\bigl(E^{N_a\pm1}_\mu-E^{N_a}_0\bigr),
+  \label{eq:sm-Kmunu}\\
+  K_{P,\mu\sigma}&=\langle\Psi_0|[\hat a_P,[\hat H,\hat R^{N\pm1}_\mu]]_+|\Psi_0\rangle
+  \qquad(\text{Eq.~\eqref{eq:Hia} of Sec.~I}).
+  \label{eq:sm-KPmu}
+\end{align}
+Equation~\eqref{eq:sm-KPQ} is the exact first moment of the propagator,
+which for inactive indices equals the Dyall Fock operator $F$ of
+Ref.~\cite{WangFangLi2026}; after canonicalization of the core and virtual
+blocks it reduces to the orbital energies $\epsilon_P$ plus the static
+first-order self-energy $\Sigma^{11}_1$ of Eq.~\eqref{eq:sigma11-first},
+whose only nonvanishing inactive block is the core--virtual one,
+Eq.~\eqref{eq:dyall-sigma11-blocks} (zero for CASSCF orbitals).  This
+identifies the block $\mathbf{F}^{\rm HF}_{\rm i,i}$ of Eq.~\eqref{eq:Ginit} with
+$F$.  Equation~\eqref{eq:sm-Kmunu} holds because the residual interaction has
+the same expectation value, a core constant, in every state
+$|\Phi_{\rm i}\Xi\rangle$: its all-active two-body part vanishes by
+construction of $v^R$ and its active one-body part is
+$u^{\rm eff}_{xy}=[\Sigma^{11}_1]_{xy}=0$,
+Eq.~\eqref{eq:active-active-sigma11-zero}.  The block $\bE^{N\pm1}$ of
+Eq.~\eqref{eq:Ginit} therefore carries the \emph{signed} pole energies.
+
+\Established The coupling \eqref{eq:sm-KPmu} is of first order in
+$\hat V_R$, since $[\hat H_D,\hat R^{N\pm1}_\mu]=\kappa_{\mu\pm}\hat R^{N\pm1}_\mu$
+and $(h_P|h_{\mu\sigma})=0$.  Evaluating the double anticommutator with
+$\hat V_R=u_{pq}\hat a_p^\dagger\hat a_q+\tfrac14\bar v^R_{pr,qs}\hat a_p^\dagger\hat a_q^\dagger\hat a_s\hat a_r$
+gives, for a virtual orbital $a$ and an attachment state,
+\begin{align}
+  K_{a,\mu+}&=\langle\Psi_0|\hat a_a\hat V_R|\Phi_{\rm i}\Xi^{N_a+1}_\mu\rangle
+  \nonumber\\
+  &=\sum_z[\Sigma^{11}_1]_{az}T_{z,\mu+}
+  +\sum_{zyw}\bar v^R_{az,yw}\,\mathcal C^{+}_{\mu;z,yw},
+  \label{eq:sm-Ka}\\
+  \mathcal C^{+}_{\mu;z,yw}&=\tfrac12\langle\Xi_0|\hat a_y^\dagger\hat a_w\hat a_z|\Xi^{N_a+1}_\mu\rangle
+  -\gamma_{yw}\,T_{z,\mu+},
+  \label{eq:sm-Cplus}
+\end{align}
+and, for a core orbital $i$ and a removal state,
+\begin{align}
+  K_{i,\mu-}&=-\langle\Phi_{\rm i}\Xi^{N_a-1}_\mu|\hat V_R\,\hat a_i|\Psi_0\rangle
+  \nonumber\\
+  &=\sum_z[\Sigma^{11}_1]_{iz}T_{z,\mu-}
+  +\sum_{zyw}\bar v^R_{iz,yw}\,\mathcal C^{-}_{\mu;z,yw},
+  \label{eq:sm-Ki}\\
+  \mathcal C^{-}_{\mu;z,yw}&=\tfrac12\langle\Xi^{N_a-1}_\mu|\hat a_y^\dagger\hat a_w\hat a_z|\Xi_0\rangle
+  -\gamma_{yw}\,T_{z,\mu-} .
+  \label{eq:sm-Cminus}
+\end{align}
+The first terms are the inactive--active block of the static self-energy
+folded with the Dyson amplitudes, $[T^{T}\Sigma^{11}_1T]_{P,\mu\sigma}$; the
+second terms are the residues of the first-order Hall blocks
+$\Sigma^{12}_1$ and $\Sigma^{21}_1$ of Eqs.~\eqref{eq:sigma12-spectral} and
+\eqref{eq:sigma21-spectral}, written with the connected tensors of
+Eqs.~\eqref{eq:connected-attachment-tensor} and
+\eqref{eq:connected-removal-tensor}.  The factor $\tfrac12$ and the
+mean-field subtraction follow from the antisymmetrized interaction without
+any further convention; this settles the sign question raised in Sec.~I.
+For the pairs of opposite sector (core orbital with an attachment state,
+virtual orbital with a removal state) the double anticommutator vanishes
+identically, because $\langle\Psi_0|\hat a_i=0$ and $\hat a_a|\Psi_0\rangle=0$.
+The corresponding entries of the mixed matrix in Objective~II,
+Eqs.~\eqref{eq:KB-Palpha}--\eqref{eq:KB-alphaP}, arise instead from the
+first-order change of the Dyson amplitudes induced by $\hat V_R$; they are
+required for the exact first-order Green's function (verified numerically
+by finite differences on full CI, see \texttt{numerics/run\_checks.py}) and
+are included in the implementation by default.
+
+\Proposed Collecting the blocks, the top-space matrix is
+\begin{align}
+  K&=\operatorname{diag}(\epsilon_P,\kappa_{\mu\sigma})
+  +T^{T}\Sigma^{11}_1T
+  +\begin{pmatrix}0&K_B\\K_B^{T}&0\end{pmatrix},
+  \label{eq:sm-Ktop}\\
+  [K_B]_{P,\mu\sigma}&=\sum_{zyw}\mathcal I_{Pz,yw}\,\mathcal C^{\sigma}_{\mu;z,yw},\nonumber
+\end{align}
+with the bare kernel $\mathcal I=\bar v^R$ (the superoperator evaluation
+above) or the statically screened kernel
+$\mathcal I_{Pz,yw}=v^R_{Pz,yw}-[W_D(0)]_{Pw,yz}$ of
+Eq.~\eqref{eq:mixed-kernel-explicit}, derived in the supermatrix language in
+Sec.~\ref{sec:sm-screened}.  The propagator
+\begin{equation}
+  G_{\rm init}(z)=T\,(z\mathbf 1-K)^{-1}\,T^{T}
+  \label{eq:sm-Ginit}
+\end{equation}
+is Eq.~\eqref{eq:Ginit} written in the pole basis, and the block
+inversion of Eq.~\eqref{eq:Ginit2} is its Schur-complement form.
+
+\subsection{MR-RPA bosons and the electron--boson form of \texorpdfstring{$\hat V_R$}{VR}}
+
+\Established The MR-RPA of Sec.~\ref{sec:mr-gw-from-hedin} screens the
+residual interaction with the exact Dyall response $P_D$ of
+Eq.~\eqref{eq:PD-lehmann}.  Its solution consists of modes $\Omega_I>0$
+with amplitudes $X_I,Y_I$ normalized as $X^{T}X-Y^{T}Y=\mathbf 1$, RPA
+transition densities $\bar\rho_{I,qs}=\sum_c\rho^{c}_{qs}(X+Y)_{cI}$ built
+from the channel transition densities
+$\rho^{c}_{qs}=\langle\Phi_c|\hat a_q^\dagger\hat a_s|\Phi_0\rangle$ of the
+four channels of Ref.~\cite{WangFangLi2026} (core$\to$virtual,
+core$\to$active, active$\to$virtual, active$\to$active), and the couplings
+\begin{align}
+  M_{pr,I}&=\sum_{qs}v^R_{pr,qs}\,\bar\rho_{I,qs},
+  \label{eq:sm-M}\\
+  w^{c}_D(z)&=\sum_IM_IM_I^{T}\Bigl[\frac{1}{z-\Omega_I}-\frac{1}{z+\Omega_I}\Bigr],\nonumber
+\end{align}
+which give the correlation part of $W_D$ of Eq.~\eqref{eq:WD-task3} and the
+static kernel $[W_D(0)]=v^R-2\sum_IM_IM_I^{T}/\Omega_I$ used in
+Eq.~\eqref{eq:sm-Ktop}.
+
+\Proposed Introduce boson operators $\hat b_I^\dagger$ that create the
+MR-RPA modes on the reference, in the quasi-boson approximation
+$[\hat b_I,\hat b_J^\dagger]=\delta_{IJ}$, $\hat b_I|\Psi_0\rangle=0$,
+$[\hat H,\hat b_I^\dagger]\simeq\Omega_I\hat b_I^\dagger$, and expand the
+fluctuation of the residual density in these modes,
+$\hat a_q^\dagger\hat a_s-\gamma_{qs}\simeq\sum_I\bar\rho_{I,qs}(\hat b_I+\hat b_I^\dagger)$.
+The residual interaction then takes the electron--boson form
+\begin{equation}
+  \hat V_R\simeq\hat V_R^{\rm stat}
+  +\sum_I\sum_{pr}M_{pr,I}\,\hat a_p^\dagger\hat a_r\,(\hat b_I+\hat b_I^\dagger),
+  \label{eq:sm-Veb}
+\end{equation}
+where $\hat V_R^{\rm stat}$ is the one-body mean-field part already
+contained in $K$ through $\Sigma^{11}_1$ and $K_B$, and the total
+Hamiltonian becomes
+$\hat H_{\rm eb}=\hat H_{\rm top}+\sum_I\Omega_I\hat b_I^\dagger\hat b_I+\hat V_{\rm eb}$,
+with $\hat H_{\rm top}$ the fermionic Hamiltonian whose matrix in the top
+manifold is $K$.  This is the multireference form of Hedin's
+electron--boson model~\cite{Hedin1999}; for a single-determinant reference
+its one-boson truncation reproduces $G_0W_0$
+exactly~\cite{BintrimBerkelbach2021,TolleChan2023}.
+
+\subsection{Statically screened mixed coupling}
+\label{sec:sm-screened}
+
+\Proposed The bare coupling of Eqs.~\eqref{eq:sm-Ka}--\eqref{eq:sm-Cminus}
+contains the residual interaction once, in the antisymmetrized combination
+$\bar v^R_{Pz,yw}=v^R_{Pz,yw}-v^R_{Pw,yz}$ of a direct and a crossed
+interaction line between the inactive orbital $P$ and the three active
+operators of the connected tensor $\mathcal C$.  The screened variant of the
+implementation replaces the crossed line by the statically screened residual
+interaction.  Two derivations lead to the same kernel.
+
+\paragraph{Functional derivative of the parent self-energy.}
+The parent MR-$GW$ self-energy is $\Sigma^{11}=\Sigma_H[v_R]+iG_DW_D$,
+Eq.~\eqref{eq:MRGW-Hedin-form}.  Its particle--hole irreducible kernel at
+frozen $W_D$, $\mathcal I_D=i\,\delta\Sigma^{11}/\delta G_D=v_R-W_D^{x}$,
+Eq.~\eqref{eq:MR-GW-BSE-kernel-dynamic}, consists of the bare direct term
+generated by the Hartree part and of the screened crossed term generated by
+the $GW$ exchange-correlation part.  Since the first-order coupling
+\eqref{eq:sm-Ka} is instantaneous, $W_D$ is taken at zero frequency,
+Eq.~\eqref{eq:static-MR-kernel-orbital}, which gives
+\begin{equation}
+  \mathcal I_{Pz,yw}=v^R_{Pz,yw}-[W_D(0)]_{Pw,yz}.
+  \label{eq:sm-kernel-scr}
+\end{equation}
+
+\paragraph{Static elimination of the bosons.}
+The same kernel follows from the electron--boson form \eqref{eq:sm-Veb}.
+Eliminating the bosons to second order in the coupling in the static limit
+(fermionic energy differences neglected against $\Omega_I$) produces an
+induced two-body interaction between residual density fluctuations,
+\begin{align}
+  \hat V^{\rm ind}&=-\sum_I\frac{1}{\Omega_I}\,\hat\rho_I^{\,2},\qquad
+  \hat\rho_I=\sum_{pr}M_{pr,I}\,\hat a_p^\dagger\hat a_r ,
+  \label{eq:sm-Vind}\\
+  v^{\rm ind}_{pr,qs}&=-2\sum_I\frac{M_{pr,I}M_{qs,I}}{\Omega_I}
+  =[w^{c}_D(0)]_{pr,qs},
+  \nonumber
+\end{align}
+so that the total static effective interaction is $v^R+v^{\rm ind}=W_D(0)$
+of Eq.~\eqref{eq:sm-M}.  Dressing the crossed line of the first-order
+coupling with this effective interaction gives
+Eq.~\eqref{eq:sm-kernel-scr}.  The direct line is left bare because the
+direct boson exchange between the inactive orbital and the active density
+fluctuation is already contained dynamically in the bath of
+Sec.~\ref{sec:sm-extended}: the path $P\to(n,I)\to\mu$ through a one-boson
+state carries the vertices $M_{Pz,I}$ and $M_{yw,I}$ of the direct line,
+whereas the crossed pairing $(Pw)(yz)$ is not generated by the bath, whose
+vertices \eqref{eq:sm-g} use the $GW$ closure.  Screening the direct line as
+well, $\mathcal I=W_D(0)-[W_D(0)]^{x}$ of Eq.~\eqref{eq:full-W-alternative},
+would count this exchange twice and is not used.  Because
+$W_D(0)=v^R+\mathcal O(\hat V_R^{2})$, the screened coupling differs from the
+bare one at second order only and the first-order exactness of
+Sec.~\ref{sec:sm-top} is retained, Eq.~\eqref{eq:M1-firstorder-exact-method}.
+
+\paragraph{Matrix elements.}
+Inserting $W_D(0)$ into Eq.~\eqref{eq:sm-Ktop},
+\begin{align}
+  [K^{\rm scr}_B]_{P,\mu\sigma}
+  &=\sum_{zyw}\Bigl(\bar v^R_{Pz,yw}+2\sum_I\frac{M_{Pw,I}M_{yz,I}}{\Omega_I}\Bigr)\mathcal C^{\sigma}_{\mu;z,yw}
+  \nonumber\\
+  &=[K^{\rm bare}_B]_{P,\mu\sigma}
+  +\sum_I\frac{2}{\Omega_I}\sum_{w}M_{Pw,I}\sum_{yz}M_{yz,I}\,\mathcal C^{\sigma}_{\mu;z,yw},
+  \label{eq:sm-KB-scr}
+\end{align}
+i.e.\ the boson-exchange correction is a contraction of the inactive--active
+block $M_{Pw,I}$ of the screened-interaction couplings with their
+active--active block $M_{yz,I}$ and the same connected tensors as the bare
+coupling; no additional active-space quantity is needed.  In the
+implementation the kernel \eqref{eq:sm-kernel-scr} is formed from $W_D(0)$
+over all coupled MR-RPA modes and contracted with $\mathcal C$
+(\texttt{mixed='screened'}); the screened $K_B$ enters the top block $K$
+and, for the dressed bath of Eq.~\eqref{eq:sm-B}, also the bath blocks
+$B_I$, whereas for the diagonal bath it enters the top block only.  The
+static one-body part $T^{T}\Sigma^{11}_1T$ is the same in both variants.
+
+\subsection{Extended manifold and the supermatrix}
+\label{sec:sm-extended}
+
+\Proposed The manifold is extended by the one-boson operators
+\begin{equation}
+  h_{nI}=\begin{cases}h_n\,\hat b_I^\dagger&\sigma_n=+1\ (\text{virtual }P,\ \mu+),\\
+  h_n\,\hat b_I&\sigma_n=-1\ (\text{core }P,\ \mu-),\end{cases}
+  \label{eq:sm-hnI}
+\end{equation}
+so that $(h_{mI}|h_{nJ})=\delta_{mn}\delta_{IJ}$ and
+$(h_m|h_{nI})=0$ on the boson vacuum.  Two-boson operators are not included
+(one-boson truncation).  The matrix elements of $\hat{\mathcal H}_{\rm eb}$
+are:
+\begin{enumerate}
+\item top--top: $K$ of Eq.~\eqref{eq:sm-Ktop}, unchanged by the bosons in
+  the one-boson truncation;
+\item top--bath, from $\hat V_{\rm eb}$ with the $GW$ closure in which the
+  one-body transition density between two charged top states is
+  factorized through the reference,
+  $\langle m|\hat a_p^\dagger\hat a_r|n\rangle\to T_{pm}T_{rn}$ (the
+  remaining terms are either contained in $\hat V_R^{\rm stat}$ or are
+  vertex corrections beyond $GW$),
+  \begin{equation}
+    (h_m|\hat{\mathcal H}_{\rm eb}|h_{nI})=\sum_{pr}T_{pm}M_{pr,I}T_{rn}
+    \equiv[g_I]_{mn}=[T^{T}M_IT]_{mn};
+    \label{eq:sm-g}
+  \end{equation}
+\item bath--bath: the fermionic Hamiltonian acts on $h_n$ as in the top
+  manifold and the boson contributes $\sigma_n\Omega_I$, while
+  $\hat V_{\rm eb}$ would connect to two-boson states and is dropped,
+  \begin{equation}
+    (h_{mI}|\hat{\mathcal H}_{\rm eb}|h_{nJ})=\delta_{IJ}\,[B_I]_{mn},\qquad
+    B_I=K+\operatorname{diag}(\sigma_n)\,\Omega_I .
+    \label{eq:sm-B}
+  \end{equation}
+\end{enumerate}
+The inner projection \eqref{eq:sm-inner} on the extended manifold gives the
+supermatrix and the propagator
+\begin{widetext}
+\begin{equation}
+  \mathbb H=\begin{pmatrix}K&g_1&g_2&\cdots\\ g_1^{T}&B_1&0&\\ g_2^{T}&0&B_2&\\ \vdots&&&\ddots\end{pmatrix},
+  \qquad
+  \mathbb T=\begin{pmatrix}T&0&0&\cdots\end{pmatrix},
+  \qquad
+  G(z)=\mathbb T\,(z-\mathbb H)^{-1}\,\mathbb T^{T}
+  =T\Bigl[z\mathbf 1-K-\sum_Ig_I\,(z\mathbf 1-B_I)^{-1}g_I^{T}\Bigr]^{-1}T^{T}.
+  \label{eq:sm-supermatrix}
+\end{equation}
+\end{widetext}
+The inactive--inactive block of $g_I$, $[g_I]_{PQ}=M_{PQ,I}$, is the
+ordinary $GW$ vertex of the inactive space; the inactive--active and
+active--active blocks, $[g_I]_{P,\mu\sigma}=\sum_xM_{Px,I}T_{x,\mu\sigma}$ and
+$[g_I]_{\mu\sigma,\nu\sigma'}=\sum_{xy}T_{x,\mu\sigma}M_{xy,I}T_{y,\nu\sigma'}$,
+are the couplings of the boson states to the active charged states.
+Because $\mathbb H$ is real symmetric and $\mathbb T\mathbb T^{T}=TT^{T}=\mathbf 1$,
+$G(z)$ is causal, its spectral function is positive semidefinite, its
+zeroth moment is exact, and its first moment $TKT^{T}$ does not involve the
+bath (cf.\ Eqs.~\eqref{eq:spectral-PSD}, \eqref{eq:zeroth-moment-exact} and
+\eqref{eq:M1-main-result}).
+
+\subsection{Limits and relation to the other sections}
+
+\begin{enumerate}
+\item \emph{No bosons} ($g_I=0$): Eq.~\eqref{eq:sm-supermatrix} reduces to
+  Eq.~\eqref{eq:sm-Ginit}, i.e.\ to Eq.~\eqref{eq:Ginit} of Sec.~I.
+\item \emph{Zeroth-order bath}, $B_I\to\operatorname{diag}(\kappa_n+\sigma_n\Omega_I)$,
+  and $K_B=0$: the bath Schur complement is the spectral MR-$GW$
+  self-energy of Eq.~\eqref{eq:MRGW-spectral-task3} (Eq.~(S52) of
+  Ref.~\cite{WangFangLi2026}) in all four channels, and by the
+  linearization lemma \eqref{eq:linearization-lemma}
+  $G=[G_D^{-1}-\Sigma^{\rm MR\text{-}GW}]^{-1}$ exactly,
+  Eqs.~\eqref{eq:MRGW-Dyson-task3} and \eqref{eq:linearization-equals-Dyson}:
+  the published MR-$GW$ method.
+\item \emph{Zeroth-order bath with $K_B\neq0$}: the common Hermitian matrix
+  of Objective~II, Eqs.~\eqref{eq:K-top-final}--\eqref{eq:G-common-final}
+  (``MR-$GW$ + mixed'' in the implementation, bare or screened kernel).
+\item \emph{Dressed bath}, Eq.~\eqref{eq:sm-B}: the Eq.~\eqref{eq:Ginit}
+  Hamiltonian acts inside the one-boson sector.  Without cross-sector
+  couplings $[K,\sigma]=0$, and with $K=U\Lambda U^{T}$, $Z_k=TU_{:,k}$,
+  \begin{align}
+    G(z)&=\bigl[G_{\rm init}(z)^{-1}-\Sigma^{GW}[G_{\rm init}](z)\bigr]^{-1},
+    \label{eq:sm-dressed}\\
+    \Sigma^{GW}[G_{\rm init}]_{pq}(z)&=\sum_{kI}\frac{[M_IZ_k]_p[M_IZ_k]_q}{z-\lambda_k-\sigma_k\Omega_I},\nonumber
+  \end{align}
+  the $GW$ convolution \eqref{eq:MRGW-convolution} evaluated with the
+  Eq.~\eqref{eq:Ginit} propagator instead of $G_D$; with cross-sector
+  couplings Eq.~\eqref{eq:sm-supermatrix} is the definition.  This is the
+  first iteration of a $GW_0$-type self-consistency started from
+  $G_{\rm init}$ with the top space held fixed (see
+  \texttt{notes/mr-gw-selfconsistency.tex}).
+\end{enumerate}
+The implementation verifies items~2 and~4 as exact identities to
+$10^{-14}$, the first-order exactness of item~3 by finite differences on
+full CI, and positivity and the zeroth moment for all variants.
+
+\subsection{Matrix elements as implemented}
+
+For reference, the quantities entering Eq.~\eqref{eq:sm-supermatrix} are
+computed as follows (all with PySCF routines; details in
+\texttt{numerics/equations.pdf}).
+\begin{enumerate}
+\item $\epsilon_P$: eigenvalues of the core--core and virtual--virtual
+  blocks of the Dyall Fock operator $F=h+J[\gamma]-\tfrac12K[\gamma]$ built
+  with the CAS density; $h^{\rm eff}_{xy}=h_{xy}+\sum_k[2(xy|kk)-(xk|ky)]$
+  defines the active Dyall Hamiltonian.
+\item $\kappa_{\mu\pm}$ and $T_{x,\mu\pm}$: dense diagonalization of the
+  active Dyall Hamiltonian in the $N_a$, $N_a\pm1$ sectors and overlaps of
+  $\hat a_x^{(\dagger)}|\Xi_0\rangle$ with the eigenvectors,
+  Eq.~\eqref{eq:sm-T}.
+\item $\Sigma^{11}_1=u+\bar v^R\gamma$ with $u=h-h^{D}$, $h^{D}$ the
+  one-body part of $\hat H_D$ (inactive diagonal $\epsilon_P$, active block
+  $h^{\rm eff}$), Eq.~\eqref{eq:sigma11-first}.
+\item $\mathcal C^{\pm}_{\mu;z,yw}$ from the three-operator amplitudes of
+  Eqs.~\eqref{eq:sm-Cplus} and \eqref{eq:sm-Cminus}; $K_B$ from
+  Eq.~\eqref{eq:sm-Ktop} with $\mathcal I=\bar v^R$ or
+  $\mathcal I=v^R-[W_D(0)]^{x}$.
+\item MR-RPA: channel densities and energies, direct-RPA matrices
+  $A_{cc'}=\omega_c\delta_{cc'}+\sum\rho^{c}v^R\rho^{c'T}$,
+  $B_{cc'}=\sum\rho^{c}v^R\rho^{c'}$, solved through
+  $(A-B)^{1/2}(A+B)(A-B)^{1/2}$; then $M_{pr,I}$, $W_D(0)$ and
+  $g_I=T^{T}M_IT$ from Eq.~\eqref{eq:sm-M}; modes with $M_I=0$ (spin-flip
+  modes) are dropped.
+\item $B_I$ from Eq.~\eqref{eq:sm-B} (dressed) or its diagonal (MR-$GW$
+  form).  The supermatrix is applied matrix-free, selected roots are
+  obtained by a Davidson solver with root following by maximal overlap, and
+  $G(z)$ by the Schur complement in Eq.~\eqref{eq:sm-supermatrix}.
+\end{enumerate}
+
+\subsection{Numerical illustration}
+
+Table~\ref{tab:sm-results} lists the principal ionization and attachment
+energies for linear H$_4$ (STO-6G, CASSCF(2,2)) and the three lowest
+ionization energies of O$_3$ (6-31G, CASCI in RHF orbitals, the setting of
+Ref.~\cite{WangFangLi2026}) for the variants of
+Eq.~\eqref{eq:sm-supermatrix}; the scripts are \texttt{numerics/ginit\_prelim.py}
+and \texttt{numerics/check\_ozone.py}.
+
+\begin{table*}[t]
+\caption{Principal ionization and attachment energies (eV) from the
+variants of the supermatrix \eqref{eq:sm-supermatrix}.  ``Eq.~(7)'':
+$g_I=0$, bare $K_B$; ``diag.'': zeroth-order bath,
+$B_I\to\operatorname{diag}(\kappa_n+\sigma_n\Omega_I)$; ``dressed'':
+Eq.~\eqref{eq:sm-B}; ``bare''/``screened'': kernel $\mathcal I=\bar v^R$ or
+$v^R-[W_D(0)]^{x}$ in $K_B$; all rows include the cross-sector couplings
+unless stated otherwise.  For H$_4$ the HOMO-like IP and LUMO-like EA are given,
+for O$_3$ the $^2A_1$, $^2B_2$, $^2A_2$ IPs; full CI (H$_4$) and the DMRG
+values of Ref.~\cite{WangFangLi2026} (O$_3$) are the references.}
+\label{tab:sm-results}
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+variant & H$_4$ IP/EA & O$_3$(6,4) & O$_3$(8,5) \\
+\hline
+Eq.~(7), no bath & 11.13/8.56 & 14.36/14.62/15.13 & 13.53/13.82/13.10 \\
+MR-$GW$ ($K_B=0$, diag.) & 10.88/8.52 & 12.65/12.94/14.56 & 11.58/12.09/12.94 \\
+Eq.~(7) + diag.\ bath, bare & 10.86/8.50 & 12.68/12.90/14.57 & 11.79/12.08/12.94 \\
+Eq.~(7) + diag.\ bath, screened & 10.86/8.51 & 12.68/13.21/14.99 & 12.01/12.27/13.32 \\
+Eq.~(7) + dressed bath, bare & 10.86/8.50 & 12.68/12.89/14.53 & 11.78/12.05/12.92 \\
+Eq.~(7) + dressed bath, screened & 10.85/8.50 & 12.63/13.14/14.93 & 11.98/12.22/13.29 \\
+dressed bath, bare, no cross-sector [Eq.~\eqref{eq:sm-dressed}] & 10.86/8.50 & 12.65/12.86/14.52 & 11.72/12.02/12.93 \\
+dressed bath, screened, no cross-sector [Eq.~\eqref{eq:sm-dressed}] & 10.86/8.50 & 12.35/12.92/14.54 & 11.71/11.98/12.94 \\
+reference & 11.09/8.79 & 12.34/12.59/13.34 & 12.34/12.59/13.34 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
 
 \clearpage
 \newpage

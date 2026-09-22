@@ -1,0 +1,796 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs,array,longtable}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks,linkcolor=red!50!black,citecolor=red!70!black,urlcolor=red!80!black]{hyperref}
+
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\braket}[1]{\langle#1\rangle}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\vR}{v^{R}}
+\newcommand{\vbR}{\bar v^{R}}
+\newcommand{\so}{\mathrm{so}}
+\newcommand{\act}{\mathrm{act}}
+
+\title{Equations implemented in \texttt{numerics/mrgw\_hermitian}\\[2mm]
+\large A reimplementation guide for the Hermitian pole-space MR-$GW$ code}
+\author{}
+\date{September 22, 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Purpose and reading guide}
+
+This document writes out, in the order in which the code evaluates them, all
+equations implemented in the package \code{numerics/mrgw\_hermitian} and in
+the three scripts \code{run\_checks.py}, \code{example\_h4.py} and
+\code{check\_ozone.py}.  Every formula is stated with the index conventions,
+normalizations, thresholds and sign choices actually used, so that the
+methods can be reimplemented without reading the code.  The theory behind the
+equations is in \code{notes/mr-hedin.tex} (Objectives~I and~II),
+\code{notes/comparison.tex} and Wang, Fang, and Li, arXiv:2604.16013 (WFL
+below); equation numbers of the form (S$n$) refer to the Supplemental
+Material of WFL.  Section~\ref{sec:index} maps each equation to the function
+that implements it.
+
+Throughout, all quantities are real (real orbitals, real CI vectors), and
+$\dagger$ can be read as a transpose.  Energies are in Hartree inside the
+code; the scripts convert to eV with $1\,\mathrm{Ha}=27.211386245988$~eV.
+
+\section{Conventions and PySCF primitives}
+\label{sec:conv}
+
+\paragraph{Spin orbitals.}
+Spatial molecular orbitals $p_s=0,\ldots,n_{\rm mo}-1$ are ordered core,
+active, virtual (indices $0\le p_s<n_{\rm core}$, $n_{\rm core}\le p_s<n_{\rm occ}$,
+$p_s\ge n_{\rm occ}=n_{\rm core}+n_{\rm cas}$).  Spin orbitals are labelled
+\begin{equation}
+  p=2p_s+\sigma,\qquad \sigma=0\ (\alpha),\ 1\ (\beta),\qquad n_{\so}=2n_{\rm mo}.
+  \label{eq:so}
+\end{equation}
+The index sets $\mathcal C$ (core), $\mathcal A$ (active), $\mathcal V$
+(virtual) and $\mathcal I=\mathcal C\cup\mathcal V$ (inactive) are the
+corresponding lists of spin orbitals; ``local active'' indices
+$x_\ell=2(x_s-n_{\rm core})+\sigma\in\{0,\ldots,n_{\act}-1\}$,
+$n_{\act}=2n_{\rm cas}$, label the active spin orbitals inside the CAS
+routines.  Symbols: $P,Q$ inactive; $i,j$ core; $a,b$ virtual; $x,y,z,w$
+active; $p,q,r,s$ arbitrary.
+
+\paragraph{Integrals.}
+With $C$ the (canonicalized, Sec.~\ref{sec:canon}) MO coefficients,
+$h^{\rm MO}=C^{T}h^{\rm AO}C$ and the chemist-notation two-electron integrals
+$(p_sr_s|q_ss_s)$ from \code{ao2mo.kernel} restored to a four-index array,
+\begin{align}
+  h_{pq}&=h^{\rm MO}_{p_sq_s}\,\delta_{\sigma_p\sigma_q},
+  \label{eq:h-so}\\
+  V[p,r,q,s]\equiv v_{pr,qs}&=(p_sr_s|q_ss_s)\,\delta_{\sigma_p\sigma_r}\delta_{\sigma_q\sigma_s}
+  =\braket{pq|rs},
+  \label{eq:V-so}\\
+  \bar v_{pr,qs}&=v_{pr,qs}-v_{ps,qr}
+  \qquad(\code{V - V.transpose(0,3,2,1)}),
+  \label{eq:vbar}
+\end{align}
+so that the interaction is $\tfrac12\sum v_{pr,qs}\,a_p^\dagger a_q^\dagger a_sa_r
+=\tfrac14\sum\bar v_{pr,qs}\,a_p^\dagger a_q^\dagger a_sa_r$ (WFL
+convention).  The residual interaction removes the all-active elements,
+\begin{equation}
+  \vR_{pr,qs}=\bigl(1-\delta_{p\in\mathcal A}\delta_{r\in\mathcal A}\delta_{q\in\mathcal A}\delta_{s\in\mathcal A}\bigr)\,v_{pr,qs},
+  \qquad
+  \vbR_{pr,qs}=\vR_{pr,qs}-\vR_{ps,qr}.
+  \label{eq:vR}
+\end{equation}
+
+\paragraph{CI vectors and operators.}
+CI vectors of a sector with $(n_\alpha,n_\beta)$ electrons in $n$ spatial
+orbitals are PySCF arrays of shape $(N_{n_\alpha},N_{n_\beta})$,
+$N_k=\binom{n}{k}$ (\code{cistring.num\_strings}).  The elementary
+operations are
+\begin{align}
+  \hat a_p^\dagger\ket{v}&=\code{cre\_a}(v,n,(n_\alpha,n_\beta),p_s)\ \text{if }\sigma_p=0,\qquad
+  \code{cre\_b}(v,n,(n_\alpha,n_\beta),p_s)\ \text{if }\sigma_p=1,
+  \label{eq:cre}\\
+  \hat a_p\ket{v}&=\code{des\_a}(v,n,(n_\alpha,n_\beta),p_s)\ \text{if }\sigma_p=0,\qquad
+  \code{des\_b}(v,n,(n_\alpha,n_\beta),p_s)\ \text{if }\sigma_p=1,
+  \label{eq:des}
+\end{align}
+with target sector $(n_\alpha{\pm}1,n_\beta)$ for $\sigma_p=0$ and
+$(n_\alpha,n_\beta{\pm}1)$ for $\sigma_p=1$, returning \code{None} when the
+target sector is empty ($n_\alpha=n$ for a
+creation, $n_\alpha=0$ for an annihilation).  These routines are adjoint
+pairs and satisfy the fermionic anticommutation relations across spins
+(verified numerically before use).  The Hamiltonian $H(h_1,\mathrm{eri})$ of
+a sector is applied as
+\begin{equation}
+  H\ket{v}=\code{contract\_2e}\bigl(\code{absorb\_h1e}(h_1,\mathrm{eri},n,(n_\alpha,n_\beta),\tfrac12),\,v\bigr),
+  \qquad H\ket{v}=0\ \text{if }n_\alpha+n_\beta=0,
+  \label{eq:applyH}
+\end{equation}
+and the dense Hamiltonian matrix of a sector is obtained by applying
+Eq.~\eqref{eq:applyH} to every unit vector and symmetrizing,
+$H\leftarrow\tfrac12(H+H^{T})$.  Overlaps $\braket{v|w}$ are
+\code{numpy.vdot} of the flattened arrays.
+
+\section{Dyall reference (\code{dyall.py})}
+\label{sec:dyall}
+
+\subsection{Molecule and CAS calculation}
+\begin{itemize}[leftmargin=2em]
+\item Linear H$_4$: atoms at $(0,0,k\,r)$, $k=0,\ldots,3$, $r=1.0$~\AA{}
+  (\code{build\_h4}); RHF followed by CASSCF$(n_{\rm el},n_{\rm cas})$
+  (\code{run\_casscf}).
+\item Ozone: $R(\mathrm{O{-}O})=1.278$~\AA{} and $\theta=116.8^\circ$; the
+  central O is at the origin and the terminal O atoms at
+  $(0,\pm R\sin\frac{\theta}{2},-R\cos\frac{\theta}{2})$; point-group
+  symmetry is switched on (\code{build\_o3}).  RHF is followed by CASCI in
+  the RHF orbitals with PySCF's default choice of the $n_{\rm cas}$ orbitals
+  starting at $n_{\rm core}=(N-n_{\rm el})/2$ (\code{run\_casci}).
+\end{itemize}
+
+\subsection{Dyall Fock operator and canonicalization}
+\label{sec:canon}
+
+With the spatial CAS one-particle density $\gamma^{\rm cas}$
+(\code{mc.fcisolver.make\_rdm1}) the spatial MO density is
+$\gamma^{\rm MO}=\operatorname{diag}(2\cdot\mathbf 1_{\rm core},\gamma^{\rm cas},0)$,
+and
+\begin{equation}
+  F^{\rm AO}=h^{\rm AO}+J[\gamma^{\rm AO}]-\tfrac12K[\gamma^{\rm AO}],\qquad
+  \gamma^{\rm AO}=C\gamma^{\rm MO}C^{T},\qquad
+  F^{\rm MO}=C^{T}F^{\rm AO}C ,
+  \label{eq:fock}
+\end{equation}
+where $J-\tfrac12K$ is \code{mf.get\_veff(mol,\,dm)} of the RHF object.  In
+spin orbitals this is $F_{PQ}=h_{PQ}+\sum_{rs}\bar v_{Pr,Qs}\gamma_{rs}$
+with the Dyall density of Eq.~\eqref{eq:gamma-so}.  The core--core and
+virtual--virtual blocks of $F^{\rm MO}$ are diagonalized, each irrep
+separately when orbital symmetry labels are available (so that the labels
+survive), the eigenvectors are sorted by eigenvalue, and the core and virtual
+columns of $C$ are rotated accordingly; active orbitals are not changed.
+$F^{\rm MO}$, $h^{\rm MO}$ and the ERIs are then recomputed in the rotated
+basis, and
+\begin{equation}
+  \epsilon_p=F^{\rm MO}_{p_sp_s}\qquad(\text{used for }p\in\mathcal I).
+  \label{eq:eps}
+\end{equation}
+
+\subsection{Dyall partition}
+
+The active Dyall Hamiltonian $\hat H^{\act}_D$ has the spatial one-body part
+(core index $k$)
+\begin{equation}
+  h^{\rm eff}_{xy}=h^{\rm MO}_{xy}+\sum_k\bigl[2(xy|kk)-(xk|ky)\bigr]
+  \label{eq:heff}
+\end{equation}
+(checked against \code{mc.get\_h1eff}) and the all-active ERIs
+$(xy|zw)$.  The full-space one- and two-body parts of $\hat H_D$, used only
+for exact checks, are
+\begin{equation}
+  h^{D}_{p_sq_s}=\begin{cases}\epsilon_{p}\delta_{p_sq_s}&p_s,q_s\ \text{inactive}\\
+  h^{\rm eff}_{p_sq_s}&p_s,q_s\ \text{active}\\ 0&\text{otherwise}\end{cases},
+  \qquad
+  \mathrm{eri}^{D}_{p_sr_sq_ss_s}=\begin{cases}(p_sr_s|q_ss_s)&\text{all four active}\\0&\text{otherwise}\end{cases}.
+  \label{eq:HD}
+\end{equation}
+The one-body residual interaction in spin orbitals is
+\begin{equation}
+  u_{pq}=h_{pq}-h^{D}_{pq}\qquad(h^{D}\ \text{expanded to spin orbitals as in Eq.~\eqref{eq:h-so}}),
+  \label{eq:u}
+\end{equation}
+which reproduces WFL Eqs.~(16)--(17) because the inactive blocks of
+$F^{\rm MO}$ are diagonal after canonicalization.
+
+\subsection{Active-space sectors and charged poles}
+\label{sec:poles}
+
+With $(n_a,n_b)$ the active electron numbers, the sectors
+\begin{align}
+  \mathcal S_0&=(n_a,n_b),\qquad
+  \mathcal S_+=\{(n_a{+}1,n_b),(n_a,n_b{+}1)\}\cap\{n_\sigma\le n_{\rm cas}\},
+  \label{eq:sectors}\\
+  \mathcal S_-&=\{(n_a{-}1,n_b),(n_a,n_b{-}1)\}\cap\{n_\sigma\ge0\}\nonumber
+\end{align}
+are diagonalized densely with $H(h^{\rm eff},\mathrm{eri}^{\rm cas})$:
+$H^{(\mathcal S)}U^{(\mathcal S)}=U^{(\mathcal S)}\operatorname{diag}(E^{(\mathcal S)})$.
+The reference is $E_0=E^{(\mathcal S_0)}_0$, $\ket{\Xi_0}=U^{(\mathcal S_0)}_{:,0}$
+(its overlap with \code{mc.ci} is reported).  Precomputed vectors:
+\begin{equation}
+  \ket{c_x}=\hat a_x^\dagger\ket{\Xi_0},\qquad \ket{d_x}=\hat a_x\ket{\Xi_0},\qquad x\in\{0,\ldots,n_{\act}-1\},
+  \label{eq:cd}
+\end{equation}
+each with its sector (or \code{None}).  The charged poles are, for every
+sector $\mathcal S\in\mathcal S_\pm$ and every eigenstate $k$ with vector
+$\ket{\Xi_k}$,
+\begin{align}
+  \text{attachment }(\text{sign }+1):\quad&\kappa_\alpha=E^{(\mathcal S)}_k-E_0,&
+  [d_\alpha]_x&=\braket{c_x|\Xi_k}=\braket{\Xi_0|\hat a_x|\Xi_k},
+  \label{eq:pole-att}\\
+  \text{removal }(\text{sign }-1):\quad&\kappa_\alpha=-(E^{(\mathcal S)}_k-E_0),&
+  [d_\alpha]_x&=\braket{\Xi_k|d_x}=\braket{\Xi_k|\hat a_x|\Xi_0},
+  \label{eq:pole-rem}
+\end{align}
+where $[d_\alpha]_x$ is set to zero when the sector of $c_x$ (respectively
+$d_x$) differs from $\mathcal S$.  Each pole $\alpha$ stores (sign, sector, $\kappa_\alpha$, $\ket{\Xi_k}$,
+$d_\alpha$); the matrix $D_{\act}=[d_\alpha]$ has shape $n_{\act}\times n_{\rm poles}$.
+The active sum rule $D_{\act}D_{\act}^{T}=\mathbf 1$ follows from completeness
+of the $N_a\pm1$ eigenstates and is checked.
+
+\subsection{Density, static self-energy, transition tensors}
+
+\begin{align}
+  \gamma^{\act}_{xy}&=\braket{d_x|d_y}=\braket{\Xi_0|\hat a_x^\dagger\hat a_y|\Xi_0}
+  \ (\text{sectors equal, else }0),\qquad
+  \gamma_{pq}=\begin{cases}\delta_{pq}&p,q\in\mathcal C\\ \gamma^{\act}_{x_\ell y_\ell}&p,q\in\mathcal A\\0&\text{otherwise,}\end{cases}
+  \label{eq:gamma-so}\\
+  [\Sigma_{\rm stat}]_{pq}&=u_{pq}+\sum_{rs}\vbR_{pq,rs}\,\gamma_{rs}
+  \qquad(\text{WFL Eq.~(20), }\Sigma_1^{11}),
+  \label{eq:sigma-stat}\\
+  C_3[\alpha,z,y,w]&=\begin{cases}
+  \braket{\hat a_z^\dagger\hat a_w^\dagger\hat a_y\Xi_0\,|\,\Xi_\alpha}
+  =\braket{\Xi_0|\hat a_y^\dagger\hat a_w\hat a_z|\Xi_\alpha}&\text{attachment poles}\\[1mm]
+  \braket{\Xi_\alpha\,|\,\hat a_y^\dagger\hat a_w\hat a_z\Xi_0}&\text{removal poles}
+  \end{cases}
+  \label{eq:C3}\\
+  \mathcal C_{\alpha;z,yw}&=\tfrac12\,C_3[\alpha,z,y,w]-\gamma^{\act}_{yw}\,[d_\alpha]_z ,
+  \label{eq:Cc}
+\end{align}
+where the operator strings are applied right to left with
+Eqs.~\eqref{eq:cre}--\eqref{eq:des} and contribute only when the resulting
+sector equals the pole's sector.  Equation~\eqref{eq:Cc} is the connected
+tensor $\mathcal C^{D,\pm}_{\mu;z,yw}$ of the Dyall--Hedin notes.
+
+\subsection{Neutral transition densities}
+
+For the excited states $\mu\ge1$ of $\mathcal S_0$,
+\begin{equation}
+  \omega_\mu=E^{(\mathcal S_0)}_\mu-E_0,\qquad
+  \rho^\mu_{xy}=\braket{\Xi_\mu|\hat a_x^\dagger\hat a_y|\Xi_0}
+  =\braket{\Xi_\mu|\hat a_x^\dagger d_y}\quad(\sigma_x=\sigma_y,\ \text{else }0).
+  \label{eq:tdm}
+\end{equation}
+
+\subsection{Pole representation of $G_D$}
+
+\begin{align}
+  T_D&=\bigl[\,e_P\ (P\in\mathcal I)\ \big|\ d_\alpha\ (\text{in the active rows})\,\bigr]\in\mathbb R^{n_{\so}\times(n_I+n_{\rm poles})},
+  \label{eq:GD-pole}\\
+  K_D&=(\epsilon_P,\ \kappa_\alpha),\qquad
+  G_D(z)=T_D\,(z-K_D)^{-1}T_D^{T},\nonumber
+\end{align}
+with $n_I=|\mathcal I|$.  $T_DT_D^{T}=\mathbf 1$ (zeroth moment) is checked.
+
+\section{MR-RPA screening and the MR-$GW$ bath (\code{mrrpa.py})}
+\label{sec:mrrpa}
+
+\subsection{Channels of the reference polarizability}
+
+Each channel $c$ has an energy $\omega_c$ and a transition-density matrix
+$\rho^c\in\mathbb R^{n_{\so}\times n_{\so}}$, $\rho^c_{pr}=\braket{\Phi_c|\hat p^\dagger\hat r|\Phi_0}$:
+\begin{align}
+  \text{(cv)}&\ i\in\mathcal C,\ a\in\mathcal V,\ \sigma_a=\sigma_i: & \rho_{ai}&=1, & \omega&=\epsilon_a-\epsilon_i;\\
+  \text{(ca)}&\ i\in\mathcal C,\ \alpha\ \text{attachment}: & \rho_{x i}&=[d_\alpha]_{x_\ell}\ (x\in\mathcal A), & \omega&=\kappa_\alpha-\epsilon_i;\\
+  \text{(av)}&\ a\in\mathcal V,\ \alpha\ \text{removal}: & \rho_{a x}&=[d_\alpha]_{x_\ell}, & \omega&=\epsilon_a-\kappa_\alpha;\\
+  \text{(aa)}&\ \mu\ge1: & \rho_{xy}&=\rho^\mu_{x_\ell y_\ell}, & \omega&=\omega_\mu .
+  \label{eq:channels}
+\end{align}
+Channels with $\|\rho^c\|_F<10^{-10}$ are discarded (this removes the
+spin-forbidden ca/av combinations).  The (cv) channel appears once per
+spin-conserving pair; the ca/av channels contain all attachment/removal poles
+of both $S_z$ sectors and prune themselves through the norm test.
+
+\subsection{Direct MR-RPA equations}
+
+With $K$ channels, $\rho_f\in\mathbb R^{K\times n_{\so}^2}$ the flattened
+densities and $\vR_m\in\mathbb R^{n_{\so}^2\times n_{\so}^2}$ the residual
+interaction with row pair $(p,r)$ and column pair $(q,s)$,
+\begin{align}
+  [V\rho]^{c}_{pr}&=\sum_{qs}\vR_{pr,qs}\,\rho^{c}_{qs},\qquad
+  [V\rho^{T}]^{c}_{pr}=\sum_{qs}\vR_{pr,qs}\,\rho^{c}_{sq},\\
+  B_{cc'}&=\sum_{pr}\rho^{c}_{pr}\,[V\rho]^{c'}_{pr},\qquad
+  A_{cc'}=\omega_c\delta_{cc'}+\sum_{pr}\rho^{c}_{pr}\,[V\rho^{T}]^{c'}_{pr}
+  \qquad(\text{WFL Eqs.~(S30)--(S31)}),
+  \label{eq:AB}
+\end{align}
+followed by $A\leftarrow\tfrac12(A+A^{T})$, $B\leftarrow\tfrac12(B+B^{T})$
+(the asymmetry before symmetrization is reported).  The RPA problem
+$\bigl(\begin{smallmatrix}A&B\\B&A\end{smallmatrix}\bigr)\bigl(\begin{smallmatrix}X\\Y\end{smallmatrix}\bigr)
+=\Omega\bigl(\begin{smallmatrix}X\\-Y\end{smallmatrix}\bigr)$ is solved as
+\begin{align}
+  A-B&=LL^{T}\ (\text{Cholesky}),\qquad
+  L^{T}(A+B)L\,Z=Z\,\Omega^{2},
+  \label{eq:rpa}\\
+  R&\equiv X+Y=LZ\,\Omega^{-1/2},\qquad
+  S\equiv X-Y=(A+B)R\,\Omega^{-1},\qquad R^{T}S=\mathbf 1 ,\nonumber
+\end{align}
+with $\Omega>0$ and $Z^{T}Z=\mathbf 1$.  If $A-B$ is not positive definite
+the general form is used instead: eigenpairs of
+$\bigl(\begin{smallmatrix}A&B\\-B&-A\end{smallmatrix}\bigr)$ with
+$\operatorname{Re}\Omega>0$, $|\operatorname{Im}\Omega|<10^{-8}\max(1,|\Omega|)$
+and positive norm $X^{T}X-Y^{T}Y>0$ are kept, sorted, and normalized to
+unit norm; a warning is issued if fewer than $K$ such solutions exist.
+
+\subsection{Screened-interaction couplings and static $W$}
+
+\begin{align}
+  \bar\rho_{I,qs}&=\sum_c\rho^{c}_{qs}\,R_{cI},\qquad
+  M_{pr,I}=\sum_{qs}\vR_{pr,qs}\,\bar\rho_{I,qs}\qquad(\text{WFL Eq.~(S43)}),
+  \label{eq:M}\\
+  w^{c}_{pr,qs}(0)&=-2\sum_I\frac{M_{pr,I}M_{qs,I}}{\Omega_I},\qquad
+  W^{0}_{pr,qs}=\vR_{pr,qs}+w^{c}_{pr,qs}(0)\qquad(W_D(\omega=0)),
+  \label{eq:W0}
+\end{align}
+and the mode norms $m_I=\bigl(\sum_{pr}M_{pr,I}^2\bigr)^{1/2}$.  The
+frequency-dependent correlation part, used only in checks, is
+$w^{c}_{pr,qs}(z)=\sum_IM_{pr,I}M_{qs,I}\bigl[(z-\Omega_I)^{-1}-(z+\Omega_I)^{-1}\bigr]$.
+
+\subsection{The MR-$GW$ pole bath}
+\label{sec:bath}
+
+Modes with $m_I\le10^{-12}\max_Jm_J$ are dropped (they are decoupled from the
+residual interaction, e.g.\ spin-flip modes).  For the remaining modes the
+retarded correlation self-energy of WFL Eq.~(S52),
+$\Sigma^{c}(z)=A_B\,(z-E_B)^{-1}A_B^{T}$, is built from the columns
+\begin{equation}
+\begin{array}{lll}
+  \Lambda=(a,I),\ a\in\mathcal V: & E_\Lambda=\epsilon_a+\Omega_I, & [A_B]_{p\Lambda}=M_{ap,I},\\[0.5mm]
+  \Lambda=(\alpha{+},I): & E_\Lambda=\kappa_\alpha+\Omega_I, & [A_B]_{p\Lambda}=\sum_{x\in\mathcal A}[d_\alpha]_{x_\ell}\,M_{xp,I},\\[0.5mm]
+  \Lambda=(i,I),\ i\in\mathcal C: & E_\Lambda=\epsilon_i-\Omega_I, & [A_B]_{p\Lambda}=M_{pi,I},\\[0.5mm]
+  \Lambda=(\alpha{-},I): & E_\Lambda=\kappa_\alpha-\Omega_I, & [A_B]_{p\Lambda}=\sum_{x\in\mathcal A}[d_\alpha]_{x_\ell}\,M_{px,I},
+\end{array}
+\label{eq:bath}
+\end{equation}
+and columns with $\|[A_B]_{:\Lambda}\|\le10^{-12}\max_{\Lambda'}\|[A_B]_{:\Lambda'}\|$
+are dropped.  The full retarded MR-$GW$ self-energy is
+\begin{equation}
+  \Sigma^{\rm MR\text{-}GW}(z)=\Sigma_{\rm stat}+A_B\,(z-E_B)^{-1}A_B^{T}.
+  \label{eq:sigma-mrgw}
+\end{equation}
+
+\section{Hermitian pole-space matrix (\code{hermitian.py})}
+\label{sec:hermitian}
+
+\subsection{Top space}
+
+With $T_D$ and $K_D$ from Eq.~\eqref{eq:GD-pole}, $n_{\rm top}=n_I+n_{\rm poles}$,
+\begin{align}
+  K&=\operatorname{diag}(K_D)+T_D^{T}\Sigma_{\rm stat}T_D
+  +\begin{pmatrix}0&K_B\\K_B^{T}&0\end{pmatrix},\qquad K\leftarrow\tfrac12(K+K^{T}),
+  \label{eq:K}\\
+  [K_B]_{P\alpha}&=\sum_{z,y,w\in\mathcal A}\mathcal I_{Pz,yw}\,\mathcal C_{\alpha;z,yw}
+  \qquad(P\in\mathcal I),
+  \label{eq:KB}\\
+  \mathcal I_{Pz,yw}&=\begin{cases}
+  0&\code{mixed='none'}\\
+  \vbR_{Pz,yw}&\code{mixed='bare'}\\
+  \vR_{Pz,yw}-W^{0}_{Pw,yz}&\code{mixed='screened'}\quad(\mathcal I^{\rm stat}_D=v_R-[W_D(0)]^{x}).
+  \end{cases}
+  \label{eq:kernel}
+\end{align}
+The pair $(P,\alpha)$ is ``same-sector'' if ($P\in\mathcal V$ and $\alpha$ is
+an attachment pole) or ($P\in\mathcal C$ and $\alpha$ is a removal pole).
+With \code{cross\_sector=False} the inactive--active blocks of both
+$T_D^{T}\Sigma_{\rm stat}T_D$ and $K_B$ are multiplied by the same-sector
+mask; the default keeps all pairs (Objective~II).  \code{include\_static=False}
+drops $T_D^{T}\Sigma_{\rm stat}T_D$.
+
+\subsection{Full matrix, resolvent and spectral function}
+
+With the bath of Eq.~\eqref{eq:bath}, $\tilde A=T_D^{T}A_B\in\mathbb R^{n_{\rm top}\times n_B}$,
+\begin{equation}
+  \bbH=\begin{pmatrix}K&\tilde A\\ \tilde A^{T}&\operatorname{diag}(E_B)\end{pmatrix},\qquad
+  \bbT=(T_D\ \ 0)\in\mathbb R^{n_{\so}\times(n_{\rm top}+n_B)},
+  \label{eq:Hfull}
+\end{equation}
+applied matrix-free as
+$(\bbH v)_{\rm top}=Kv_{\rm top}+\tilde Av_B$, $(\bbH v)_B=\tilde A^{T}v_{\rm top}+E_B\circ v_B$,
+with diagonal $(\operatorname{diag}K,\ E_B)$.  Without bath ($n_B=0$) the
+matrix is $K$.  Dense diagonalization $\bbH U=U\operatorname{diag}(E)$ gives
+\begin{equation}
+  Z_\lambda=\bbT U_{:,\lambda},\qquad w_\lambda=\|Z_\lambda\|^2,\qquad
+  G(z)=\sum_\lambda\frac{Z_\lambda Z_\lambda^{T}}{z-E_\lambda},\qquad
+  A(\omega)=\sum_\lambda Z_\lambda Z_\lambda^{T}\,\frac{\eta/\pi}{(\omega-E_\lambda)^2+\eta^2}
+  \label{eq:spectral}
+\end{equation}
+(\code{poles}, \code{spectral\_function}; the trace is returned unless the
+full matrix is requested).  Without diagonalization (large baths),
+\begin{equation}
+  G(z)=T_D\Bigl[z-K-\tilde A\,(z-E_B)^{-1}\tilde A^{T}\Bigr]^{-1}T_D^{T},\qquad
+  A(\omega)=-\tfrac1\pi\operatorname{Im}\operatorname{Tr}G(\omega+i\eta)
+  \label{eq:schur}
+\end{equation}
+(\code{greens\_function}, \code{spectral\_function\_resolvent}).  Spectral
+moments: $M_0=T_DT_D^{T}$, $M_1=T_DKT_D^{T}$.
+
+\subsection{Bath with the top-space Hamiltonian in the one-boson sector}
+\label{sec:dressed-bath}
+
+With \code{bath\_hamiltonian='top'} the bath states are $\ket{n}\otimes\ket{1_I}$
+for \emph{all} top states $n$ and all coupled modes $I$ ($m_I>10^{-12}\max_Jm_J$),
+the top-space Hamiltonian $K$ of Eq.~\eqref{eq:K} acts inside the one-boson
+sector, and the couplings are the boson vertices between top states:
+\begin{align}
+  B_I&=K+\operatorname{diag}(\sigma_n)\,\Omega_I,\qquad
+  [g_I]_{mn}=\sum_{pr}[T_D]_{pm}M_{pr,I}[T_D]_{rn}=t_m^{T}M_It_n,
+  \label{eq:dressed-bath}\\
+  \bbH&=\begin{pmatrix}K&g_1&g_2&\cdots\\ g_1^{T}&B_1&&\\ g_2^{T}&&B_2&\\ \vdots&&&\ddots\end{pmatrix},\nonumber
+\end{align}
+where $\sigma_n=+1$ for virtual orbitals and attachment poles and $-1$ for
+core orbitals and removal poles.  The diagonal bath of Eq.~\eqref{eq:bath}
+is the special case in which $B_I$ is replaced by its diagonal
+$\kappa_n+\sigma_n\Omega_I$ (and zero-coupling states are dropped); the two
+coincide when $K$ is diagonal.  The bath is applied as
+$(B\,v)_{(nI)}=\sum_{n'}K_{nn'}v_{(n'I)}+\sigma_n\Omega_Iv_{(nI)}$, the
+diagonal is $K_{nn}+\sigma_n\Omega_I$, and the resolvent uses
+\begin{equation}
+  G(z)=T_D\Bigl[z-K-\sum_Ig_I\,(z-B_I)^{-1}g_I^{T}\Bigr]^{-1}T_D^{T}.
+  \label{eq:dressed-schur}
+\end{equation}
+Without cross-sector couplings ($[K,\sigma]=0$) the bath Schur complement
+equals $T_D^{T}\Sigma^{GW}[G_{\rm init}](z)T_D$ with
+\begin{equation}
+  \Sigma^{GW}[G_{\rm init}]_{pq}(z)=\sum_{k,I}\frac{[M_IZ_k]_p[M_IZ_k]_q}{z-\lambda_k-\sigma_k\Omega_I},
+  \qquad K=U\operatorname{diag}(\lambda)U^{T},\ Z_k=T_DU_{:,k},\ \sigma_k=U_{:,k}^{T}\sigma U_{:,k},
+  \label{eq:dressed-equiv}
+\end{equation}
+i.e.\ the MR-$GW$ self-energy built with the poles of the Eq.~(7) propagator
+of the preliminary section instead of the Dyall poles
+(\code{dressed\_bath\_self\_energy}; checked).
+
+\subsection{Guess vectors for root following}
+
+\code{unit\_vector(k)} is $e_k$ in the $n_{\rm top}+n_B$ space;
+\code{index\_inactive(P)} and \code{index\_active\_pole($\alpha$)} give the
+top-space positions.  \code{orbital\_guess($p$, sector)} is the row
+$\bbT_{p,:}$ (the components of orbital $p$ on all poles); for an active $p$
+and sector \code{'attach'}/\code{'remove'} only the active poles of that sign
+are kept; the vector is normalized.  The two H$_4$ principal targets use the
+HOMO and LUMO spatial orbitals $p_s=N/2-1$ and $N/2$ (spin $\alpha$).
+
+\subsection{Hall-form insertion (illustration of the non-PSD Green's function)}
+
+For $z=\omega+i\eta$, with $K_B$ from Eq.~\eqref{eq:KB} (bare kernel by
+default),
+\begin{align}
+  [\Sigma^{12}(z)]_{Px}&=\sum_\alpha\frac{[K_B]_{P\alpha}[d_\alpha]_{x_\ell}}{z-\kappa_\alpha}\ (P\in\mathcal I,\ x\in\mathcal A),\qquad
+  \Sigma^{21}=(\Sigma^{12})^{T},\nonumber\\
+  \Sigma^{11}(z)&=\Sigma_{\rm stat}+A_B(z-E_B)^{-1}A_B^{T},\qquad
+  M(z)=(\mathbf 1-\Sigma^{21})^{-1}\,G_D(z)\,(\mathbf 1-\Sigma^{12})^{-1},\nonumber\\
+  G_{\rm Hall}(z)&=\bigl[M(z)^{-1}-\Sigma^{11}(z)\bigr]^{-1}.
+  \label{eq:hall}
+\end{align}
+
+\section{Davidson solver with root following (\code{davidson.py})}
+\label{sec:davidson}
+
+Input: \code{matvec} (block application of a real symmetric $\bbH$ of
+dimension $n$), the diagonal $D$, $m$ guess vectors $g_1,\ldots,g_m$
+(normalized), tolerance $\tau$ (scripts: $10^{-7}$ or $10^{-8}$), maximum
+subspace $n_{\max}=\min(n,\max(12m,40))$, preconditioner floor
+$\delta=10^{-3}$.
+\begin{enumerate}[leftmargin=2em]
+\item $V\leftarrow$ orthonormal columns of $[g_1\cdots g_m]$ (QR, columns
+  with $|R_{jj}|\le10^{-10}$ dropped; an error is raised if fewer than $m$
+  remain); $W\leftarrow\bbH V$; reference vectors $F\leftarrow[g_j]$.
+\item Iterate ($\le200$ times): $H_s=\tfrac12(V^{T}W+W^{T}V)$,
+  $H_sS=S\operatorname{diag}(\theta)$; Ritz vectors $X=VS$, $\bbH X=WS$.
+\item Selection (\code{mode='overlap'}): for $j=1,\ldots,m$ in order, choose
+  the not yet selected Ritz index $l_j=\arg\max_l|F_{:,j}^{T}X_{:,l}|$
+  (\code{'energy'}: closest $\theta_l$ to the $j$-th target energy;
+  \code{'lowest'}: the first $m$).
+\item Residuals $r_j=(\bbH X)_{:,l_j}-\theta_{l_j}X_{:,l_j}$; converged if
+  $\|r_j\|<\tau$ for all $j$; record the history.
+\item For each unconverged $j$: $\delta_j=-r_j\oslash(D-\theta_{l_j})$, where
+  entries of $D-\theta$ with $|D-\theta|<\delta$ are replaced by
+  $\pm\delta$ (sign preserved); orthogonalize $\delta_j$ twice against $V$
+  and against the already accepted new vectors; accept if its norm exceeds
+  $10^{-8}$ of the norm before orthogonalization (and $10^{-14}$) and
+  normalize.  If the preconditioned correction lies in the current subspace
+  (this happens when the relevant block of $\bbH$ is exactly diagonal, where
+  $-r_j\oslash(D-\theta)$ is parallel to the Ritz vector), the residual
+  $r_j$ itself is orthogonalized and used instead.
+\item If no new vector was accepted, stop.  If $\dim V+n_{\rm new}>n_{\max}$,
+  restart with $V\leftarrow$ orthonormal columns of $[X_{:,l_1}\cdots X_{:,l_m}\ \delta\ldots]$
+  and $W\leftarrow\bbH V$; otherwise append.  Set
+  $F\leftarrow[X_{:,l_j}]$ (root following) and return to step~2.
+\end{enumerate}
+Output: $\theta_{l_j}$, $X_{:,l_j}$, convergence flags, iteration count,
+residual norms.  Spectral weights of the roots are $\|\bbT X_{:,l_j}\|^2$ and
+their overlaps with the guesses $|g_j^{T}X_{:,l_j}|$.
+
+\section{Full-CI reference and validation identities (\code{fci\_reference.py})}
+\label{sec:fci}
+
+\subsection{Exact Green's function}
+
+For the full orbital space ($n_{\rm mo}$ orbitals, $(N_\alpha,N_\beta)$
+electrons, integrals $h_1=h^{\rm MO}$, $\mathrm{eri}=(pr|qs)$, or the
+$\hat H_D$ or $\hat H_D+\lambda\hat V_R$ integrals when given) the sectors
+$\mathcal S_0,\mathcal S_\pm$ of Eq.~\eqref{eq:sectors} are diagonalized
+densely, $\ket{\Psi_0}$ and $E_0$ are taken from $\mathcal S_0$, and for
+every spin orbital $p$ and eigenstate $k$ of $\mathcal S_\pm$
+\begin{equation}
+  \text{attachment: }\ \kappa=E_k-E_0,\ t_p=\braket{\hat a_p^\dagger\Psi_0|\Psi_k};\qquad
+  \text{removal: }\ \kappa=-(E_k-E_0),\ t_p=\braket{\Psi_k|\hat a_p\Psi_0},
+  \label{eq:fci-poles}
+\end{equation}
+giving $T\in\mathbb R^{n_{\so}\times n_{\rm poles}}$, $K$, $G(z)=T(z-K)^{-1}T^{T}$,
+$A(\omega)$ as in Eq.~\eqref{eq:spectral} with $Z_\lambda\to T_{:,\lambda}$,
+and $M_0=TT^{T}$, $M_1=TKT^{T}$.  ``Principal poles'' of a sector are the
+poles with the largest $\|t\|^2$ above $10^{-3}$.
+
+\subsection{Embedding of active-space vectors}
+
+An active-space CI vector of sector $(n_a,n_b)$ is mapped to the full space
+with $(n_a+n_{\rm core},n_b+n_{\rm core})$ electrons by setting the amplitude
+of every determinant pair to that of its active part: for each active
+$\alpha$-string $s$ (\code{cistring.make\_strings(range($n_{\rm cas}$),$n_a$)})
+the full string is $s_{\rm full}=(2^{n_{\rm core}}-1)\,|\,(s\ll n_{\rm core})$
+with address \code{cistring.str2addr($n_{\rm mo}$, $n_a+n_{\rm core}$, $s_{\rm full}$)},
+and likewise for $\beta$; virtual orbitals are empty.  Because the closed
+core is an even operator string, all embedded matrix elements equal the
+active-space ones up to one common sign per pair of sectors.
+
+\subsection{Same-sector coupling check}
+
+With $K$ from Eq.~\eqref{eq:K} for \code{mixed='bare'}, no bath, and
+$E_0^{H}=\braket{\Psi_0|\hat H|\Psi_0}$ ($\ket{\Psi_0}$ the embedded
+$\ket{\Xi_0}$, $\hat H$ the full Hamiltonian), the following identities are
+tested (all in the full determinant space; $\ket{\Psi_\alpha}$ the embedded
+active pole state, $\ket{w_a}=\hat a_a^\dagger\ket{\Psi_0}$ for $a\in\mathcal V$,
+$\ket{w_i}=\hat a_i\ket{\Psi_0}$ for $i\in\mathcal C$, $\sigma_\alpha=\pm1$
+the pole sign, $\sigma_P=+1$ for virtual and $-1$ for core):
+\begin{align}
+  \braket{\Psi_\alpha|\hat H|\Psi_\beta}-E_0^{H}\delta_{\alpha\beta}&=\sigma_\alpha K_{\alpha\beta}\quad(\text{same sector}),
+  \label{eq:chk-aa}\\
+  \braket{w_Q|\hat H|w_P}-E_0^{H}\delta_{PQ}&=\sigma_P K_{QP}\quad(\text{same sector}),
+  \label{eq:chk-ii}\\
+  \sigma_\alpha\braket{w_P|\hat H|\Psi_\alpha}&=s_\alpha K_{P\alpha},\quad s_\alpha=\pm1\ \text{common to all }P\ \text{of the sector},
+  \label{eq:chk-ia}
+\end{align}
+where $s_\alpha=\operatorname{sign}\bigl(\sum_P\braket{w_P|\hat H|\Psi_\alpha}K_{P\alpha}\bigr)$
+absorbs the sector-pair phase of the embedding.
+
+\subsection{First-order Green's-function check}
+
+With $h_1(\lambda)=h^{D}+\lambda(h^{\rm MO}-h^{D})$,
+$\mathrm{eri}(\lambda)=\mathrm{eri}^{D}+\lambda(\mathrm{eri}-\mathrm{eri}^{D})$,
+$\lambda=10^{-3}$, and $K^{(1)}=K-\operatorname{diag}(K_D)$ from
+Eq.~\eqref{eq:K} (bare kernel, no bath, all pole pairs),
+\begin{equation}
+  \frac{G_{\rm FCI}(\lambda;z)-G_{\rm FCI}(-\lambda;z)}{2\lambda}
+  \ \stackrel{?}{=}\ T_D\,R_D(z)\,K^{(1)}\,R_D(z)\,T_D^{T},\qquad R_D(z)=(z-K_D)^{-1},
+  \label{eq:chk-fd}
+\end{equation}
+at $z\in\{-1.2,-0.6,-0.2,0.2,0.6,1.2\}+0.05i$ Ha, together with
+$G_{\rm FCI}(0;z)=G_D(z)$.
+
+\section{EKT/ERPA reference (\code{ekt\_erpa.py})}
+\label{sec:ekt}
+
+The object replaces the poles, $D_{\act}$, $\kappa$, signs, $C_3$,
+$\mathcal C$ and the neutral transition densities of the Dyall reference and
+delegates everything else to it.
+
+\subsection{Charged manifolds and generalized eigenproblems}
+
+For each sign and each sector $\mathcal S\in\mathcal S_\pm$ the manifold is
+the list of CI vectors
+\begin{align}
+  \text{primary:}&\quad \{\hat a_x\ket{\Xi_0}\}\ (\text{removal}),\qquad \{\hat a_x^\dagger\ket{\Xi_0}\}\ (\text{attachment}),
+  \label{eq:man-primary}\\
+  \text{extended (removal):}&\quad \text{primary}\ \cup\ \{\hat a_y^\dagger\hat a_w\hat a_z\ket{\Xi_0}\}_{w>z,\ y},
+  \label{eq:man-extended}\\
+  \text{extended (attachment):}&\quad \text{primary}\ \cup\ \{\hat a_y\hat a_w^\dagger\hat a_z^\dagger\ket{\Xi_0}\}_{w>z,\ y},\nonumber
+\end{align}
+keeping only vectors that land in $\mathcal S$ and have norm $\ge10^{-12}$
+(operators applied right to left).  With $V=[v_1\cdots v_m]$ (flattened
+vectors as rows) and $\hat H=H(h^{\rm eff},\mathrm{eri}^{\rm cas})$,
+\begin{equation}
+  A_{ij}=\braket{v_i|\hat H-E_0|v_j},\qquad S_{ij}=\braket{v_i|v_j},\qquad
+  A,S\leftarrow\text{symmetrized},
+  \label{eq:ekt-AS}
+\end{equation}
+so that for the primary removal manifold $S=\gamma^{\act}$ and for the
+primary attachment manifold $S=\mathbf 1-\gamma^{\act T}$ (EKT metrics).
+Canonical orthogonalization:
+\begin{equation}
+  S=U\operatorname{diag}(s)U^{T},\quad
+  X_o=U_{:,s>\tau}\operatorname{diag}(s_{s>\tau})^{-1/2},\quad
+  \tau=\begin{cases}\tau_{\rm occ}=10^{-8}&\text{primary}\\ \tau_{\rm lin}\max_js_j,\ \tau_{\rm lin}=10^{-10}&\text{extended,}\end{cases}
+  \label{eq:canon-orth}
+\end{equation}
+then $X_o^{T}AX_o\,C_t=C_t\operatorname{diag}(e)$, $C=X_oC_t$
+($C^{T}SC=\mathbf 1$), and for each $k$
+\begin{equation}
+  \ket{\Xi^{\rm EKT}_k}=\sum_jC_{jk}\ket{v_j},\qquad
+  \kappa_k=\pm e_k,\qquad
+  [d_k]_x=\begin{cases}\braket{\Xi^{\rm EKT}_k|\hat a_x\Xi_0}&\text{removal}\\ \braket{\hat a_x^\dagger\Xi_0|\Xi^{\rm EKT}_k}&\text{attachment,}\end{cases}
+  \label{eq:ekt-poles}
+\end{equation}
+(zero when the sector of $\hat a_x^{(\dagger)}\Xi_0$ differs from $\mathcal S$).
+The rank per sector and the number of removed directions are reported; when
+the number of EKT poles equals the exact one,
+$\max|\kappa^{\rm EKT}_{\rm sorted}-\kappa^{\rm exact}_{\rm sorted}|$ is
+reported.  $C_3$ and $\mathcal C$ are recomputed from
+Eqs.~\eqref{eq:C3}--\eqref{eq:Cc} with the EKT states.  Active moments
+$M_k=\sum_\alpha\kappa_\alpha^kd_\alpha d_\alpha^{T}$, $k=0,\ldots,3$, are
+compared with the exact ones.
+
+\subsection{ERPA in the active--active channel}
+
+Natural spin orbitals per spin block: $\gamma^{\act}_{\sigma\sigma}=U_\sigma\operatorname{diag}(n_\sigma)U_\sigma^{T}$,
+assembled into $U$ and $n$ over the local active spin orbitals ($\tilde p^\dagger=\sum_xU_{x\tilde p}\hat a_x^\dagger$).
+Same-spin excitation vectors and their NO transforms:
+\begin{equation}
+  \ket{u_{xy}}=\hat a_x^\dagger\hat a_y\ket{\Xi_0}\ (\sigma_x=\sigma_y,\ \text{sector }\mathcal S_0),\qquad
+  \ket{\tilde u_{pq}}=\sum_{x,y}U_{xp}U_{yq}\ket{u_{xy}},
+  \label{eq:erpa-u}
+\end{equation}
+for the pair manifold $\mathcal P=\{(p,q):p\ne q,\ \sigma_p=\sigma_q,\ |n_q-n_p|>\tau_{\rm occ}\}$.
+The equation-of-motion matrices
+\begin{align}
+  \mathcal M_{(pq),(rs)}&=\braket{\tilde u_{pq}|\hat H-E_0|\tilde u_{rs}}+\braket{\tilde u_{sr}|\hat H-E_0|\tilde u_{qp}},
+  \qquad\mathcal M\leftarrow\tfrac12(\mathcal M+\mathcal M^{T}),
+  \label{eq:erpa-M}\\
+  \mathcal S_{(pq),(rs)}&=\braket{\tilde u_{pq}|\tilde u_{rs}}-\braket{\tilde u_{sr}|\tilde u_{qp}},
+  \label{eq:erpa-S}
+\end{align}
+are formed.  Equation~\eqref{eq:erpa-M} equals the double commutator
+$\braket{0|[E_{qp},[\hat H,E_{rs}]]|0}$ and Eq.~\eqref{eq:erpa-S} the
+commutator $\braket{0|[E_{qp},E_{rs}]|0}$, which is
+$\delta_{pr}\delta_{qs}(n_q-n_p)$ in the natural-orbital basis; the
+deviation of $\mathcal S$ from this diagonal form is reported.  With the excitation pairs $\mathcal E=\{(p,q)\in\mathcal P:n_q>n_p\}$,
+their conjugates $\bar{\mathcal E}=\{(q,p)\}$, $N_{(pq)}=n_q-n_p$,
+$A=\mathcal M_{\mathcal E\mathcal E}$, $B=\mathcal M_{\mathcal E\bar{\mathcal E}}$
+(the identities $\mathcal M_{\bar{\mathcal E}\bar{\mathcal E}}=A$,
+$\mathcal M_{\bar{\mathcal E}\mathcal E}=B$ are checked),
+\begin{align}
+  \tilde A&=N^{-1/2}AN^{-1/2},\qquad \tilde B=N^{-1/2}BN^{-1/2},\qquad
+  (\Omega,R,S)=\text{RPA solve of Eq.~\eqref{eq:rpa} for }(\tilde A,\tilde B),
+  \label{eq:erpa-solve}\\
+  X&=N^{-1/2}\tfrac{R+S}{2},\qquad Y=N^{-1/2}\tfrac{R-S}{2},\nonumber
+\end{align}
+which is the ERPA problem $\mathcal Mc=\omega\mathcal Sc$ with
+$c^{T}\mathcal Sc=1$.  Transition densities $\rho^\nu=\mathcal Sc^\nu$ in the
+NO basis and their back-transformation:
+\begin{equation}
+  \tilde\rho^\nu_{pq}=N_{(pq)}X^\nu_{(pq)},\qquad
+  \tilde\rho^\nu_{qp}=-N_{(pq)}Y^\nu_{(pq)}\quad((p,q)\in\mathcal E),\qquad
+  \rho^\nu_{xy}=\sum_{pq}U_{xp}U_{yq}\tilde\rho^\nu_{pq}=\braket{\nu|\hat a_x^\dagger\hat a_y|0}.
+  \label{eq:erpa-rho}
+\end{equation}
+$(\Omega_\nu,\rho^\nu)$ replace $(\omega_\mu,\rho^\mu)$ of Eq.~\eqref{eq:tdm}
+in the (aa) channel of Eq.~\eqref{eq:channels}; the (ca) and (av) channels
+use the EKT poles automatically.  Sum rules checked against the exact
+transition densities over all same-spin pairs:
+\begin{equation}
+  \sum_\nu\bigl[\rho^\nu_{pq}\rho^\nu_{rs}-\rho^\nu_{qp}\rho^\nu_{sr}\bigr]
+  \ \text{and}\
+  \sum_\nu\Omega_\nu\bigl[\rho^\nu_{pq}\rho^\nu_{rs}+\rho^\nu_{qp}\rho^\nu_{sr}\bigr]
+  \quad(\text{ERPA})\ =\ (\text{exact}).
+  \label{eq:erpa-sumrules}
+\end{equation}
+
+\section{Workflows of the scripts}
+\label{sec:scripts}
+
+\subsection{\code{run\_checks.py} (H$_4$, STO-6G, CAS(2,2), CASSCF)}
+
+The 43 checks, with the identity tested and the tolerance:
+\begin{center}\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{9.4cm}>{\raggedright\arraybackslash}p{5.4cm}}
+\toprule
+identity & tolerance\\
+\midrule
+Eq.~\eqref{eq:heff} vs \code{mc.get\_h1eff}; $E_0+E_{\rm core}=E_{\rm CASSCF}$; $|\braket{\Xi_0|\code{mc.ci}}|=1$ & $10^{-10}$, $10^{-8}$, $10^{-8}$\\
+$D_{\act}D_{\act}^{T}=\mathbf 1$; $T_DT_D^{T}=\mathbf 1$ & $10^{-10}$\\
+$\Sigma_{\rm stat}$: active--active, core--core, virtual--virtual blocks zero; Hermitian & $10^{-10}$, $10^{-8}$, $10^{-8}$, $10^{-10}$\\
+MR-RPA: $A,B$ symmetric; $R^{T}S=\mathbf 1$; $\Omega>0$; $W^{0}_{pr,qs}=W^{0}_{qs,pr}$ & $10^{-10}$, $10^{-8}$, $0$, $10^{-10}$\\
+Eq.~\eqref{eq:schur} with $K_B=0$ $=[G_D^{-1}-\Sigma^{\rm MR\text{-}GW}]^{-1}$ at four $z$ & $10^{-9}$\\
+Eqs.~\eqref{eq:chk-aa}--\eqref{eq:chk-ia} & $10^{-9}$\\
+$G_{\rm FCI}(\hat H_D)=G_D$; Eq.~\eqref{eq:chk-fd} (relative) & $10^{-8}$, $10^{-5}$\\
+screened mixed variant: $M_0=\mathbf 1$; $w_\lambda\ge0$; $M_1$(bare mixed) $=h+\bar v\gamma_D$ & $10^{-10}$, $10^{-12}$, $10^{-9}$\\
+Davidson roots $=$ dense max-overlap eigenvalues; residuals & $10^{-7}$\\
+dressed bath: equals the diagonal bath for diagonal $K$; equals Eq.~\eqref{eq:dressed-equiv} without cross-sector couplings; $M_0=\mathbf 1$; $w_\lambda\ge0$; Davidson vs dense & $10^{-10}$, $10^{-9}$, $10^{-10}$, $10^{-12}$, $10^{-7}$\\
+EKT (primary): $M_0=\mathbf 1$, $M_1$ exact, poles exact (CAS(2,2)) & $10^{-10}$, $10^{-9}$, $10^{-9}$\\
+EKT (extended): $M_0\ldots M_3$ exact; poles exact & $10^{-8}$\\
+ERPA sum rules, Eq.~\eqref{eq:erpa-sumrules} & $10^{-9}$\\
+EKT/ERPA: linearization identity; $M_0=\mathbf 1$; $w_\lambda\ge0$; Davidson vs dense & $10^{-9}$, $10^{-10}$, $10^{-12}$, $10^{-7}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{\code{example\_h4.py}}
+
+\begin{enumerate}[leftmargin=2em]
+\item Build H$_4$ (default STO-6G, $r=1.0$~\AA, CAS(2,2), CASSCF), the Dyall
+  reference, the MR-RPA, and the EKT/ERPA references with the primary and the
+  extended charged manifold, each with its own MR-RPA.
+\item Build eight Hermitian matrices: CAS (\code{mixed='none'}, no bath),
+  MR-$GW$ (\code{'none'}, bath), mixed bare, mixed screened, and the
+  EKT/ERPA and EKT(2h1p)/ERPA versions of MR-$GW$ and of the screened mixed
+  variant; the full-CI reference (unless \code{--no-fci}).
+\item For every matrix, Davidson root following from the guesses
+  \code{orbital\_guess(HOMO,'remove')}, \code{orbital\_guess(LUMO,'attach')},
+  the unit vector of the first core spin orbital (if any) and of the first
+  virtual spin orbital (if any); compare with the dense eigenvalue of
+  maximal overlap with the same guess; report weights and overlaps.
+\item Print the active-space excitation energies (exact and ERPA), the
+  charged poles (exact, primary EKT, extended EKT), the manifold ranks, the
+  four most intense poles per sector of every variant and of full CI, the
+  sum rules $M_0$, minimal weight, and $\max|M_1-M_1^{\rm FCI}|$ over the
+  full matrix and over the inactive--active block.
+\item Plot $\operatorname{Tr}A(\omega)$ for $\omega\in[-30,25]$~eV with
+  $\eta=0.1$~eV (Eq.~\eqref{eq:spectral}), one panel per variant plus the
+  Hall-form insertion of Eq.~\eqref{eq:hall}, full CI dashed, to
+  \code{h4\_<basis>\_cas<n>\_<m>\_spectral\_functions.png}.
+\end{enumerate}
+
+\subsection{\code{check\_ozone.py}}
+
+\begin{enumerate}[leftmargin=2em]
+\item Build O$_3$ (6-31G), RHF; print the orbital energies of orbitals
+  6--14 with C$_{2v}$ labels (running index per irrep) against WFL Table~S3;
+  CASCI with $(n_{\rm el},n_{\rm cas})$ from \code{--cas} (default 6,4;
+  8,5 supported; 8,6 refused unless \code{--force} because the estimated
+  bath exceeds $3\times10^{6}$ poles); print the three leading CI
+  coefficients.
+\item Dyall reference, MR-RPA; EKT/ERPA references (primary, extended) and
+  their MR-RPAs.
+\item Cation states: for each reference, in the sector $(n_a-1,n_b)$, the
+  lowest removal pole of each irrep, the irrep of a pole being the XOR of
+  the orbital irreps (PySCF ids) occupied in its dominant determinant.
+\item For the variants MR-$GW$, mixed bare, mixed screened (exact
+  reference), EKT/ERPA MR-$GW$ and its screened mixed version, and the two
+  EKT(2h1p)/ERPA versions: Davidson root following from the unit vectors of
+  the $^2A_1$, $^2B_2$, $^2A_2$ cation poles of the respective reference;
+  IPs $=-\theta$, weights, overlaps.
+\item Table of IPs against WFL Table~S5 (KT, $GW$@RHF, CAS, MR-$GW$,
+  EOM-CCSD, DMRG, experiment) with the state ordering, and the deviation
+  MR-$GW$(this work) $-$ MR-$GW$(WFL).
+\item Optional (\code{--plot}): $\operatorname{Tr}A(\omega)$ on
+  $[-20,-8]$~eV with $\eta=0.1$~eV from Eq.~\eqref{eq:schur} for the CASCI
+  reference and the three exact-reference variants, with the experimental
+  (dotted) and DMRG (dashed) IPs as vertical lines.
+\end{enumerate}
+
+\section{Equation-to-function index}
+\label{sec:index}
+
+\begin{center}\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{6.5cm}>{\raggedright\arraybackslash}p{4.5cm}}
+\toprule
+equations & function / method & module\\
+\midrule
+\eqref{eq:so}--\eqref{eq:vR} & \code{spin\_orbital\_one\_body}, \code{spin\_orbital\_two\_body}, \code{antisymmetrize}, \code{DyallReference.\_\_init\_\_} & \code{dyall.py}\\
+\eqref{eq:cre}--\eqref{eq:applyH} & \code{apply\_cre}, \code{apply\_des}, \code{apply\_hamiltonian}, \code{dense\_ci\_hamiltonian} & \code{dyall.py}\\
+\eqref{eq:fock}--\eqref{eq:eps} & \code{DyallReference.\_\_init\_\_}, \code{\_canonicalize\_block} & \code{dyall.py}\\
+\eqref{eq:heff}--\eqref{eq:u} & \code{DyallReference.\_\_init\_\_} & \code{dyall.py}\\
+\eqref{eq:sectors}--\eqref{eq:pole-rem} & \code{DyallReference.\_\_init\_\_}, \code{Sector}, \code{ActivePole} & \code{dyall.py}\\
+\eqref{eq:gamma-so}--\eqref{eq:Cc} & \code{DyallReference.\_\_init\_\_}, \code{\_three\_operator\_amplitudes} & \code{dyall.py}\\
+\eqref{eq:tdm} & \code{neutral\_transition\_densities} & \code{dyall.py}\\
+\eqref{eq:GD-pole} & \code{pole\_representation}, \code{dyall\_greens\_function} & \code{dyall.py}\\
+\eqref{eq:channels} & \code{MRRPA.\_build\_channels} & \code{mrrpa.py}\\
+\eqref{eq:AB}--\eqref{eq:rpa} & \code{MRRPA.\_solve}, \code{solve\_rpa}, \code{\_solve\_rpa\_general} & \code{mrrpa.py}\\
+\eqref{eq:M}--\eqref{eq:W0} & \code{MRRPA.\_solve} & \code{mrrpa.py}\\
+\eqref{eq:bath}--\eqref{eq:sigma-mrgw} & \code{MRRPA.bath}, \code{MRRPA.self\_energy} & \code{mrrpa.py}\\
+\eqref{eq:K}--\eqref{eq:kernel} & \code{HermitianGF.\_\_init\_\_}, \code{mixed\_kernel} & \code{hermitian.py}\\
+\eqref{eq:Hfull}--\eqref{eq:schur} & \code{matvec}, \code{diagonal}, \code{dense}, \code{eig}, \code{poles}, \code{greens\_function}, \code{spectral\_function(\_resolvent)}, \code{moments}, \code{dense\_roots} & \code{hermitian.py}\\
+\eqref{eq:dressed-bath}--\eqref{eq:dressed-equiv} & \code{HermitianGF.\_\_init\_\_} (\code{bath\_hamiltonian='top'}), \code{\_bath\_apply}, \code{\_bath\_block}, \code{dressed\_bath\_self\_energy} & \code{hermitian.py}\\
+\eqref{eq:hall} & \code{hall\_insertion\_gf} & \code{hermitian.py}\\
+Sec.~\ref{sec:davidson} & \code{davidson\_root\_following} & \code{davidson.py}\\
+\eqref{eq:fci-poles} & \code{FCIReference} & \code{fci\_reference.py}\\
+embedding, \eqref{eq:chk-aa}--\eqref{eq:chk-fd} & \code{embed\_active\_vector}, \code{check\_same\_sector\_couplings}, \code{check\_first\_order\_gf} & \code{fci\_reference.py}\\
+\eqref{eq:man-primary}--\eqref{eq:ekt-poles} & \code{EKTERPAReference.\_build\_ekt} & \code{ekt\_erpa.py}\\
+\eqref{eq:erpa-u}--\eqref{eq:erpa-sumrules} & \code{EKTERPAReference.\_build\_erpa}, \code{response\_sum\_rules}, \code{active\_moments} & \code{ekt\_erpa.py}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

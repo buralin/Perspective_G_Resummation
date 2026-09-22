@@ -203,6 +203,74 @@ def check_same_sector_couplings(ref, verbose=True):
     return dev
 
 
+def check_superoperator_propagator(ref, zs=None, verbose=True):
+    """Numerical check of the superoperator form of the retarded propagator,
+
+        G_pq(z) = (a_p^+ | (z - Hsuper)^{-1} | a_q^+),
+        (X|Y) = <0|[X^+, Y]_+|0>,   Hsuper Y = [H, Y],
+
+    against the Lehmann representation.  The resolvent is evaluated
+    explicitly: a_q^+ is expanded in the eigenoperators |m><n| of Hsuper over
+    all pairs of exact eigenstates of adjacent particle-number sectors
+    (eigenvalue E_m - E_n), and the binary product with a_p^+ is formed with
+    the anticommutator.  Returns the maximal deviation over p, q and z."""
+    if zs is None:
+        zs = [w + 0.05j for w in (-0.8, -0.3, 0.2, 0.7)]
+    fci = FCIReference(ref, verbose=False)
+    norb, nelec, nso = fci.norb, fci.nelec, fci.nso
+    sec0 = fci.sectors[nelec]
+    psi0 = fci.psi0
+    E0 = fci.E0
+    err = 0.0
+    for z in zs:
+        G_lehmann = fci.greens_function(z)
+        G_super = np.zeros((nso, nso), dtype=complex)
+        for q in range(nso):
+            # block of a_q^+ from the neutral sector to the attachment sector:
+            # A[m, n] = <m| a_q^+ |n>, and the resolvent factor 1/(z - (E_m - E_n))
+            w, secA = apply_cre(psi0, norb, nelec, q)
+            if w is None:
+                continue
+            SA = fci.sectors[secA]
+            # Y|0> = sum_m <m|a_q^+|0>/(z - (E_m - E0)) |m>   (all m of the attachment sector)
+            Y0 = np.zeros(SA.nstates, dtype=complex)
+            for m in range(SA.nstates):
+                Y0[m] = np.vdot(SA.vec(m), w) / (z - (SA.E[m] - E0))
+            # block from the removal sector to the neutral sector: <m|a_q^+|n>, n in removal sector
+            for secR in fci.sectors:
+                if sum(secR) != sum(nelec) - 1:
+                    continue
+                SR = fci.sectors[secR]
+                # only the removal sector that a_q^+ maps into the neutral sector contributes
+                test, sec_test = apply_cre(SR.vec(0), norb, secR, q)
+                if test is None or sec_test != nelec:
+                    continue
+                Ablock = np.zeros((sec0.nstates, SR.nstates))
+                for n in range(SR.nstates):
+                    v, _ = apply_cre(SR.vec(n), norb, secR, q)
+                    for m in range(sec0.nstates):
+                        Ablock[m, n] = np.vdot(sec0.vec(m), v)
+                for p in range(nso):
+                    # <0| a_p Y |0>  with Y|0> in the attachment sector
+                    wp, secp = apply_cre(psi0, norb, nelec, p)
+                    term1 = 0.0
+                    if wp is not None and secp == secA:
+                        term1 = sum(np.vdot(wp, SA.vec(m)) * Y0[m] for m in range(SA.nstates))
+                    # <0| Y a_p |0>  with a_p|0> in the removal sector secR
+                    vp, secvp = apply_des(psi0, norb, nelec, p)
+                    term2 = 0.0
+                    if vp is not None and secvp == secR:
+                        c = np.array([np.vdot(SR.vec(n), vp) for n in range(SR.nstates)])
+                        Ymn = Ablock / (z - (sec0.E[:, None] - SR.E[None, :]))
+                        term2 = (Ymn @ c)[0]          # component on |0> (m = 0)
+                    G_super[p, q] += term1 + term2
+        err = max(err, np.abs(G_super - G_lehmann).max())
+        if verbose:
+            print(f"  z = {z.real:+.2f}{z.imag:+.2f}i : max|G_super - G_Lehmann| = "
+                  f"{np.abs(G_super - G_lehmann).max():.2e}  (max|G| = {np.abs(G_lehmann).max():.2e})")
+    return err
+
+
 def check_first_order_gf(ref, zs=None, lam=1e-3, verbose=True):
     """Finite-difference check of the first-order Green's function.
 

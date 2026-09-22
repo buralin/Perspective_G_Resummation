@@ -14,7 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mrgw_hermitian import (build_h4, run_casscf, DyallReference, MRRPA,
                             EKTERPAReference, HermitianGF, davidson_root_following,
                             FCIReference, check_same_sector_couplings,
-                            check_first_order_gf, HARTREE2EV)
+                            check_first_order_gf, check_superoperator_propagator,
+                            HARTREE2EV)
 
 EV = HARTREE2EV
 status = []
@@ -87,6 +88,11 @@ def main():
     report("same-sector K_top vs <charged Dyall states|H|...> (inactive-active)",
            dev['inactive-active (same sector, common sign per pole)'], 1e-9)
 
+    # 7b. superoperator form of the retarded propagator (Eq. (18) of mr-hedin.pdf, Sec. II)
+    print("Superoperator propagator (a_p^+|(z - H_super)^-1|a_q^+) vs Lehmann representation:")
+    report("superoperator propagator == retarded Lehmann Green's function",
+           check_superoperator_propagator(ref), 1e-10)
+
     # 8. first-order Green's function including cross-sector couplings
     print("First-order Green's function check (finite differences on full CI):")
     res = check_first_order_gf(ref, lam=1e-3)
@@ -125,11 +131,35 @@ def main():
                         gf_mix.unit_vector(gf_mix.index_inactive(ref.virt_so[0]))]).T
     theta, X, info = davidson_root_following(gf_mix.matvec, gf_mix.diagonal(), guesses,
                                              tol=1e-8, unit=EV, unit_name='(eV)')
-    Ed, U = gf_mix.eig()
-    ov = np.abs(guesses.T @ U)
-    dense_sel = Ed[np.argmax(ov, axis=1)]
+    dense_sel = gf_mix.dense_roots(guesses)
     report("Davidson roots vs dense max-overlap eigenvalues", np.abs(theta - dense_sel).max(), 1e-7)
     report("Davidson residual norms", info['residual_norms'].max(), 1e-7)
+
+    # 10b. bath with the top-space Hamiltonian inside the one-boson sector
+    print("Dressed bath (top-space Hamiltonian in the one-boson sector):")
+    zs = (-0.8 + 0.05j, -0.3 + 0.05j, 0.2 + 0.05j, 0.7 + 0.05j)
+    g_diag = HermitianGF(ref, rpa, mixed='none', bath=True, include_static=False)
+    g_top = HermitianGF(ref, rpa, mixed='none', bath=True, include_static=False,
+                        bath_hamiltonian='top')
+    report("dressed bath == diagonal bath when K_top is diagonal",
+           max(np.abs(g_diag.greens_function(z) - g_top.greens_function(z)).max() for z in zs), 1e-10)
+    g7 = HermitianGF(ref, None, mixed='bare', bath=False, cross_sector=False)
+    g_top7 = HermitianGF(ref, rpa, mixed='bare', bath=True, cross_sector=False,
+                         bath_hamiltonian='top')
+    err = 0.0
+    for z in zs:
+        G_ref = np.linalg.inv(np.linalg.inv(g7.greens_function(z)) - g_top7.dressed_bath_self_energy(z))
+        err = max(err, np.abs(g_top7.greens_function(z) - G_ref).max())
+    report("dressed bath == GW self-energy built from the Eq. (7) propagator (no cross-sector)", err, 1e-9)
+    g_top_full = HermitianGF(ref, rpa, mixed='bare', bath=True, bath_hamiltonian='top')
+    _, _, w = g_top_full.poles()
+    M0, _ = g_top_full.moments()
+    report("dressed-bath variant: zeroth moment |M0 - 1|", np.abs(M0 - np.eye(ref.nso)).max(), 1e-10)
+    report("dressed-bath variant: spectral weights >= 0 (-min w)", -w.min(), 1e-12)
+    theta, X, info = davidson_root_following(g_top_full.matvec, g_top_full.diagonal(), guesses,
+                                             tol=1e-8, verbose=False)
+    report("dressed-bath variant: Davidson roots vs dense",
+           np.abs(theta - g_top_full.dense_roots(guesses)).max(), 1e-7)
 
     # 11. EKT / ERPA variant
     print("EKT/ERPA variant (extended Koopmans poles, extended-RPA active response):")
@@ -164,8 +194,7 @@ def main():
     guesses = np.array([gf_ekt.orbital_guess(homo, 'remove'), gf_ekt.orbital_guess(lumo, 'attach')]).T
     theta, X, info = davidson_root_following(gf_ekt.matvec, gf_ekt.diagonal(), guesses,
                                              tol=1e-8, verbose=False)
-    Ed, U = gf_ekt.eig()
-    dense_sel = Ed[np.argmax(np.abs(guesses.T @ U), axis=1)]
+    dense_sel = gf_ekt.dense_roots(guesses)
     report("EKT/ERPA Davidson roots vs dense", np.abs(theta - dense_sel).max(), 1e-7)
 
     print()

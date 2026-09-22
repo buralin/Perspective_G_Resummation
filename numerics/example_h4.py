@@ -131,8 +131,7 @@ def main():
         theta, X, info = davidson_root_following(gf.matvec, gf.diagonal(), guesses,
                                                  tol=args.tol, unit=EV, unit_name='(eV)',
                                                  verbose=False)
-        Ed, U = gf.eig()
-        dense = Ed[np.argmax(np.abs(guesses.T @ U), axis=1)]
+        dense = gf.dense_roots(guesses)
         weights = np.sum((gf.T @ X) ** 2, axis=0)
         print(f"  converged in {info['iterations']} iterations, max residual {info['residual_norms'].max():.1e}")
         for k, (tname, _) in enumerate(targets):

@@ -114,14 +114,22 @@ def davidson_root_following(matvec, diag, guess, tol=1e-6, max_iter=200,
             den = diag - theta_sel[j]
             small = np.abs(den) < precond_floor
             den[small] = np.where(den[small] >= 0, precond_floor, -precond_floor)
-            delta = -R[:, j] / den
-            for _ in range(2):
-                delta = delta - V @ (V.T @ delta)
-                for u in new:
-                    delta = delta - u * (u @ delta)
-            nrm = np.linalg.norm(delta)
-            if nrm > 1e-10:
-                new.append(delta / nrm)
+            # Preconditioned correction; if it lies in the current subspace
+            # (this happens when the relevant block of H is exactly diagonal,
+            # where -r/(D - theta) is parallel to the Ritz vector) fall back to
+            # the residual itself, which then adds a Lanczos-type direction.
+            for delta in (-R[:, j] / den, R[:, j].copy()):
+                nrm0 = np.linalg.norm(delta)
+                if nrm0 == 0.0:
+                    continue
+                for _ in range(2):
+                    delta = delta - V @ (V.T @ delta)
+                    for u in new:
+                        delta = delta - u * (u @ delta)
+                nrm = np.linalg.norm(delta)
+                if nrm > 1e-8 * nrm0 and nrm > 1e-14:
+                    new.append(delta / nrm)
+                    break
         if not new:
             if verbose:
                 print("  Davidson: no new directions, stopping")

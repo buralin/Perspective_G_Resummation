@@ -22,7 +22,12 @@ which embeds, in one Hermitian matrix,
 
 Setting `K_B = 0` recovers MR-GW exactly; dropping the bath and using the bare
 kernel recovers the block-matrix Green's function of the preliminary section of
-`mr-hedin.tex`.
+`mr-hedin.tex` (its Eq. (7)).  With `HermitianGF(..., bath_hamiltonian='top')` the bath states
+`|n> x |1_I>` are built for all top states `n` and the top-space Hamiltonian `K` acts inside the
+one-boson sector (`B_I = K + sigma Omega_I`, couplings `g_I = T_D^+ M_I T_D`); this is the strict
+fermion-plus-boson supermatrix of Eq. (7) combined with the MR-RPA bosons, and without cross-sector
+couplings its bath Schur complement is the MR-GW self-energy built from the Eq. (7) propagator.
+The default `'diagonal'` bath keeps the zeroth-order energies `kappa_n +- Omega_I` (MR-GW form).
 
 ## Layout
 
@@ -34,7 +39,9 @@ kernel recovers the block-matrix Green's function of the preliminary section of
 | `mrgw_hermitian/davidson.py` | block Davidson with root following (maximum-overlap selection of the Ritz vectors) |
 | `mrgw_hermitian/fci_reference.py` | exact full-CI Green's function; embedding of active-space CI vectors in the full orbital space; two independent checks of the coupling matrix |
 | `run_checks.py` | consistency checks on H4/STO-6G |
+| `equations.tex` / `equations.pdf` | all implemented equations with index conventions, thresholds and the identities behind each check, plus an equation-to-function index (reimplementation guide) |
 | `example_h4.py` | the H4 example (Fig. 6 setting of Wang–Fang–Li) |
+| `ginit_prelim.py` | results for Eq. (7) of `notes/mr-hedin.pdf` (the block-matrix `G_init` of the preliminary section: bare inactive–active coupling, no bath), same-sector and all-pairs versions, and its combination with the MR-GW bath in the diagonal form (= MR-GW + mixed) and in the dressed form (`bath_hamiltonian='top'`: the Eq. (7) Hamiltonian acts inside the one-boson sector), for H4 and ozone |
 
 ## Requirements
 

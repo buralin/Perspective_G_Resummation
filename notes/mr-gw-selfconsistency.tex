@@ -1,0 +1,821 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs,array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks,linkcolor=red!50!black,citecolor=red!70!black,urlcolor=red!80!black]{hyperref}
+
+% notation shared with notes/comparison.tex and notes/mr-hedin.tex
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\bbG}{\mathbb{G}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\braket}[1]{\langle#1\rangle}
+\newcommand{\GW}{$GW$}
+\newcommand{\MRGW}{MR-$GW$}
+\newcommand{\WFL}{WFL}
+\newcommand{\dc}{\mathrm{dc}}
+\newcommand{\imp}{\mathrm{imp}}
+\newcommand{\loc}{\mathrm{loc}}
+\newcommand{\DGA}{D$\Gamma$A}
+
+\title{Self-consistency in the multireference $GW$ framework and its relation
+to Green's-function methods of condensed-matter physics}
+\author{}
+\date{September 22, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Scope}
+
+These notes address two questions raised by the Dyall--Hedin notes
+(\texttt{mr-hedin.tex}), the comparison (\texttt{comparison.tex}) and the pilot
+implementation (\texttt{numerics/}): how a self-consistent procedure can be
+set up within the multireference \GW{} (\MRGW) framework of Wang, Fang, and
+Li~\cite{WFL2026}, with and without a self-consistent update of the screening,
+and how the resulting hierarchy relates to the Green's-function methods used
+in theoretical condensed-matter physics (the \GW{} family, dynamical
+mean-field theory and its \GW{} extensions, dual fermions, the dynamical
+vertex approximation and TRILEX).  The notes are written in the language of
+the comparison document: a CASSCF/CASCI reference, the Dyall partition
+$\hat H=\hat H_D+\hat V_R$, and the Hermitian pole-space representation of
+the Green's function.
+
+The main observation, developed in Sec.~\ref{sec:setting}, is that the
+Hermitian matrix of Objective~II is a discretized impurity-plus-bath
+Hamiltonian, in which the active-space charged states play the role of the
+impurity states, the inactive orbitals and the mixed couplings the role of a
+first-order hybridization, and the \MRGW{} self-energy the role of a
+bosonic (RPA-mode) bath.  Every self-consistent scheme discussed below is a
+prescription for which of these three pieces is updated, and every
+condensed-matter method in Sec.~\ref{sec:cm} corresponds to a definite choice.
+
+\section{Setting: the one-shot theory as an impurity-plus-bath problem}
+\label{sec:setting}
+
+\paragraph{Objects of the one-shot theory.}
+With $\hat H=\hat H_D+\hat V_R$, the Dyall Green's function has the pole
+representation
+\begin{equation}
+  G_D(z)=\sum_n\frac{t_nt_n^\dagger}{z-\kappa_n}=T_D\,(z-K_D)^{-1}\,T_D^\dagger,
+  \qquad T_DT_D^\dagger=\mathbf 1,
+  \label{eq:GD}
+\end{equation}
+where $n$ runs over the inactive orbitals ($t_P=e_P$, $\kappa_P=\epsilon_P$)
+and the active charged states ($t_\alpha=d_\alpha$, $\kappa_{\mu\pm}=\pm(E^{N_a\pm1}_\mu-E^{N_a}_0)$).
+The reference polarizability is the exact Dyall response,
+\begin{equation}
+  P_D=-i\,(G_DG_D-C_2^{D,\mathrm{ph}})\equiv-iG_DG_D+\Delta P_D,
+  \qquad \Delta P_D=iC_2^{D,\mathrm{ph}},
+  \label{eq:PD}
+\end{equation}
+where the cumulant correction $\Delta P_D$ has active indices only: in the
+channel language of the MR-RPA, the core$\to$virtual, core$\to$active and
+active$\to$virtual channels of $P_D$ are products of Dyall poles (bubbles),
+and only the active--active channel differs from a bubble.  The screened
+residual interaction $W_D=v_R+v_RP_DW_D$ has the correlation part
+\begin{equation}
+  w^c_D(z)=\sum_I M_IM_I^\dagger\Bigl[\frac{1}{z-\Omega_I}-\frac{1}{z+\Omega_I}\Bigr],
+  \qquad [M_I]_{pr}=M_{pr,I},
+  \label{eq:WD}
+\end{equation}
+and the one-shot self-energy is
+\begin{equation}
+  \Sigma_D(z)=\Sigma_{\rm stat}+\sum_{n\in\mathrm{att}}\sum_I\frac{a_{nI}a_{nI}^\dagger}{z-\kappa_n-\Omega_I}
+  +\sum_{n\in\mathrm{rem}}\sum_I\frac{a_{nI}a_{nI}^\dagger}{z-\kappa_n+\Omega_I},
+  \qquad [a_{nI}]_p=\sum_rM_{pr,I}[t_n]_r,
+  \label{eq:SigmaD}
+\end{equation}
+with $\Sigma_{\rm stat}=u+\bar v_R\gamma_D$.  Equation~\eqref{eq:SigmaD} is
+Eq.~(S52) of Ref.~\cite{WFL2026} written for a general pole set: nothing in
+it refers to the Dyall states except through $(\kappa_n,t_n)$.  This is what
+makes the self-consistent generalizations below immediate.
+
+\paragraph{The Hermitian matrix as an impurity-plus-bath Hamiltonian.}
+Objective~II embeds $G_D$, $\Sigma_D$ and the mixed couplings $K_B$ in
+\begin{equation}
+  \bbH=\begin{pmatrix}K_{\rm top}&T_D^\dagger A\\ A^\dagger T_D&E_{GW}\end{pmatrix},
+  \qquad
+  K_{\rm top}=K_D+T_D^\dagger\Sigma_{\rm stat}T_D+K_B,
+  \qquad
+  G(z)=\bbT(z-\bbH)^{-1}\bbT^\dagger,\quad \bbT=(T_D\ \ 0),
+  \label{eq:Hmatrix}
+\end{equation}
+with bath energies $E_{nI}=\kappa_n\pm\Omega_I$ and couplings
+$[T_D^\dagger A]_{m,nI}=t_m^\dagger a_{nI}\equiv g_{mnI}$.  Read as a
+Hamiltonian, $\bbH$ acts on the space spanned by the Dyall charged states
+$\ket{n}$ and the product states $\ket{n}\otimes\ket{1_I}$ carrying one
+RPA boson: it is the one-boson truncation of the electron--boson Hamiltonian
+\begin{equation}
+  \hat H_{eb}=\sum_n\kappa_n\ket{n}\bra{n}+\sum_I\Omega_I\hat b_I^\dagger\hat b_I
+  +\sum_{mnI}\bigl(g_{mnI}\ket{m}\bra{n}\hat b_I^\dagger+\mathrm{h.c.}\bigr)
+  +\sum_{mn}[K_B+T_D^\dagger\Sigma_{\rm stat}T_D]_{mn}\ket{m}\bra{n}
+  \label{eq:Heb}
+\end{equation}
+in the $N\pm1$ sectors.  In condensed-matter language this is an Anderson-type
+impurity model in the star geometry: the active charged states are the
+impurity states, the inactive poles and the couplings $K_B$ form a
+first-order hybridization, and the RPA modes form a bosonic bath.  The Schur
+complement of the bath,
+\begin{equation}
+  \Delta_{GW}(z)=T_D^\dagger A\,(z-E_{GW})^{-1}A^\dagger T_D ,
+  \label{eq:hybridization}
+\end{equation}
+is the hybridization function of that bath, and the Davidson solver of the
+implementation finds quasiparticle roots of the star-geometry model.  For a
+single-determinant reference, the same reading of $G_0W_0$ as a static
+Hamiltonian in the 1h/1p$\,\oplus\,$2h1p/2p1h space is due to Bintrim and
+Berkelbach~\cite{BintrimBerkelbach2021}; its exact relation to
+equation-of-motion coupled-cluster theory through the quasi-boson formalism
+was established by T\"olle and Chan~\cite{TolleChan2023}, and the
+electron--boson picture of \GW{} goes back to Hedin~\cite{Hedin1999}.  The
+multireference matrix~\eqref{eq:Hmatrix} is the same construction with the
+Dyall charged states in place of the Koopmans states.
+
+\paragraph{What can be iterated.}
+Three objects enter Eq.~\eqref{eq:Hmatrix}: the propagator (the pole set
+$\{\kappa_n,t_n\}$), the screening (the modes $\{\Omega_I,M_I\}$), and the
+reference (the active-space problem that supplies the charged states, the
+cumulant correction $\Delta P_D$ and the three-operator amplitudes in $K_B$).
+Table~\ref{tab:levels} lists the schemes discussed below by which object is
+updated.  ``Without additional screening'' means that the modes
+$\{\Omega_I,M_I\}$ are frozen at the MR-RPA level of the reference; ``with
+additional screening'' means either that they are recomputed from the
+dressed propagator (Sec.~\ref{sec:scW}) or, at the level of the reference,
+that the active-space interaction itself is screened by the environment
+(Sec.~\ref{sec:outer}).
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{2.0cm}}
+\toprule
+scheme & propagator & screening & reference & active interaction\\
+\midrule
+one-shot \MRGW{} (\WFL) & Dyall poles & MR-RPA & CAS & bare\\
+ev\MRGW{}$(W_D)$ & pole energies & frozen & CAS & bare\\
+ev\MRGW{} & pole energies & channel energies & CAS & bare\\
+sc-MR-$GW_0$ & full & frozen & CAS & bare\\
+sc-\MRGW{} (frozen active cumulant) & full & dressed bubble $+\Delta P_D$ & CAS & bare\\
+qs\MRGW{} & static, rotated & optional & re-canonicalized, CAS re-solved & bare\\
+CAS$+$bath loop (SEET/DMFT-like) & full & yes & CAS with hybridization & bare\\
+CAS$+$bath loop with $U(\omega)$ (\GW{}$+$DMFT-like) & full & yes & CAS with hybridization & cRPA-screened\\
+\bottomrule
+\end{tabular}
+\caption{Levels of self-consistency within the \MRGW{} framework, ordered by
+which object of Eq.~\eqref{eq:Hmatrix} is updated.  \WFL{} denotes
+Ref.~\cite{WFL2026}.}
+\label{tab:levels}
+\end{table}
+
+\section{Levels of self-consistency}
+\label{sec:levels}
+
+\subsection{Eigenvalue self-consistency}
+\label{sec:ev}
+
+The cheapest loop mirrors ev\GW{}~\cite{ShishkinKresse2007,Blase2011}.  The
+roots of $\bbH$ that are followed from the Dyall poles (the quasiparticle-like
+roots $E_n^{\rm QP}$ with the largest overlap with $t_n$) replace the
+reference energies in the propagator that enters the self-energy, while the
+pole vectors $t_n$ are kept:
+\begin{equation}
+  \kappa_n\longrightarrow E_n^{\rm QP},\qquad
+  E_{nI}\longrightarrow E_n^{\rm QP}\pm\Omega_I,\qquad
+  K_D\longrightarrow\operatorname{diag}(E_n^{\rm QP}) .
+  \label{eq:ev}
+\end{equation}
+Only the diagonal of $K_{\rm top}$ and the bath energies change; the
+couplings $g_{mnI}$ and $K_B$ are unchanged.  Each iteration is one
+root-following Davidson run per followed root, and the fixed point is a set
+of energies at which the quasiparticle roots of $\bbH$ coincide with the
+energies used to build its bath.  Because $\bbH$ stays Hermitian with
+$\bbT\bbT^\dagger=\mathbf 1$, causality, positivity and the zeroth moment are
+preserved at every step; in contrast to the frequency-dependent
+quasiparticle equation of ev\GW{}, the linear eigenvalue problem cannot
+produce the multiple solutions and discontinuities analysed by V\'eril
+\emph{et al.}\ and Monino and Loos~\cite{Veril2018,MoninoLoos2022}, because
+the roots are followed by overlap rather than solved for one at a time.
+
+\emph{With screening update} (ev\MRGW{} proper), the shifted charged energies
+are also used in the MR-RPA channels that contain them: the core$\to$active
+and active$\to$virtual channel energies $\kappa_{\mu+}-\epsilon_i$ and
+$\epsilon_a-\kappa_{\mu-}$ and the core$\to$virtual energies
+$\epsilon_a-\epsilon_i$ are replaced by their quasiparticle counterparts,
+the transition densities are kept, and the MR-RPA is re-solved.  The
+active--active channel (the exact neutral response of $\hat H_D$) is not
+touched.  This is the multireference version of updating $W$ with
+quasiparticle energies in ev\GW{}; it is cheap because the channel
+decomposition of $P_D$ is fixed by the reference.
+
+\subsection{Green's-function self-consistency with frozen screening
+(sc-MR-$GW_0$)}
+\label{sec:GW0}
+
+The analogue of $GW_0$~\cite{vonBarthHolm1996} keeps $\{\Omega_I,M_I\}$
+fixed and rebuilds the self-energy from the full dressed propagator.  The
+eigen-decomposition of $\bbH^{(k)}$ gives
+\begin{equation}
+  G^{(k)}(z)=\sum_\lambda\frac{Z_\lambda Z_\lambda^\dagger}{z-E_\lambda},
+  \qquad Z_\lambda=\bbT U_\lambda,\qquad \sum_\lambda Z_\lambda Z_\lambda^\dagger=\mathbf 1,
+  \label{eq:Gk}
+\end{equation}
+and Eq.~\eqref{eq:SigmaD} with the dressed pole set defines the next
+self-energy,
+\begin{equation}
+  \Sigma^{(k+1)}(z)=\Sigma_{\rm stat}^{(k+1)}
+  +\sum_{E_\lambda>\mu}\sum_I\frac{a_{\lambda I}a_{\lambda I}^\dagger}{z-E_\lambda-\Omega_I}
+  +\sum_{E_\lambda<\mu}\sum_I\frac{a_{\lambda I}a_{\lambda I}^\dagger}{z-E_\lambda+\Omega_I},
+  \qquad [a_{\lambda I}]_p=\sum_rM_{pr,I}[Z_\lambda]_r,
+  \label{eq:SigmaGW0}
+\end{equation}
+where the chemical potential $\mu$ separates removal from attachment poles
+and the static part is built with the dressed density,
+\begin{equation}
+  \Sigma_{\rm stat}^{(k+1)}=u+\bar v_R\,\gamma^{(k)},\qquad
+  \gamma^{(k)}_{pq}=\sum_{E_\lambda<\mu}[Z_\lambda]_p^{*}[Z_\lambda]_q .
+  \label{eq:stat-sc}
+\end{equation}
+The next matrix $\bbH^{(k+1)}$ keeps the Dyall top space $T_D$ and replaces
+the bath by the poles $E_\lambda\pm\Omega_I$ with couplings
+$T_D^\dagger a_{\lambda I}$.  By the linearization lemma of Objective~II, its
+resolvent is exactly $[G_D^{-1}-\Sigma^{(k+1)}]^{-1}$, so the loop is a
+faithful Dyson iteration $G^{(k+1)}=[G_D^{-1}-\Sigma[G^{(k)}]]^{-1}$ with
+$W$ frozen, and every iterate is causal, positive and normalized because the
+top space is unchanged.  The first moment becomes self-consistent in the
+density through Eq.~\eqref{eq:stat-sc}, which is the multireference form of
+the Hartree--Fock-like self-consistency contained in $GW_0$.
+
+Two points deserve attention.  First, the pole count grows geometrically:
+$G^{(k)}$ has $N^{(k)}$ poles, $\Sigma^{(k+1)}$ has $N^{(k)}K$ bath poles and
+$G^{(k+1)}$ has $N^{(k)}(K+1)$ poles.  A compression is needed after each
+step.  The natural one is the moment-conserving block-Lanczos compression of
+Scott, Backhouse and Booth~\cite{MCGW2023}, which replaces the bath by the
+smallest bath reproducing the first $2n$ spectral moments of
+$\Sigma^{(k+1)}$; these moments are matrix--vector products of the
+electron--boson Hamiltonian~\eqref{eq:Heb} and never require the full
+diagonalization.  The extended charged manifold of the EKT/ERPA variant
+(\texttt{numerics/mrgw\_hermitian/ekt\_erpa.py}) is the same idea applied to
+$G^A_D$ (two Lanczos blocks, moments $M_0$--$M_3$ conserved).  Second, $GW_0$
+is not $\Phi$-derivable in the sense of Baym and
+Kadanoff~\cite{BaymKadanoff1961,Baym1962}, so it is not conserving; the
+particle number is preserved only to the extent that $\mu$ is adjusted such
+that $\operatorname{Tr}\gamma^{(k)}=N$, as is done in self-consistent \GW{}
+for molecules~\cite{Caruso2012}.  The mixed couplings $K_B$ are frozen in
+this loop; their three-operator amplitudes belong to the reference and are
+updated only when the reference is (Sec.~\ref{sec:outer}).
+
+\subsection{Self-consistent screening (sc-\MRGW{} with frozen active cumulant)}
+\label{sec:scW}
+
+Updating the screening with the dressed propagator requires a prescription
+for the polarizability, because $P_D$ is not a bubble.  The decomposition
+\eqref{eq:PD} suggests
+\begin{equation}
+  P^{(k)}=-iG^{(k)}G^{(k)}+\Delta P_D,
+  \label{eq:P-sc}
+\end{equation}
+i.e.\ the bubble is dressed and the cumulant correction of the active space
+is frozen at its reference value.  In Lehmann form the dressed bubble
+consists of all removal--attachment pole pairs $(\lambda,\lambda')$ with
+energies $E_{\lambda'}-E_\lambda$ and transition densities
+$[Z_{\lambda'}]_p[Z_\lambda]_r^{*}$, and $\Delta P_D$ equals the exact
+active--active response of $\hat H_D$ minus the active bubble of the
+reference,
+\begin{equation}
+  \Delta P_D=P_D^{\rm aa}+iG_D^AG_D^A\big|_{\rm aa} .
+  \label{eq:DeltaPD}
+\end{equation}
+Equation~\eqref{eq:P-sc} has exactly the structure of the polarizability of
+\GW{}$+$EDMFT and of the dual-boson approach,
+$P=P^{GW}[G]-P^{GW}_{\loc}[G_{\loc}]+P_{\imp}$, with the active space in the
+role of the impurity~\cite{Biermann2003,Ayral2013,RubtsovDB2012}.  It also
+has the same difficulty: the subtracted reference bubble enters with
+negative weight, so that the MR-RPA metric is no longer positive and
+$W^{(k)}$ is not guaranteed to be causal.  Two practical remedies are
+available.  The cheap one is the channel form of Sec.~\ref{sec:ev}: keep the
+reference classification of the poles and dress only the energies (and, if
+wanted, the transition densities) of the three inactive-containing channels,
+leaving the active--active channel exact.  The more complete one is to
+classify the dressed poles by their dominant character (inactive-orbital-like
+or active-state-like, which the root following provides) and to build the
+three inactive-containing channels from dressed pole pairs, again keeping
+the active--active channel exact; this reduces to Eq.~\eqref{eq:P-sc} when
+the dressed poles are pure and avoids the negative weights otherwise.
+
+With $W^{(k)}=v_R+v_RP^{(k)}W^{(k)}$ and Eq.~\eqref{eq:SigmaGW0} evaluated
+with the modes of $W^{(k)}$, the loop is the multireference analogue of
+fully self-consistent \GW{}~\cite{HolmvonBarth1998,Caruso2012}, restricted
+by the frozen active cumulant.  For a single-determinant reference
+($\Delta P_D=0$) it is $\Phi$-derivable and conserving; with the frozen
+cumulant it is not, because $\Delta P_D$ is not the functional derivative of
+a $\Phi$ with respect to the dressed $G$.  The same situation arises in the
+dynamical vertex approximation, where the local vertex is taken from the
+impurity and is not varied with the lattice propagator; there, sum rules are
+restored a posteriori by the Moriya $\lambda$
+correction~\cite{Rohringer2018}.  In the present framework the first-moment
+diagnostic of the comparison plays that role.  There is no double counting in
+either loop: the dressed $G$ enters only through $v_R$ lines, which have no
+all-active elements, while all all-active interactions remain inside the
+reference.
+
+\subsection{Quasiparticle self-consistency}
+\label{sec:qs}
+
+Quasiparticle self-consistent \GW{}~\cite{Faleev2004,Kotani2007} replaces
+the dynamic self-energy by a static Hermitian one-body operator, chosen such
+that the quasiparticle energies and orbitals are reproduced, and iterates the
+orbitals.  In the pole space the natural static operator is the top-space
+Schur complement of Eq.~\eqref{eq:Hmatrix} evaluated at the followed roots
+and symmetrized,
+\begin{equation}
+  [\tilde K]_{mn}=[K_{\rm top}]_{mn}
+  +\tfrac12\bigl[\Delta_{GW}(E_m^{\rm QP})+\Delta_{GW}(E_n^{\rm QP})\bigr]_{mn},
+  \label{eq:qs}
+\end{equation}
+which is the multireference form of the ``mode A'' construction of
+Ref.~\cite{Kotani2007}.  Diagonalizing $\tilde K$ gives new energies and a
+unitary rotation $T_D\to T_DU$ of the pole vectors, so that inactive
+orbitals mix with active charged states.  Two ways of closing the loop
+exist.  In the pole-space version the rotated pole vectors are used as the
+new top space and the bath is rebuilt from them; this is cheap but leaves the
+Dyall partition, and hence the active-space problem, untouched.  In the
+orbital-space version, which is the faithful analogue of qs\GW{}, the static
+self-energy is formed in the orbital basis,
+$\tilde\Sigma_{pq}=\tfrac12[\Sigma^c(E_p^{\rm QP})+\Sigma^c(E_q^{\rm QP})]_{pq}$
+with the quasiparticle energies of the poles dominated by $p$ and $q$, the
+inactive orbitals are re-canonicalized with respect to $F_D+\tilde\Sigma$,
+the active block $\tilde\Sigma_{xy}$, which is of second order in $\hat V_R$,
+is added to $h^{\rm eff}$, and the CAS problem is re-solved.  This produces a
+new Dyall reference and thus new charged states, cumulants and mixed
+couplings; the loop is closed by rebuilding Eq.~\eqref{eq:Hmatrix}.  The
+orbital-space version is the static limit of the reference loop of the next
+subsection and is the analogue of qs\GW{}$+$DMFT-type schemes in which the
+impurity problem is re-solved in the quasiparticle orbitals.
+
+\subsection{Self-consistency of the reference: the active space in the
+presence of its environment}
+\label{sec:outer}
+
+All loops above keep the active-space states those of $\hat H_D$, i.e.\ of
+an active space that does not feel the inactive orbitals except through the
+mean field.  The Hermitian matrix contains the information needed to go
+further.  Projecting $G$ onto the active orbitals and asking which one-body
+dynamical field, added to $\hat H^{\rm act}_D$, would reproduce it defines a
+hybridization function in the DMFT sense,
+\begin{equation}
+  \Delta_{\rm act}(z)=z-h^{\rm eff}-\Sigma_{\imp}(z)-\bigl[G^{AA}(z)\bigr]^{-1},
+  \label{eq:Delta-act}
+\end{equation}
+where $\Sigma_{\imp}$ is the self-energy of the active-space problem itself
+(for the bare $\hat H^{\rm act}_D$ it is the self-energy that relates $G^A_D$
+to the active one-body propagator).  Equation~\eqref{eq:Delta-act} is the
+self-consistency condition of dynamical mean-field
+theory~\cite{Georges1996} with the active space as the impurity, and it is
+what self-energy embedding theory (SEET) of Zgid and
+co-workers~\cite{Lan2015,Lan2017} does with a \GW{} or GF2 environment.  The
+outer loop is then:
+\begin{enumerate}[leftmargin=2em]
+\item build $G$ from Eq.~\eqref{eq:Hmatrix} (at any of the levels of
+  Secs.~\ref{sec:ev}--\ref{sec:qs}) and extract $\Delta_{\rm act}(z)$;
+\item discretize $\Delta_{\rm act}$ by bath orbitals,
+  $\Delta_{\rm act}(z)\simeq\sum_bV_bV_b^\dagger/(z-\epsilon_b)$, and solve
+  the CAS-plus-bath problem $\hat H^{\rm act}_D+\sum_b\epsilon_b\hat n_b
+  +\sum_{xb}(V_{xb}\hat a_x^\dagger\hat a_b+\mathrm{h.c.})$ exactly (CI or
+  DMRG); the Hermitian matrix already provides the star geometry, so the
+  bath fit can start from its inactive poles and RPA-mode bath;
+\item from the solution take the new charged states, the new cumulant
+  correction $\Delta P$ (the exact response of the embedded active space
+  minus its bubble), the new three-operator amplitudes for $K_B$ and the new
+  $\Sigma_{\imp}$; rebuild $P$, $W$, $\Sigma$ and $\bbH$; repeat.
+\end{enumerate}
+\emph{Without additional screening}, the active-space interaction in step~2
+is the bare $v^A$ of $\hat H_D$.  The active-space correlation is then
+treated exactly in the presence of a dynamic hybridization, and the
+environment is treated at the (self-consistent) \GW{} level of the residual
+interaction.  No double-counting correction is needed, for the same reason
+as in one-shot \MRGW{}: $v_R$ has no all-active elements.
+
+\emph{With additional screening}, the interaction inside the active space is
+itself screened by the environment.  The MR-RPA already contains this
+effect at the \GW{} level: because $v_R$ has no all-active elements, the
+active--active block of $w^c_D$ is generated entirely by the three
+inactive-containing channels, e.g.\
+$[w^c_D]_{xy,zw}\ni v^R_{xy,ai}[P_D]_{ai,ai}v^R_{ai,zw}$, and it enters
+$\Sigma^{AA}=iG^A_Dw^c_D$.  This block is precisely the constrained-RPA
+interaction of Aryasetiawan \emph{et al.}~\cite{Aryasetiawan2004},
+\begin{equation}
+  U(\omega)=v^A+\bigl[w^c_{\rm cRPA}(\omega)\bigr]_{\rm aa,aa},
+  \qquad
+  w^c_{\rm cRPA}=v_R\,P^{\rm rest}\,v_R+\cdots,\quad P^{\rm rest}=P_D-P_D^{\rm aa},
+  \label{eq:cRPA}
+\end{equation}
+in which the active--active channel is excluded from the screening to avoid
+double counting with the exact treatment of the active space.  Using
+$U(\omega)$ in step~2 turns the CAS-plus-bath problem into one with a
+retarded interaction, which needs a solver that handles dynamic
+interactions (a bosonic bath in the star geometry, or, as a first
+approximation, the static $U(0)$ or a Lang--Firsov-type renormalization of
+the static interaction).  In exchange, the \GW{}-level version of the same
+physics must be removed from the self-energy,
+\begin{equation}
+  \Sigma\longrightarrow\Sigma-\Sigma^{\dc},\qquad
+  \Sigma^{\dc}=iG^A\bigl[w^c_{\rm cRPA}\bigr]_{\rm aa,aa},
+  \label{eq:dc}
+\end{equation}
+and the corresponding polarization $P^{\rm aa}$ is taken from the embedded
+active-space solution rather than from $\hat H_D$.  This is, term by term,
+the double-counting rule of \GW{}$+$DMFT~\cite{Biermann2003,Ayral2013}:
+$\Sigma=\Sigma^{GW}-\Sigma^{GW}_{\loc}+\Sigma_{\imp}$ and
+$P=P^{GW}-P^{GW}_{\loc}+P_{\imp}$, with ``local'' read as ``all-active''.
+One-shot \MRGW{} is the member of this family in which the impurity is solved
+without hybridization and with the bare interaction, and in which the
+active--active screened interaction is kept in the \GW{} self-energy instead
+of in the impurity problem.
+
+\subsection{Recommended order of implementation}
+\label{sec:practical}
+
+Within the existing code, a dressed pole list is a drop-in replacement for
+the Dyall pole list in the bath construction, so the loops of
+Secs.~\ref{sec:ev} and~\ref{sec:GW0} require only a compression step and a
+chemical-potential update.  A sensible order is: (i) ev\MRGW{}$(W_D)$ on the
+followed roots, then with the channel energies of the MR-RPA updated;
+(ii) sc-MR-$GW_0$ with weight-thresholded or moment-conserving compression
+of the bath, monitoring $\operatorname{Tr}\gamma$ and the first-moment
+diagnostic; (iii) the orbital-space qs loop with re-canonicalization and a
+re-solved CAS, which is the cheapest way of letting the reference respond to
+the environment; (iv) the CAS-plus-bath loop, first with the bare active
+interaction and a small number of bath orbitals, and only then with
+$U(\omega)$.
+
+\section{Connections to condensed-matter Green's-function methods}
+\label{sec:cm}
+
+\subsection{The \GW{} family}
+
+Table~\ref{tab:gwfamily} collects the correspondences with the
+single-reference \GW{} hierarchy.  Two remarks.  First, the ``upfolded''
+static form of \GW{}~\cite{BintrimBerkelbach2021,LangeBerkelbach2018,TolleChan2023}
+is the single-reference limit of Eq.~\eqref{eq:Hmatrix} (empty active space:
+$T_D=\mathbf 1$, $K_B=0$); the multireference matrix inherits its two
+advantages, a linear eigenvalue problem without the multiple solutions of the
+quasiparticle equation and a guaranteed positive spectral function.  Second,
+the cumulant expansion of Aryasetiawan, Hedin and
+Karlsson~\cite{Aryasetiawan1996} (\GW{}$+$C), which resums the electron--boson
+Hamiltonian~\eqref{eq:Heb} to all boson numbers for a single hole, uses the
+word cumulant in a different sense from the Dyall cumulants $C_n^D$ of
+Objective~I: the former are cumulants of the time-dependent Green's function
+of one particle coupled to bosons, the latter are connected $n$-particle
+correlation functions of the reference state.  The multi-boson states that
+\GW{}$+$C resums are exactly the states generated, iteration by iteration, by
+the sc-MR-$GW_0$ loop of Sec.~\ref{sec:GW0}.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{5.4cm}}
+\toprule
+single reference & multireference (this framework) & remark\\
+\midrule
+$G_0W_0$ & one-shot \MRGW{}~\cite{WFL2026} & $G_D$, $P_D$, $W_D$ in place of $G_0$, $P_0$, $W_0$\\
+ev\GW{} & Sec.~\ref{sec:ev} & roots followed by overlap; channel energies of the MR-RPA updated\\
+$GW_0$ & Sec.~\ref{sec:GW0} & bath from the dressed pole set; needs compression\\
+sc\GW{} & Sec.~\ref{sec:scW} & bubble dressed, active cumulant frozen; not conserving\\
+qs\GW{} & Sec.~\ref{sec:qs} & pole-space or orbital-space version; the latter re-solves the CAS\\
+upfolded \GW{}~\cite{BintrimBerkelbach2021} & Eq.~\eqref{eq:Hmatrix} & star-geometry impurity model with an RPA-boson bath\\
+moment-conserving \GW{}~\cite{MCGW2023} & extended EKT manifold; bath compression & block Lanczos in the pole space\\
+\GW{}$+$C~\cite{Aryasetiawan1996} & multi-boson states of the sc-MR-$GW_0$ loop & different meaning of ``cumulant''\\
+\bottomrule
+\end{tabular}
+\caption{Correspondence with the single-reference \GW{} hierarchy.}
+\label{tab:gwfamily}
+\end{table}
+
+\subsection{Dynamical mean-field theory, \GW{}$+$DMFT and SEET}
+
+The mapping is summarized in Table~\ref{tab:dmft}.  The Dyall Hamiltonian is
+the impurity Hamiltonian with the hybridization switched off and the bath
+replaced by its mean field; the CASCI states are the exact solution of that
+isolated impurity; the inactive orbitals are the bath (or, in a lattice, the
+itinerant states); the residual interaction contains both the hybridization
+(its one-body inactive--active part and the two-body terms with one inactive
+index) and the non-local Coulomb interaction (the remaining two-body
+terms).  In this dictionary,
+\begin{itemize}[leftmargin=2em]
+\item one-shot \MRGW{} is a one-shot \GW{}$+$(exactly solved impurity)
+  scheme in which the impurity is solved without hybridization, with the
+  bare active interaction, and with a double-counting rule that is built into
+  the interaction ($v_R$ has no all-active elements) rather than subtracted
+  afterwards;
+\item the mixed blocks $K_B$ of Objective~II are the hybridization at first
+  order in $\hat V_R$; that they are missing in \MRGW{} is the statement that
+  the impurity states of \MRGW{} are those of the isolated impurity;
+\item the \MRGW{} bath is a bosonic hybridization,
+  Eq.~\eqref{eq:hybridization}, as in extended DMFT~\cite{SiSmith1996} and
+  in its combination with \GW{}, where the impurity couples to a retarded
+  interaction generated by the non-local screening;
+\item the loop of Sec.~\ref{sec:outer} without additional screening is
+  SEET~\cite{Lan2015,Lan2017} with a \GW{}-type environment (the combination
+  tested in Ref.~\cite{Lan2017}, which \WFL{} cite as an embedding
+  alternative), and with additional screening it is
+  \GW{}$+$DMFT~\cite{Biermann2003} with the cRPA
+  interaction~\cite{Aryasetiawan2004} and the double-counting rule
+  \eqref{eq:dc}.
+\end{itemize}
+The differences from the condensed-matter setting are that there is no
+lattice and no locality assumption: the ``impurity'' is an orbital subspace
+of a finite molecule, the ``non-local'' interaction is simply the residual
+interaction, and the self-consistency condition~\eqref{eq:Delta-act} is a
+projection within one Hilbert space rather than a lattice sum.  The
+quantum-chemistry relatives in the same dictionary are the multireference
+ADC theories of Sokolov~\cite{Sokolov2018,ChatterjeeSokolov2019}, which extend
+the operator manifold rather than iterating the reference, and density
+matrix embedding theory~\cite{Knizia2012}, which replaces the dynamic
+hybridization by a static bath.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{4.4cm}}
+\toprule
+\MRGW{} framework & DMFT / \GW{}$+$DMFT & remark\\
+\midrule
+active space & impurity (correlated local orbitals) & orbital subspace, no lattice\\
+CASCI charged states $\ket{\Xi^{N_a\pm1}_\mu}$ & isolated-impurity excitations & $G^A_D$ = impurity $G$ without hybridization\\
+Dyall Hamiltonian & impurity Hamiltonian with mean-field bath & one-shot reference\\
+inactive orbitals & bath / itinerant states & Gaussian sector\\
+residual interaction $\hat V_R$ & hybridization $+$ non-local Coulomb $V$ & no all-active elements\\
+mixed blocks $K_B$ & first-order hybridization & missing in \MRGW{}\\
+\MRGW{} bath, Eq.~\eqref{eq:hybridization} & bosonic (retarded) hybridization & EDMFT, \GW{}$+$EDMFT\\
+$v_R$ without all-active elements & double-counting rule & built in rather than subtracted\\
+$[w^c_D]_{\rm aa,aa}$ & cRPA $U(\omega)-v^A$ & Eq.~\eqref{eq:cRPA}\\
+Eq.~\eqref{eq:P-sc} & $P^{GW}-P^{GW}_{\loc}+P_{\imp}$ & frozen active cumulant\\
+Eq.~\eqref{eq:Delta-act} & DMFT self-consistency & SEET with \GW{} environment\\
+\bottomrule
+\end{tabular}
+\caption{Dictionary between the \MRGW{} framework and dynamical mean-field
+constructions.}
+\label{tab:dmft}
+\end{table}
+
+\subsection{Dual fermions and the cumulant expansion of Objective~I}
+
+The dual-fermion approach~\cite{Rubtsov2008} rewrites the lattice action
+around an impurity reference by a Hubbard--Stratonovich transformation: the
+new (dual) fermions have a Gaussian bare propagator built from the
+difference between the lattice and the impurity hybridization, and their
+interaction vertices are the connected $n$-particle correlation functions
+(cumulants) of the impurity.  Brouder's enlarged-source construction, on
+which Objective~I rests, has the same algebraic content: the non-Gaussian
+reference generating functional is written as a Gaussian one in an enlarged
+source space plus auxiliary vertices carrying the reference cumulants
+$C_n^D$, and the physical perturbation $\hat V_R$ acts in the physical
+sector.  In both cases the exact theory is ``Gaussian reference plus cumulant
+vertices plus a non-local perturbation'', and both are usually truncated at
+low order in the cumulant vertices.  The first-order Hall blocks
+$\Sigma^{12}_1$, $\Sigma^{21}_1$ and $\Sigma^{22}_1$ of Objective~I are the
+counterparts of the lowest-order dual self-energy diagrams, with $\bar v_R$
+in place of the dual propagator and $C_2^D$, $C_3^D$ as the vertices.  One
+structural difference should be kept in mind: in dual-fermion theory the
+DMFT self-consistency condition makes the first-order dual self-energy
+vanish, whereas here no such condition is imposed on the Dyall reference,
+which is why the first-order mixed blocks are non-zero and why Objective~II
+has to restore them.  The loop of Sec.~\ref{sec:outer} is the analogue of
+imposing that condition.  The dual-boson extension~\cite{RubtsovDB2012},
+which treats a non-local interaction through bosonic dual fields with the
+impurity susceptibility as the local part, is the counterpart of the
+frozen-cumulant polarizability~\eqref{eq:P-sc}.
+
+\subsection{The dynamical vertex approximation, ab initio \DGA{} and TRILEX}
+
+The dynamical vertex approximation~\cite{Toschi2007,Rohringer2018} takes the
+two-particle irreducible vertex of the impurity as the local irreducible
+vertex of the lattice, solves the Bethe--Salpeter equation with the
+non-local (dressed) two-particle propagator, and obtains the non-local
+self-energy from the Schwinger--Dyson equation.  In its ab initio form,
+Galler \emph{et al.}~\cite{Galler2017} take the ph-irreducible vertex as the
+sum of the local impurity vertex and the non-local bare Coulomb interaction,
+$\Gamma^{\rm irr}=\Gamma^{\rm irr}_{\loc}+V^{\rm nonloc}$, so that DMFT (no
+$V^{\rm nonloc}$) and \GW{} (no $\Gamma^{\rm irr}_{\loc}$, RPA ladder in $V$)
+are limiting cases of one ladder equation.
+
+The Dyall--Hedin hierarchy of Objective~I has exactly this structure once the
+roles are identified.  The exact superspace Bethe--Salpeter kernel is
+$\overline K=\delta\overline\Sigma/\delta\bbG$, whose physical part contains
+the residual-interaction kernel ($v_R$ and its exchange) and whose auxiliary
+part contains the cumulant vertices $C_n^D$; approximating it by
+\begin{equation}
+  \overline K\simeq\overline K_D+v_R ,
+  \label{eq:kernel-DGA}
+\end{equation}
+with $\overline K_D$ the exact active-space (reference) kernel, is the
+multireference form of the ab initio \DGA{} kernel, with ``local'' read as
+``all-active'' and ``non-local'' as ``residual''.  Three consequences follow.
+\begin{itemize}[leftmargin=2em]
+\item The MR-RPA is the density-channel ladder of this kernel: since $v_R$
+  has no all-active elements, ladders in $v_R$ never duplicate the
+  active-space ladders already contained in the exact reference response,
+  so the \emph{full} reference response $P_D$ can serve as the block that is
+  irreducible with respect to $v_R$.  This is the same argument by which the
+  local full vertex can be used as the lattice-irreducible one in the ladder
+  \DGA{}.
+\item One-shot \MRGW{} is the channel-selective truncation identified in
+  Objective~I: the reference vertex $\Gamma_D$ is kept in the polarization
+  (through $P_D=-iG_D\Gamma_DG_D$) but not in the self-energy, which retains
+  the $GW$ topology.  In the DMFT-extension literature this is the
+  polarization-only use of the local vertex characteristic of
+  \GW{}$+$EDMFT-type schemes.  Putting the same three-leg vertex into both
+  the polarization and the self-energy, $P=-iG_DG_D\Gamma_D$ and
+  $\Sigma=iG_DW_D\Gamma_D$, is the TRILEX construction of Ayral and
+  Parcollet~\cite{AyralParcollet2015}; it is the $iG_DW_D\Gamma_D$ theory that
+  the Dyall--Hedin notes explicitly distinguish from \MRGW{} in the subsection
+  ``An important distinction from conventional $GW$''.  A multireference
+  TRILEX is therefore available at essentially the cost of \MRGW{}, because
+  $\Gamma_D$ is known from the reference.
+\item A multireference \DGA{} proper solves the Bethe--Salpeter equation with
+  the kernel~\eqref{eq:kernel-DGA} and dressed propagators and inserts the
+  resulting vertex into the Schwinger--Dyson equation for $\Sigma$.  Because
+  $G_D\Gamma_DG_D=G_DG_D-C_2^{D,\mathrm{ph}}$, the Schwinger--Dyson equation
+  with the reference vertex generates the structures $\bar v_RC_2^D$ that are
+  the first-order mixed blocks of Objective~I, and beyond them the auxiliary
+  block $\Sigma^{22}$; the mixed-block extension of Objective~II is thus the
+  lowest rung of a multireference \DGA{}, in the same way as the first
+  non-local self-energy correction is the lowest rung of the lattice \DGA{}.
+\end{itemize}
+The parquet formulation of Objective~I (the superspace Bethe--Salpeter
+equation together with the Schwinger--Dyson hierarchy for the auxiliary
+sector) corresponds to the parquet \DGA{} of Ref.~\cite{Rohringer2018}, in
+which all channels are treated on the same footing; the notes' observation
+that the exact multireference theory is ``Hedin structure plus
+reference-cumulant hierarchy'' is the statement that the auxiliary sector
+supplies the fully irreducible vertex of that parquet problem.
+
+\subsection{Summary of the correspondences}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{6.0cm}>{\raggedright\arraybackslash}p{8.8cm}}
+\toprule
+condensed-matter construction & counterpart in the \MRGW{} framework\\
+\midrule
+$G_0W_0$, ev\GW{}, $GW_0$, sc\GW{}, qs\GW{} & Secs.~\ref{sec:ev}--\ref{sec:qs} with $G_D$, $P_D$, $W_D$ as reference objects\\
+upfolded \GW{} / electron--boson model / quasi-boson formalism & Hermitian matrix~\eqref{eq:Hmatrix}, Eq.~\eqref{eq:Heb}\\
+moment-conserving \GW{} (block Lanczos) & extended EKT manifold; bath compression in the sc loops\\
+Anderson impurity model, DMFT self-consistency & active space, Eq.~\eqref{eq:Delta-act}\\
+\GW{}$+$DMFT, cRPA $U(\omega)$, double counting & Sec.~\ref{sec:outer} with additional screening, Eqs.~\eqref{eq:cRPA}--\eqref{eq:dc}\\
+EDMFT, \GW{}$+$EDMFT, dual bosons & bosonic bath~\eqref{eq:hybridization}, frozen-cumulant polarizability~\eqref{eq:P-sc}\\
+SEET with a \GW{} environment & Sec.~\ref{sec:outer} without additional screening\\
+dual fermions & Brouder/Hall cumulant expansion of Objective~I; Hall blocks as dual self-energies\\
+ladder \DGA{}, ab initio \DGA{} & kernel $\overline K_D+v_R$; MR-RPA as its density ladder; mixed blocks as its lowest rung\\
+TRILEX & $\Gamma_D$ in both $P$ and $\Sigma$ ($iG_DW_D\Gamma_D$)\\
+parquet \DGA{} & superspace Bethe--Salpeter equation plus cumulant hierarchy\\
+\bottomrule
+\end{tabular}
+\caption{Overview of the correspondences discussed in Sec.~\ref{sec:cm}.}
+\label{tab:summary}
+\end{table}
+
+\section{Open points}
+
+Three questions are left open by these notes.  (i) Which compression of the
+dressed pole set is best suited to the sc-MR-$GW_0$ loop: a weight threshold
+is trivial but not systematic, the moment-conserving block Lanczos is
+systematic but its interplay with the mixed couplings has not been examined.
+(ii) Whether the frozen-cumulant polarizability~\eqref{eq:P-sc} can be made
+causal by construction, for instance by working with the channel form and
+dressed transition densities, or whether a sum-rule correction in the spirit
+of the Moriya $\lambda$ of \DGA{} is unavoidable.  (iii) How the mixed
+couplings $K_B$ should be dressed in a self-consistent scheme: in the
+CAS-plus-bath loop they are regenerated from the embedded active-space
+solution, but in the pure propagator loops of Secs.~\ref{sec:GW0}
+and~\ref{sec:scW} they are frozen, which is consistent with a frozen active
+vertex but not with a dressed one.
+
+\begin{thebibliography}{99}
+
+\bibitem{WFL2026}
+Y.~Wang, W.-H.~Fang, and Z.~Li,
+``A Diagrammatic Route to Multi-Reference $GW$ for Strongly Correlated Molecules'',
+arXiv:2604.16013v2 (2026).
+
+\bibitem{BintrimBerkelbach2021}
+S.~J.~Bintrim and T.~C.~Berkelbach, J.~Chem.~Phys.\ \textbf{154}, 041101 (2021).
+
+\bibitem{LangeBerkelbach2018}
+M.~F.~Lange and T.~C.~Berkelbach, J.~Chem.~Theory Comput.\ \textbf{14}, 4224 (2018).
+
+\bibitem{TolleChan2023}
+J.~T\"olle and G.~K.-L.~Chan, J.~Chem.~Phys.\ \textbf{158}, 124123 (2023).
+
+\bibitem{Hedin1999}
+L.~Hedin, J.~Phys.: Condens.~Matter \textbf{11}, R489 (1999).
+
+\bibitem{ShishkinKresse2007}
+M.~Shishkin and G.~Kresse, Phys.~Rev.~B \textbf{75}, 235102 (2007).
+
+\bibitem{Blase2011}
+X.~Blase, C.~Attaccalite, and V.~Olevano, Phys.~Rev.~B \textbf{83}, 115103 (2011).
+
+\bibitem{Veril2018}
+M.~V\'eril, P.~Romaniello, J.~A.~Berger, and P.-F.~Loos,
+J.~Chem.~Theory Comput.\ \textbf{14}, 5220 (2018).
+
+\bibitem{MoninoLoos2022}
+E.~Monino and P.-F.~Loos, J.~Chem.~Phys.\ \textbf{156}, 231101 (2022).
+
+\bibitem{vonBarthHolm1996}
+U.~von Barth and B.~Holm, Phys.~Rev.~B \textbf{54}, 8411 (1996).
+
+\bibitem{HolmvonBarth1998}
+B.~Holm and U.~von Barth, Phys.~Rev.~B \textbf{57}, 2108 (1998).
+
+\bibitem{Caruso2012}
+F.~Caruso, P.~Rinke, X.~Ren, M.~Scheffler, and A.~Rubio,
+Phys.~Rev.~B \textbf{86}, 081102(R) (2012).
+
+\bibitem{MCGW2023}
+C.~J.~C.~Scott, O.~J.~Backhouse, and G.~H.~Booth,
+J.~Chem.~Phys.\ \textbf{158}, 124102 (2023).
+
+\bibitem{BaymKadanoff1961}
+G.~Baym and L.~P.~Kadanoff, Phys.~Rev.\ \textbf{124}, 287 (1961).
+
+\bibitem{Baym1962}
+G.~Baym, Phys.~Rev.\ \textbf{127}, 1391 (1962).
+
+\bibitem{Faleev2004}
+S.~V.~Faleev, M.~van Schilfgaarde, and T.~Kotani,
+Phys.~Rev.~Lett.\ \textbf{93}, 126406 (2004).
+
+\bibitem{Kotani2007}
+T.~Kotani, M.~van Schilfgaarde, and S.~V.~Faleev,
+Phys.~Rev.~B \textbf{76}, 165106 (2007).
+
+\bibitem{Georges1996}
+A.~Georges, G.~Kotliar, W.~Krauth, and M.~J.~Rozenberg,
+Rev.~Mod.~Phys.\ \textbf{68}, 13 (1996).
+
+\bibitem{Biermann2003}
+S.~Biermann, F.~Aryasetiawan, and A.~Georges,
+Phys.~Rev.~Lett.\ \textbf{90}, 086402 (2003).
+
+\bibitem{Aryasetiawan2004}
+F.~Aryasetiawan, M.~Imada, A.~Georges, G.~Kotliar, S.~Biermann, and A.~I.~Lichtenstein,
+Phys.~Rev.~B \textbf{70}, 195104 (2004).
+
+\bibitem{Ayral2013}
+T.~Ayral, S.~Biermann, and P.~Werner, Phys.~Rev.~B \textbf{87}, 125149 (2013).
+
+\bibitem{SiSmith1996}
+Q.~Si and J.~L.~Smith, Phys.~Rev.~Lett.\ \textbf{77}, 3391 (1996).
+
+\bibitem{Lan2015}
+T.~N.~Lan, A.~A.~Kananenka, and D.~Zgid, J.~Chem.~Phys.\ \textbf{143}, 241102 (2015).
+
+\bibitem{Lan2017}
+T.~N.~Lan, A.~Shee, J.~Li, E.~Gull, and D.~Zgid, Phys.~Rev.~B \textbf{96}, 155106 (2017).
+
+\bibitem{Sokolov2018}
+A.~Y.~Sokolov, J.~Chem.~Phys.\ \textbf{149}, 204113 (2018).
+
+\bibitem{ChatterjeeSokolov2019}
+K.~Chatterjee and A.~Y.~Sokolov, J.~Chem.~Theory Comput.\ \textbf{15}, 5908 (2019).
+
+\bibitem{Knizia2012}
+G.~Knizia and G.~K.-L.~Chan, Phys.~Rev.~Lett.\ \textbf{109}, 186404 (2012).
+
+\bibitem{Rubtsov2008}
+A.~N.~Rubtsov, M.~I.~Katsnelson, and A.~I.~Lichtenstein,
+Phys.~Rev.~B \textbf{77}, 033101 (2008).
+
+\bibitem{RubtsovDB2012}
+A.~N.~Rubtsov, M.~I.~Katsnelson, and A.~I.~Lichtenstein,
+Ann.~Phys.\ (N.Y.) \textbf{327}, 1320 (2012).
+
+\bibitem{Toschi2007}
+A.~Toschi, A.~A.~Katanin, and K.~Held, Phys.~Rev.~B \textbf{75}, 045118 (2007).
+
+\bibitem{Rohringer2018}
+G.~Rohringer, H.~Hafermann, A.~Toschi, A.~A.~Katanin, A.~E.~Antipov,
+M.~I.~Katsnelson, A.~I.~Lichtenstein, A.~N.~Rubtsov, and K.~Held,
+Rev.~Mod.~Phys.\ \textbf{90}, 025003 (2018).
+
+\bibitem{Galler2017}
+A.~Galler, P.~Thunstr\"om, P.~Gunacker, J.~M.~Tomczak, and K.~Held,
+Phys.~Rev.~B \textbf{95}, 115107 (2017).
+
+\bibitem{AyralParcollet2015}
+T.~Ayral and O.~Parcollet, Phys.~Rev.~B \textbf{92}, 115109 (2015).
+
+\bibitem{Aryasetiawan1996}
+F.~Aryasetiawan, L.~Hedin, and K.~Karlsson, Phys.~Rev.~Lett.\ \textbf{77}, 2268 (1996).
+
+\end{thebibliography}
+
+\end{document}

@@ -40,14 +40,18 @@ class HermitianGF:
     """
 
     def __init__(self, ref, rpa=None, mixed='screened', bath=True,
-                 cross_sector=True, include_static=True, label=None):
+                 cross_sector=True, include_static=True, bath_hamiltonian='diagonal',
+                 label=None):
         if mixed not in ('none', 'bare', 'screened'):
             raise ValueError("mixed must be 'none', 'bare' or 'screened'")
+        if bath_hamiltonian not in ('diagonal', 'top'):
+            raise ValueError("bath_hamiltonian must be 'diagonal' or 'top'")
         if (bath or mixed == 'screened') and rpa is None:
             raise ValueError("an MRRPA object is required for the bath or the screened kernel")
         self.ref, self.rpa, self.mixed, self.bath = ref, rpa, mixed, bath
         self.cross_sector, self.include_static = cross_sector, include_static
-        self.label = label or f"mixed={mixed}, bath={bath}"
+        self.bath_hamiltonian = bath_hamiltonian
+        self.label = label or f"mixed={mixed}, bath={bath}, bath_hamiltonian={bath_hamiltonian}"
 
         nso = ref.nso
         inact, act = ref.inact_so, ref.act_so
@@ -86,10 +90,30 @@ class HermitianGF:
         self.KB = KB
         self.Kstat = Kstat
 
+        # sector sign of every top state: +1 attachment (virtual orbital or
+        # N+1 pole), -1 removal (core orbital or N-1 pole)
+        self.sigma_top = np.concatenate([np.where(is_virt, 1.0, -1.0), ref.pole_sign.astype(float)])
+
         # MR-GW bath
-        if bath:
+        self.Omega_B = np.zeros(0)
+        self.Gt = None
+        if bath and bath_hamiltonian == 'diagonal':
+            # bath states (n, I) with zeroth-order energies kappa_n +- Omega_I
             self.E_B, self.Aamp = rpa.bath()
             self.Atil = T_D.T @ self.Aamp
+        elif bath and bath_hamiltonian == 'top':
+            # bath states (n, I) for all top states n and all coupled modes I;
+            # the top-space Hamiltonian K acts inside the one-boson sector:
+            #   B_I = K + sigma Omega_I,  coupling g_{m,(nI)} = t_m^T M_I t_n
+            keep = rpa.mode_norm > 1e-12 * max(rpa.mode_norm.max(), 1e-300)
+            self.Omega_B = rpa.Omega[keep]
+            Mk = rpa.M[:, :, keep]                              # (nso, nso, KI)
+            self.Gt = np.einsum('pm,prI,rn->Imn', T_D, Mk, T_D)  # (KI, ntop, ntop)
+            KI = self.Omega_B.size
+            self.Atil = np.ascontiguousarray(self.Gt.transpose(1, 0, 2).reshape(ntop, KI * ntop))
+            self.E_B = (self.sigma_top[None, :] * self.Omega_B[:, None]).ravel() \
+                + np.tile(np.diag(self.K), KI)
+            self.Aamp = None
         else:
             self.E_B = np.zeros(0)
             self.Aamp = np.zeros((nso, 0))
@@ -98,6 +122,28 @@ class HermitianGF:
         self.n = ntop + self.nB
         self.T = np.hstack([T_D, np.zeros((nso, self.nB))])
         self._eig = None
+
+    # ------------------------------------------------------------------
+    def _bath_apply(self, Xb):
+        """Action of the bath block on bath vectors Xb (nB, k)."""
+        if self.bath_hamiltonian == 'diagonal' or self.nB == 0:
+            return self.E_B[:, None] * Xb
+        KI, ntop = self.Omega_B.size, self.ntop
+        X3 = Xb.reshape(KI, ntop, -1)
+        Y3 = np.einsum('mn,Ink->Imk', self.K, X3) \
+            + (self.sigma_top[None, :, None] * self.Omega_B[:, None, None]) * X3
+        return Y3.reshape(self.nB, -1)
+
+    def _bath_block(self):
+        """Dense bath block (only for small problems)."""
+        if self.bath_hamiltonian == 'diagonal' or self.nB == 0:
+            return np.diag(self.E_B)
+        KI, ntop = self.Omega_B.size, self.ntop
+        B = np.zeros((self.nB, self.nB))
+        for I in range(KI):
+            sl = slice(I * ntop, (I + 1) * ntop)
+            B[sl, sl] = self.K + np.diag(self.sigma_top * self.Omega_B[I])
+        return B
 
     # ------------------------------------------------------------------
     def mixed_kernel(self):
@@ -119,7 +165,7 @@ class HermitianGF:
         X2 = X.reshape(self.n, -1)
         Xt, Xb = X2[:self.ntop], X2[self.ntop:]
         Yt = self.K @ Xt + self.Atil @ Xb
-        Yb = self.Atil.T @ Xt + self.E_B[:, None] * Xb
+        Yb = self.Atil.T @ Xt + self._bath_apply(Xb)
         Y = np.vstack([Yt, Yb])
         return Y.ravel() if one_d else Y
 
@@ -131,7 +177,7 @@ class HermitianGF:
         H[:self.ntop, :self.ntop] = self.K
         H[:self.ntop, self.ntop:] = self.Atil
         H[self.ntop:, :self.ntop] = self.Atil.T
-        H[self.ntop:, self.ntop:] = np.diag(self.E_B)
+        H[self.ntop:, self.ntop:] = self._bath_block()
         return H
 
     # ------------------------------------------------------------------
@@ -149,14 +195,61 @@ class HermitianGF:
         Z = self.T @ U
         return E, Z, np.sum(Z ** 2, axis=0)
 
+    def dense_roots(self, guesses, degeneracy_tol=1e-8):
+        """Dense reference for root following: for every guess vector the
+        eigenvalue whose degenerate eigenspace (eigenvalues within
+        degeneracy_tol) carries the largest total squared overlap with the
+        guess.  Summing over degenerate clusters makes the choice independent
+        of the arbitrary rotation within degenerate (e.g. spin) pairs."""
+        E, U = self.eig()
+        G = np.asarray(guesses, dtype=float)
+        if G.ndim == 1:
+            G = G[:, None]
+        ov2 = (G.T @ U) ** 2                               # (m, n)
+        # cluster degenerate eigenvalues
+        clusters = []
+        start = 0
+        for k in range(1, E.size + 1):
+            if k == E.size or E[k] - E[k - 1] > degeneracy_tol:
+                clusters.append((start, k))
+                start = k
+        out = np.empty(G.shape[1])
+        for j in range(G.shape[1]):
+            best = max(clusters, key=lambda c: ov2[j, c[0]:c[1]].sum())
+            out[j] = E[best[0]:best[1]].mean()
+        return out
+
     def greens_function(self, z):
         """G(z) = T_D [z - K - Atil (z - E_B)^{-1} Atil^T]^{-1} T_D^T
         (Schur complement of the bath)."""
         Kz = self.K.astype(complex)
-        if self.nB:
+        if self.nB and self.bath_hamiltonian == 'diagonal':
             Kz = Kz + self.Atil @ ((1.0 / (z - self.E_B))[:, None] * self.Atil.T)
+        elif self.nB:
+            # sum_I g_I [z - K - sigma Omega_I]^{-1} g_I^T
+            I_top = np.eye(self.ntop)
+            for I in range(self.Omega_B.size):
+                B_I = self.K + np.diag(self.sigma_top * self.Omega_B[I])
+                gI = self.Gt[I]
+                Kz = Kz + gI @ np.linalg.solve(z * I_top - B_I, gI.T)
         Gtop = np.linalg.solve(z * np.eye(self.ntop) - Kz, self.T_D.T)
         return self.T_D @ Gtop
+
+    def dressed_bath_self_energy(self, z):
+        """For bath_hamiltonian='top' and no cross-sector couplings the bath
+        Schur complement equals the GW self-energy built with the poles
+        (lambda_k, Z_k) of the top-space Hamiltonian itself,
+        sum_{kI} (M_I Z_k)(M_I Z_k)^T / (z - lambda_k - sigma_k Omega_I);
+        this returns that expression in the orbital basis (used as a check)."""
+        lam, U = np.linalg.eigh(self.K)
+        Z = self.T_D @ U                                   # (nso, ntop)
+        sig = np.sign(np.einsum('nk,n,nk->k', U, self.sigma_top, U))
+        keep = self.rpa.mode_norm > 1e-12 * max(self.rpa.mode_norm.max(), 1e-300)
+        M = self.rpa.M[:, :, keep]
+        Om = self.rpa.Omega[keep]
+        a = np.einsum('prI,rk->pkI', M, Z)                 # (nso, ntop, KI)
+        den = z - lam[:, None] - sig[:, None] * Om[None, :]  # (ntop, KI)
+        return np.einsum('pkI,qkI,kI->pq', a, a, 1.0 / den)
 
     def spectral_function(self, omegas, eta, trace=True):
         """A(omega) = -1/pi Im G(omega + i eta); returns the trace or the
