@@ -287,34 +287,31 @@ This is why only the $\text{ov}$ and $\text{vo}$ sectors contribute at second or
 At third order, however, $\Gamma^{\eh,(2)}$ supplies an additional pole and
 the $\text{oo}$ and $\text{vv}$ sectors can survive.
 The two elementary contour identities needed below are
-\begin{align}
-    &\frac{1}{2\pi}
+\begin{multline}
+    \frac{1}{2\pi}
     \int\dd{x}
-    [-\ii G_{0,a}(x+\omega)G_{0,b}(x)]
-    \frac{1}{x-A-\ii0^+}
-    \nonumber
+    \frac{-\ii G_{0,a}(x+\omega)G_{0,b}(x)}{x-A-\ii0^+}
     \\
-    &\qquad=
+    =
     \frac{1}
-    {[A+\omega-\eps_a+\ii0^+][A-\eps_b+\ii0^+]}
+    {(A+\omega-\eps_a+\ii0^+)(A-\eps_b+\ii0^+)}
     \label{eq:vv_elementary_contour}
-    \\
-    &\frac{1}{2\pi}
+\end{multline}
+and
+\begin{multline}
+    \frac{1}{2\pi}
     \int\dd{x}
-    [-\ii G_{0,i}(x+\omega)G_{0,j}(x)]
-    \frac{1}{x-A+\ii0^+}
-    \nonumber
+    \frac{-\ii G_{0,i}(x+\omega)G_{0,j}(x)}{x-A+\ii0^+}
     \\
-    &\qquad=
+    =
     -\frac{1}
-    {[A+\omega-\eps_i-\ii0^+][A-\eps_j-\ii0^+]}
+    {(A+\omega-\eps_i-\ii0^+)(A-\eps_j-\ii0^+)}
     \label{eq:oo_elementary_contour}
-\end{align}
+\end{multline}
 The same integrals vanish when the causal prescription of the last factor is
 reversed.
-Thus the $\text{vv}$ sector selects poles of the second-order kernel in the upper
+Thus, the $\text{vv}$ sector selects poles of the second-order kernel in the upper
 half-plane, whereas the $\text{oo}$ sector selects poles in the lower half-plane.
-
 The third term of Eq.~\eqref{eq:Phi_eh_third_convolution} contains only
 instantaneous vertices.
 Its $\text{oo}$ and $\text{vv}$ integrations therefore vanish, so both internal
@@ -612,7 +609,7 @@ The first-order neutral interaction matrix is
     \begin{pmatrix}
     A^{(1)}&B^{(1)}
     \\
-    B^{(1)\intercal}&A^{(1)\intercal}
+    B^{(1)}&A^{(1)}
     \end{pmatrix}
     \label{eq:M_eh_first}
 \end{equation}
@@ -665,7 +662,7 @@ orbital sectors of Eq.~\eqref{eq:L0_sector_decomposition},
 \begin{equation}
     \begin{split}
     \ii\Phi^{\eh,(3)}
-    ={}&
+    &=
     \sum_{x\in\{\text{oo},\text{ov},\text{vo},\text{vv}\}}
     \Big(
     \left[\ii\Gamma^{\eh,(2)}\right]
@@ -874,7 +871,7 @@ kernel--propagator product.  For example,
 \begin{equation}
 \begin{split}
     U_{pq,ab}^{\pp,(2)}(x,\Omega)
-    ={}&
+    &=
     \frac12\int\frac{\dd{y}}{2\pi}
     \Big[
     \ii\Gamma_{pqab}^{\pp,(2)}(x,y,\Omega)
@@ -1035,15 +1032,15 @@ second and third terms contribute.
 Using $\mel{ai}{}{rs}=-\mel{ia}{}{rs}$, the two orientations give equal
 contributions and cancel the ordered-pair factor $1/2$.
 The resulting first ordering is
+\begin{widetext}
 \begin{equation}
 \begin{split}
-&\left\{
+\left\{
 \left[\ii\Gamma^{\pp,(2)}\right]
 \circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
 \circ\left[\ii\Gamma^{\pp,(1)}\right]
 \right\}_{pqrs}
-\\
-={}&
+&=
 -
 \sum_{iakc}
 \frac{
@@ -1062,17 +1059,15 @@ The resulting first ordering is
 \end{split}
 \label{eq:Phi_pp_third_mixed_left}
 \end{equation}
-
-\noindent and the reversed ordering is
+and the reversed ordering is
 \begin{equation}
 \begin{split}
-&\left\{
+\left\{
 \left[\ii\Gamma^{\pp,(1)}\right]
 \circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
 \circ\left[\ii\Gamma^{\pp,(2)}\right]
 \right\}_{pqrs}
-\\
-={}&
+&=
 -
 \sum_{iakc}
 \frac{
@@ -1091,6 +1086,7 @@ The resulting first ordering is
 \end{split}
 \label{eq:Phi_pp_third_mixed_right}
 \end{equation}
+\end{widetext}
 No partial fractioning is required, and only charged-state energy combinations
 appear in these denominators.
 
@@ -1151,7 +1147,7 @@ Combining the four orbital sectors gives
 \begin{equation}
 \begin{split}
     \ii\Phi^{\pp,(3)}
-    ={}&
+    &=
     U^{\pp,(2)}R^{\pp,(0)}V^{\pp,(1)}
     +
     U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(2)}
