@@ -1,0 +1,677 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs,array,longtable}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks,linkcolor=red!50!black,citecolor=red!70!black,urlcolor=red!80!black]{hyperref}
+
+% ---------------------------------------------------------------
+% Notation (kept close to mr-hedin.tex and to Wang, Fang, and Li)
+% ---------------------------------------------------------------
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bF}{\boldsymbol{F}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\bbT}{\mathbb{T}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\braket}[1]{\langle#1\rangle}
+\newcommand{\GW}{$GW$}
+\newcommand{\MRGW}{MR-$GW$}
+\newcommand{\WFL}{WFL}
+\newcommand{\Pre}{Preliminary section}
+\newcommand{\DHN}{Dyall--Hedin notes}
+\newcommand{\Sc}[1]{\textsf{[#1]}}
+
+\title{Comparison of the preliminary section ``Multireference Green's Function methods''
+with the \MRGW{} paper of Wang, Fang, and Li (arXiv:2604.16013) and with the
+Dyall--Hedin notes in \texttt{mr-hedin.tex}}
+\author{}
+\date{September 22, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Scope and the three texts compared}
+
+Three texts are compared.
+
+\begin{description}[style=nextline,leftmargin=1.5em]
+\item[(A) The \emph{\Pre}.] The section ``Multireference Green's Function
+  methods'' at the beginning of \texttt{mr-hedin.tex}.  It partitions the exact
+  self-energy into an ``initial'' part $\bSigma^{\text{init}}$ and a
+  ``correlation'' part $\bSigma^{\text{corr}}$, takes the initial part from an
+  active-space calculation, and constructs the corresponding initial Green's
+  function $\bG_{\text{init}}(\omega)$ directly as the resolvent of a block
+  matrix in the space spanned by the inactive spin orbitals and the exact
+  $N\pm1$ eigenstates of the active-space Hamiltonian.  The inactive and
+  active blocks are coupled by a matrix $\bH_{\mathrm{i,a}}$ of double-commutator
+  (superoperator) matrix elements.  Block inversion is then shown to produce a
+  factorized form that has the same appearance as the generalized Dyson equation
+  of the \MRGW{} paper.
+\item[(B) \WFL{}.] Y.~Wang, W.-H.~Fang, and Z.~Li, ``A Diagrammatic Route to
+  Multi-Reference $GW$ for Strongly Correlated Molecules'', arXiv:2604.16013v2
+  (3~Sep~2026)~\cite{WFL2026}.  The paper builds a diagrammatic many-body
+  perturbation theory on the interacting Dyall Hamiltonian
+  $\hat H_0^{\text{Dyall}}$, organizes the expansion with Hall's generalized
+  Dyson equation (four self-energy blocks $\Sigma^{11},\Sigma^{12},\Sigma^{21},\Sigma^{22}$),
+  derives the first-order blocks (their Appendix~B and Sec.~S1), and defines a
+  practical one-shot \MRGW{} approximation in which only $\Sigma^{11}$ is kept,
+  with the residual interaction screened at the MR-RPA level.  The mixed blocks
+  $\Sigma^{12/21}$ are deliberately dropped because their isolated inclusion
+  breaks positive semidefiniteness (their Appendix~C, Fig.~6).  Benchmarks on
+  Be, stretched H$_2$, and O$_3$ are reported.
+\item[(C) The \emph{\DHN}.] The remainder of \texttt{mr-hedin.tex} (Objectives~I
+  and~II).  Objective~I embeds the non-Gaussian Dyall reference into an enlarged
+  source space following Brouder~\cite{Brouder2009}, recovers Hall's
+  generalized Dyson equation and the four first-order blocks of \WFL{}, and
+  identifies \MRGW{} as a channel-selective truncation of an exact
+  Dyall--Hedin hierarchy.  Objective~II restores the mixed blocks with a
+  statically screened kernel $v_R-[W_D(0)]^x$ and embeds them, together with
+  the dynamic \MRGW{} self-energy, in a common Hermitian pole-space matrix that
+  is causal, positive semidefinite (PSD), and moment conserving.
+\end{description}
+
+The comparison is organized as follows.  Section~\ref{sec:dictionary} gives a
+dictionary of notation.  Section~\ref{sec:similarities} lists the points on
+which the three texts agree, including several places where the
+\Pre{} anticipates constructions that \WFL{} call for and the
+\DHN{} carry out.  Section~\ref{sec:differences} lists the differences, some of
+which are differences of formalism and some of which are genuine
+discrepancies in content.  Section~\ref{sec:synthesis} describes how the
+\Pre{} fits into the rest of the notes, and Sec.~\ref{sec:revisions} collects
+the concrete points in the \Pre{} that the comparison suggests revising.
+
+\section{Dictionary of notation}
+\label{sec:dictionary}
+
+The same physical objects appear under different names in the three texts.
+Table~\ref{tab:dictionary} lists the correspondences.  Throughout, $P,Q$ label
+inactive spin orbitals (core $i,j$ and virtual $a,b$), $x,y,z,w$ label active
+spin orbitals, $\mu$ labels eigenstates of the active-space Hamiltonian, and
+$\alpha=(\mu,\pm)$ labels an active electron-attached or electron-removed pole.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{3.3cm}}
+\toprule
+\Pre{} & \WFL{} & \DHN{} & Meaning \\
+\midrule
+$\bG_0(\omega)$ & $g_0$ [Eq.~(10)] & $g_0$ & non-interacting (Fock-type) propagator \\[1mm]
+$\bSigma^{\text{init}}$ & $\Sigma_0[g_0,\hat V^A]=g_0^{-1}-G_0^{-1}$ [Eq.~(10)] & $\Sigma_D=g_0^{-1}-G_D^{-1}$ & self-energy carrying the nonperturbative active-space correlation \\[1mm]
+$\bG_{\text{init}}$ with $\bH_{\mathrm{i,a}}=0$ & $\mathbf G_0=\operatorname{diag}(G_0^I,G_0^A)$ [Eq.~(3)] & $G_D$ & Dyall Green's function \\[1mm]
+$\bG_{\text{init}}$ with $\bH_{\mathrm{i,a}}\neq0$ & no direct counterpart; closest object is MR-GF1, Eqs.~(S18)--(S20) & $\bbT(z-\bbH)^{-1}\bbT^\dagger$ with $A=0$ and the bare kernel $\bar v_R$ & Hermitian embedding of the inactive--active coupling \\[1mm]
+$\bSigma^{\text{corr}}$ & $\Sigma^{\text{MR-}GW}$ as an approximation to $\Sigma^{11}$ [Eqs.~(9), (S41)] & all of $\Sigma^{11},\Sigma^{12},\Sigma^{21},\Sigma^{22}$ generated by $\hat V_R$ & everything not contained in the reference \\[1mm]
+$\ket{\Phi_{\mathrm i}}\otimes\ket{\Psi_{\mathrm a}}$ & $\ket{\Phi^I_{\mu_I}}\ket{\Xi^A_{\mu_A}}$ & Dyall eigenstates (inactive Gaussian $\otimes$ active correlated) & product structure of the reference \\[1mm]
+$\bF^{\text{HF}}_{\mathrm{i,i}}$ & $\epsilon_P$ from the Dyall Fock operator, Eq.~(14), which contains the active one-body density & $\kappa_P=\epsilon_P$ & inactive one-particle energies \\[1mm]
+$\bE^{N\pm1}$ & $\omega^A_{\mu,N_a\pm1}$ [Eq.~(S17)] & signed $\kappa_{\mu\pm}$ in $K_D$ & active charged excitation energies \\[1mm]
+$\bM^{N\pm1}_{p\mu}$ & $D^{[\pm1]}_{\mu,x}$ [Eqs.~(S49)--(S50)] & $d_\alpha$, columns of $T_D$ & active Dyson amplitudes \\[1mm]
+$\bH_{\mathrm{i,a}}$ & $[\Sigma_1^{11}]_{Px}D^{[\pm1]}_{\mu,x}$ plus the residues of $\Sigma_1^{12,IA}$ [Eqs.~(S9)--(S12), (S15)] & $[T_D^\dagger\Sigma_{\rm stat}T_D+K_B^{(1)}]_{P\alpha}$ & bare first-order inactive--active coupling \\[1mm]
+$\bSigma_{\mathrm{i,a}}(\omega)$ & $\Sigma_1^{12,IA}(\omega)$ [Eq.~(S15)], plus the static $\Sigma_1^{11}$ piece & $\Sigma^{12,R}_{\rm scr}$ in the bare limit & right mixed block \\[1mm]
+$\bSigma_{\mathrm{a,i}}(\omega)$ & $\Sigma_1^{21,AI}(\omega)$ [Eq.~(S16)] & $\Sigma^{21,R}_{\rm scr}$ in the bare limit & left mixed block \\[1mm]
+$\bSigma_{\mathrm{i,i}}(\omega)$ & absent from \MRGW; would be a second-order contribution to $\Sigma^{11}$ & second-order term of the $K_B$ resummation & inactive self-energy with active $N\pm1$ poles \\[1mm]
+$\tilde\bSigma_{\mathrm{i,i}}=\bG_{\mathrm i}-\bG_{\mathrm{i},0}$ & identified in (A) with the $\Sigma^{22}$ slot of Eq.~(5); see Sec.~\ref{sec:differences}, item~D3 & --- & inactive dressing, not a self-energy \\[1mm]
+$(a|b)=\braket{\Psi_0|[a^\dagger,b]|\Psi_0}$, killer condition & --- & retarded representation; $T_DT_D^\dagger=I$ & superoperator metric; zeroth-moment sum rule \\[1mm]
+$\{\hat C^\dagger\}=\{a_i,a_a\}$ & --- & inactive pole vectors $t_P=e_P$ & primary (inactive) operator manifold \\
+\bottomrule
+\end{tabular}
+\caption{Correspondence of notation.  Equation numbers refer to
+\WFL{} v2 (main text, End Matter, and Supplemental Material).}
+\label{tab:dictionary}
+\end{table}
+
+\section{Similarities}
+\label{sec:similarities}
+
+\paragraph{S1. Same partition of the problem and the same ``reference plus
+correction'' split of the self-energy.}
+The \Pre{} writes $\bSigma=\bSigma^{\text{init}}+\bSigma^{\text{corr}}$ and
+defines $\bG_{\text{init}}=(\bG_0^{-1}-\bSigma^{\text{init}})^{-1}$ so that
+$\bG=\bG_{\text{init}}+\bG_{\text{init}}\bSigma^{\text{corr}}\bG$.  This is,
+term for term, the ``connection to standard self-energy'' of \WFL{}, Eqs.~(10)
+and~(11): a non-interacting $g_0$ is connected to the interacting Dyall
+Green's function $G_0$ by $\Sigma_0[g_0,\hat V^A]=g_0^{-1}-G_0^{-1}$, and the
+full $G$ then satisfies
+$G=g_0+g_0\,(\Sigma_0+\Sigma^{\text{MR-}GW})\,G$.  The \DHN{} restate the same
+relation in the subsection ``Why the construction is internally consistent''
+with $\Sigma_D=g_0^{-1}-G_D^{-1}$.  In all three texts, the active-space
+two-electron interaction lives entirely in the reference and only the residual
+interaction $\hat V_R=\hat H-\hat H_D$ is treated by the correction, so that
+no double-counting correction is needed.  This is the multireference
+perturbation-theory (CASPT2/NEVPT2) philosophy transferred to the one-particle
+propagator, and it is shared by (A), (B), and (C).
+
+\paragraph{S2. Same factorized reference and block-diagonal reference
+propagator.}
+The product form $\ket{\Psi_0}=\ket{\Phi_{\mathrm i}}\otimes\ket{\Psi_{\mathrm a}}$
+assumed in the \Pre{} is exactly the factorization
+$\ket{\Phi_\mu}=\ket{\Phi^I_{\mu_I}}\ket{\Xi^A_{\mu_A}}$ that \WFL{} obtain
+from the additive structure of the Dyall Hamiltonian, and it is what makes the
+inactive sector Gaussian in the \DHN{}.  The consequence noted in the
+\Pre{}, ``there are no Dyson amplitudes that couple the active and inactive
+spaces directly'', is \WFL{}'s Eq.~(3), $\mathbf G_0=\operatorname{diag}(G_0^I,G_0^A)$,
+and is the statement in the \DHN{} that connected Dyall cumulants of order
+$\ge2$ carry only active indices (``Specialization to the Dyall
+Hamiltonian'').  The active Dyson amplitudes
+$M_{p\mu}=\braket{\Psi_0|a_p|\Psi_\mu^{N+1}}$ of the \Pre{} are the transition
+densities $D^{[+1]}_{\mu,x}$ and $D^{[-1]}_{\mu,x}$ of \WFL{} [Eqs.~(S49)--(S50)]
+and the pole vectors $d_\alpha$ of the \DHN{}.
+
+\paragraph{S3. Same block structure of the inactive--active coupling.}
+Block inversion in the \Pre{} gives
+\begin{equation}
+  \bG_{\text{init}}
+  =
+  \begin{pmatrix}
+    \bG_{\mathrm i} & \bG_{\mathrm i}\bSigma_{\mathrm{i,a}} \\
+    \bSigma_{\mathrm{a,i}}\bG_{\mathrm i} & \bG_{\mathrm A}+\bSigma_{\mathrm{a,i}}\bG_{\mathrm i}\bSigma_{\mathrm{i,a}}
+  \end{pmatrix},
+  \qquad
+  \bSigma_{\mathrm{i,a}}(\omega)=-\bH_{\mathrm{i,a}}\,(\omega-\bE^{N\pm1})^{-1}\bM^\dagger .
+  \label{eq:pre-Ginit2}
+\end{equation}
+This is precisely the structure of \WFL{}'s Eq.~(S20),
+\begin{equation}
+  \mathbf M
+  =
+  \begin{pmatrix}
+    G_0^I & G_0^I\Sigma_1^{12,IA} \\
+    \Sigma_1^{21,AI}G_0^I & \Sigma_1^{21,AI}G_0^I\Sigma_1^{12,IA}+G_0^A
+  \end{pmatrix},
+  \label{eq:wfl-S20}
+\end{equation}
+which follows from Hall's generalized Dyson equation once one uses the
+triangular block structure $\Sigma_1^{12}=\bigl(\begin{smallmatrix}0&\Sigma^{12,IA}_1\\0&0\end{smallmatrix}\bigr)$,
+$\Sigma_1^{21}=\bigl(\begin{smallmatrix}0&0\\ \Sigma^{21,AI}_1&0\end{smallmatrix}\bigr)$
+and $\Sigma_1^{22}=0$ [\WFL{} Eq.~(S14); \DHN{} ``Triangular structure of the
+mixed blocks'' and ``Vanishing of $\Sigma_1^{22}$''].  The \Pre{} recognizes
+this (``Eq.~(Ginit3) has the same structure as the initial Dyson equation in
+the \MRGW{} paper''), and the recognition is correct at the level of the block
+pattern.  Moreover, the pole content agrees: $\bSigma_{\mathrm{i,a}}$ has
+simple poles at the active $N\pm1$ excitation energies, exactly as
+$\Sigma_1^{12,IA}$ in \WFL{}'s Eq.~(S15) and as the retarded mixed blocks of
+the \DHN{} (``Retarded representation of the screened mixed blocks'').
+
+\paragraph{S4. The coupling matrix $\bH_{\mathrm{i,a}}$ is the first-order
+residual coupling and contains the same three-active-operator amplitude as the
+mixed Hall blocks.}
+The double-commutator element
+$\bH_{P\mu}=\braket{\Psi_0|[a_P,[\hat H,\hat R^{N\pm1}_\mu]]|\Psi_0}$ of the
+\Pre{} vanishes for the Dyall part of $\hat H$ (the inactive operator $a_P$
+anticommutes with any active operator, and $[\hat H_D,\hat R_\mu]$ is again an
+active operator) and is therefore of first order in $\hat V_R$.  Evaluating it
+for the electron-attachment sector with $\hat V_R=u_{pq}\hat p^\dagger\hat q+\tfrac14\bar v_{pr,qs}\hat p^\dagger\hat q^\dagger\hat s\hat r$
+and a virtual orbital $P=a$ gives
+\begin{equation}
+  \bH_{a\mu}
+  =
+  \bigl(u_{az}+\bar v_{az,kk}\bigr)\,D^{[+1]}_{\mu,z}
+  +
+  \tfrac12\,\bar v_{az,yw}\,
+  \braket{\Xi^A_{0,N_a}|\hat y^\dagger\hat w\hat z|\Xi^A_{\mu,N_a+1}} ,
+  \label{eq:H-ia-explicit}
+\end{equation}
+where $k$ runs over core orbitals.  Adding and subtracting the mean-field
+piece $\bar v_{az,yw}\gamma_{yw}D^{[+1]}_{\mu,z}$ shows that
+\begin{equation}
+  \bH_{a\mu}
+  =
+  \underbrace{[\Sigma_1^{11}]_{az}\,D^{[+1]}_{\mu,z}}_{\text{\WFL{} Eq.~(S12)}}
+  +
+  \underbrace{\Bigl[\tfrac12\bar v_{az,yw}\braket{\Xi_0|\hat y^\dagger\hat w\hat z|\Xi_\mu^{+}}
+  -\bar v_{az,yw}\gamma_{yw}D^{[+1]}_{\mu,z}\Bigr]}_{\text{residue of \WFL{} Eq.~(S15); }\bar v_R\,\mathcal C^{D,+}_{\mu;z,yw}\text{ in the \DHN}} .
+  \label{eq:H-ia-split}
+\end{equation}
+The second bracket is the ``connected'' amplitude that \WFL{} identify as the
+residue of $\Sigma_1^{12,IA}$ and that the \DHN{} write as
+$\bar v_R\,\mathcal C^{D,+}_{\mu;z,yw}$ (``Screened mixed residues'').  The
+\DHN{} make the same observation in the opposite direction in the subsection
+``Same-sector pole pairs'': in the bare limit the mixed residue combined with the
+off-diagonal $\Sigma_1^{11}$ contribution ``reconstructs the first-order
+residual-Hamiltonian coupling between the two charged Dyall states''.  That
+first-order coupling is exactly $\bH_{\mathrm{i,a}}$.  The remark in the \Pre{}
+that only a limited number of excitation manifolds in $\hat R^{N\pm1}$ need to
+be considered because $\hat H$ is at most two-body is the same fact that lets
+the \DHN{} replace the explicit three-operator tensor by a contracted source
+vector $\hat Q_P\ket{\Xi_0}$ (``Avoiding the explicit three-operator transition
+tensor'').
+
+\paragraph{S5. The \Pre{} is a Hermitian (superoperator) embedding, and it is
+the bare-coupling, no-bath limit of the common Hermitian matrix of
+Objective~II.}
+This is the most important point of contact.  The \Pre{} never solves Hall's
+equation; it defines $\bG_{\text{init}}$ as the resolvent of a Hermitian block
+matrix,
+\begin{equation}
+  \bG_{\text{init}}(\omega)
+  =
+  \begin{pmatrix}\mathbf 1&0\\0&\bM\end{pmatrix}
+  \begin{pmatrix}
+    \omega\mathbf 1-\bF_{\mathrm{i,i}} & -\bH_{\mathrm{i,a}}\\
+    -\bH_{\mathrm{i,a}}^\dagger & \omega\mathbf 1-\bE^{N\pm1}
+  \end{pmatrix}^{-1}
+  \begin{pmatrix}\mathbf 1&0\\0&\bM^\dagger\end{pmatrix},
+  \label{eq:pre-Ginit}
+\end{equation}
+(up to the sign convention of the off-diagonal block, cf.\ item~D6).  With the
+identifications $t_P=e_P$, $d_\alpha=\bM_{\cdot\alpha}$, $K_D=\operatorname{diag}(\epsilon_P,\kappa_\alpha)$,
+$T_D=(\mathbf 1\;\;\bM)$, this is
+\begin{equation}
+  \bG_{\text{init}}(z)
+  =
+  T_D\bigl(zI-K_{\rm top}\bigr)^{-1}T_D^\dagger ,
+  \qquad
+  K_{\rm top}=K_D+T_D^\dagger\Sigma_{\rm stat}T_D+K_B^{(1)},
+  \label{eq:pre-as-Ktop}
+\end{equation}
+i.e.\ the common Hermitian matrix $\bbH_{\text{mix-MR-}GW}$ of the \DHN{}
+(``Common Hermitian matrix'') with the \MRGW{} bath switched off ($A=0$) and
+the mixed kernel taken at its bare value $\mathcal I_D^{(0)}=\bar v_R$
+(``Hierarchy of static mixed kernels'').  Consequently, the \Pre{} construction
+automatically has the three properties that Objective~II sets out to secure:
+it is causal, its spectral function is PSD, and it satisfies the zeroth-moment
+sum rule $\int A(\omega)\,d\omega=I$ because $T_DT_D^\dagger=\mathbf 1$ (the
+active part $\bM\bM^\dagger=\mathbf 1_{\rm act}$ is the completeness of the
+$N_a\pm1$ active eigenstates).  Expanding the resolvent in $K_B$ shows also
+that the inactive self-energy of the \Pre{},
+$\bSigma_{\mathrm{i,i}}(\omega)=\bH_{\mathrm{i,a}}(\omega-\bE)^{-1}\bH_{\mathrm{i,a}}^\dagger$,
+is the second-order term $R_DK_BR_DK_BR_D$ of the $K_B$ resummation that
+Objective~II calls a ``chosen Hermitian resummation''.  The \Pre{} thus
+provides an independent derivation of the same higher-order completion.
+
+\paragraph{S6. The ``direct determination without the Dyson equation'' is the
+linearization lemma of Objective~II.}
+The \Pre{} remarks that $\bG_{\text{init}}$ can be obtained directly, without
+the Dyson equation.  The \DHN{} prove the identity
+$T[R^{-1}-T^\dagger XT]^{-1}T^\dagger=[G_0^{-1}-X]^{-1}$ for rectangular $T$
+(``A useful linearization identity'', a Woodbury-type identity), which is
+precisely the statement that the resolvent route of the \Pre{} and the
+Dyson-equation route are interchangeable, and which also justifies folding the
+\MRGW{} self-energy into the same Hermitian matrix.
+
+\paragraph{S7. The same two missing ingredients are identified, and the same
+type of PSD completion is called for.}
+The \Pre{} ends by listing what $\bSigma^{\text{corr}}$ still has to provide:
+(i) correlation within the inactive space and (ii) inactive--active couplings
+beyond the operator manifold $\{a_P\}\cup\{\hat R^{N\pm1}_\mu\}$.  \WFL{}
+provide (i) and part of (ii) through the four MR-RPA screening channels
+[their Fig.~1(d): core$\to$virtual, core$\to$active, active$\to$virtual,
+active$\to$active], and the \DHN{} classify what remains as the channel-selective
+truncation of Objective~I.  Conversely, \WFL{}'s Appendix~C states that a
+consistent treatment of $\Sigma^{12/21}$ ``will require an order-consistent
+higher-order completion or resummation'' and points to PSD-preserving ADC-type
+reformulations of vertex-corrected \GW{}~\cite{MarieTolleLoos2026}.  The
+\Pre{} (with bare couplings) and Objective~II (with screened couplings and the
+\MRGW{} bath) are both completions of exactly that kind.
+
+\section{Differences}
+\label{sec:differences}
+
+\paragraph{D1. Formalism: superoperator versus diagrammatic versus functional.}
+The \Pre{} is written in the language of electron-propagator (superoperator)
+theory familiar from EOM-IP/EA, ADC, and MR-ADC~\cite{GoscinskiLukman1970,Ortiz2013,Schirmer1983,Sokolov2018,ChatterjeeSokolov2019}:
+a binary product $(a|b)=\braket{\Psi_0|[a^\dagger,b]_+|\Psi_0}$, a killer
+condition, and a superoperator Hamiltonian matrix
+$\braket{\Psi_0|[\hat C,[\hat H,\hat R]]|\Psi_0}$.  \WFL{} use the
+Gell-Mann--Low expansion in the interaction picture generated by the
+\emph{interacting} $\hat H_0$, followed by the cumulant decomposition of the
+two- and three-body Dyall Green's functions [their Eqs.~(S1)--(S7)].  The
+\DHN{} use Schwinger's functional-derivative technique with Brouder's
+enlarged source space, in which the cumulants become auxiliary vertices and an
+ordinary matrix Dyson equation holds in the enlarged space.
+
+The practical consequence concerns Hermiticity and time ordering.  The
+anticommutator metric of the \Pre{} produces the \emph{retarded} (combined
+IP/EA) propagator, so that the $N+1$ and $N-1$ poles sit in one Hermitian
+matrix with a common $+i0^+$ prescription and the coupling satisfies
+$\bH_{\mathrm{a,i}}=\bH_{\mathrm{i,a}}^\dagger$ by construction.  The blocks
+$\Sigma_1^{12}$ and $\Sigma_1^{21}$ of \WFL{} are \emph{time-ordered} objects
+[Eqs.~(S15)--(S16)]: the attachment and removal terms carry opposite
+$\pm i0^+$ prescriptions and the two blocks are not simply Hermitian
+conjugates.  The \DHN{} must therefore convert to the retarded representation
+before building $K_B$ (``Retarded representation of the screened mixed blocks'',
+``Cross-sector pole pairs'').  The \Pre{} reaches the same retarded, Hermitian
+$K_B$ in one step, which is a genuine advantage of its formulation.  The
+red-marked warning in the \Pre{} about ``some problem with the sign convention''
+corresponds precisely to the bookkeeping that \WFL{} fix in Eqs.~(20)--(23)
+and (S5)--(S7) and that the \DHN{} fix through the source-transfer identity and
+the subsection ``Origin of the numerical prefactors'' (the factors $-i/2$ and
+the connected subtraction $-\bar v\gamma G^A$).  The explicit evaluation in
+Eq.~\eqref{eq:H-ia-split} above shows that the prefactor $\tfrac12$ and the
+mean-field subtraction come out of the double commutator automatically once
+the antisymmetrized interaction is used.
+
+One qualification is needed, and it has been verified numerically (see
+\texttt{numerics/run\_checks.py}).  With the zeroth-order $\ket{\Psi_0}$ in
+the binary product, the double commutator of the \Pre{} produces only the
+\emph{same-sector} couplings: a virtual orbital $a$ with the $N_a+1$ states
+and a core orbital $i$ with the $N_a-1$ states.  For these pairs it equals the
+Hamiltonian matrix element between the two orthonormal charged Dyall states,
+$\bH_{a\mu}=\braket{a_a^\dagger\Psi_0|\hat H|\Phi_I\,\Xi_\mu^{N_a+1}}$ and
+$\bH_{i\mu}=-\braket{a_i\Psi_0|\hat H|\Phi_I\,\Xi_\mu^{N_a-1}}$, because
+$\bra{\Psi_0}a_i=0$ for a core orbital and $a_a\ket{\Psi_0}=0$ for a virtual
+one.  The \emph{cross-sector} entries of $K_B$ in the \DHN{} (core $i$ with
+$N_a+1$ states, virtual $a$ with $N_a-1$ states) are not matrix elements of
+any $N\pm1$ Hamiltonian.  They encode the first-order change of the Dyson
+amplitudes caused by the admixture of core-hole$\,\otimes(N_a+1)$ and
+virtual-particle$\,\otimes(N_a-1)$ configurations into the ground state,
+i.e.\ residual-interaction ground-state correlation, which in the
+superoperator formalism enters only through a correlated reference, exactly
+as in ADC.  Both kinds of entries are required to reproduce the exact
+first-order Green's function: with the same-sector entries alone the
+finite-difference derivative $dG/d\lambda$ of the full-CI Green's function of
+$\hat H_D+\lambda\hat V_R$ is not recovered, with both it is recovered to the
+finite-difference accuracy.
+
+\paragraph{D2. What is resummed: bare all-order inactive--active mixing (A)
+versus screened $\Sigma^{11}$ only (B) versus both (C).}
+Table~\ref{tab:content} summarizes the content of the three constructions.
+The \Pre{} treats the inactive--active coupling to all orders through the
+$2\times2$ block resolvent, but the coupling is \emph{bare}, there is no
+screening of the residual interaction anywhere, and the inactive--inactive
+sector contains no dynamic correlation apart from $\bSigma_{\mathrm{i,i}}$
+(which has active poles only).  \WFL{} keep only $\Sigma^{11}$, but inside it
+they screen the residual interaction dynamically with the MR-RPA response and
+thereby include inactive-space ring correlation and the bath of
+$(N\pm1)\otimes$(neutral MR-RPA excitation) intermediate states; the mixed
+blocks are set to zero.  Objective~II of the \DHN{} contains both: the mixed
+couplings, statically screened, and the dynamic \MRGW{} bath, in one Hermitian
+matrix.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.9cm}}
+\toprule
+Ingredient & \Pre{} (A) & \WFL{} \MRGW{} (B) & \DHN{} Objective~II (C)\\
+\midrule
+Exact active $N\pm1$ poles and amplitudes & yes & yes & yes\\
+Static one-body residual term $\Sigma_1^{11}$ & inactive--active part only (in $\bH_{\mathrm{i,a}}$); core--virtual part absent & yes & yes\\
+Inactive--active mixed coupling ($\Sigma^{12/21}$) & yes, bare, all orders & no & yes, statically screened, Hermitian resummation\\
+Screened residual interaction $W_D$ & no & MR-RPA, dynamic & MR-RPA, dynamic in $\Sigma^{11}$, static in the mixed kernel\\
+Dynamic \GW{}-type self-energy in $\Sigma^{11}$ & no & yes & yes\\
+$\Sigma^{22}$ & no ($\tilde\bSigma_{\mathrm{i,i}}$ is not $\Sigma^{22}$; see D3) & $\Sigma_1^{22}=0$; higher orders dropped & $\Sigma_1^{22}=0$; higher orders dropped\\
+Causality / PSD / zeroth moment & yes, by construction & yes for stable MR-RPA & yes, by construction\\
+First-order exactness of $G$ & yes (bare limit) & no (mixed blocks missing) & yes\\
+Exact first spectral moment through $\mathcal O(\hat V_R)$ & yes & no & yes\\
+Numerical results & none & Be, H$_2$, O$_3$, H$_4$ & none\\
+\bottomrule
+\end{tabular}
+\caption{Content of the three constructions.}
+\label{tab:content}
+\end{table}
+
+\paragraph{D3. The identification $\tilde\bSigma_{\mathrm{i,i}}\leftrightarrow\Sigma^{22}$
+is only structural and is not correct in the Hall--Brouder sense.}
+The \Pre{} writes
+$\bG_{\text{init}}=(\mathbf 1-\bSigma_{\mathrm{a,i}})^{-1}(\bG_{\mathrm{i},0}+\tilde\bSigma_{\mathrm{i,i}})(\mathbf 1-\bSigma_{\mathrm{i,a}})^{-1}$
+and matches it to Hall's
+$\mathbf M=(I-\Sigma^{21})^{-1}(\mathbf G_0+\Sigma^{22})(I-\Sigma^{12})^{-1}$,
+which places $\tilde\bSigma_{\mathrm{i,i}}=\bG_{\mathrm i}-\bG_{\mathrm i,0}$
+in the slot of $\Sigma^{22}$.  In the theory of \WFL{} and of the \DHN{},
+$\Sigma^{22}$ is built from the auxiliary (cumulant) sector; its external
+indices are those of a connected active-space cumulant, so it is supported on
+the active block, and for the Dyall partition it vanishes at first order
+[\WFL{} Appendix~C; \DHN{} ``Vanishing of $\Sigma_1^{22}$'']. The object
+$\tilde\bSigma_{\mathrm{i,i}}$ is instead (a) supported on the \emph{inactive}
+block, (b) of second order in $\hat V_R$, and (c) a Green's-function-like
+quantity ($\bG_{\mathrm i,0}\bSigma_{\mathrm{i,i}}\bG_{\mathrm i}$) rather than
+a self-energy.  In Hall's classification the underlying
+$\bSigma_{\mathrm{i,i}}=\bH_{\mathrm{i,a}}(\omega-\bE)^{-1}\bH_{\mathrm{i,a}}^\dagger$
+is a second-order contribution to $\Sigma^{11}$: it is the 2h1p/2p1h-type
+self-energy in which the three active lines are replaced by the exact active
+three-body propagator.  In the language of Objective~II it is the second-order
+term of the $K_B$ resummation (cf.\ S5).  The block pattern of
+Eq.~\eqref{eq:pre-Ginit2} therefore coincides with Eq.~\eqref{eq:wfl-S20}, but
+the mapping of the middle factor onto $\Sigma^{22}$ should be dropped.
+
+\paragraph{D4. Same block pattern, different analytic structure: MR-GF1 can
+violate positivity, $\bG_{\text{init}}$ cannot.}
+\WFL{} define MR-GF1 by inserting the bare first-order blocks into Hall's
+equation, Eqs.~(S18)--(S20), and note that the term
+$\Sigma_1^{21,AI}G_0^I\Sigma_1^{12,IA}$ produces incorrect analytic structure
+because both mixed blocks have the poles of $G_0^A$.  The product then has
+\emph{double} poles at the active $N\pm1$ energies, the residues are no longer
+PSD, and the spectral function of H$_4$ becomes negative in places (their
+Fig.~6).  This is the reason they omit $\Sigma^{12/21}$ from \MRGW{}.  The
+corresponding term in the \Pre{}, $\bSigma_{\mathrm{a,i}}\bG_{\mathrm i}\bSigma_{\mathrm{i,a}}$,
+contains the \emph{dressed} $\bG_{\mathrm i}=[\bG_{\mathrm i,0}^{-1}-\bSigma_{\mathrm{i,i}}]^{-1}$.
+Near an active pole $\omega\to\omega_\mu$ one has
+$\bSigma_{\mathrm{i,i}}\sim \bH_{\cdot\mu}\bH_{\cdot\mu}^\dagger/(\omega-\omega_\mu)$,
+hence $\bG_{\mathrm i}\sim(\omega-\omega_\mu)$, and the apparent double pole
+of $\bSigma_{\mathrm{a,i}}\bG_{\mathrm i}\bSigma_{\mathrm{i,a}}$ collapses to a
+simple pole with a PSD residue, as it must for the resolvent of a Hermitian
+matrix.  The statement in the \Pre{} that its result ``has the same structure
+as the initial Dyson equation in the \MRGW{} paper'' is thus true of the block
+pattern but not of the analytic content: the \Pre{} construction is the
+cured version of MR-GF1, and the cure is exactly the Hermitian embedding that
+Objective~II adopts and that \WFL{} ask for.  (The dressing of $\bG_{\mathrm i}$
+is not an optional refinement; it is what removes the pathology.)
+
+\paragraph{D5. Reference one-particle energies and the core--virtual block.}
+The \Pre{} uses a Hartree--Fock Fock matrix $\bF^{\text{HF}}_{\mathrm{i,i}}$
+for the inactive block.  \WFL{} and the \DHN{} use the Dyall Fock operator,
+$F_{PQ}=h_{PQ}+\braket{Pk||Qk}+\braket{Px||Qy}\braket{\hat x^\dagger\hat y}$
+[\WFL{} Eq.~(14)], which contains the active one-body density.  Only with this
+choice is $\bG_{\text{init}}|_{\bH=0}$ the Green's function of $\hat H_D$, is
+$[\Sigma_1^{11}]_{ij}=[\Sigma_1^{11}]_{ab}=[\Sigma_1^{11}]_{xy}=0$ [\WFL{}
+Eqs.~(S8), (S11), (S13)], and does the residual interaction contain no
+active--active one-body piece.  Using $\bF^{\text{HF}}$ instead shifts
+one-body terms between $\hat H_D$ and $\hat V_R$ and changes the meaning of
+$\bSigma^{\text{corr}}$.  A second, smaller point: the inactive block in the
+\Pre{} is taken diagonal, so the core--virtual coupling
+$[\Sigma_1^{11}]_{aj}=h_{aj}+\bar v_{aj,pq}\gamma_{pq}$ [\WFL{} Eq.~(S9)] is
+absent.  For CASSCF-optimized orbitals this element vanishes by the
+core--virtual stationarity condition, but for CASCI on, e.g., RHF orbitals
+(which \WFL{} also use; their Table~S2) it does not.  Objective~II keeps it in
+$T_D^\dagger\Sigma_{\rm stat}T_D$.
+
+\paragraph{D6. Signs of the removal poles and the placement of $\bM$ versus $\bM^\dagger$.}
+The \Pre{} writes a single diagonal block $\bE^{N\pm1}$ without stating that,
+in a retarded (superoperator) matrix, the removal energies enter with a minus
+sign, $\kappa_{\mu-}=-(E_\mu^{N-1}-E_0^N)$, and it writes
+$\bSigma_{\mathrm{i,a}}=-\bH_{\mathrm{i,a}}(\omega-\bE)^{-1}\bM$ where the block
+inverse of Eq.~\eqref{eq:pre-Ginit} gives $\bM^\dagger$.  The \DHN{} make both
+points explicit (signed pole energies in $K_D$; the conjugation pattern
+$[K_B]_{P\alpha}=B_{P\alpha}$, $[K_B]_{\alpha P}=B_{P\alpha}^*$).  The
+off-diagonal sign in Eq.~\eqref{eq:pre-Ginit} is immaterial for
+$\bG_{\text{init}}$ as long as the two off-diagonal blocks are Hermitian
+conjugates, but it does fix the sign of $\bSigma_{\mathrm{i,a}}$ relative to
+$\Sigma_1^{12,IA}$ of \WFL{}, which is what the red warning is about.
+
+\paragraph{D7. Route to systematic improvement.}
+The three texts point to different, complementary ways of going beyond their
+respective starting points.  The \Pre{} speaks of couplings ``beyond the
+operator manifold'' defined by $\{a_P\}\cup\{\hat R^{N\pm1}_\mu\}$, which is
+the EOM/ADC route: enlarge the manifold by 2h1p/2p1h-type operators with
+inactive indices, as in MR-ADC~\cite{Sokolov2018,ChatterjeeSokolov2019}.
+\WFL{} proceed diagrammatically: the four blocks $\Sigma^{ij}$ can be expanded
+to higher order in $\hat V_R$ with generalized (cumulant-containing) diagrams,
+and \MRGW{} is a selected resummation of the $\Sigma^{11}$ ring series.  The
+\DHN{} organize everything in an exact Dyall--Hedin hierarchy with a screening
+channel, a physical self-energy channel, and mixed/auxiliary channels, and
+state which channel is truncated where; the next step is a two-frequency
+kernel $W_D(\nu)\Gamma_D(\omega,\nu)$ and residual vertex corrections
+$\delta W_D/\delta G_D$.  In the superoperator language of the \Pre{}, the
+\MRGW{} bath of the \DHN{} can be read as an enlarged manifold of product
+operators (an inactive or active charged operator times an MR-RPA excitation
+operator) whose secondary block is taken diagonal, which is the usual
+ADC-type reading of \GW{}~\cite{MarieTolleLoos2026}.
+
+\paragraph{D8. Numerical evidence.}
+\WFL{} provide the only numerical input: the Be satellite, the stretched-H$_2$
+satellites, the O$_3$ state ordering, the orbital dependence (Table~S2), and,
+most relevant here, the demonstration on H$_4$ that inserting bare
+$\Sigma_1^{12/21}$ into Hall's equation breaks positivity (Fig.~6) while
+changing peak positions only slightly.  Neither the \Pre{} nor the \DHN{}
+contain numbers.  The H$_4$ observation is the empirical motivation for the
+Hermitian embedding of S5, and the small shifts reported by \WFL{} suggest that
+the mixed sector will matter mainly for satellite weights and for sum rules
+(the first-moment error, ``First-moment error as a practical diagnostic'' in
+the \DHN{}) rather than for principal ionization energies.
+
+\paragraph{D9. Notational and definitional loose ends in the \Pre{}.}
+(i) The subscripts $\mathrm{i,a}$ denote inactive/active in
+$\bH_{\mathrm{i,a}}$, $\bSigma_{\mathrm{i,a}}$, and
+$\ket{\Phi_{\mathrm i}}\otimes\ket{\Psi_{\mathrm a}}$, but core/virtual in the
+manifold $\{a_i,a_a\}$; both \WFL{} and the \DHN{} use $P,Q$ for inactive and
+$i,j$/$a,b$ for core/virtual.  (ii) $\tilde\bSigma_{\mathrm{i,i}}$ carries a
+$\Sigma$ but is a difference of Green's functions.  (iii)
+$\bSigma^{\text{corr}}$ is left undefined; the natural reading suggested by
+the comparison is: its static and mixed first-order content is already in
+$\bH_{\mathrm{i,a}}$, and what remains is the dynamic \MRGW{} bath (plus
+screening of $\bH_{\mathrm{i,a}}$).  (iv) The killer condition is stated for
+$\hat R^{N\pm1}_\mu$ but the metric for odd operators should be the
+anticommutator; with $\hat R^{N+1}_\mu=\ket{\Psi^{N+1}_\mu}\bra{\Psi_0}$ both
+are satisfied trivially.
+
+\section{How the \Pre{} fits into the rest of the notes}
+\label{sec:synthesis}
+
+Three modifications turn the \Pre{} construction into the Objective~II Green's
+function, and each one corresponds to a specific subsection of the \DHN{}.
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Retarded bookkeeping.}  Use signed pole energies
+  $\kappa_{\mu\pm}=\pm(E^{N\pm1}_\mu-E^N_0)$ in $\bE$, the Dyall Fock energies
+  in the inactive block, and write the coupling as a Hermitian matrix
+  $[K_B]_{P\alpha}$, $[K_B]_{\alpha P}=[K_B]_{P\alpha}^*$ over \emph{all}
+  inactive orbitals and \emph{all} active poles, including cross-sector pairs
+  (core with $N+1$, virtual with $N-1$).  This is the content of
+  ``Retarded spectral representation of the Dyall Green's function'' and
+  ``Cross-sector pole pairs''.
+\item \textbf{Screen the coupling.}  Replace $\bar v_{Pz,yw}$ in the
+  three-operator part of $\bH_{\mathrm{i,a}}$, Eq.~\eqref{eq:H-ia-split}, by
+  the parent-consistent static kernel
+  $[\mathcal I_D^{\rm stat}]_{Pz,yw}=v^R_{Pz,yw}-[W_D(0)]_{Pw,yz}$
+  (``A parent-consistent static kernel for the mixed Hall sector'').  The bare
+  \Pre{} coupling is the $\mathcal I_D^{(0)}=\bar v_R$ member of the kernel
+  hierarchy and is retained there as a control.
+\item \textbf{Append the \MRGW{} bath.}  Border the matrix with the pole
+  amplitudes $A$ and energies $E_{GW}$ of the spectral \MRGW{} self-energy,
+  \begin{equation}
+    \bbH
+    =
+    \begin{pmatrix}
+      \bF_{\mathrm{i,i}}+[\Sigma_{\rm stat}]_{\mathrm{i,i}} & K_B^{\mathrm{i,a}} & A_{\mathrm i}\\
+      K_B^{\mathrm{a,i}} & \bE & \bM^\dagger A_{\mathrm a}\\
+      A_{\mathrm i}^\dagger & A_{\mathrm a}^\dagger\bM & E_{GW}
+    \end{pmatrix},
+    \qquad
+    G(z)=\begin{pmatrix}\mathbf 1&\bM&0\end{pmatrix}(z-\bbH)^{-1}\begin{pmatrix}\mathbf 1&\bM&0\end{pmatrix}^{\dagger},
+  \end{equation}
+  which is $\bbH_{\text{mix-MR-}GW}$ of ``Common Hermitian matrix''.  Setting
+  $K_B=0$ gives back \WFL{}'s \MRGW{} exactly (``Recovery of the existing
+  \MRGW{} approximation''); setting $A=0$ and $W_D(0)\to v_R$ gives back the
+  \Pre{}.
+\end{enumerate}
+A pilot implementation of this matrix, with a Davidson solver that follows
+selected roots, consistency checks against full CI, and the H$_4$ example of
+\WFL{}'s Fig.~6, is provided in the directory \texttt{numerics/} of the
+repository (see its \texttt{README.md}).  With $K_B=0$ it reproduces the
+\MRGW{} ionization energies of ozone reported in \WFL{}'s Table~S5 for
+CAS(6,4) and CAS(8,5) to within $0.005$~eV, which confirms the identification
+of their Dyson equation with the Hermitian bath representation.  With the
+mixed couplings switched on, the state ordering $^2A_1<{}^2B_2<{}^2A_2$ is
+preserved; the bare kernel changes the three ionization energies by at most
+$0.2$~eV, the statically screened kernel shifts the $^2B_2$ and $^2A_2$ peaks
+upward by $0.3$--$0.4$~eV.
+
+Read in the other direction, the \Pre{} supplies two things the \DHN{} do not
+have.  First, a derivation of the same-sector part of $K_B$ that is Hermitian
+from the outset and needs no conversion from time-ordered Hall blocks, so that
+the sign and prefactor questions of D1 and D6 can be settled by evaluating one
+double commutator, Eq.~\eqref{eq:H-ia-explicit}; the cross-sector part has to
+be taken from the first-order theory (D1).  Second, a transparent
+physical reading of the higher-order terms of the $K_B$ resummation
+(inactive--active configuration mixing between charged Dyall states, and the
+induced inactive self-energy $\bSigma_{\mathrm{i,i}}$), which the \DHN{}
+describe only as a ``chosen Hermitian resummation''.  The two bullets that
+close the \Pre{} map onto the \WFL{} screening channels as follows: ``effects
+within the inactive space itself'' is the core$\to$virtual ring channel, and
+``couplings beyond the operator manifold'' are the three channels involving
+active transition densities together with the dynamic
+$(N\pm1)\otimes$(MR-RPA) bath.
+
+\section{Points in the \Pre{} suggested for revision}
+\label{sec:revisions}
+
+\begin{enumerate}[leftmargin=2em]
+\item Replace $\bF^{\text{HF}}_{\mathrm{i,i}}$ by the Dyall Fock operator with
+  the active one-body density (D5), and state whether the core--virtual block
+  $[\Sigma_1^{11}]_{aj}$ is kept (it vanishes only for CASSCF-optimized orbitals).
+\item State the sign convention of the removal energies in $\bE^{N\pm1}$ and
+  the conjugation pattern of the couplings (D6); correct $\bM\to\bM^\dagger$ in
+  $\bSigma_{\mathrm{i,a}}$.
+\item Remove the identification of $\tilde\bSigma_{\mathrm{i,i}}$ with
+  $\Sigma^{22}$; describe $\bSigma_{\mathrm{i,i}}$ as the second-order
+  inactive self-energy generated by the resummed inactive--active coupling (D3).
+\item Sharpen the statement ``same structure as the initial Dyson equation in
+  the \MRGW{} paper'' to: same block pattern as \WFL{}'s Eq.~(S20), but with the
+  dressed $\bG_{\mathrm i}$ that removes the double poles of MR-GF1 (D4), i.e.\
+  the \Pre{} construction is a Hermitian completion of the kind requested in
+  \WFL{}'s Appendix~C.
+\item Fix the $\mathrm{i,a}$ versus $i,a$ notation clash and rename
+  $\tilde\bSigma_{\mathrm{i,i}}$ (D9).
+\item Add the explicit form of $\bH_{\mathrm{i,a}}$, Eq.~\eqref{eq:H-ia-explicit},
+  and note that it equals the same-sector part of
+  $[T_D^\dagger\Sigma_{\rm stat}T_D+K_B^{(1)}]_{P\alpha}$ of Objective~II,
+  while the cross-sector part is missing with the zeroth-order reference (D1);
+  this closes the loop between the two parts of \texttt{mr-hedin.tex} and
+  resolves the red-marked sign warning.
+\item Define $\bSigma^{\text{corr}}$ operationally as the dynamic \MRGW{} bath
+  plus the static screening of $\bH_{\mathrm{i,a}}$ (Sec.~\ref{sec:synthesis}).
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{WFL2026}
+Y.~Wang, W.-H.~Fang, and Z.~Li,
+``A Diagrammatic Route to Multi-Reference $GW$ for Strongly Correlated Molecules'',
+arXiv:2604.16013v2 [physics.chem-ph] (2026).
+
+\bibitem{WFL2025}
+Y.~Wang, W.-H.~Fang, and Z.~Li,
+J.~Phys.~Chem.~Lett.\ \textbf{16}, 3047 (2025) [multireference RPA].
+
+\bibitem{Hall1975}
+A.~G.~Hall, J.~Phys.~A: Math.~Gen.\ \textbf{8}, 214 (1975).
+
+\bibitem{Brouder2009}
+C.~Brouder, in \emph{Quantum Field Theory: Competitive Models},
+edited by B.~Fauser, J.~Tolksdorf, and E.~Zeidler (Birkh\"auser, Basel, 2009),
+pp.~163--175; arXiv:0710.5652.
+
+\bibitem{Dyall1995}
+K.~G.~Dyall, J.~Chem.~Phys.\ \textbf{102}, 4909 (1995).
+
+\bibitem{Hedin1965}
+L.~Hedin, Phys.~Rev.\ \textbf{139}, A796 (1965).
+
+\bibitem{MarieTolleLoos2026}
+A.~Marie, J.~T\"olle, and P.-F.~Loos,
+J.~Phys.~Chem.~Lett.\ \textbf{17}, 8541 (2026).
+
+\bibitem{GoscinskiLukman1970}
+O.~Goscinski and B.~Lukman, Chem.~Phys.~Lett.\ \textbf{7}, 573 (1970).
+
+\bibitem{Ortiz2013}
+J.~V.~Ortiz, WIREs Comput.~Mol.~Sci.\ \textbf{3}, 123 (2013).
+
+\bibitem{Schirmer1983}
+J.~Schirmer, L.~S.~Cederbaum, and O.~Walter, Phys.~Rev.~A \textbf{28}, 1237 (1983).
+
+\bibitem{Sokolov2018}
+A.~Y.~Sokolov, J.~Chem.~Phys.\ \textbf{149}, 204113 (2018).
+
+\bibitem{ChatterjeeSokolov2019}
+K.~Chatterjee and A.~Y.~Sokolov, J.~Chem.~Theory Comput.\ \textbf{15}, 5908 (2019).
+
+\end{thebibliography}
+
+\end{document}
