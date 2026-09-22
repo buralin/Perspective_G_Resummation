@@ -4,19 +4,32 @@ Example: linear H4 (R = 1 Angstrom), CAS(2,2) with the CASSCF HOMO and LUMO,
 the setting of Fig. 6 in Wang, Fang, and Li (arXiv:2604.16013).
 
 The script builds the common Hermitian matrix of Eq. (7) in
-notes/comparison.tex in four variants
+notes/comparison.tex in eight variants
 
-    CAS (Dyall reference)      : K_B = 0, no bath
-    MR-GW                      : K_B = 0, MR-GW bath          (Wang-Fang-Li)
-    MR-GW + mixed (bare)       : K_B with I = vbar_R,  bath
-    MR-GW + mixed (screened)   : K_B with I = v_R - W_D(0)^x, bath   (Objective II)
+    CAS (Dyall reference)              : K_B = 0, no bath
+    MR-GW                              : K_B = 0, MR-GW bath          (Wang-Fang-Li)
+    MR-GW + mixed (bare)               : K_B with I = vbar_R,  bath
+    MR-GW + mixed (screened)           : K_B with I = v_R - W_D(0)^x, bath   (Objective II)
+    EKT/ERPA MR-GW                     : EKT charged poles (primary manifold {a_x}, {a_x^+}),
+                                         ERPA active response, K_B = 0
+    EKT/ERPA MR-GW + mixed (screened)
+    EKT(2h1p)/ERPA MR-GW               : charged manifold extended by 2h1p / 2p1h operators
+    EKT(2h1p)/ERPA MR-GW + mixed (screened)
 
 solves for the principal ionization and attachment roots with a Davidson
 solver using root following, compares with dense diagonalization and with
 full CI, and plots the spectral functions (including the non-PSD Hall-form
 insertion of the mixed blocks for comparison).
 
-Run:  python example_h4.py [--basis sto-6g] [--r 1.0] [--eta 0.1] [--no-plot]
+For CAS(2,2) the primary EKT manifold spans the whole N+-1 space of the
+active Hamiltonian, so the EKT variants coincide with the exact-reference
+ones up to the ERPA response.  A setting in which the primary manifold is
+incomplete while the extended one is complete is
+
+    python example_h4.py --basis 6-31g --ncas 4 --nelecas 4
+
+Run:  python example_h4.py [--basis sto-6g] [--r 1.0] [--ncas 2] [--nelecas 2]
+                           [--eta 0.1] [--no-plot] [--no-fci]
 """
 import os
 import sys
@@ -67,9 +80,14 @@ def main():
     ref = DyallReference(mc)
     rpa = MRRPA(ref)
 
-    # EKT charged poles + ERPA active response instead of the exact CAS states
+    # EKT charged poles + ERPA active response instead of the exact CAS states,
+    # with the primary ({a_x}, {a_x^+}) and the extended (1h+2h1p, 1p+2p1h) manifold
+    print()
     ekt = EKTERPAReference(ref)
     rpa_ekt = MRRPA(ekt)
+    print()
+    ekt2 = EKTERPAReference(ref, charged_manifold='extended')
+    rpa_ekt2 = MRRPA(ekt2)
 
     variants = [
         ('CAS (Dyall reference)', HermitianGF(ref, None, mixed='none', bath=False)),
@@ -78,23 +96,33 @@ def main():
         ('MR-GW + mixed (screened)', HermitianGF(ref, rpa, mixed='screened', bath=True)),
         ('EKT/ERPA MR-GW', HermitianGF(ekt, rpa_ekt, mixed='none', bath=True)),
         ('EKT/ERPA MR-GW + mixed (screened)', HermitianGF(ekt, rpa_ekt, mixed='screened', bath=True)),
+        ('EKT(2h1p)/ERPA MR-GW', HermitianGF(ekt2, rpa_ekt2, mixed='none', bath=True)),
+        ('EKT(2h1p)/ERPA MR-GW + mixed (screened)',
+         HermitianGF(ekt2, rpa_ekt2, mixed='screened', bath=True)),
     ]
     fci = None if args.no_fci else FCIReference(ref)
 
     # ------------------------------------------------------------------
     # Davidson with root following
     # ------------------------------------------------------------------
-    homo = ref.act_so[0]           # lowest active spatial orbital, alpha spin
-    lumo = ref.act_so[-2]          # highest active spatial orbital, alpha spin
-    core = ref.core_so[0]
-    virt = ref.virt_so[0]
-    targets = [('principal IP  (HOMO-like, removal)', lambda g: g.orbital_guess(homo, 'remove')),
-               ('principal EA  (LUMO-like, attachment)', lambda g: g.orbital_guess(lumo, 'attach')),
-               (f'core IP       ({ref.so_label(core)})', lambda g: g.unit_vector(g.index_inactive(core))),
-               (f'virtual EA    ({ref.so_label(virt)})', lambda g: g.unit_vector(g.index_inactive(virt)))]
+    nocc_total = mol.nelectron // 2
+    homo = 2 * (nocc_total - 1)    # HOMO spatial orbital, alpha spin
+    lumo = 2 * nocc_total          # LUMO spatial orbital, alpha spin
+    targets = [(f'principal IP  ({ref.so_label(homo)}, removal)',
+                lambda g: g.orbital_guess(homo, 'remove')),
+               (f'principal EA  ({ref.so_label(lumo)}, attachment)',
+                lambda g: g.orbital_guess(lumo, 'attach'))]
+    if ref.core_so:
+        core = ref.core_so[0]
+        targets.append((f'core IP       ({ref.so_label(core)})',
+                        lambda g: g.unit_vector(g.index_inactive(core))))
+    if ref.virt_so:
+        virt = ref.virt_so[0]
+        targets.append((f'virtual EA    ({ref.so_label(virt)})',
+                        lambda g: g.unit_vector(g.index_inactive(virt))))
 
     print()
-    print("Davidson root following (targets: HOMO removal, LUMO attachment, core removal, virtual attachment)")
+    print("Davidson root following (targets: " + ", ".join(t[0].split('(')[0].strip() for t in targets) + ")")
     print("-" * 78)
     dav_results = {}
     for name, gf in variants:
@@ -113,13 +141,27 @@ def main():
         dav_results[name] = (theta, weights)
 
     print()
-    print("Active-space excitation energies entering the reference polarizability (eV)")
+    print("Active-space quantities entering the EKT/ERPA variants (eV)")
     print("-" * 78)
     om_exact, _ = ref.neutral_transition_densities()
-    print("  exact CAS states : " + ", ".join(f"{w * EV:7.3f}" for w in np.sort(om_exact)))
-    print("  ERPA (singles)   : " + ", ".join(f"{w * EV:7.3f}" for w in np.sort(ekt.erpa_omega)))
-    print("  EKT charged poles: " + ", ".join(f"{k * EV:7.3f}" for k in np.sort(ekt.kappa))
-          + "   (exact: " + ", ".join(f"{k * EV:7.3f}" for k in np.sort(ref.kappa)) + ")")
+    nshow = 6
+    print("  neutral excitations, exact CAS states : "
+          + ", ".join(f"{w * EV:7.3f}" for w in np.sort(om_exact)[:nshow])
+          + (" ..." if om_exact.size > nshow else ""))
+    print("  neutral excitations, ERPA (singles)   : "
+          + ", ".join(f"{w * EV:7.3f}" for w in np.sort(ekt.erpa_omega)[:nshow])
+          + (" ..." if ekt.erpa_omega.size > nshow else ""))
+    for label, r in (('exact CAS states  ', ref), ('EKT, primary      ', ekt), ('EKT, 1h+2h1p      ', ekt2)):
+        rem = np.sort(-r.kappa[r.pole_sign < 0])[:nshow]
+        att = np.sort(r.kappa[r.pole_sign > 0])[:nshow]
+        print(f"  charged poles, {label}: IPs " + ", ".join(f"{k * EV:7.3f}" for k in rem)
+              + "   EAs " + ", ".join(f"{k * EV:7.3f}" for k in att))
+    for label, r in (('primary', ekt), ('extended', ekt2)):
+        ranks = ", ".join(f"{sec} {'att' if sg > 0 else 'rem'}: {rk}/{dim}"
+                          for (sg, sec), (rk, m, dim) in r.charged_rank.items())
+        dev = r.charged_pole_deviation()
+        print(f"  {label:8s} manifold rank / sector dimension: {ranks}"
+              + (f"; complete, max |kappa - kappa_exact| = {dev:.1e} Ha" if dev is not None else "; incomplete"))
 
     # ------------------------------------------------------------------
     # pole tables
@@ -177,7 +219,7 @@ def main():
     allK = np.concatenate([g.poles()[0] for _, g in variants[:2]])
     wmin, wmax = -30.0, 25.0
     omegas = np.linspace(wmin, wmax, 2200) / EV
-    fig, axes = plt.subplots(len(variants) + 1, 1, figsize=(7.5, 2.1 * (len(variants) + 1)),
+    fig, axes = plt.subplots(len(variants) + 1, 1, figsize=(7.5, 1.9 * (len(variants) + 1)),
                              sharex=True)
     for ax, (name, gf) in zip(axes, variants):
         A = gf.spectral_function(omegas, eta)
@@ -199,10 +241,11 @@ def main():
     ax.legend(loc='upper left', fontsize=8, frameon=False)
     ax.set_xlabel(r'$\omega$ (eV)')
     fig.suptitle(f'Linear H$_4$, R = {args.r} $\\AA$, {args.basis}, CAS({args.nelecas},{args.ncas}), '
-                 f'$\\eta$ = {args.eta} eV')
-    fig.tight_layout()
+                 f'$\\eta$ = {args.eta} eV', y=0.995)
+    fig.tight_layout(rect=[0, 0, 1, 0.985])
     fname = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                         f"h4_{args.basis.replace('*', 's')}_spectral_functions.png")
+                         f"h4_{args.basis.replace('*', 's')}_cas{args.nelecas}_{args.ncas}"
+                         "_spectral_functions.png")
     fig.savefig(fname, dpi=150)
     print(f"\nspectral functions written to {fname}")
     if A_hall.min() < -1e-6:

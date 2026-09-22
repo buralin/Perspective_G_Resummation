@@ -45,6 +45,7 @@ machine the miniforge base environment has all of them:
 ~/miniforge3/bin/python run_checks.py
 ~/miniforge3/bin/python example_h4.py            # STO-6G, R = 1.0 A, CAS(2,2)
 ~/miniforge3/bin/python example_h4.py --basis 6-31g
+~/miniforge3/bin/python example_h4.py --basis 6-31g --ncas 4 --nelecas 4   # primary EKT manifold incomplete
 ```
 
 ## Conventions
@@ -89,8 +90,9 @@ Roots obtained by Davidson root following (identical to the dense max-overlap ei
 All Hermitian variants have positive spectral weights and `M0 = 1`; the Hall-form
 insertion of the first-order mixed blocks (last panel of the figure) reaches
 `A(omega) = -4.3 1/eV`, the non-PSD behaviour reported in Fig. 6 of Wang, Fang, and Li.
-`h4_sto-6g_spectral_functions.png` and `h4_6-31g_spectral_functions.png` are the plots
-produced by `example_h4.py` (the 6-31G run takes about 10 s).
+`h4_sto-6g_cas2_2_spectral_functions.png`, `h4_6-31g_cas2_2_spectral_functions.png` and
+`h4_6-31g_cas4_4_spectral_functions.png` are the plots produced by `example_h4.py` (one panel per
+variant, including the EKT/ERPA ones; the 6-31G runs take about 10 s).
 
 ## Ozone check against Wang, Fang, and Li (`check_ozone.py`)
 
@@ -100,7 +102,8 @@ theta = 116.8 deg, 6-31G, CASCI with RHF orbitals) and compares with their Table
 ```
 ~/miniforge3/bin/python check_ozone.py --cas 6,4          # 2 s, bath of 4.4e4 poles
 ~/miniforge3/bin/python check_ozone.py --cas 8,5          # 5 s, bath of 1.0e5 poles
-~/miniforge3/bin/python check_ozone.py --cas 6,4 --plot   # + spectral functions, ~30 s
+~/miniforge3/bin/python check_ozone.py --cas 6,4 --plot   # + spectral functions (exact-reference variants,
+                                                          #   experimental and DMRG IPs as reference lines), ~30 s
 ```
 
 The RHF orbital energies agree with their Table S3 to 1e-5 Ha (same C2v labels), the
@@ -156,7 +159,22 @@ the paper's own dense pilot implementation).
 
 MR-RPA screening of the residual interaction, the MR-GW bath and the mixed couplings are then
 built exactly as before (`MRRPA(ekt)`, `HermitianGF(ekt, ...)`).  The variant appears in
-`run_checks.py` (14 additional checks), `example_h4.py` and `check_ozone.py`.
+`run_checks.py` (14 additional checks), `example_h4.py` (four EKT/ERPA panels) and `check_ozone.py`.
+
+H4 in 6-31G with CAS(4,4) (`example_h4.py --basis 6-31g --ncas 4 --nelecas 4`) is the smallest
+setting in which the primary manifold is incomplete (rank 4 of 24 per sector) while the extended
+one is complete (24 of 24):
+
+| H4, 6-31G, CAS(4,4), eV | principal IP | principal EA | virtual EA |
+|---|---|---|---|
+| MR-GW | 12.058 | 3.416 | 26.432 |
+| EKT/ERPA MR-GW (primary) | 12.587 | 3.756 | 26.632 |
+| EKT(2h1p)/ERPA MR-GW | 12.057 | 3.417 | 26.489 |
+| full CI | 11.999 | 2.993 | 22.500 |
+
+The primary manifold also produces a spurious intense removal peak at 18.2 eV (the exact
+reference has a 0.76-weight peak at 16.7 eV); the extended manifold removes both defects, and the
+residual differences to MR-GW (1 meV for the principal peaks) come from the singles ERPA response.
 
 Extended charged manifold (`EKTERPAReference(ref, charged_manifold='extended')`).  The
 primary operators are supplemented by the 2h1p operators `a_y^+ a_w a_z` (removal) and the

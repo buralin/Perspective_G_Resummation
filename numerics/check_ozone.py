@@ -244,16 +244,21 @@ def main():
     gf_cas = HermitianGF(ref, None, mixed='none', bath=False)
     ax.plot(omegas * EV, gf_cas.spectral_function(omegas, eta) / EV, color='gray', lw=1.0,
             label=f'CASCI{cas_label}')
-    for name, *_ in variants:
+    for name, reference, *_ in variants:
+        if reference is not ref:          # exact-reference variants only
+            continue
         t3 = time.time()
         A = gfs[name].spectral_function_resolvent(omegas, eta)
         print(f"spectral function {name}: {time.time() - t3:.1f} s")
         ax.plot(omegas * EV, A / EV, lw=1.3, label=name)
     for k, nm in enumerate(STATES):
-        ax.axvline(-WFL_IP['Exp.'][k], color='k', ls=':', lw=0.8)
+        ax.axvline(-WFL_IP['Exp.'][k], color='k', ls=':', lw=0.9)
+        ax.axvline(-WFL_IP['DMRG'][k], color='crimson', ls='--', lw=1.1)
+    ax.plot([], [], color='k', ls=':', lw=0.9, label='Exp. IPs (paper)')
+    ax.plot([], [], color='crimson', ls='--', lw=1.1, label='DMRG IPs (paper)')
     ax.set_xlabel(r'$\omega$ (eV)')
     ax.set_ylabel(r'$A(\omega)$ (1/eV)')
-    ax.set_title(f'O$_3$, {args.basis}, CAS{cas_label}; dotted: experimental IPs')
+    ax.set_title(f'O$_3$, {args.basis}, CAS{cas_label}')
     ax.legend(fontsize=8, frameon=False)
     fig.tight_layout()
     fname = os.path.join(os.path.dirname(os.path.abspath(__file__)),
