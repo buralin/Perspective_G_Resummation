@@ -23,18 +23,44 @@ rho^mu_{qs} (X+Y)_{mu I}  [their Eq. (S43)].
 import numpy as np
 
 
-def solve_rpa(A, B):
-    """Solve the RPA eigenproblem for real symmetric A, B with A - B > 0.
+def _solve_rpa_general(A, B, tol=1e-8):
+    """RPA eigenproblem via the non-Hermitian (2n x 2n) form; used when
+    A - B is not positive definite."""
+    import warnings
+    n = A.shape[0]
+    Mbig = np.block([[A, B], [-B, -A]])
+    w, V = np.linalg.eig(Mbig)
+    X, Y = V[:n], V[n:]
+    norm = np.sum(X * X, axis=0) - np.sum(Y * Y, axis=0)
+    sel = (w.real > 0) & (np.abs(w.imag) < tol * max(1.0, np.abs(w.real).max())) & (norm.real > 0)
+    if np.any(np.abs(w.imag) > tol * max(1.0, np.abs(w.real).max())):
+        warnings.warn("RPA: complex eigenvalues encountered (instability); "
+                      "only real positive-norm solutions are kept")
+    if np.sum(sel) != n:
+        warnings.warn(f"RPA: {np.sum(sel)} positive-norm solutions found for n = {n}")
+    w, X, Y, norm = w[sel].real, X[:, sel].real, Y[:, sel].real, norm[sel].real
+    order = np.argsort(w)
+    w, X, Y, norm = w[order], X[:, order], Y[:, order], norm[order]
+    X = X / np.sqrt(norm)[None, :]
+    Y = Y / np.sqrt(norm)[None, :]
+    return w, X + Y, X - Y
 
-    Returns Omega (>0), R = X + Y and S = X - Y with R^T S = 1.
+
+def solve_rpa(A, B):
+    """Solve the RPA eigenproblem for real symmetric A, B.
+
+    Returns Omega (>0), R = X + Y and S = X - Y with R^T S = 1.  The
+    symmetric (A-B)^{1/2}(A+B)(A-B)^{1/2} route is used when A - B is
+    positive definite, otherwise the general non-Hermitian solver.
     """
+    if A.shape[0] == 0:
+        return np.zeros(0), np.zeros((0, 0)), np.zeros((0, 0))
     ApB = A + B
     AmB = A - B
     try:
         L = np.linalg.cholesky(AmB)
-    except np.linalg.LinAlgError as err:
-        raise RuntimeError("MR-RPA: A - B is not positive definite "
-                           "(unstable reference)") from err
+    except np.linalg.LinAlgError:
+        return _solve_rpa_general(A, B)
     Mmat = L.T @ ApB @ L
     Mmat = 0.5 * (Mmat + Mmat.T)
     w2, Z = np.linalg.eigh(Mmat)

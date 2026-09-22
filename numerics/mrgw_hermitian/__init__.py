@@ -22,6 +22,7 @@ transition amplitudes) are obtained with PySCF routines.
 from .dyall import (DyallReference, build_h4, build_o3, run_casscf, run_casci,
                     HARTREE2EV, apply_cre, apply_des, dense_ci_hamiltonian)
 from .mrrpa import MRRPA
+from .ekt_erpa import EKTERPAReference
 from .hermitian import HermitianGF, hall_insertion_gf
 from .davidson import davidson_root_following
 from .fci_reference import (FCIReference, embed_active_vector,
@@ -30,7 +31,7 @@ from .fci_reference import (FCIReference, embed_active_vector,
 __all__ = [
     'DyallReference', 'build_h4', 'build_o3', 'run_casscf', 'run_casci', 'HARTREE2EV',
     'apply_cre', 'apply_des', 'dense_ci_hamiltonian',
-    'MRRPA', 'HermitianGF', 'hall_insertion_gf', 'davidson_root_following',
+    'MRRPA', 'EKTERPAReference', 'HermitianGF', 'hall_insertion_gf', 'davidson_root_following',
     'FCIReference', 'embed_active_vector',
     'check_same_sector_couplings', 'check_first_order_gf',
 ]

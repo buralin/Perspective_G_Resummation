@@ -25,7 +25,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mrgw_hermitian import (build_h4, run_casscf, DyallReference, MRRPA,
-                            HermitianGF, hall_insertion_gf,
+                            EKTERPAReference, HermitianGF, hall_insertion_gf,
                             davidson_root_following, FCIReference, HARTREE2EV)
 
 EV = HARTREE2EV
@@ -67,11 +67,17 @@ def main():
     ref = DyallReference(mc)
     rpa = MRRPA(ref)
 
+    # EKT charged poles + ERPA active response instead of the exact CAS states
+    ekt = EKTERPAReference(ref)
+    rpa_ekt = MRRPA(ekt)
+
     variants = [
         ('CAS (Dyall reference)', HermitianGF(ref, None, mixed='none', bath=False)),
         ('MR-GW', HermitianGF(ref, rpa, mixed='none', bath=True)),
         ('MR-GW + mixed (bare)', HermitianGF(ref, rpa, mixed='bare', bath=True)),
         ('MR-GW + mixed (screened)', HermitianGF(ref, rpa, mixed='screened', bath=True)),
+        ('EKT/ERPA MR-GW', HermitianGF(ekt, rpa_ekt, mixed='none', bath=True)),
+        ('EKT/ERPA MR-GW + mixed (screened)', HermitianGF(ekt, rpa_ekt, mixed='screened', bath=True)),
     ]
     fci = None if args.no_fci else FCIReference(ref)
 
@@ -106,6 +112,15 @@ def main():
                   f"   weight {weights[k]:.3f}   overlap with guess {np.abs(guesses[:, k] @ X[:, k]):.3f}")
         dav_results[name] = (theta, weights)
 
+    print()
+    print("Active-space excitation energies entering the reference polarizability (eV)")
+    print("-" * 78)
+    om_exact, _ = ref.neutral_transition_densities()
+    print("  exact CAS states : " + ", ".join(f"{w * EV:7.3f}" for w in np.sort(om_exact)))
+    print("  ERPA (singles)   : " + ", ".join(f"{w * EV:7.3f}" for w in np.sort(ekt.erpa_omega)))
+    print("  EKT charged poles: " + ", ".join(f"{k * EV:7.3f}" for k in np.sort(ekt.kappa))
+          + "   (exact: " + ", ".join(f"{k * EV:7.3f}" for k in np.sort(ref.kappa)) + ")")
+
     # ------------------------------------------------------------------
     # pole tables
     # ------------------------------------------------------------------
@@ -136,7 +151,7 @@ def main():
     for name, gf in variants:
         M0, M1 = gf.moments()
         E, Z, w = gf.poles()
-        line = (f"{name:26s} |M0 - 1| = {np.abs(M0 - np.eye(ref.nso)).max():.1e}   "
+        line = (f"{name:34s} |M0 - 1| = {np.abs(M0 - np.eye(ref.nso)).max():.1e}   "
                 f"min weight = {w.min():+.1e}")
         if M1_ref is not None:
             line += (f"   |M1 - M1(FCI)|: full {np.abs(M1 - M1_ref).max():.2e}, "
@@ -162,7 +177,8 @@ def main():
     allK = np.concatenate([g.poles()[0] for _, g in variants[:2]])
     wmin, wmax = -30.0, 25.0
     omegas = np.linspace(wmin, wmax, 2200) / EV
-    fig, axes = plt.subplots(len(variants) + 1, 1, figsize=(7.5, 10.5), sharex=True)
+    fig, axes = plt.subplots(len(variants) + 1, 1, figsize=(7.5, 2.1 * (len(variants) + 1)),
+                             sharex=True)
     for ax, (name, gf) in zip(axes, variants):
         A = gf.spectral_function(omegas, eta)
         ax.plot(omegas * EV, A / EV, color='C0', lw=1.4, label=name)

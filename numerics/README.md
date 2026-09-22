@@ -134,3 +134,73 @@ are 0.70-0.88.
 CAS(8,6) is refused by default: its bath would have about 4e6 poles, beyond the dense
 storage of `T_D^+ A` used here (a factorized application of `A` would be needed, as for
 the paper's own dense pilot implementation).
+
+## EKT/ERPA variant (`mrgw_hermitian/ekt_erpa.py`)
+
+`EKTERPAReference` is a drop-in replacement for `DyallReference` in which
+
+* the active N±1 states are extended-Koopmans (EKT) states, `|alpha^-> = sum_q c_q a_q |Xi_0>`
+  and `|alpha^+> = sum_q c_q a_q^+ |Xi_0>`, from the generalized eigenproblems
+  `A^- c = omega gamma c` and `A^+ c = omega (1 - gamma^T) c` with
+  `A^-_pq = <Xi_0|a_p^+ (H_act - E_0) a_q|Xi_0>`, `A^+_pq = <Xi_0|a_p (H_act - E_0) a_q^+|Xi_0>`
+  (functions of the 1- and 2-RDMs; evaluated here with CI vectors).  The EKT poles exhaust the
+  zeroth and first spectral moments of the active Green's function exactly;
+* the active neutral excitations that enter the reference polarizability are extended-RPA (ERPA)
+  solutions of the equation of motion `<0|[E_qp,[H,O^+]]|0> = omega <0|[E_qp,O^+]|0>` in the
+  single-excitation manifold `E_pq = a_p^+ a_q` on the correlated CAS reference, solved in the
+  natural-spin-orbital basis where the metric is `n_q - n_p`.  With the Dyall Hamiltonian the
+  core->active and active->virtual channels of the reference response reduce exactly to the EKT
+  problems shifted by the orbital energies, so only the active-active channel uses the ERPA
+  equations.  The ERPA response obeys the zeroth and energy-weighted sum rules of the exact
+  active-space response within the singles manifold (checked to 1e-16).
+
+MR-RPA screening of the residual interaction, the MR-GW bath and the mixed couplings are then
+built exactly as before (`MRRPA(ekt)`, `HermitianGF(ekt, ...)`).  The variant appears in
+`run_checks.py` (14 additional checks), `example_h4.py` and `check_ozone.py`.
+
+Extended charged manifold (`EKTERPAReference(ref, charged_manifold='extended')`).  The
+primary operators are supplemented by the 2h1p operators `a_y^+ a_w a_z` (removal) and the
+2p1h operators `a_y a_w^+ a_z^+` (attachment) of the active space, and the generalized
+eigenproblem is solved after canonical orthogonalization of the strongly linearly dependent
+Gram matrix.  Because `(H - E_0) a_z |Xi_0> = [H, a_z] |Xi_0>` lies in this span, the extended
+manifold conserves the spectral moments M0-M3 of the active Green's function exactly (checked),
+and it reproduces the exact poles whenever it spans the N±1 sector; its rank is bounded by
+about `n_act^3` instead of the sector dimension, so it becomes an approximation only for active
+spaces of roughly eight or more orbitals.
+
+Results.  For H4/CAS(2,2) the primary manifold spans the whole N±1 space, so the EKT poles are
+exact; the ERPA reproduces the two single excitations exactly and misses the double one, and the
+EKT/ERPA MR-GW roots agree with MR-GW to 1 meV.  For ozone the ERPA excitation energies of the
+active space are essentially exact (the lowest four agree with the CASCI values to 1 meV), but
+the primary-manifold EKT cation energies are far too high, because the CASCI cations are strongly
+relaxed multiconfigurational states that the manifold `{a_x |Xi_0>}` cannot represent.  The
+extended manifold is complete for both active spaces (rank 24 of 24 and 50 of 50 in the removal
+sectors, from 80 and 168 manifold vectors) and recovers the CASCI cation energies to 1e-12 Ha:
+
+| O3, 6-31G, IPs in eV | 2A1 | 2B2 | 2A2 |
+|---|---|---|---|
+| CASCI(6,4) | 14.38 | 14.67 | 15.12 |
+| EKT(6,4), primary | 15.29 | 16.02 | 15.21 |
+| EKT(6,4), 1h+2h1p | 14.38 | 14.67 | 15.12 |
+| MR-GW(6,4) | 12.65 | 12.94 | 14.56 |
+| EKT/ERPA MR-GW(6,4) | 13.37 | 13.94 | 14.64 |
+| EKT(2h1p)/ERPA MR-GW(6,4) | 12.66 | 12.95 | 14.57 |
+| MR-GW(6,4) + mixed (screened) | 12.68 | 13.21 | 14.99 |
+| EKT(2h1p)/ERPA MR-GW(6,4) + mixed (screened) | 12.68 | 13.22 | 15.00 |
+| CASCI(8,5) | 13.59 | 13.93 | 13.10 |
+| EKT(8,5), primary | 15.28 | 16.30 | 15.27 |
+| EKT(8,5), 1h+2h1p | 13.59 | 13.93 | 13.10 |
+| MR-GW(8,5) | 11.58 | 12.09 | 12.94 |
+| EKT/ERPA MR-GW(8,5) | 12.88 | 13.77 | 15.01 |
+| EKT(2h1p)/ERPA MR-GW(8,5) | 11.68 | 12.13 | 12.97 |
+| MR-GW(8,5) + mixed (screened) | 12.01 | 12.27 | 13.32 |
+| EKT(2h1p)/ERPA MR-GW(8,5) + mixed (screened) | 12.08 | 12.31 | 13.36 |
+| DMRG (paper) | 12.34 | 12.59 | 13.34 |
+
+With the primary manifold the screening lowers the EKT energies by about 2 eV and restores the
+ordering 2A1 < 2B2 < 2A2, but the ionization energies remain 0.7-2 eV above MR-GW and DMRG.  With
+the extended manifold the charged poles are exact, and the remaining difference to MR-GW isolates
+the effect of replacing the exact active response by the singles ERPA: at most 0.01 eV for
+CAS(6,4) and 0.10 eV for CAS(8,5).  The weak point of the primary-manifold variant is therefore the
+EKT description of the charged active states, which the 2h1p/2p1h extension removes, while the
+ERPA is an adequate replacement for the neutral response in these active spaces.

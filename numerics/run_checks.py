@@ -12,9 +12,9 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mrgw_hermitian import (build_h4, run_casscf, DyallReference, MRRPA,
-                            HermitianGF, davidson_root_following, FCIReference,
-                            check_same_sector_couplings, check_first_order_gf,
-                            HARTREE2EV)
+                            EKTERPAReference, HermitianGF, davidson_root_following,
+                            FCIReference, check_same_sector_couplings,
+                            check_first_order_gf, HARTREE2EV)
 
 EV = HARTREE2EV
 status = []
@@ -130,6 +130,43 @@ def main():
     dense_sel = Ed[np.argmax(ov, axis=1)]
     report("Davidson roots vs dense max-overlap eigenvalues", np.abs(theta - dense_sel).max(), 1e-7)
     report("Davidson residual norms", info['residual_norms'].max(), 1e-7)
+
+    # 11. EKT / ERPA variant
+    print("EKT/ERPA variant (extended Koopmans poles, extended-RPA active response):")
+    ekt = EKTERPAReference(ref)
+    moments = ekt.active_moments(order=1)
+    report("EKT zeroth moment |sum d d^T - 1|", np.abs(moments[0][0] - np.eye(ref.nact_so)).max(), 1e-10)
+    report("EKT first moment == exact active first moment", np.abs(moments[1][0] - moments[1][1]).max(), 1e-9)
+    if ref.ncas == 2 and ref.nelecas == (1, 1):
+        report("EKT poles == exact poles (complete primary manifold for CAS(2,2))",
+               np.abs(np.sort(ekt.kappa) - np.sort(ref.kappa)).max(), 1e-9)
+    ekt2 = EKTERPAReference(ref, charged_manifold='extended')
+    for k, (Mk, Mkx) in enumerate(ekt2.active_moments(order=3)):
+        report(f"extended (1h+2h1p) manifold: moment M{k} == exact", np.abs(Mk - Mkx).max(), 1e-8)
+    dev = ekt2.charged_pole_deviation()
+    report("extended manifold poles == exact poles (complete for this active space)",
+           np.inf if dev is None else dev, 1e-8)
+    e0, e1, scale = ekt.response_sum_rules()
+    report("ERPA zeroth sum rule vs exact active response", e0, 1e-9)
+    report("ERPA energy-weighted sum rule vs exact active response", e1, 1e-9)
+    rpa_ekt = MRRPA(ekt)
+    err = 0.0
+    gf_ekt0 = HermitianGF(ekt, rpa_ekt, mixed='none', bath=True)
+    for z in (-0.8 + 0.05j, -0.3 + 0.05j, 0.2 + 0.05j, 0.7 + 0.05j):
+        G_dyson = np.linalg.inv(np.linalg.inv(ekt.dyall_greens_function(z)) - rpa_ekt.self_energy(z))
+        err = max(err, np.abs(gf_ekt0.greens_function(z) - G_dyson).max())
+    report("EKT/ERPA Hermitian linearization == Dyson equation", err, 1e-9)
+    gf_ekt = HermitianGF(ekt, rpa_ekt, mixed='screened', bath=True)
+    M0h, _ = gf_ekt.moments()
+    report("EKT/ERPA mixed-MR-GW zeroth moment |M0 - 1|", np.abs(M0h - np.eye(ref.nso)).max(), 1e-10)
+    _, _, w = gf_ekt.poles()
+    report("EKT/ERPA mixed-MR-GW spectral weights >= 0 (-min w)", -w.min(), 1e-12)
+    guesses = np.array([gf_ekt.orbital_guess(homo, 'remove'), gf_ekt.orbital_guess(lumo, 'attach')]).T
+    theta, X, info = davidson_root_following(gf_ekt.matvec, gf_ekt.diagonal(), guesses,
+                                             tol=1e-8, verbose=False)
+    Ed, U = gf_ekt.eig()
+    dense_sel = Ed[np.argmax(np.abs(guesses.T @ U), axis=1)]
+    report("EKT/ERPA Davidson roots vs dense", np.abs(theta - dense_sel).max(), 1e-7)
 
     print()
     nfail = sum(1 for _, ok in status if not ok)

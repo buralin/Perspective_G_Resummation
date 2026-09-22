@@ -598,6 +598,145 @@ within the inactive space itself'' is the core$\to$virtual ring channel, and
 active transition densities together with the dynamic
 $(N\pm1)\otimes$(MR-RPA) bath.
 
+\section{A variant with extended-Koopmans poles and extended-RPA screening}
+\label{sec:ekt-erpa}
+
+Both \WFL{} and Objective~II take the active charged poles from the exact
+$N_a\pm1$ eigenstates of the Dyall active Hamiltonian and the reference
+polarizability from all exact neutral CAS states, which is what limits the
+dense implementations to small active spaces.  The primary operator
+manifold of the \Pre{} suggests a cheaper alternative that needs only the
+one- and two-particle reduced density matrices of $\ket{\Xi_0}$: the
+extended Koopmans' theorem (EKT) for the charged states~\cite{EKT1974,EKT1975}
+and the extended random-phase approximation (ERPA) of Chatterjee and
+Pernal~\cite{ChatterjeePernal2012} for the neutral response.  This variant
+is implemented in \texttt{numerics/mrgw\_hermitian/ekt\_erpa.py} and enters
+the same Hermitian matrix.
+
+\paragraph{EKT charged poles.}
+The $N_a\mp1$ states are expanded in the primary manifolds
+$\ket{\alpha^-}=\sum_q c_q\,a_q\ket{\Xi_0}$ and
+$\ket{\alpha^+}=\sum_q c_q\,a_q^\dagger\ket{\Xi_0}$ over the active spin
+orbitals, and the coefficients follow from
+\begin{align}
+  \mathbf A^{-}\mathbf c&=\omega\,\boldsymbol\gamma\,\mathbf c,&
+  A^{-}_{pq}&=\braket{\Xi_0|a_p^\dagger(\hat H^{\rm act}_D-E_0)a_q|\Xi_0},
+  \label{eq:ekt}\\
+  \mathbf A^{+}\mathbf c&=\omega\,(\mathbf 1-\boldsymbol\gamma^{T})\,\mathbf c,&
+  A^{+}_{pq}&=\braket{\Xi_0|a_p(\hat H^{\rm act}_D-E_0)a_q^\dagger|\Xi_0},
+  \nonumber
+\end{align}
+with $\mathbf c^\dagger\boldsymbol\gamma\,\mathbf c=1$.  Since
+$A^-_{pq}=\braket{a_p^\dagger[\hat H,a_q]}$, both matrices are functions of
+the one- and two-particle density matrices only.  The pole vectors are
+$d_{\alpha-}=\boldsymbol\gamma\mathbf c^\alpha$ and
+$d_{\alpha+}=(\mathbf 1-\boldsymbol\gamma^T)\mathbf c^\alpha$, so that
+$\sum_\alpha d_\alpha d_\alpha^\dagger=\boldsymbol\gamma+(\mathbf 1-\boldsymbol\gamma)=\mathbf 1$
+and $\sum_\alpha\kappa_\alpha d_\alpha d_\alpha^\dagger$ equals the exact
+first moment of $G^A_D$: the EKT poles exhaust the zeroth and first spectral
+moments of the active Green's function exactly, with one pole per active
+spin orbital and sector instead of the full $N_a\pm1$ spectrum.  In the
+language of the \Pre{}, the exact eigenoperators $\hat R^{N\pm1}_\mu$ are
+replaced by the EKT operators $\sum_q c^\alpha_q a_q^{(\dagger)}$.
+
+\paragraph{ERPA reference response.}
+The neutral excitations are obtained from the equation of motion in the
+manifold of single (de)excitation operators $E_{pq}=a_p^\dagger a_q$ acting
+on the correlated reference,
+$\braket{0|[E_{qp},[\hat H,\hat O_\nu^\dagger]]|0}=\omega_\nu\braket{0|[E_{qp},\hat O_\nu^\dagger]|0}$
+with $\hat O_\nu^\dagger=\sum_{rs}c^\nu_{rs}E_{rs}$, solved in the
+natural-spin-orbital basis, where the metric is diagonal, $n_q-n_p$, and the
+problem takes the RPA form.  With the Dyall Hamiltonian the
+core$\to$active and active$\to$virtual channels of the reference response
+reduce \emph{exactly} to the EKT problems shifted by the inactive orbital
+energies, and the core$\to$virtual channel is exact, so only the
+active--active channel is treated with the ERPA equations.  The transition
+densities $\braket{\nu|x^\dagger y|0}=(\mathcal S\mathbf c^\nu)_{xy}$ enter
+the MR-RPA screening of the residual interaction exactly like the exact
+ones, and the ERPA response satisfies the zeroth and energy-weighted sum
+rules of the exact active-space response within the singles manifold (the
+implementation checks both to $10^{-16}$).  The MR-GW bath and the mixed
+couplings are then built from the EKT states without further change.
+
+\paragraph{Extended charged manifold.}
+The primary manifold can optionally be supplemented by the 2h1p and 2p1h
+operators of the active space,
+\begin{equation}
+  \ket{\alpha^-}=\sum_z c_z\,a_z\ket{\Xi_0}+\sum_{y,\,w<z}c_{ywz}\,a_y^\dagger a_wa_z\ket{\Xi_0},
+  \qquad
+  \ket{\alpha^+}=\sum_z c_z\,a_z^\dagger\ket{\Xi_0}+\sum_{y,\,w<z}c_{ywz}\,a_ya_w^\dagger a_z^\dagger\ket{\Xi_0},
+  \label{eq:ekt-extended}
+\end{equation}
+with the generalized eigenproblem solved after canonical orthogonalization
+of the strongly linearly dependent Gram matrix.  Since
+$(\hat H-E_0)a_z\ket{\Xi_0}=[\hat H,a_z]\ket{\Xi_0}$ lies in this span, the
+extended manifold conserves the spectral moments $M_0,\ldots,M_3$ of the
+active Green's function exactly (the block-Lanczos property with two
+blocks), and it reproduces the exact poles whenever it spans the $N_a\pm1$
+sector.  Its rank is bounded by roughly $n_{\rm act}^3$ rather than the
+sector dimension, so it becomes a genuine approximation only for active
+spaces of about eight or more orbitals; in the language of the \Pre{} it
+is the manifold extension $\{a_P\}\cup\{\hat R_\mu\}\to
+\{a_P\}\cup\{a_z, a_y^\dagger a_wa_z\}$ (and the 2p1h analogue).
+
+\paragraph{Results.}
+For H$_4$/CAS(2,2) the primary manifold already spans the whole $N_a\pm1$
+space, so the EKT poles are exact; the ERPA reproduces the two single
+excitations exactly and misses the double one, and the resulting \MRGW{}
+ionization and attachment energies agree with those of the exact reference
+to 1~meV.  For ozone the picture is different (Table~\ref{tab:ekt-o3}).
+The ERPA excitation energies of the active space are essentially exact (the
+lowest four agree with the CASCI values to 1~meV), but the primary-manifold
+EKT cation energies lie 1--2~eV above the CASCI cation energies, because
+the cations of ozone are strongly relaxed multiconfigurational states that
+the manifold $\{a_x\ket{\Xi_0}\}$ cannot represent; EKT even gives the
+Koopmans ordering $^2A_2<{}^2A_1<{}^2B_2$.  The screening lowers these
+energies by about 2~eV and restores the ordering $^2A_1<{}^2B_2<{}^2A_2$,
+but the ionization energies remain 0.7--2~eV above \MRGW{} and DMRG.  The
+extended manifold is complete for both active spaces (rank 24 of 24 and 50
+of 50 in the removal sectors) and recovers the CASCI cation energies to
+$10^{-12}$~Ha, so the remaining difference to \MRGW{} isolates the effect of
+the singles ERPA response: at most $0.01$~eV for CAS(6,4) and $0.10$~eV for
+CAS(8,5).  The weak point of the primary-manifold variant is therefore the
+EKT description of the charged active states, which the 2h1p/2p1h
+extension removes, whereas the ERPA is an adequate replacement for the
+neutral response in these active spaces.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+O$_3$, 6-31G, ionization energies (eV) & $^2A_1$ & $^2B_2$ & $^2A_2$\\
+\midrule
+CASCI(6,4) & 14.38 & 14.67 & 15.12\\
+EKT(6,4), primary manifold & 15.29 & 16.02 & 15.21\\
+EKT(6,4), 1h+2h1p manifold & 14.38 & 14.67 & 15.12\\
+\MRGW(6,4) & 12.65 & 12.94 & 14.56\\
+EKT/ERPA \MRGW(6,4) & 13.37 & 13.94 & 14.64\\
+EKT(2h1p)/ERPA \MRGW(6,4) & 12.66 & 12.95 & 14.57\\
+\MRGW(6,4) + mixed (screened) & 12.68 & 13.21 & 14.99\\
+EKT(2h1p)/ERPA \MRGW(6,4) + mixed (screened) & 12.68 & 13.22 & 15.00\\
+\midrule
+CASCI(8,5) & 13.59 & 13.93 & 13.10\\
+EKT(8,5), primary manifold & 15.28 & 16.30 & 15.27\\
+EKT(8,5), 1h+2h1p manifold & 13.59 & 13.93 & 13.10\\
+\MRGW(8,5) & 11.58 & 12.09 & 12.94\\
+EKT/ERPA \MRGW(8,5) & 12.88 & 13.77 & 15.01\\
+EKT(2h1p)/ERPA \MRGW(8,5) & 11.68 & 12.13 & 12.97\\
+\MRGW(8,5) + mixed (screened) & 12.01 & 12.27 & 13.32\\
+EKT(2h1p)/ERPA \MRGW(8,5) + mixed (screened) & 12.08 & 12.31 & 13.36\\
+\midrule
+DMRG (\WFL) & 12.34 & 12.59 & 13.34\\
+Exp.\ (\WFL) & 12.73 & 13.00 & 13.54\\
+\bottomrule
+\end{tabular}
+\caption{Vertical ionization energies of ozone from the EKT/ERPA variant
+compared with the exact-reference \MRGW{} results (this implementation,
+which reproduces \WFL{}'s Table~S5) and with DMRG and experiment.}
+\label{tab:ekt-o3}
+\end{table}
+
 \section{Points in the \Pre{} suggested for revision}
 \label{sec:revisions}
 
@@ -671,6 +810,15 @@ A.~Y.~Sokolov, J.~Chem.~Phys.\ \textbf{149}, 204113 (2018).
 
 \bibitem{ChatterjeeSokolov2019}
 K.~Chatterjee and A.~Y.~Sokolov, J.~Chem.~Theory Comput.\ \textbf{15}, 5908 (2019).
+
+\bibitem{EKT1974}
+O.~W.~Day, D.~W.~Smith, and C.~Garrod, Int.~J.~Quantum Chem.\ \textbf{8}, 501 (1974).
+
+\bibitem{EKT1975}
+M.~M.~Morrell, R.~G.~Parr, and M.~Levy, J.~Chem.~Phys.\ \textbf{62}, 549 (1975).
+
+\bibitem{ChatterjeePernal2012}
+K.~Chatterjee and K.~Pernal, J.~Chem.~Phys.\ \textbf{137}, 204109 (2012).
 
 \end{thebibliography}
 
