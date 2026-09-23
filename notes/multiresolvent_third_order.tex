@@ -197,26 +197,27 @@ multiresolvent form.
 At third order, the direct-$\eh$ reducible vertex contains three
 contributions.
 Suppressing the explicit internal-frequency integrations with the convolution
-symbol $\circ$, and retaining the same phase convention as in the
-second-order notes,
+symbol $\circ$, we absorb the phase associated with the internal pair
+propagation into the reduced propagator $\mathcal L_0^\eh$, defined below.
+The third-order expansion is then
 \begin{equation}
     \begin{split}
     \ii\Phi^{\eh,(3)}
     & =
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\left[-\ii L_0^\eh\right]
+    \circ\mathcal L_0^\eh
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \\
     &+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^\eh\right]
+    \circ\mathcal L_0^\eh
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \\
     &+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^\eh\right]
+    \circ\mathcal L_0^\eh
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^\eh\right]
+    \circ\mathcal L_0^\eh
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \end{split}
     \label{eq:Phi_eh_third_convolution}
@@ -244,24 +245,22 @@ third-order direct-$\eh$ reducible contribution.
 \subsection{Orbital decomposition of the internal propagation}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-We resolve the internal non-interacting two-particle propagator as
+We resolve the reduced internal pair propagator as
 \begin{equation}
-    L_0^\eh
+    \mathcal L_0^\eh
     =
-    L_0^{\eh,\text{oo}}
+    \mathcal L_0^{\eh,\text{oo}}
     +
-    L_0^{\eh,\text{ov}}
+    \mathcal L_0^{\eh,\text{ov}}
     +
-    L_0^{\eh,\text{vo}}
+    \mathcal L_0^{\eh,\text{vo}}
     +
-    L_0^{\eh,\text{vv}}
+    \mathcal L_0^{\eh,\text{vv}}
     \label{eq:L0_sector_decomposition}
 \end{equation}
 where $\text{oo}$ and $\text{vv}$ contain the $ij$ and $ab$ sectors, respectively,
 while $\text{ov}$ contains the $ia$ sector associated with $Q^+$ and $\text{vo}$ contains
-the $ai$ sector associated with $Q^-$.  For the frequency integrations it is
-convenient to absorb the phase appearing in the BSE convolution and define
-the reduced direct-$\eh$ pair propagators
+the $ai$ sector associated with $Q^-$.  Explicitly,
 \begin{align}
     \mathcal L_{0,ia}^{\eh}(x,\omega)
     &=
@@ -310,27 +309,23 @@ the same half-plane.  At third order, however, $\Gamma^{\eh,(2)}$ supplies an
 additional pole and activates these same-occupancy sectors.
 
 The two elementary contour identities needed for the activated sectors are
-\begin{multline}
+\begin{align}
     \frac{1}{2\pi}
     \int\dd{x}
     \frac{\mathcal L_{0,ab}^{\eh}(x,\omega)}{x-A-\ii0^+}
-    \\
-    =
+    & =
     \frac{1}
     {(A+\omega-\eps_a+\ii0^+)(A-\eps_b+\ii0^+)}
     \label{eq:vv_elementary_contour}
-\end{multline}
-and
-\begin{multline}
+    \\
     \frac{1}{2\pi}
     \int\dd{x}
     \frac{\mathcal L_{0,ij}^{\eh}(x,\omega)}{x-A+\ii0^+}
-    \\
-    =
+    & =
     -\frac{1}
     {(A+\omega-\eps_i-\ii0^+)(A-\eps_j-\ii0^+)}
     \label{eq:oo_elementary_contour}
-\end{multline}
+\end{align}
 The same integrals vanish when the causal prescription of the last factor is
 reversed.  Thus the $\text{vv}$ sector selects poles of the second-order kernel
 in the upper half-plane, whereas the $\text{oo}$ sector selects poles in the
@@ -522,7 +517,7 @@ For the first ordering in Eq.~\eqref{eq:Phi_eh_third_convolution},
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\left[-\ii L_0^{\eh,\text{vv}}\right]
+    \circ\mathcal L_0^{\eh,\text{vv}}
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \right\}_{pqrs}
     & =
@@ -545,7 +540,7 @@ and the opposite ordering gives
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^{\eh,\text{vv}}\right]
+    \circ\mathcal L_0^{\eh,\text{vv}}
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \right\}_{pqrs}
     & =
@@ -570,7 +565,7 @@ For the first ordering,
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\left[-\ii L_0^{\eh,\text{oo}}\right]
+    \circ\mathcal L_0^{\eh,\text{oo}}
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \right\}_{pqrs}
     & =
@@ -593,7 +588,7 @@ and for the opposite ordering,
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^{\eh,\text{oo}}\right]
+    \circ\mathcal L_0^{\eh,\text{oo}}
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \right\}_{pqrs}
     & =
@@ -688,12 +683,12 @@ orbital sectors of Eq.~\eqref{eq:L0_sector_decomposition},
     \sum_{x\in\{\text{oo},\text{ov},\text{vo},\text{vv}\}}
     \Big(
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\left[-\ii L_0^{\eh,x}\right]
+    \circ\mathcal L_0^{\eh,x}
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \\
     &\qquad+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\left[-\ii L_0^{\eh,x}\right]
+    \circ\mathcal L_0^{\eh,x}
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \Big)
     \\
@@ -769,7 +764,42 @@ In terms of the direct-$\eh$ variables,
 and therefore $\nu'-\nu=-(\Omega+x+y)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Native pp kernel and orbital sectors}
+\subsection{Perturbative BSE expansion}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+At third order, the $\pp$ reducible vertex contains the same three
+perturbative contributions as the direct-$\eh$ vertex.
+Suppressing the explicit internal-frequency integrations with the convolution
+symbol $\circ$, and using the reduced native pair propagator
+$\mathcal L_0^\pp$ defined below,
+\begin{equation}
+    \begin{split}
+    \ii\Phi^{\pp,(3)}
+    & =
+    \left[\ii\Gamma^{\pp,(2)}\right]
+    \circ\mathcal L_0^\pp
+    \circ\left[\ii\Gamma^{\pp,(1)}\right]
+    \\
+    &+
+    \left[\ii\Gamma^{\pp,(1)}\right]
+    \circ\mathcal L_0^\pp
+    \circ\left[\ii\Gamma^{\pp,(2)}\right]
+    \\
+    &+
+    \left[\ii\Gamma^{\pp,(1)}\right]
+    \circ\mathcal L_0^\pp
+    \circ\left[\ii\Gamma^{\pp,(1)}\right]
+    \circ\mathcal L_0^\pp
+    \circ\left[\ii\Gamma^{\pp,(1)}\right]
+    \end{split}
+    \label{eq:Phi_pp_third_convolution}
+\end{equation}
+The first two terms contain the frequency-dependent second-order irreducible
+kernel on opposite sides of the internal propagation.
+The last term contains three instantaneous first-order interactions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Native kernel and orbital decomposition}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 Using
@@ -819,15 +849,15 @@ native pair propagator
 \end{equation}
 and decompose
 \begin{equation}
-    L_0^\pp
+    \mathcal L_0^\pp
     =
-    L_0^{\pp,\text{oo}}
+    \mathcal L_0^{\pp,\text{oo}}
     +
-    L_0^{\pp,\text{ov}}
+    \mathcal L_0^{\pp,\text{ov}}
     +
-    L_0^{\pp,\text{vo}}
+    \mathcal L_0^{\pp,\text{vo}}
     +
-    L_0^{\pp,\text{vv}}
+    \mathcal L_0^{\pp,\text{vv}}
     \label{eq:L0_pp_sector_decomposition}
 \end{equation}
 For an instantaneous kernel,
@@ -859,9 +889,12 @@ A dynamic $\Gamma^{\pp,(2)}$ supplies an additional pole and activates the
 mixed sectors at third order.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Second-order pp coupling vertices}
+\subsection{$\text{oo}$ and $\text{vv}$ sectors}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+The $\text{oo}$ and $\text{vv}$ parts of the first two terms in
+Eq.~\eqref{eq:Phi_pp_third_convolution} can be reorganized as corrections to
+the coupling vertices.
 For a unique virtual pair $a<b$, define the two oriented normalized factors
 \begin{align}
     Q_{ab}^{\pp,+}(y,\Omega)
@@ -1022,35 +1055,21 @@ $V_{ji,rs}^{\pp,(2)}=-V_{ij,rs}^{\pp,(2)}$.
 All nontrivial poles are again of $\pph$ or $\hhp$ type.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Mixed $\text{ov}$ and $\text{vo}$ sectors}
+\subsection{$\text{ov}$ and $\text{vo}$ sectors}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first two third-order $\pp$ BSE contributions are
-\begin{equation}
-\begin{split}
-    \ii\Phi^{\pp,(3)}\big|_{\Gamma^{(2)}L_0\Gamma^{(1)}}
-    &=
-    \left[\ii\Gamma^{\pp,(2)}\right]
-    \circ\mathcal L_0^\pp
-    \circ\left[\ii\Gamma^{\pp,(1)}\right]
-    \\
-    \ii\Phi^{\pp,(3)}\big|_{\Gamma^{(1)}L_0\Gamma^{(2)}}
-    &=
-    \left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\mathcal L_0^\pp
-    \circ\left[\ii\Gamma^{\pp,(2)}\right]
-\end{split}
-\label{eq:Phi_pp_third_first_two}
-\end{equation}
-where every internal ordered-pair contraction carries the factor $1/2$.
+The $\text{ov}$ and $\text{vo}$ parts of the first two terms in
+Eq.~\eqref{eq:Phi_pp_third_convolution} do not belong to the ordinary pair
+resolvent and are evaluated explicitly.
 For the $\text{ov}$ orientation $ia$, both one-particle poles lie in the upper
 half-plane, so the first and fourth terms of
 Eq.~\eqref{eq:Gamma_pp_second_native_third} contribute.
 For the $\text{vo}$ orientation $ai$, both lie in the lower half-plane, so the
 second and third terms contribute.
 Using $\mel{ai}{}{rs}=-\mel{ia}{}{rs}$, the two orientations give equal
-contributions and cancel the ordered-pair factor $1/2$.
+contributions and cancel the factor $1/2$ associated with summing both pair orientations.
 The resulting first ordering is
+\newpage
 \begin{widetext}
 \begin{equation}
 \begin{split}
@@ -1110,10 +1129,13 @@ No partial fractioning is required, and only charged-state energy combinations
 appear in these denominators.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{First-order correction to the pair resolvent}
+\subsection{Three-interaction term}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first-order correction to the central pair matrix is
+Because all three vertices in the last term of
+Eq.~\eqref{eq:Phi_pp_third_convolution} are instantaneous, only the
+$\text{oo}$ and $\text{vv}$ sectors survive the internal frequency integrations.
+The first-order pair interaction matrix is
 \begin{equation}
     M^{\pp,(1)}
     =
@@ -1131,9 +1153,7 @@ with
     R^{\pp,(0)}M^{\pp,(1)}R^{\pp,(0)}
     \label{eq:R_pp_first}
 \end{equation}
-Because the three first-order vertices are instantaneous, the mixed $\text{ov}$ and
-$\text{vo}$ internal integrations vanish in the three-interaction term.
-Its complete contribution is therefore
+Thus, the complete contribution from the three instantaneous interactions is
 \begin{equation}
     U^{\pp,(1)}R^{\pp,(0)}M^{\pp,(1)}R^{\pp,(0)}V^{\pp,(1)}
     \label{eq:Phi_pp_third_three_bare}
@@ -1162,39 +1182,41 @@ blocks of $M^{\pp,(1)}$.
 \subsection{Complete pp result through third order}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-Combining the four orbital sectors gives
+The complete result is most transparently written by retaining the four
+orbital sectors of Eq.~\eqref{eq:L0_pp_sector_decomposition},
 \begin{equation}
-\begin{split}
+    \begin{split}
     \ii\Phi^{\pp,(3)}
     &=
-    U^{\pp,(2)}R^{\pp,(0)}V^{\pp,(1)}
-    +
-    U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(2)}
+    \sum_{x\in\{\text{oo},\text{ov},\text{vo},\text{vv}\}}
+    \Big(
+    \left[\ii\Gamma^{\pp,(2)}\right]
+    \circ\mathcal L_0^{\pp,x}
+    \circ\left[\ii\Gamma^{\pp,(1)}\right]
+    \\
+    &\qquad+
+    \left[\ii\Gamma^{\pp,(1)}\right]
+    \circ\mathcal L_0^{\pp,x}
+    \circ\left[\ii\Gamma^{\pp,(2)}\right]
+    \Big)
     \\
     &+
     U^{\pp,(1)}R^{\pp,(0)}M^{\pp,(1)}R^{\pp,(0)}V^{\pp,(1)}
-    \\
-    &+
-    \left\{
-    \left[\ii\Gamma^{\pp,(2)}\right]
-    \circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
-    \circ\left[\ii\Gamma^{\pp,(1)}\right]
-    \right\}
-    \\
-    &+
-    \left\{
-    \left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
-    \circ\left[\ii\Gamma^{\pp,(2)}\right]
-    \right\}
-\end{split}
-\label{eq:Phi_pp_third_final}
+    \end{split}
+    \label{eq:Phi_pp_third_final}
 \end{equation}
-The first two terms are precisely the $\text{oo}/\text{vv}$ parts of the first two BSE
-convolutions, the third term contains the complete three-interaction pair
-ladder, and the last two terms are the mixed $\text{ov}/\text{vo}$ contributions of
+The $\text{oo}$ and $\text{vv}$ subset of the first two lines is equivalently
+\begin{equation}
+    U^{\pp,(2)}R^{\pp,(0)}V^{\pp,(1)}
+    +
+    U^{\pp,(1)}R^{\pp,(0)}V^{\pp,(2)}
+    \label{eq:Phi_pp_third_oovv_resolvent}
+\end{equation}
+while the $\text{ov}$ and $\text{vo}$ terms are given explicitly in
 Eqs.~\eqref{eq:Phi_pp_third_mixed_left} and
 \eqref{eq:Phi_pp_third_mixed_right}.
+The three-interaction term is Eq.~\eqref{eq:Phi_pp_third_three_bare} and is
+equivalent to $U^{\pp,(1)}R^{\pp,(1)}V^{\pp,(1)}$.
 No additional orbital sector or third-order topology occurs in the primitive
 $\pp$ reducible vertex.
 
@@ -1274,9 +1296,9 @@ The explicit coupling vertices satisfy
     V_{ji,rs}^{\pp,(2)}&=-V_{ij,rs}^{\pp,(2)}
     \label{eq:UV_pp_antisymmetry}
 \end{align}
-The $1/2$ in the ordered-pair contraction is canceled when the two mixed
-orientations $ia$ and $ai$ are combined, giving the normalization in
-Eqs.~\eqref{eq:Phi_pp_third_mixed_left} and
+The factor $1/2$ associated with summing both pair orientations is canceled
+when the two mixed orientations $ia$ and $ai$ are combined, giving the
+normalization in Eqs.~\eqref{eq:Phi_pp_third_mixed_left} and
 \eqref{eq:Phi_pp_third_mixed_right}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
