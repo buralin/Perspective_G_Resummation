@@ -813,6 +813,577 @@ objectives above.  A consolidated set of limiting cases is collected in
 Sec.~\ref{sec:consistency}, followed by conclusions and the main directions
 for further work.
 %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Working equations of the extended-Koopmans variants}
+\label{sec:ekt-variants}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Proposed The supermatrix of Sec.~\ref{sec:supermatrix} takes the active
+space as input in the form of charged poles $(\kappa_{\alpha\sigma},d_{\alpha\sigma})$
+with their connected three-operator tensors $\mathcal C^{\sigma}_{\alpha}$,
+and of neutral excitations $(\omega_\nu,\rho^{\nu})$ for the active--active
+channel of the MR-RPA.  In Sec.~\ref{sec:supermatrix} these are the exact
+eigenstates of the active Dyall Hamiltonian $\hat H_A$ in the $N_a\pm1$ and
+$N_a$ sectors, whose number is the dimension of the CI sectors.  This
+section gives the working equations of the same schemes when the charged
+states are replaced by extended-Koopmans (EKT) states
+\cite{DaySmithGarrod1974,MorrellParrLevy1975}, without or with the
+2h1p/2p1h sector, and the neutral states by extended-RPA (ERPA)
+excitations \cite{ChatterjeePernal2012}.  Both replacements are inner
+projections of the type \eqref{eq:sm-inner}: Hermiticity, causality and
+positivity of the supermatrix are preserved, and the low spectral moments
+of the active propagator remain exact.  Throughout, $\hat H_A$ is the
+active part of $\hat H_D$ (one-body part $h^{\rm eff}$, all-active
+two-electron integrals), $|\Xi_0\rangle$ and $E_0$ its ground state and
+energy, $\gamma_{xy}=\langle\Xi_0|\hat a_x^\dagger\hat a_y|\Xi_0\rangle$
+and $\Gamma_{xy,wz}=\langle\Xi_0|\hat a_x^\dagger\hat a_y^\dagger\hat a_w\hat a_z|\Xi_0\rangle$
+its one- and two-particle density matrices, $x,y,z,w$ active spin
+orbitals and $\sigma=\pm$ the sector label.  The implementation is
+\texttt{numerics/mrgw\_hermitian/ekt\_erpa.py}; all variants are run by
+\texttt{numerics/ginit\_prelim.py} with \texttt{--reference ekt}
+(primary manifold) or \texttt{--reference ekt2} (extended manifold).
+Section~\ref{sec:ekt-rdm} gives the same equations in terms of the reduced
+density matrices of the CAS wave function and examines the truncation of
+their cumulant expansion.
+
+\subsection{Charged states: EKT without the 2h1p/2p1h sector}
+\label{sec:ekt-primary}
+
+\Established The primary EKT manifold consists of the $N_a\mp1$ states
+\begin{equation}
+  |\alpha^-\rangle=\sum_xc^{\alpha}_x\,\hat a_x|\Xi_0\rangle,\qquad
+  |\alpha^+\rangle=\sum_xc^{\alpha}_x\,\hat a_x^\dagger|\Xi_0\rangle .
+  \label{eq:ekt-states}
+\end{equation}
+Their Gram and Hamiltonian matrices are functionals of $\gamma$ and
+$\Gamma$,
+\begin{align}
+  S^{-}_{xy}&=\langle\Xi_0|\hat a_x^\dagger\hat a_y|\Xi_0\rangle=\gamma_{xy},
+  \nonumber\\
+  S^{+}_{xy}&=\langle\Xi_0|\hat a_x\hat a_y^\dagger|\Xi_0\rangle=\delta_{xy}-\gamma_{yx},
+  \label{eq:ekt-metric}\\
+  A^{-}_{xy}&=\langle\Xi_0|\hat a_x^\dagger(\hat H_A-E_0)\hat a_y|\Xi_0\rangle
+  =\langle\Xi_0|\hat a_x^\dagger[\hat H_A,\hat a_y]|\Xi_0\rangle ,
+  \nonumber\\
+  A^{+}_{xy}&=\langle\Xi_0|\hat a_x(\hat H_A-E_0)\hat a_y^\dagger|\Xi_0\rangle
+  =\langle\Xi_0|\hat a_x[\hat H_A,\hat a_y^\dagger]|\Xi_0\rangle ,
+  \label{eq:ekt-A}
+\end{align}
+and the EKT states are the solutions of the generalized eigenvalue
+problems
+\begin{equation}
+  A^{\sigma}c^{\alpha}=e_{\alpha\sigma}\,S^{\sigma}c^{\alpha},\qquad
+  c^{\alpha T}S^{\sigma}c^{\beta}=\delta_{\alpha\beta},\qquad
+  \kappa_{\alpha\sigma}=\sigma\,e_{\alpha\sigma},
+  \label{eq:ekt-eig}
+\end{equation}
+with $e_{\alpha-}$ the ionization and $e_{\alpha+}$ the attachment energies
+of the active space and $\kappa_{\alpha\sigma}$ the signed poles of
+Sec.~\ref{sec:supermatrix}.  Directions of $S^{\sigma}$ with eigenvalues
+below $10^{-8}$ (fully occupied or empty natural orbitals) are removed by
+canonical orthogonalization.  The residues are
+\begin{align}
+  d_{x,\alpha-}&=\langle\alpha^-|\hat a_x|\Xi_0\rangle=[S^{-}c^{\alpha}]_x ,
+  \nonumber\\
+  d_{x,\alpha+}&=\langle\Xi_0|\hat a_x|\alpha^+\rangle=[S^{+}c^{\alpha}]_x ,
+  \label{eq:ekt-d}
+\end{align}
+and, because $\sum_\alpha c^{\alpha}c^{\alpha T}=(S^{\sigma})^{-1}$ on the
+retained space,
+\begin{align}
+  \sum_{\alpha}d_{\alpha-}d_{\alpha-}^{T}&=\gamma,\qquad
+  \sum_{\alpha}d_{\alpha+}d_{\alpha+}^{T}=\mathbf 1-\gamma,
+  \label{eq:ekt-M0}\\
+  \sum_{\alpha\sigma}\kappa_{\alpha\sigma}\,d_{\alpha\sigma}d_{\alpha\sigma}^{T}
+  &=A^{+}-A^{-}=\langle\Xi_0|[\hat a_x,[\hat H_A,\hat a_y^\dagger]]_+|\Xi_0\rangle .
+  \label{eq:ekt-M1}
+\end{align}
+The zeroth and first spectral moments of the active propagator are thus
+exact; Eq.~\eqref{eq:ekt-M1} is the double anticommutator
+\eqref{eq:sm-K-def} evaluated with $\hat a_x^\dagger,\hat a_y^\dagger$.
+The number of poles is at most $2n_{\rm act}$ ($n_{\rm act}$ active spin
+orbitals) instead of the dimensions of the $N_a\pm1$ sectors.
+
+\emph{Remark.}  In the language of Sec.~\ref{sec:supermatrix} the EKT is
+the sector-resolved inner projection: the removal and the attachment
+sector are projected separately on the states generated by the primary
+operators, and the transfer operators \eqref{eq:sm-hmu} are built with
+$|\alpha^{\pm}\rangle$.  The inner projection on the single operator
+manifold $\{\hat a_x^\dagger\}$ with the anticommutator metric
+\eqref{eq:sm-binary} would instead give $n_{\rm act}$ poles at the
+eigenvalues of $A^{+}-A^{-}$ (the first-moment or Koopmans-like
+approximation), which does not resolve the removal and attachment parts
+of a partially occupied orbital.
+
+\subsection{Charged states: EKT with the 2h1p/2p1h sector}
+\label{sec:ekt-extended}
+
+\Proposed The extended manifold adds the 2h1p and 2p1h operators of the
+active space,
+\begin{align}
+  |\alpha^-\rangle&=\sum_zc^{\alpha}_z\,\hat a_z|\Xi_0\rangle
+  +\sum_{y}\sum_{w>z}c^{\alpha}_{ywz}\,\hat a_y^\dagger\hat a_w\hat a_z|\Xi_0\rangle ,
+  \nonumber\\
+  |\alpha^+\rangle&=\sum_zc^{\alpha}_z\,\hat a_z^\dagger|\Xi_0\rangle
+  +\sum_{y}\sum_{w>z}c^{\alpha}_{ywz}\,\hat a_y\hat a_w^\dagger\hat a_z^\dagger|\Xi_0\rangle .
+  \label{eq:ekt2-states}
+\end{align}
+With the manifold vectors $|v_j\rangle$ of one sector collected in a list,
+\begin{equation}
+  S_{ij}=\langle v_i|v_j\rangle,\qquad
+  A_{ij}=\langle v_i|\hat H_A-E_0|v_j\rangle
+  \label{eq:ekt2-AS}
+\end{equation}
+are the Gram and Hamiltonian matrices; their elements involve reduced
+density matrices up to fourth order, and the implementation evaluates them
+by applying the operators and $\hat H_A$ to CI vectors (PySCF determinant
+routines), which avoids the explicit higher-order density matrices.  The
+manifold is strongly linearly dependent, so the generalized eigenproblem
+is solved after canonical orthogonalization,
+\begin{align}
+  S&=U\operatorname{diag}(s)U^{T},\qquad
+  X=U_{:,s>\tau}\operatorname{diag}(s_{s>\tau})^{-1/2},
+  \nonumber\\
+  (X^{T}AX)\,\tilde c^{\alpha}&=e_{\alpha\sigma}\,\tilde c^{\alpha},\qquad
+  c^{\alpha}=X\tilde c^{\alpha},\qquad
+  c^{\alpha T}Sc^{\beta}=\delta_{\alpha\beta},
+  \label{eq:ekt2-canon}
+\end{align}
+with $\tau=10^{-10}\max_js_j$.  Poles and residues follow
+Eqs.~\eqref{eq:ekt-eig} and \eqref{eq:ekt-d} with
+$d_{x,\alpha\sigma}=\sum_jc^{\alpha}_j\langle v_j|\hat a_x^{(\dagger)}\Xi_0\rangle$,
+the rows of $Sc^{\alpha}$ that belong to the primary vectors.
+
+\Exact The extended manifold conserves the spectral moments
+$M_0,\ldots,M_3$ of the active propagator.  Since
+$(\hat H_A-E_0)\hat a_z|\Xi_0\rangle=[\hat H_A,\hat a_z]|\Xi_0\rangle$ is a
+combination of 1h and 2h1p vectors, the projector $\hat P$ on the manifold
+satisfies
+$\hat P(\hat H_A-E_0)\hat P\,\hat a_z|\Xi_0\rangle=(\hat H_A-E_0)\hat a_z|\Xi_0\rangle$,
+and therefore
+\begin{equation}
+  \langle\Xi_0|\hat a_x^\dagger\bigl[\hat P(\hat H_A-E_0)\hat P\bigr]^{k}\hat a_y|\Xi_0\rangle
+  =\langle\Xi_0|\hat a_x^\dagger(\hat H_A-E_0)^{k}\hat a_y|\Xi_0\rangle
+  \label{eq:ekt2-moments}
+\end{equation}
+for $k\le3$ (one factor of $\hat H_A-E_0$ is absorbed on each side), and
+likewise for the attachment part.  Whenever the manifold spans the whole
+$N_a\mp1$ sector the poles are exact; this is the case for all active
+spaces of Table~\ref{tab:ekt-results}, so that the difference between the
+extended-manifold results and those of Sec.~\ref{sec:supermatrix} isolates
+the effect of the ERPA response.  The number of manifold vectors is
+bounded by $n_{\rm act}+n_{\rm act}^{2}(n_{\rm act}-1)/2$ per sector before
+the rank reduction.
+
+\subsection{Neutral excitations: ERPA}
+\label{sec:erpa}
+
+\Established The active--active channel of the reference polarizability,
+Eq.~\eqref{eq:PD-lehmann}, requires the excitation energies $\omega_\nu$
+and transition densities
+$\rho^{\nu}_{xy}=\langle\nu|\hat a_x^\dagger\hat a_y|\Xi_0\rangle$ of the
+$N_a$-electron active space.  In the ERPA they are obtained from the
+equation of motion in the manifold of single excitation operators
+$\hat E_{pq}=\hat a_p^\dagger\hat a_q$ acting on the correlated reference,
+\begin{equation}
+  \sum_{rs}\langle\Xi_0|[\hat E_{qp},[\hat H_A,\hat E_{rs}]]|\Xi_0\rangle\,c^{\nu}_{rs}
+  =\omega_\nu\sum_{rs}\langle\Xi_0|[\hat E_{qp},\hat E_{rs}]|\Xi_0\rangle\,c^{\nu}_{rs},
+  \label{eq:erpa-eom}
+\end{equation}
+written in the basis of natural spin orbitals of each spin block,
+$\gamma=U\operatorname{diag}(n)U^{T}$, in which the metric is diagonal,
+$\langle\Xi_0|[\hat E_{qp},\hat E_{rs}]|\Xi_0\rangle=\delta_{pr}\delta_{qs}(n_q-n_p)$.
+With the pair manifold
+$\mathcal P=\{(p,q):\sigma_p=\sigma_q,\ |n_q-n_p|>10^{-8}\}$, its
+excitation part $\mathcal E=\{(p,q)\in\mathcal P:n_q>n_p\}$, the
+de-excitation pairs $\bar{\mathcal E}=\{(q,p)\}$, $N_{pq}=n_q-n_p$, and the
+double-commutator matrix
+\begin{align}
+  \mathcal M_{(pq),(rs)}&=\langle\Xi_0|[\hat E_{qp},[\hat H_A,\hat E_{rs}]]|\Xi_0\rangle
+  \nonumber\\
+  &=\langle\tilde u_{pq}|\hat H_A-E_0|\tilde u_{rs}\rangle
+  +\langle\tilde u_{sr}|\hat H_A-E_0|\tilde u_{qp}\rangle ,
+  \label{eq:erpa-M}
+\end{align}
+$|\tilde u_{pq}\rangle=\hat E_{pq}|\Xi_0\rangle$ (symmetrized in the
+implementation), Eq.~\eqref{eq:erpa-eom} takes the RPA form
+\begin{align}
+  \begin{pmatrix}\tilde A&\tilde B\\ \tilde B&\tilde A\end{pmatrix}
+  \begin{pmatrix}\tilde X_\nu\\ \tilde Y_\nu\end{pmatrix}
+  &=\omega_\nu\begin{pmatrix}\mathbf 1&0\\0&-\mathbf 1\end{pmatrix}
+  \begin{pmatrix}\tilde X_\nu\\ \tilde Y_\nu\end{pmatrix},
+  \label{eq:erpa-rpa}\\
+  \tilde A=N^{-1/2}\mathcal M_{\mathcal E\mathcal E}N^{-1/2},&\qquad
+  \tilde B=N^{-1/2}\mathcal M_{\mathcal E\bar{\mathcal E}}N^{-1/2},
+  \nonumber
+\end{align}
+solved as in Sec.~\ref{sec:supermatrix}.  The transition densities of the
+normalized solutions ($\tilde X^{T}\tilde X-\tilde Y^{T}\tilde Y=\mathbf 1$)
+are
+\begin{equation}
+  \tilde\rho^{\nu}_{pq}=N_{pq}^{1/2}\tilde X_{\nu,pq},\qquad
+  \tilde\rho^{\nu}_{qp}=-N_{pq}^{1/2}\tilde Y_{\nu,pq},\qquad (p,q)\in\mathcal E,
+  \label{eq:erpa-rho}
+\end{equation}
+back-transformed with $U$ to the active spin orbitals.  The ERPA response
+fulfils the zeroth and the energy-weighted sum rules of the exact active
+response over the single-excitation manifold (verified to $10^{-16}$), and
+its number of modes is the number of natural-orbital pairs instead of the
+number of CAS excited states.
+
+\Established With the Dyall partition the two remaining active channels of
+$P_D$ are products of an inactive orbital and a charged active state, so
+that with EKT states they read
+\begin{align}
+  \text{core}\to\text{active:}&\quad \omega=\kappa_{\alpha+}-\epsilon_i,\qquad \rho_{xi}=d_{x,\alpha+},
+  \nonumber\\
+  \text{active}\to\text{virtual:}&\quad \omega=\epsilon_a-\kappa_{\alpha-},\qquad \rho_{ax}=d_{x,\alpha-},
+  \label{eq:ekt-channels}
+\end{align}
+i.e.\ the EKT problems shifted by the orbital energies, while the
+core$\to$virtual channel is unchanged.  The direct MR-RPA with $v^R$, its
+modes $\Omega_I$, the couplings $M_{pr,I}$, the static screened interaction
+$W_D(0)$ and the vertices $g_I=T^{T}M_IT$ follow from Eqs.~\eqref{eq:sm-M}
+and \eqref{eq:sm-g} without change.  (The implementation also allows the
+exact CAS excitations in the active--active channel, which isolates the
+effect of the EKT charged manifold.)
+
+\subsection{Working equations of the variants}
+\label{sec:ekt-working}
+
+\Proposed With the EKT poles and residues of Sec.~\ref{sec:ekt-primary} or
+\ref{sec:ekt-extended} and the MR-RPA of Sec.~\ref{sec:erpa}, the
+quantities of Sec.~\ref{sec:supermatrix} are as follows.  The transfer
+operators \eqref{eq:sm-hmu} are built with the EKT states,
+$h_{\alpha+}=|\Phi_{\rm i}\alpha^+\rangle\langle\Psi_0|$ and
+$h_{\alpha-}=|\Psi_0\rangle\langle\Phi_{\rm i}\alpha^-|$; the metric
+\eqref{eq:sm-metric} holds by the normalization in
+Eq.~\eqref{eq:ekt-eig}, and
+\begin{align}
+  T&=\bigl(\mathbf 1_{\rm i}\ \big|\ d_{\alpha\sigma}\bigr),\qquad TT^{T}=\mathbf 1,
+  \label{eq:ekt-T}\\
+  K_{PQ}&=\epsilon_P\delta_{PQ}+[\Sigma^{11}_1]_{PQ},\qquad
+  K_{\alpha\sigma,\beta\sigma'}=\kappa_{\alpha\sigma}\delta_{\alpha\beta}\delta_{\sigma\sigma'},
+  \label{eq:ekt-Kdiag}\\
+  K_{P,\alpha\sigma}&=\sum_x[\Sigma^{11}_1]_{Px}\,d_{x,\alpha\sigma}
+  +\sum_{zyw}\mathcal I_{Pz,yw}\,\mathcal C^{\sigma}_{\alpha;z,yw},
+  \label{eq:ekt-KB}\\
+  \mathcal C^{+}_{\alpha;z,yw}&=\tfrac12\langle\Xi_0|\hat a_y^\dagger\hat a_w\hat a_z|\alpha^+\rangle-\gamma_{yw}\,d_{z,\alpha+},
+  \nonumber\\
+  \mathcal C^{-}_{\alpha;z,yw}&=\tfrac12\langle\alpha^-|\hat a_y^\dagger\hat a_w\hat a_z|\Xi_0\rangle-\gamma_{yw}\,d_{z,\alpha-},
+  \label{eq:ekt-C}
+\end{align}
+with $\mathcal I=\bar v^R$ (bare) or
+$\mathcal I_{Pz,yw}=v^R_{Pz,yw}-[W_D(0)]_{Pw,yz}$ (screened,
+Eq.~\eqref{eq:sm-kernel-scr}, with $W_D(0)$ from the MR-RPA of
+Sec.~\ref{sec:erpa}).  The active block of Eq.~\eqref{eq:ekt-Kdiag}
+follows from Eq.~\eqref{eq:ekt-eig} as Eq.~\eqref{eq:sm-Kmunu} from the
+eigenvalue equation, because the residual interaction contributes the same
+constant in every state $|\Phi_{\rm i}\alpha^{\sigma}\rangle$; the EKT
+states are not eigenstates of $\hat H_A$, and the components of
+$(\hat H_A-E_0)|\alpha^{\sigma}\rangle$ outside the manifold are what the
+inner projection discards.  Equation~\eqref{eq:ekt-KB} is the double
+anticommutator \eqref{eq:sm-KPmu} evaluated with $|\alpha^{\sigma}\rangle$
+in place of the eigenstates, which changes nothing in the derivation of
+Eqs.~\eqref{eq:sm-Ka}--\eqref{eq:sm-Cminus}.  For the primary manifold the
+three-operator amplitudes in Eq.~\eqref{eq:ekt-C} are contractions of
+$c^{\alpha}$ with the two-particle density matrix,
+\begin{align}
+  \langle\alpha^-|\hat a_y^\dagger\hat a_w\hat a_z|\Xi_0\rangle&=\sum_xc^{\alpha}_x\,\Gamma_{xy,wz},
+  \nonumber\\
+  \langle\Xi_0|\hat a_y^\dagger\hat a_w\hat a_z|\alpha^+\rangle&=\sum_xc^{\alpha}_x\bigl(\delta_{zx}\gamma_{yw}-\delta_{wx}\gamma_{yz}+\Gamma_{yx,wz}\bigr),
+  \label{eq:ekt-C-rdm}
+\end{align}
+so that the whole top block is, like the EKT itself, a functional of the
+one- and two-particle density matrices of the CAS wave function; for the
+extended manifold the amplitudes are evaluated with the CI vectors of
+Eq.~\eqref{eq:ekt2-states}.
+
+The variants are the schemes of Table~\ref{tab:sm-results}, obtained from
+the supermatrix \eqref{eq:sm-supermatrix} with the EKT top block:
+\begin{enumerate}
+\item \emph{Eq.~\eqref{eq:Ginit} with EKT poles} ($g_I=0$):
+  $G(z)=T(z\mathbf 1-K)^{-1}T^{T}$ with $K$ of
+  Eqs.~\eqref{eq:ekt-Kdiag}--\eqref{eq:ekt-KB} and the bare kernel.
+\item \emph{MR-$GW$ on EKT/ERPA input} ($K_B=0$, diagonal bath):
+  $B_I\to\operatorname{diag}(\kappa_n+\sigma_n\Omega_I)$, $g_I=T^{T}M_IT$.
+  By the linearization lemma \eqref{eq:linearization-lemma} this is the
+  MR-$GW$ Dyson equation
+  $G=[G_{\rm EKT}^{-1}-\Sigma^{\rm MR\text{-}GW}]^{-1}$ with the EKT
+  propagator $G_{\rm EKT}=T(z\mathbf 1-K_0)^{-1}T^{T}$,
+  $K_0=\operatorname{diag}(\epsilon_P,\kappa_{\alpha\sigma})$, in place of
+  $G_D$ and with the ERPA-based screening in the self-energy
+  \eqref{eq:MRGW-spectral-task3}.
+\item \emph{Diagonal bath with $K_B$}, bare or screened kernel.
+\item \emph{Dressed bath}, $B_I=K+\operatorname{diag}(\sigma_n)\Omega_I$,
+  bare or screened kernel; without cross-sector couplings
+  Eq.~\eqref{eq:sm-dressed} holds with $G_{\rm init}$ built from the EKT
+  top block.
+\end{enumerate}
+In all cases
+\begin{equation}
+  G(z)=T\Bigl[z\mathbf 1-K-\sum_Ig_I\,(z\mathbf 1-B_I)^{-1}g_I^{T}\Bigr]^{-1}T^{T},
+  \label{eq:ekt-G}
+\end{equation}
+Eq.~\eqref{eq:sm-supermatrix} with a top block of dimension
+$n_{\rm i}+n_{\rm EKT}$ and a bath of dimension $(n_{\rm i}+n_{\rm EKT})K_I$,
+$K_I$ the number of coupled MR-RPA modes; the reduction of $n_{\rm EKT}$
+from the CI-sector dimensions to $\mathcal O(n_{\rm act})$ (primary) is the
+practical motivation for the EKT variants.
+
+\Exact The following properties hold for both manifolds and are verified
+in \texttt{numerics/run\_checks.py}.
+\begin{enumerate}
+\item $G(z)$ is causal with a positive-semidefinite spectral function and
+  $M_0=TT^{T}=\mathbf 1$, Eq.~\eqref{eq:ekt-M0}.
+\item The first moment $M_1=TKT^{T}$ of the no-bath variant with the bare
+  kernel coincides in all blocks with that of the exact reference of
+  Sec.~\ref{sec:supermatrix} (to $10^{-15}$ in the implementation): the
+  active block by Eq.~\eqref{eq:ekt-M1}, the inactive--active block because
+  every $K_{P,\alpha\sigma}$ is linear in $|\alpha^{\sigma}\rangle$ and
+  $d_{x,\alpha\sigma}$ is its overlap with $\hat a_x^{(\dagger)}|\Xi_0\rangle$,
+  so that $\sum_\alpha K_{P,\alpha\sigma}d_{x,\alpha\sigma}$ contains the
+  projector on the manifold acting on a vector inside the manifold.  The
+  first-order exactness of Sec.~\ref{sec:sm-top} is therefore inherited.
+\item The same-sector elements of $K$ equal the Hamiltonian matrix elements
+  between the states $\hat a_P^{(\dagger)}|\Psi_0\rangle$ and
+  $|\Phi_{\rm i}\alpha^{\sigma}\rangle$ in the full determinant space, and
+  the dressed-bath identity \eqref{eq:sm-dressed} holds without
+  cross-sector couplings.
+\item The extended manifold conserves $M_0,\ldots,M_3$ of the active
+  propagator, Eq.~\eqref{eq:ekt2-moments}, and reproduces the exact poles
+  whenever it spans the sector.
+\end{enumerate}
+
+\subsection{Numerical illustration}
+\label{sec:ekt-numerics}
+
+Table~\ref{tab:ekt-results} lists, for the variants of
+Table~\ref{tab:sm-results}, the principal ionization and attachment
+energies of linear H$_4$ in the 6-31G basis with CASSCF(4,4), the smallest
+setting in which the primary EKT manifold is incomplete (16 of 96 charged
+poles) while the extended manifold is complete, and the three lowest
+ionization energies of O$_3$ (6-31G, CASCI in RHF orbitals) with the two
+EKT references; the exact-reference values for O$_3$ are those of
+Table~\ref{tab:sm-results}.  The script is
+\texttt{numerics/ginit\_prelim.py}, the outputs are kept in
+\texttt{numerics/results/}.
+
+\begin{table*}[t]
+\caption{Principal ionization/attachment energies of H$_4$ (6-31G,
+CASSCF(4,4)) and the $^2A_1$/$^2B_2$/$^2A_2$ ionization energies of O$_3$
+(6-31G, CASCI) in eV from the supermatrix variants of
+Table~\ref{tab:sm-results} with the exact active states (``exact''), the
+primary EKT manifold (``EKT'') and the extended manifold (``EKT+2h1p''),
+both with the ERPA active response.  Full CI (H$_4$) and the DMRG values of
+Ref.~\cite{WangFangLi2026} (O$_3$) are the references.}
+\label{tab:ekt-results}
+\begin{ruledtabular}
+\begin{tabular}{lccccccc}
+ & \multicolumn{3}{c}{H$_4$ IP/EA} & \multicolumn{2}{c}{O$_3$(6,4)} & \multicolumn{2}{c}{O$_3$(8,5)} \\
+variant & exact & EKT & EKT+2h1p & EKT & EKT+2h1p & EKT & EKT+2h1p \\
+\hline
+Eq.~(7), no bath & 12.18/3.64 & 12.71/3.91 & 12.18/3.64 & 15.27/16.02/15.21 & 14.36/14.62/15.13 & 15.16/16.30/15.28 & 13.53/13.82/13.10 \\
+MR-$GW$ ($K_B=0$, diag.) & 12.06/3.42 & 12.59/3.76 & 12.06/3.42 & 13.37/13.94/14.64 & 12.66/12.95/14.57 & 12.88/13.77/15.01 & 11.68/12.13/12.97 \\
+Eq.~(7) + diag.\ bath, bare & 12.05/3.27 & 12.58/3.54 & 12.05/3.27 & 13.37/13.94/14.65 & 12.70/12.91/14.58 & 12.88/13.77/15.03 & 11.87/12.11/12.97 \\
+Eq.~(7) + diag.\ bath, screened & 12.08/3.78 & 12.62/4.07 & 12.08/3.78 & 13.15/14.24/15.08 & 12.68/13.22/15.00 & 13.25/14.15/15.58 & 12.08/12.31/13.36 \\
+Eq.~(7) + dressed bath, bare & 12.04/3.30 & 12.57/3.57 & 12.04/3.30 & 13.37/13.93/14.61 & 12.69/12.90/14.54 & 12.86/13.69/15.01 & 11.86/12.08/12.96 \\
+Eq.~(7) + dressed bath, screened & 12.07/3.81 & 12.60/4.10 & 12.06/3.81 & 13.09/14.15/15.02 & 12.63/13.15/14.94 & 13.23/14.08/15.54 & 12.05/12.26/13.32 \\
+dressed, bare, no cross-sector & 12.04/3.29 & 12.57/3.57 & 12.04/3.30 & 13.36/13.94/14.61 & 12.66/12.87/14.54 & 12.83/13.70/15.00 & 11.81/12.05/12.97 \\
+dressed, screened, no cross-sector & 12.04/3.81 & 12.57/4.10 & 12.04/3.81 & 12.77/13.88/14.63 & 12.34/12.93/14.56 & 12.84/13.68/15.02 & 11.79/12.02/12.98 \\
+reference & 12.00/2.99 & 12.00/2.99 & 12.00/2.99 & \multicolumn{2}{c}{12.34/12.59/13.34} & \multicolumn{2}{c}{12.34/12.59/13.34} \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+The three references show the same pattern for the variants: the
+screened kernel raises the $^2B_2$ and $^2A_2$ energies of O$_3$ by
+0.3--0.4~eV relative to the bare one, the dressed bath changes the
+diagonal-bath results by at most 0.05~eV, and dropping the cross-sector
+couplings with the screened kernel lowers $^2A_1$ by about 0.3~eV, exactly
+as in Table~\ref{tab:sm-results}.  The extended manifold reproduces the
+exact-reference numbers in every variant to 0.01~eV for H$_4$ and
+O$_3$(6,4) and to 0.03--0.10~eV for O$_3$(8,5); since its charged poles
+are exact, this residual is the effect of the ERPA response in the
+active--active channel (12 of 15 and 20 of 24 exact excitations are
+represented for the two ozone active spaces).  The primary manifold is
+0.5~eV too high for the H$_4$ ionization energy and 0.3--0.4~eV for the
+attachment energy in every variant.  For O$_3$ its Eq.~(7) values lie
+0.9--2.4~eV above the CASCI cation energies, because the relaxed
+multiconfigurational cation states are poorly represented by
+$\{\hat a_x|\Xi_0\rangle\}$; the screening lowers them by about 2~eV and
+restores the ordering $^2A_1<{}^2B_2<{}^2A_2$, but they remain
+0.7--2~eV above the exact-reference results.  The deficiency of the
+primary EKT states is thus not repaired by the screening, the mixed
+couplings or the dressed bath, whereas the 2h1p/2p1h extension makes the
+EKT/ERPA input a faithful replacement for the exact active states at a
+top block of the same size (for larger active spaces the rank of the
+extended manifold, not the sector dimension, bounds the number of poles).
+For the primary manifold the top block has 62 (64) instead of 102 (154)
+rows for O$_3$(6,4) ((8,5)) and the dressed bath $1.5\times10^{4}$ instead
+of $5.2\times10^{4}$ ($1.5\times10^{5}$) rows.
+
+
+\subsection{Density-matrix realization and cumulant truncation}
+\label{sec:ekt-rdm}
+
+\Exact All matrix elements of Secs.~\ref{sec:ekt-primary}--\ref{sec:erpa}
+are expectation values in $|\Xi_0\rangle$ of products of at most eight
+creation and annihilation operators and are therefore functionals of the
+spin-orbital reduced density matrices (RDMs)
+\begin{equation}
+  D^{(k)}_{p_1\cdots p_k,\,q_1\cdots q_k}
+  =\langle\Xi_0|\hat a_{p_1}^\dagger\cdots\hat a_{p_k}^\dagger\,
+  \hat a_{q_k}\cdots\hat a_{q_1}|\Xi_0\rangle ,\qquad k\le4 ,
+  \label{eq:rdm-def}
+\end{equation}
+with $D^{(1)}=\gamma$ and $D^{(2)}_{pq,rs}=\Gamma_{pq,sr}$.  The reduction
+is mechanical.  With
+$\hat H_A=\sum_{pq}h_{pq}\hat a_p^\dagger\hat a_q+\tfrac12\sum v_{pr,qs}\hat a_p^\dagger\hat a_q^\dagger\hat a_s\hat a_r$,
+$v_{pr,qs}=(pr|qs)$, the commutators with the manifold operators are
+\begin{widetext}
+\begin{align}
+  [\hat H_A,\hat a_y]&=-\sum_qh_{yq}\,\hat a_q-\sum_{qrs}v_{yr,qs}\,\hat a_q^\dagger\hat a_s\hat a_r ,
+  \qquad
+  [\hat H_A,\hat a_y^\dagger]=\sum_ph_{py}\,\hat a_p^\dagger+\sum_{pqs}v_{py,qs}\,\hat a_p^\dagger\hat a_q^\dagger\hat a_s ,
+  \label{eq:comm-1h}\\
+  [\hat H_A,\hat a_y^\dagger\hat a_w\hat a_z]&=\sum_ph_{py}\,\hat a_p^\dagger\hat a_w\hat a_z
+  -\sum_qh_{wq}\,\hat a_y^\dagger\hat a_q\hat a_z+\sum_qh_{zq}\,\hat a_y^\dagger\hat a_q\hat a_w
+  -\sum_{rs}v_{zr,ws}\,\hat a_y^\dagger\hat a_s\hat a_r
+  \nonumber\\
+  &+\sum_{pqs}v_{py,qs}\,\hat a_p^\dagger\hat a_q^\dagger\hat a_s\hat a_w\hat a_z
+  -\sum_{qrs}v_{wr,qs}\,\hat a_y^\dagger\hat a_q^\dagger\hat a_s\hat a_r\hat a_z
+  +\sum_{qrs}v_{zr,qs}\,\hat a_y^\dagger\hat a_q^\dagger\hat a_s\hat a_r\hat a_w ,
+  \label{eq:comm-2h1p}
+\end{align}
+\end{widetext}
+and $[\hat H_A,\hat a_y\hat a_w^\dagger\hat a_z^\dagger]$ follows by
+Hermitian conjugation.  Multiplying from the left with the bra operator
+$X_i^\dagger$, moving its annihilators to the right of all creators with
+$\hat a_i\hat a_j^\dagger=\delta_{ij}-\hat a_j^\dagger\hat a_i$, and
+replacing every normal-ordered string of $k$ creators and $k$
+annihilators by $D^{(k)}$ gives the blocks of
+Eqs.~\eqref{eq:ekt-A}, \eqref{eq:ekt2-AS}, \eqref{eq:erpa-M} and
+\eqref{eq:ekt-C}.  For the primary manifold,
+\begin{align}
+  A^-_{xy}&=-\sum_qh_{yq}\gamma_{xq}-\sum_{qrs}v_{yr,qs}\,D^{(2)}_{xq,rs},
+  \label{eq:Aminus-rdm}\\
+  A^+_{xy}&=h_{xy}-\sum_ph_{py}\gamma_{px}+\sum_{qs}v_{xy,qs}\gamma_{qs}
+  -\sum_{ps}v_{py,xs}\gamma_{ps}
+  \nonumber\\
+  &+\sum_{pqs}v_{py,qs}\,D^{(2)}_{pq,sx},
+  \label{eq:Aplus-rdm}
+\end{align}
+the classic EKT expressions; for the extended manifold the metric is
+\begin{align}
+  S_{x,(ywz)}&=D^{(2)}_{xy,zw},
+  \nonumber\\
+  S_{(abc),(ywz)}&=D^{(3)}_{bcy,zwa}-\delta_{ay}D^{(2)}_{bc,zw}
+  \label{eq:S-rdm}
+\end{align}
+for the bra operator $\hat a_a^\dagger\hat a_b\hat a_c$, and the
+Hamiltonian blocks of the removal sector contain 11 terms (1h--2h1p,
+with $D^{(2)}$ and $D^{(3)}$) and 28 terms (2h1p--2h1p, with $D^{(2)}$ to
+$D^{(4)}$); the ERPA double commutator has 20 terms with $\gamma$ and
+$D^{(2)}$ only.  (The attachment blocks, written with the operators
+$\hat a_y\hat a_w^\dagger\hat a_z^\dagger$ of Eq.~\eqref{eq:ekt2-states},
+carry additional contraction terms with Kronecker deltas between free
+indices, 257 in the 2p1h--2p1h block; they involve the same RDM orders.)
+The complete lists, generated by the normal-ordering routine of the
+implementation (\texttt{numerics/mrgw\_hermitian/wick.py}), are reproduced
+in \texttt{numerics/equations.pdf}.  With the exact RDMs this realization
+reproduces the CI-vector realization of Secs.~\ref{sec:ekt-primary}--\ref{sec:erpa}
+to $10^{-12}$ in all matrices and in $G(z)$ of every variant
+(\texttt{numerics/run\_checks.py}).
+
+\Established The RDMs are decomposed into cumulants with the Grassmann
+(shuffle) product $\wedge$, in which every distinct assignment of the
+upper and of the lower indices to the factors appears once with the sign
+of the permutation,
+\begin{align}
+  D^{(2)}&=\tfrac1{2!}\gamma^{\wedge2}+\lambda_2,\qquad
+  D^{(3)}=\tfrac1{3!}\gamma^{\wedge3}+\gamma\wedge\lambda_2+\lambda_3,
+  \nonumber\\
+  D^{(4)}&=\tfrac1{4!}\gamma^{\wedge4}+\tfrac1{2!}\gamma^{\wedge2}\wedge\lambda_2
+  +\tfrac1{2!}\lambda_2\wedge\lambda_2+\gamma\wedge\lambda_3+\lambda_4 ,
+  \label{eq:cumulants}
+\end{align}
+where $\tfrac12\gamma^{\wedge2}_{pq,rs}=\gamma_{pr}\gamma_{qs}-\gamma_{ps}\gamma_{qr}$.
+The cumulants are the connected parts of the RDMs: they vanish for a
+single determinant, and all elements with indices on two non-interacting
+subsystems vanish (both verified numerically, together with the trace
+relation $\sum_r\lambda_{2,pr,qr}=(\gamma^2-\gamma)_{pq}$).
+
+\Proposed Truncating the expansion defines approximate inputs for the
+extended manifold.  Setting $\lambda_4=0$ changes only the 2h1p--2h1p and
+2p1h--2p1h Hamiltonian blocks; setting $\lambda_3=0$ in addition changes
+the metric of these blocks, the 1h--2h1p blocks and the three-operator
+amplitudes of the mixed coupling, whereas the primary EKT and the ERPA,
+which involve $\gamma$ and $D^{(2)}$ only, are unaffected.  The
+cumulant-reconstructed $D^{(3)}$ and $D^{(4)}$ are not $N$-representable,
+so the Gram matrix of the manifold need not be positive; the canonical
+orthogonalization retains only the directions with eigenvalues above
+$\tau\max_js_j$, and the relative threshold $\tau$ acts as a
+regularization.
+
+Table~\ref{tab:cumulant-results} compares the variants of
+Sec.~\ref{sec:ekt-working} for the extended manifold with exact RDMs,
+with $\lambda_4=0$, and with $\lambda_3=\lambda_4=0$
+(\texttt{numerics/cumulant\_comparison.py}).  The relative norms of the
+cumulants are $\|\lambda_k\|/\|D^{(k)}\|=0.14$, $0.04$, $0.015$ for
+$k=2,3,4$ (H$_4$), $0.15$, $0.04$, $0.02$ (O$_3$(6,4)) and $0.11$, $0.025$, $0.010$ (O$_3$(8,5)).  Dropping $\lambda_4$ leaves the number of
+poles, the metric and the low-lying poles intact: for H$_4$ the two lowest
+ionization and attachment poles move by 2--8~meV and every variant
+changes by at most 4~meV, while the highest poles of the manifold move by
+up to 30~eV and the active spectral moments $M_2$, $M_3$ deviate by
+$5\times10^{-4}$~Ha; for O$_3$ the three cation energies change by at most 2~meV for (6,4) and, for (8,5), by 2~meV ($^2A_1$, $^2B_2$) and by 0.10~eV ($^2A_2$), the $^2A_2$ pole itself moving from 13.10 to 13.01~eV.  Dropping $\lambda_3$ as well is
+qualitatively different: with the default threshold $\tau=10^{-10}$ the
+Gram matrix has 134 negative eigenvalues (H$_4$), the manifold acquires
+226 instead of 96 poles, 70 of them on the wrong side of the Fermi level,
+and the MR-RPA built from these poles is unstable (164 complex or
+negative-norm modes), so no supermatrix can be formed.  With
+$\tau=5\times10^{-2}$ the manifold is reduced to 48 poles with the
+correct signs, but the ionization and attachment energies are
+0.4--0.5~eV too high in every variant, i.e.\ worse than the primary
+manifold with the exact $D^{(2)}$; for O$_3$ the raw truncation gives 144 (238) negative metric eigenvalues, 68 (148) wrong-sign poles and 1021 (2736) lost MR-RPA modes for (6,4) ((8,5)), and the regularized manifold raises the cation energies by 0.1--0.7~eV and loses the residue of one of the three cation states entirely ($^2A_2$ for (6,4), $^2B_2$ for (8,5); dashes in Table~\ref{tab:cumulant-results}).  The three-body cumulant is
+therefore required for the 2h1p/2p1h sector, while the four-body cumulant
+can be dropped at the meV level for the low-lying poles; this is the same
+pattern as in second-order multireference perturbation theories, where
+the $\lambda_4$ contribution to the doubles blocks is small and routinely
+approximated whereas the metric requires the exact 3-RDM.
+
+\begin{table*}[t]
+\caption{Extended EKT manifold with the RDM realization: exact RDMs,
+$\lambda_4=0$, and $\lambda_3=\lambda_4=0$ with the metric threshold
+$\tau=5\times10^{-2}$ (the untruncated $\tau$ gives an unstable
+reference, see the text).  Principal IP/EA of H$_4$ (6-31G, CASSCF(4,4))
+and $^2A_1$/$^2B_2$/$^2A_2$ IPs of O$_3$ (6-31G, CASCI) in eV; ERPA
+response throughout.  Full CI (H$_4$) and DMRG (O$_3$) as reference; a dash marks a cation state whose residue vanishes in the regularized manifold.}
+\label{tab:cumulant-results}
+\begin{ruledtabular}
+\begin{tabular}{llccc}
+variant & RDMs & H$_4$ IP/EA & O$_3$(6,4) & O$_3$(8,5) \\
+\hline
+Eq.~(7), no bath & exact & 12.18/3.64 & 14.36/14.62/15.13 & 13.53/13.82/13.10 \\
+ & $\lambda_4=0$ & 12.18/3.64 & 14.36/14.62/15.13 & 13.54/13.82/13.01 \\
+ & $\lambda_3=\lambda_4=0$, $\tau$ & 12.66/4.04 & 14.48/14.74/-- & 14.50/--/13.88 \\
+MR-$GW$ ($K_B=0$, diag.) & exact & 12.06/3.42 & 12.66/12.95/14.57 & 11.68/12.13/12.97 \\
+ & $\lambda_4=0$ & 12.06/3.42 & 12.66/12.95/14.57 & 11.68/12.13/12.88 \\
+ & $\lambda_3=\lambda_4=0$, $\tau$ & 12.55/3.85 & 12.75/13.07/-- & 12.30/--/13.70 \\
+Eq.~(7) + diag.\ bath, screened & exact & 12.08/3.78 & 12.68/13.22/15.00 & 12.08/12.31/13.36 \\
+ & $\lambda_4=0$ & 12.08/3.78 & 12.68/13.22/15.00 & 12.09/12.31/13.26 \\
+ & $\lambda_3=\lambda_4=0$, $\tau$ & 12.57/4.19 & 12.75/13.34/-- & 12.75/--/14.10 \\
+Eq.~(7) + dressed bath, bare & exact & 12.04/3.30 & 12.69/12.90/14.54 & 11.86/12.08/12.96 \\
+ & $\lambda_4=0$ & 12.04/3.30 & 12.69/12.90/14.54 & 11.86/12.08/12.87 \\
+ & $\lambda_3=\lambda_4=0$, $\tau$ & 12.53/3.70 & 12.79/13.02/-- & 12.42/--/13.68 \\
+Eq.~(7) + dressed bath, screened & exact & 12.06/3.81 & 12.63/13.15/14.94 & 12.05/12.26/13.32 \\
+ & $\lambda_4=0$ & 12.06/3.81 & 12.63/13.15/14.94 & 12.06/12.26/13.23 \\
+ & $\lambda_3=\lambda_4=0$, $\tau$ & 12.55/4.22 & 12.69/13.27/-- & 12.73/--/14.06 \\
+reference & & 12.00/2.99 & 12.34/12.59/13.34 & 12.34/12.59/13.34 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Objective I: Dyall-reference Hedin theory and the existing MR-$GW$ scheme}
 \label{sec:objective-I}
 %%%%%%%%%%%%%%%%%%%%%%%%%

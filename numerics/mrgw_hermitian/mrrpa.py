@@ -146,6 +146,7 @@ class MRRPA:
             self.M = np.zeros((ref.nso, ref.nso, 0))
             self.wc0 = np.zeros_like(VR)
             self.W0 = VR.copy()
+            self.nmodes_lost = 0
             return
         nso, K = ref.nso, self.K
         VRm = VR.reshape(nso * nso, nso * nso)              # rows (p,r), cols (q,s)
@@ -160,10 +161,11 @@ class MRRPA:
         B = 0.5 * (B + B.T)
         self.A, self.B = A, B
         self.Omega, self.R, self.S = solve_rpa(A, B)
-        self.norm_error = np.abs(self.R.T @ self.S - np.eye(K)).max()
-        rhobar = (rho_f.T @ self.R).T                       # (K, nso^2): sum_mu rho^mu R_{mu I}
-        Mf = VRm @ rhobar.T                                 # (nso^2, K)
-        self.M = Mf.reshape(nso, nso, K)                    # M_{pr,I}
+        self.nmodes_lost = K - self.Omega.size          # > 0 only for an unstable RPA
+        self.norm_error = np.abs(self.R.T @ self.S - np.eye(self.Omega.size)).max()
+        rhobar = (rho_f.T @ self.R).T                       # (nmodes, nso^2): sum_mu rho^mu R_{mu I}
+        Mf = VRm @ rhobar.T                                 # (nso^2, nmodes)
+        self.M = Mf.reshape(nso, nso, self.Omega.size)      # M_{pr,I}
         self.mode_norm = np.linalg.norm(Mf, axis=0)         # zero for decoupled (spin-flip) modes
         # static correlation part of the screened residual interaction
         self.wc0 = (-2.0 * (Mf / self.Omega[None, :]) @ Mf.T).reshape(nso, nso, nso, nso)

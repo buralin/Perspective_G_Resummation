@@ -1,0 +1,134 @@
+====================================================================================================
+O3, 6-31G, CASCI(6,4) in RHF orbitals; extended EKT manifold, ERPA response
+====================================================================================================
+spin-orbital RDMs D_1..D_4 of |Xi_0> (8 active spin orbitals, 3.7 s); Frobenius norms:
+  k = 2: |D_k| =    7.2857   |L_k| =    1.0675   |L_k|/|D_k| = 0.147
+  k = 3: |D_k| =   25.0318   |L_k| =    0.9783   |L_k|/|D_k| = 0.039
+  k = 4: |D_k| =   87.4279   |L_k| =    1.6700   |L_k|/|D_k| = 0.019
+  built CI vectors in 1.1 s
+  built RDMs, exact in 1.7 s
+  built RDMs, L4 = 0 in 4.9 s
+  built RDMs, L3 = L4 = 0 in 29.8 s
+  built L3 = L4 = 0, tau = 5e-2 in 4.6 s
+
+realization                 poles  dropped  neg.metric  wrong sign  RPA lost  max|dkappa|  |dM0..M3|   lowest IPs / EAs (eV), physical sign only
+CI vectors                     56      144           0           2         0     7.92e-14   6.88e-15    14.384,  14.384,  14.674 /   2.679,   2.679,   3.850
+RDMs, exact                    56      212           0           2         0     6.74e-13   7.55e-15    14.384,  14.384,  14.674 /   2.679,   2.679,   3.850
+RDMs, L4 = 0                   56      212           0           2         0     1.72e-02   1.86e-03    14.384,  14.384,  14.672 /   2.694,   2.694,   3.851
+RDMs, L3 = L4 = 0             196      148         144          68      1021          nan   3.97e+05     8.348,   8.348,   8.470 /   1.656,   1.656,   4.448
+L3 = L4 = 0, tau = 5e-2        44      300         144           2         0          nan   2.87e-02    14.498,  14.498,  14.792 /   1.701,   1.701,   3.623
+  (dropped: manifold directions removed by canonical orthogonalization; neg.metric: negative eigenvalues of the Gram matrix;
+   wrong sign: removal poles above / attachment poles below the Fermi level; RPA lost: complex or negative-norm MR-RPA modes;
+   max|dkappa|: deviation of the sorted poles from the exact ones when the numbers agree; |dM0..M3|: active spectral moments)
+
+Cation states (lowest per irrep) of the references, IPs in eV:
+  CI vectors                  2A1:  14.384  2B2:  14.674  2A2:  15.122
+  RDMs, exact                 2A1:  14.384  2B2:  14.674  2A2:  15.122
+  RDMs, L4 = 0                2A1:  14.384  2B2:  14.672  2A2:  15.120
+  RDMs, L3 = L4 = 0           2A1: -17273.675  2B2: -11477310.643  2A2: -207.509
+  L3 = L4 = 0, tau = 5e-2     2A1:  14.498  2B2:  14.792  2A2:  15.753
+
+variant                              realization                                2A1                 2B2                 2A2        n
+Eq. (7), bare K_B, no bath           CI vectors                      14.359 (0.888)      14.623 (0.814)      15.130 (0.863)      102
+Eq. (7), bare K_B, no bath           RDMs, exact                     14.359 (0.888)      14.623 (0.814)      15.130 (0.863)      102
+Eq. (7), bare K_B, no bath           RDMs, L4 = 0                    14.359 (0.888)      14.621 (0.813)      15.128 (0.860)      102
+Eq. (7), bare K_B, no bath           RDMs, L3 = L4 = 0            skipped: 1021 MR-RPA modes lost, 68 wrong-sign poles (unstable reference)
+Eq. (7), bare K_B, no bath           L3 = L4 = 0, tau = 5e-2         14.480 (0.902)      14.740 (0.797)      15.753 (0.000)       90
+                                     reference                       12.340              12.590              13.340        
+
+MR-GW (K_B = 0, diag. bath)          CI vectors                      12.661 (0.870)      12.947 (0.830)      14.573 (0.811)    43892
+MR-GW (K_B = 0, diag. bath)          RDMs, exact                     12.661 (0.870)      12.947 (0.830)      14.573 (0.811)    44344
+MR-GW (K_B = 0, diag. bath)          RDMs, L4 = 0                    12.662 (0.870)      12.946 (0.830)      14.573 (0.809)    43756
+MR-GW (K_B = 0, diag. bath)          RDMs, L3 = L4 = 0            skipped: 1021 MR-RPA modes lost, 68 wrong-sign poles (unstable reference)
+MR-GW (K_B = 0, diag. bath)          L3 = L4 = 0, tau = 5e-2         12.752 (0.879)      13.065 (0.834)      15.753 (0.000)    32848
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + diag. bath, screened       CI vectors                      12.680 (0.880)      13.223 (0.816)      15.003 (0.805)    43892
+Eq. (7) + diag. bath, screened       RDMs, exact                     12.680 (0.880)      13.223 (0.816)      15.003 (0.805)    44344
+Eq. (7) + diag. bath, screened       RDMs, L4 = 0                    12.681 (0.880)      13.222 (0.816)      15.002 (0.803)    43756
+Eq. (7) + diag. bath, screened       RDMs, L3 = L4 = 0            skipped: 1021 MR-RPA modes lost, 68 wrong-sign poles (unstable reference)
+Eq. (7) + diag. bath, screened       L3 = L4 = 0, tau = 5e-2         12.745 (0.889)      13.343 (0.819)      15.753 (0.000)    32848
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + dressed bath, bare         CI vectors                      12.693 (0.871)      12.902 (0.826)      14.541 (0.803)    51510
+Eq. (7) + dressed bath, bare         RDMs, exact                     12.693 (0.871)      12.902 (0.826)      14.541 (0.803)    53040
+Eq. (7) + dressed bath, bare         RDMs, L4 = 0                    12.694 (0.871)      12.901 (0.826)      14.541 (0.802)    51714
+Eq. (7) + dressed bath, bare         RDMs, L3 = L4 = 0            skipped: 1021 MR-RPA modes lost, 68 wrong-sign poles (unstable reference)
+Eq. (7) + dressed bath, bare         L3 = L4 = 0, tau = 5e-2         12.787 (0.881)      13.020 (0.830)      15.753 (0.000)    37440
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + dressed bath, screened     CI vectors                      12.627 (0.881)      13.149 (0.815)      14.942 (0.799)    51510
+Eq. (7) + dressed bath, screened     RDMs, exact                     12.627 (0.881)      13.149 (0.815)      14.942 (0.799)    53040
+Eq. (7) + dressed bath, screened     RDMs, L4 = 0                    12.628 (0.881)      13.148 (0.815)      14.941 (0.798)    51714
+Eq. (7) + dressed bath, screened     RDMs, L3 = L4 = 0            skipped: 1021 MR-RPA modes lost, 68 wrong-sign poles (unstable reference)
+Eq. (7) + dressed bath, screened     L3 = L4 = 0, tau = 5e-2         12.691 (0.890)      13.268 (0.819)      15.753 (0.000)    37440
+                                     reference                       12.340              12.590              13.340        
+
+  (last line: DMRG of Wang, Fang, Li; their MR-GW(6,4): 12.65/12.94/14.56 eV)
+====================================================================================================
+O3, 6-31G, CASCI(8,5) in RHF orbitals; extended EKT manifold, ERPA response
+====================================================================================================
+spin-orbital RDMs D_1..D_4 of |Xi_0> (10 active spin orbitals, 21.4 s); Frobenius norms:
+  k = 2: |D_k| =   10.0375   |L_k| =    1.1018   |L_k|/|D_k| = 0.110
+  k = 3: |D_k| =   41.9869   |L_k| =    1.0404   |L_k|/|D_k| = 0.025
+  k = 4: |D_k| =  186.8703   |L_k| =    1.8730   |L_k|/|D_k| = 0.010
+  built CI vectors in 2.9 s
+  built RDMs, exact in 5.1 s
+  built RDMs, L4 = 0 in 26.6 s
+  built RDMs, L3 = L4 = 0 in 218.3 s
+  built L3 = L4 = 0, tau = 5e-2 in 23.9 s
+
+realization                 poles  dropped  neg.metric  wrong sign  RPA lost  max|dkappa|  |dM0..M3|   lowest IPs / EAs (eV), physical sign only
+CI vectors                    110      306           0           0         0     2.93e-13   3.15e-14    13.104,  13.104,  13.592 /   0.169,   0.169,   3.132
+RDMs, exact                   110      338           0           0         0     7.70e-13   2.16e-14    13.104,  13.104,  13.592 /   0.169,   0.169,   3.132
+RDMs, L4 = 0                  110      338           0           0         0     5.23e-02   2.47e-03    13.007,  13.007,  13.594 /   0.265,   0.265,   3.140
+RDMs, L3 = L4 = 0             358      250         238         148      2736          nan   3.17e+04     6.730,   6.730,   8.362 /   4.928,   4.928,   5.978
+L3 = L4 = 0, tau = 5e-2        68      540         238           0         0          nan   5.83e-02    13.878,  13.878,  14.507 /   1.753,   1.753,   3.926
+  (dropped: manifold directions removed by canonical orthogonalization; neg.metric: negative eigenvalues of the Gram matrix;
+   wrong sign: removal poles above / attachment poles below the Fermi level; RPA lost: complex or negative-norm MR-RPA modes;
+   max|dkappa|: deviation of the sorted poles from the exact ones when the numbers agree; |dM0..M3|: active spectral moments)
+
+Cation states (lowest per irrep) of the references, IPs in eV:
+  CI vectors                  2A1:  13.592  2B2:  13.931  2A2:  13.104
+  RDMs, exact                 2A1:  13.592  2B2:  13.931  2A2:  13.104
+  RDMs, L4 = 0                2A1:  13.594  2B2:  13.931  2A2:  13.007
+  RDMs, L3 = L4 = 0           2A1: -28838.024  2B2: -3777659.357  2A2: -21464.081
+  L3 = L4 = 0, tau = 5e-2     2A1:  14.507  2B2:  14.889  2A2:  13.878
+
+variant                              realization                                2A1                 2B2                 2A2        n
+Eq. (7), bare K_B, no bath           CI vectors                      13.534 (0.767)      13.820 (0.697)      13.104 (0.752)      154
+Eq. (7), bare K_B, no bath           RDMs, exact                     13.534 (0.767)      13.820 (0.697)      13.104 (0.752)      154
+Eq. (7), bare K_B, no bath           RDMs, L4 = 0                    13.537 (0.768)      13.820 (0.697)      13.007 (0.745)      154
+Eq. (7), bare K_B, no bath           RDMs, L3 = L4 = 0            skipped: 2736 MR-RPA modes lost, 148 wrong-sign poles (unstable reference)
+Eq. (7), bare K_B, no bath           L3 = L4 = 0, tau = 5e-2         14.496 (0.925)      14.889 (0.000)      13.878 (0.767)      112
+                                     reference                       12.340              12.590              13.340        
+
+MR-GW (K_B = 0, diag. bath)          CI vectors                      11.681 (0.778)      12.126 (0.724)      12.975 (0.716)   103057
+MR-GW (K_B = 0, diag. bath)          RDMs, exact                     11.681 (0.778)      12.126 (0.724)      12.975 (0.716)   106172
+MR-GW (K_B = 0, diag. bath)          RDMs, L4 = 0                    11.683 (0.778)      12.126 (0.724)      12.883 (0.710)   106511
+MR-GW (K_B = 0, diag. bath)          RDMs, L3 = L4 = 0            skipped: 2736 MR-RPA modes lost, 148 wrong-sign poles (unstable reference)
+MR-GW (K_B = 0, diag. bath)          L3 = L4 = 0, tau = 5e-2         12.303 (0.839)      14.889 (0.000)      13.699 (0.730)    56572
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + diag. bath, screened       CI vectors                      12.083 (0.766)      12.311 (0.706)      13.361 (0.704)   103057
+Eq. (7) + diag. bath, screened       RDMs, exact                     12.083 (0.766)      12.311 (0.706)      13.361 (0.704)   106172
+Eq. (7) + diag. bath, screened       RDMs, L4 = 0                    12.085 (0.766)      12.311 (0.706)      13.263 (0.697)   106511
+Eq. (7) + diag. bath, screened       RDMs, L3 = L4 = 0            skipped: 2736 MR-RPA modes lost, 148 wrong-sign poles (unstable reference)
+Eq. (7) + diag. bath, screened       L3 = L4 = 0, tau = 5e-2         12.748 (0.841)      14.889 (0.000)      14.100 (0.718)    56572
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + dressed bath, bare         CI vectors                      11.863 (0.790)      12.082 (0.727)      12.957 (0.715)   139678
+Eq. (7) + dressed bath, bare         RDMs, exact                     11.863 (0.790)      12.082 (0.727)      12.957 (0.715)   147840
+Eq. (7) + dressed bath, bare         RDMs, L4 = 0                    11.864 (0.790)      12.083 (0.727)      12.865 (0.709)   145530
+Eq. (7) + dressed bath, bare         RDMs, L3 = L4 = 0            skipped: 2736 MR-RPA modes lost, 148 wrong-sign poles (unstable reference)
+Eq. (7) + dressed bath, bare         L3 = L4 = 0, tau = 5e-2         12.415 (0.850)      14.889 (0.000)      13.682 (0.729)    64176
+                                     reference                       12.340              12.590              13.340        
+
+Eq. (7) + dressed bath, screened     CI vectors                      12.054 (0.772)      12.263 (0.713)      13.324 (0.704)   139678
+Eq. (7) + dressed bath, screened     RDMs, exact                     12.054 (0.772)      12.263 (0.713)      13.324 (0.704)   147840
+Eq. (7) + dressed bath, screened     RDMs, L4 = 0                    12.055 (0.772)      12.263 (0.713)      13.226 (0.697)   145530
+Eq. (7) + dressed bath, screened     RDMs, L3 = L4 = 0            skipped: 2736 MR-RPA modes lost, 148 wrong-sign poles (unstable reference)
+Eq. (7) + dressed bath, screened     L3 = L4 = 0, tau = 5e-2         12.728 (0.850)      14.889 (0.000)      14.063 (0.719)    64176
+                                     reference                       12.340              12.590              13.340        
+
+  (last line: DMRG of Wang, Fang, Li; their MR-GW(8,5): 11.58/12.09/12.94 eV)

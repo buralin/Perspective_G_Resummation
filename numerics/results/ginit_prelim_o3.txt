@@ -1,0 +1,104 @@
+====================================================================================================
+O3, 6-31G, CASCI(6,4) in RHF orbitals
+====================================================================================================
+
+--- exact CAS states (Sec. II) ---
+  reference: 56 charged poles (8 attachment, 48 removal), 15 neutral excitations
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            14.36 (0.90)   14.67 (0.83)   15.12 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 6e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     14.34 (0.89)   14.61 (0.81)   15.12 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 9e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 14.36 (0.89)   14.62 (0.81)   15.13 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 7e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            12.65 (0.87)   12.94 (0.83)   14.56 (0.81)   2A1 < 2B2 < 2A2   n =   43540  0.2 s
+Eq. (7) + diag. bath, bare                             12.68 (0.87)   12.90 (0.83)   14.57 (0.81)   2A1 < 2B2 < 2A2   n =   43540  0.2 s
+Eq. (7) + diag. bath, screened                         12.68 (0.88)   13.21 (0.82)   14.99 (0.80)   2A1 < 2B2 < 2A2   n =   43540  0.2 s
+Eq. (7) + dressed bath, bare                           12.68 (0.87)   12.89 (0.83)   14.53 (0.80)   2A1 < 2B2 < 2A2   n =   51714  0.3 s
+Eq. (7) + dressed bath, screened                       12.63 (0.88)   13.14 (0.82)   14.93 (0.80)   2A1 < 2B2 < 2A2   n =   51714  0.4 s
+dressed bath, bare, no cross-sector [Eq. (45)]         12.65 (0.87)   12.86 (0.82)   14.52 (0.80)   2A1 < 2B2 < 2A2   n =   51714  0.4 s
+dressed bath, screened, no cross-sector [Eq. (45)]     12.35 (0.89)   12.92 (0.82)   14.54 (0.80)   2A1 < 2B2 < 2A2   n =   51714  0.4 s
+
+--- EKT, primary manifold {a_x}, {a_x^+} + ERPA response (Sec. IV) ---
+  reference: 16 EKT poles [(3, 4) att: rank 4 of dim 4 (4 vectors), (4, 3) att: rank 4 of dim 4 (4 vectors), (2, 3) rem: rank 4 of dim 24 (4 vectors), (3, 2) rem: rank 4 of dim 24 (4 vectors)]; incomplete
+  active response: 12 excitations (ERPA; exact CAS: 15); lowest (eV): 1.108, 1.555, 1.923 vs exact 1.108, 1.555, 1.923
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            15.27 (1.00)   16.02 (1.00)   15.21 (0.88)   2A2 < 2A1 < 2B2   n =      62   |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     15.26 (1.00)   16.01 (1.00)   15.21 (0.88)   2A2 < 2A1 < 2B2   n =      62   |Davidson - dense| 1e-13 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 15.27 (1.00)   16.02 (1.00)   15.21 (0.88)   2A2 < 2A1 < 2B2   n =      62   |Davidson - dense| 3e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            13.37 (0.93)   13.94 (0.92)   14.64 (0.82)   2A1 < 2B2 < 2A2   n =   14484  0.1 s
+Eq. (7) + diag. bath, bare                             13.37 (0.93)   13.94 (0.92)   14.65 (0.82)   2A1 < 2B2 < 2A2   n =   14484  0.0 s
+Eq. (7) + diag. bath, screened                         13.15 (0.92)   14.24 (0.92)   15.08 (0.82)   2A1 < 2B2 < 2A2   n =   14484  0.1 s
+Eq. (7) + dressed bath, bare                           13.37 (0.93)   13.93 (0.92)   14.61 (0.81)   2A1 < 2B2 < 2A2   n =   15128  0.1 s
+Eq. (7) + dressed bath, screened                       13.09 (0.92)   14.15 (0.91)   15.02 (0.81)   2A1 < 2B2 < 2A2   n =   15128  0.1 s
+dressed bath, bare, no cross-sector [Eq. (45)]         13.36 (0.93)   13.94 (0.92)   14.61 (0.81)   2A1 < 2B2 < 2A2   n =   15128  0.1 s
+dressed bath, screened, no cross-sector [Eq. (45)]     12.77 (0.92)   13.88 (0.91)   14.63 (0.81)   2A1 < 2B2 < 2A2   n =   15128  0.1 s
+
+--- EKT, extended manifold 1h+2h1p / 1p+2p1h + ERPA response (Sec. IV) ---
+  reference: 56 EKT poles [(3, 4) att: rank 4 of dim 4 (20 vectors), (4, 3) att: rank 4 of dim 4 (20 vectors), (2, 3) rem: rank 24 of dim 24 (80 vectors), (3, 2) rem: rank 24 of dim 24 (80 vectors)]; complete, max |kappa - kappa_exact| = 3.0e-13 Ha
+  active response: 12 excitations (ERPA; exact CAS: 15); lowest (eV): 1.108, 1.555, 1.923 vs exact 1.108, 1.555, 1.923
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            14.36 (0.90)   14.67 (0.83)   15.12 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     14.34 (0.89)   14.61 (0.81)   15.12 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 8e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 14.36 (0.89)   14.62 (0.81)   15.13 (0.86)   2A1 < 2B2 < 2A2   n =     102   |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            12.66 (0.87)   12.95 (0.83)   14.57 (0.81)   2A1 < 2B2 < 2A2   n =   44348  0.3 s
+Eq. (7) + diag. bath, bare                             12.70 (0.87)   12.91 (0.83)   14.58 (0.81)   2A1 < 2B2 < 2A2   n =   44348  0.3 s
+Eq. (7) + diag. bath, screened                         12.68 (0.88)   13.22 (0.82)   15.00 (0.81)   2A1 < 2B2 < 2A2   n =   44348  0.2 s
+Eq. (7) + dressed bath, bare                           12.69 (0.87)   12.90 (0.83)   14.54 (0.80)   2A1 < 2B2 < 2A2   n =   53754  0.4 s
+Eq. (7) + dressed bath, screened                       12.63 (0.88)   13.15 (0.82)   14.94 (0.80)   2A1 < 2B2 < 2A2   n =   53754  0.4 s
+dressed bath, bare, no cross-sector [Eq. (45)]         12.66 (0.87)   12.87 (0.82)   14.54 (0.80)   2A1 < 2B2 < 2A2   n =   53754  0.4 s
+dressed bath, screened, no cross-sector [Eq. (45)]     12.34 (0.89)   12.93 (0.82)   14.56 (0.80)   2A1 < 2B2 < 2A2   n =   53754  0.4 s
+
+MR-GW (paper)                                          12.65          12.94          14.56          2A1 < 2B2 < 2A2
+DMRG (paper)                                           12.34          12.59          13.34          2A1 < 2B2 < 2A2
+Exp. (paper)                                           12.73          13.00          13.54          2A1 < 2B2 < 2A2
+
+====================================================================================================
+O3, 6-31G, CASCI(8,5) in RHF orbitals
+====================================================================================================
+
+--- exact CAS states (Sec. II) ---
+  reference: 110 charged poles (10 attachment, 100 removal), 24 neutral excitations
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            13.52 (0.80)   13.93 (0.72)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 3e-13 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     13.49 (0.76)   13.79 (0.69)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 3e-13 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 13.53 (0.77)   13.82 (0.70)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 3e-13 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            11.58 (0.77)   12.09 (0.72)   12.94 (0.71)   2A1 < 2B2 < 2A2   n =  102392  0.4 s
+Eq. (7) + diag. bath, bare                             11.79 (0.79)   12.08 (0.72)   12.94 (0.71)   2A1 < 2B2 < 2A2   n =  102392  0.4 s
+Eq. (7) + diag. bath, screened                         12.01 (0.77)   12.27 (0.70)   13.32 (0.70)   2A1 < 2B2 < 2A2   n =  102392  0.4 s
+Eq. (7) + dressed bath, bare                           11.78 (0.79)   12.05 (0.72)   12.92 (0.71)   2A1 < 2B2 < 2A2   n =  139986  1.0 s
+Eq. (7) + dressed bath, screened                       11.98 (0.77)   12.22 (0.71)   13.29 (0.70)   2A1 < 2B2 < 2A2   n =  139986  1.2 s
+dressed bath, bare, no cross-sector [Eq. (45)]         11.72 (0.79)   12.02 (0.72)   12.93 (0.71)   2A1 < 2B2 < 2A2   n =  139986  0.9 s
+dressed bath, screened, no cross-sector [Eq. (45)]     11.71 (0.79)   11.98 (0.72)   12.94 (0.71)   2A1 < 2B2 < 2A2   n =  139986  1.7 s
+
+--- EKT, primary manifold {a_x}, {a_x^+} + ERPA response (Sec. IV) ---
+  reference: 20 EKT poles [(4, 5) att: rank 5 of dim 5 (5 vectors), (5, 4) att: rank 5 of dim 5 (5 vectors), (3, 4) rem: rank 5 of dim 50 (5 vectors), (4, 3) rem: rank 5 of dim 50 (5 vectors)]; incomplete
+  active response: 20 excitations (ERPA; exact CAS: 24); lowest (eV): 1.543, 2.006, 2.289 vs exact 1.543, 2.006, 2.289
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            15.16 (1.00)   16.30 (1.00)   15.27 (0.88)   2A1 < 2A2 < 2B2   n =      64   |Davidson - dense| 9e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     15.15 (1.00)   16.29 (1.00)   15.27 (0.88)   2A1 < 2A2 < 2B2   n =      64   |Davidson - dense| 1e-13 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 15.16 (1.00)   16.30 (1.00)   15.28 (0.88)   2A1 < 2A2 < 2B2   n =      64   |Davidson - dense| 8e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            12.88 (0.88)   13.77 (0.85)   15.01 (0.83)   2A1 < 2B2 < 2A2   n =   15254  0.0 s
+Eq. (7) + diag. bath, bare                             12.88 (0.88)   13.77 (0.85)   15.03 (0.82)   2A1 < 2B2 < 2A2   n =   15254  0.1 s
+Eq. (7) + diag. bath, screened                         13.25 (0.87)   14.15 (0.84)   15.58 (0.82)   2A1 < 2B2 < 2A2   n =   15254  0.1 s
+Eq. (7) + dressed bath, bare                           12.86 (0.87)   13.69 (0.84)   15.01 (0.82)   2A1 < 2B2 < 2A2   n =   15872  0.1 s
+Eq. (7) + dressed bath, screened                       13.23 (0.88)   14.08 (0.85)   15.54 (0.83)   2A1 < 2B2 < 2A2   n =   15872  0.1 s
+dressed bath, bare, no cross-sector [Eq. (45)]         12.83 (0.87)   13.70 (0.84)   15.00 (0.83)   2A1 < 2B2 < 2A2   n =   15872  0.1 s
+dressed bath, screened, no cross-sector [Eq. (45)]     12.84 (0.88)   13.68 (0.84)   15.02 (0.83)   2A1 < 2B2 < 2A2   n =   15872  0.1 s
+
+--- EKT, extended manifold 1h+2h1p / 1p+2p1h + ERPA response (Sec. IV) ---
+  reference: 110 EKT poles [(4, 5) att: rank 5 of dim 5 (40 vectors), (5, 4) att: rank 5 of dim 5 (40 vectors), (3, 4) rem: rank 50 of dim 50 (168 vectors), (4, 3) rem: rank 50 of dim 50 (168 vectors)]; complete, max |kappa - kappa_exact| = 5.7e-13 Ha
+  active response: 20 excitations (ERPA; exact CAS: 24); lowest (eV): 1.543, 2.006, 2.289 vs exact 1.543, 2.006, 2.289
+variant                                                        2A1           2B2           2A2   ordering
+reference poles (+ Sigma_1)                            13.52 (0.80)   13.93 (0.72)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                     13.49 (0.76)   13.79 (0.69)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                 13.53 (0.77)   13.82 (0.70)   13.10 (0.75)   2A2 < 2A1 < 2B2   n =     154   |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                            11.68 (0.78)   12.13 (0.72)   12.97 (0.72)   2A1 < 2B2 < 2A2   n =  105535  0.6 s
+Eq. (7) + diag. bath, bare                             11.87 (0.79)   12.11 (0.73)   12.97 (0.72)   2A1 < 2B2 < 2A2   n =  105535  0.5 s
+Eq. (7) + diag. bath, screened                         12.08 (0.77)   12.31 (0.71)   13.36 (0.70)   2A1 < 2B2 < 2A2   n =  105535  0.6 s
+Eq. (7) + dressed bath, bare                           11.86 (0.79)   12.08 (0.73)   12.96 (0.71)   2A1 < 2B2 < 2A2   n =  145530  1.1 s
+Eq. (7) + dressed bath, screened                       12.05 (0.77)   12.26 (0.71)   13.32 (0.70)   2A1 < 2B2 < 2A2   n =  145530  1.3 s
+dressed bath, bare, no cross-sector [Eq. (45)]         11.81 (0.79)   12.05 (0.72)   12.97 (0.72)   2A1 < 2B2 < 2A2   n =  145530  1.1 s
+dressed bath, screened, no cross-sector [Eq. (45)]     11.79 (0.79)   12.02 (0.73)   12.98 (0.72)   2A1 < 2B2 < 2A2   n =  145530  1.0 s
+
+MR-GW (paper)                                          11.58          12.09          12.94          2A1 < 2B2 < 2A2
+DMRG (paper)                                           12.34          12.59          13.34          2A1 < 2B2 < 2A2
+Exp. (paper)                                           12.73          13.00          13.54          2A1 < 2B2 < 2A2
+

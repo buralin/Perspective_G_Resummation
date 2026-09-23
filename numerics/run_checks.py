@@ -197,6 +197,101 @@ def main():
     dense_sel = gf_ekt.dense_roots(guesses)
     report("EKT/ERPA Davidson roots vs dense", np.abs(theta - dense_sel).max(), 1e-7)
 
+    # 12. supermatrix variants with the EKT references (Sec. IV of the notes)
+    print("Supermatrix variants with the EKT references:")
+    g_ex = HermitianGF(ref, None, mixed='bare', bath=False)
+    for label, r in (('primary', ekt), ('extended', ekt2)):
+        g = HermitianGF(r, None, mixed='bare', bath=False)
+        report(f"EKT ({label}): M1 of Eq. (7) (bare K_B, no bath) == exact-reference value",
+               np.abs(g.moments()[1] - g_ex.moments()[1]).max(), 1e-9)
+        dev = check_same_sector_couplings(r, verbose=False)
+        report(f"EKT ({label}): same-sector K_top vs <embedded EKT states|H|...> (active-active)",
+               dev['active-active'], 1e-9)
+        report(f"EKT ({label}): same-sector K_top vs <embedded EKT states|H|...> (inactive-active)",
+               dev['inactive-active (same sector, common sign per pole)'], 1e-9)
+    for label, r, p in (('primary', ekt, rpa_ekt), ('extended', ekt2, MRRPA(ekt2, verbose=False))):
+        g7 = HermitianGF(r, None, mixed='bare', bath=False, cross_sector=False)
+        g_top7 = HermitianGF(r, p, mixed='bare', bath=True, cross_sector=False, bath_hamiltonian='top')
+        err = 0.0
+        for z in zs:
+            G_ref = np.linalg.inv(np.linalg.inv(g7.greens_function(z)) - g_top7.dressed_bath_self_energy(z))
+            err = max(err, np.abs(g_top7.greens_function(z) - G_ref).max())
+        report(f"EKT ({label}): dressed bath == GW self-energy from the Eq. (7) propagator (no cross-sector)",
+               err, 1e-9)
+        for kw, name in ((dict(mixed='bare', bath=True, bath_hamiltonian='top'), 'dressed, bare'),
+                         (dict(mixed='screened', bath=True, bath_hamiltonian='top'), 'dressed, screened'),
+                         (dict(mixed='bare', bath=True), 'diag., bare')):
+            g = HermitianGF(r, p, **kw)
+            M0, _ = g.moments()
+            _, _, w = g.poles()
+            report(f"EKT ({label}), {name}: |M0 - 1| and -min weight",
+                   max(np.abs(M0 - np.eye(ref.nso)).max(), -w.min()), 1e-10)
+            gs = np.array([g.orbital_guess(homo, 'remove'), g.orbital_guess(lumo, 'attach')]).T
+            theta, X, info = davidson_root_following(g.matvec, g.diagonal(), gs, tol=1e-8, verbose=False)
+            report(f"EKT ({label}), {name}: Davidson roots vs dense", np.abs(theta - g.dense_roots(gs)).max(), 1e-7)
+
+    # 13. density-matrix realization of the EKT/ERPA reference and cumulants
+    print("Spin-orbital RDMs, cumulants and the RDM realization of EKT/ERPA:")
+    from mrgw_hermitian import rdm as rdmmod
+    from pyscf.fci import cistring
+    D = ref.rdms(4)
+    Nel = sum(ref.nelecas)
+    report("D_1 == gamma_act", np.abs(D[1] - ref.gamma_act).max(), 1e-12)
+    report("partial traces D_k -> (N-k+1) D_{k-1}", max(
+        np.abs(np.einsum('prqr->pq', D[2]) - (Nel - 1) * D[1]).max(),
+        np.abs(np.einsum('pqrstr->pqst', D[3]) - (Nel - 2) * D[2]).max(),
+        np.abs(np.einsum('pqrtuvwt->pqruvw', D[4]) - (Nel - 3) * D[3]).max()), 1e-12)
+    L = rdmmod.cumulants(D)
+    report("cumulant trace relation sum_r L2[p,r,q,r] = gamma^2 - gamma",
+           np.abs(np.einsum('prqr->pq', L[2]) - (D[1] @ D[1] - D[1])).max(), 1e-12)
+    Ld = rdmmod.cumulants(rdmmod.spin_orbital_rdms(rdmmod.determinant_vector(ref.ncas, ref.nelecas),
+                                                   ref.ncas, ref.nelecas, order=4))
+    report("all cumulants vanish for a single determinant", max(np.abs(v).max() for v in Ld.values()), 1e-14)
+    # product of two independent two-orbital subsystems: cross-subsystem cumulants vanish
+    c, d = np.array([0.9, -np.sqrt(1 - 0.81)]), np.array([0.8, -0.6])
+    vprod = np.zeros((cistring.num_strings(4, 2), cistring.num_strings(4, 2)))
+    for i in (0, 1):
+        for j in (2, 3):
+            st = (1 << i) | (1 << j)
+            vprod[cistring.str2addr(4, 2, st), cistring.str2addr(4, 2, st)] = c[i] * d[j - 2]
+    Lp = rdmmod.cumulants(rdmmod.spin_orbital_rdms(vprod, 4, (2, 2), order=4))
+    maskA = np.zeros(8, bool)
+    maskA[:4] = True
+    cross = 0.0
+    for k, T in Lp.items():
+        mA = np.zeros(T.shape, bool)
+        mB = np.zeros(T.shape, bool)
+        for ax in range(2 * k):
+            sh = [1] * (2 * k)
+            sh[ax] = 8
+            mA |= maskA.reshape(sh)
+            mB |= (~maskA).reshape(sh)
+        cross = max(cross, float(np.abs(T[mA & mB]).max()))
+    report("cross-subsystem cumulants L2, L3, L4 vanish for a product state", cross, 1e-14)
+    R = rdmmod.reconstruct(D, drop=(4,))
+    report("reconstruction: D_4(L4 = 0) + L_4 == D_4", np.abs(R[4] + L[4] - D[4]).max(), 1e-12)
+    for label, man in (('primary', 'primary'), ('extended', 'extended')):
+        ci_r = ekt if man == 'primary' else ekt2
+        rd_r = EKTERPAReference(ref, charged_manifold=man, realization='rdm', verbose=False)
+        err = 0.0
+        for key in ci_r.ekt_problems:
+            A1, S1, e1, _ = ci_r.ekt_problems[key]
+            A2, S2, e2, _ = rd_r.ekt_problems[key]
+            err = max(err, np.abs(A1 - A2).max(), np.abs(S1 - S2).max(), np.abs(e1 - e2).max())
+        report(f"EKT ({label}): RDM realization == CI realization (A, S, eigenvalues)", err, 1e-9)
+        report(f"EKT ({label}): RDM realization == CI realization (ERPA energies)",
+               np.abs(ci_r.erpa_omega - rd_r.erpa_omega).max(), 1e-10)
+        rpa_rd = MRRPA(rd_r, verbose=False)
+        rpa_ci = MRRPA(ci_r, verbose=False)
+        g1 = HermitianGF(ci_r, rpa_ci, mixed='screened', bath=True, bath_hamiltonian='top')
+        g2 = HermitianGF(rd_r, rpa_rd, mixed='screened', bath=True, bath_hamiltonian='top')
+        report(f"EKT ({label}): RDM realization == CI realization (G(z), dressed screened)",
+               max(np.abs(g1.greens_function(z) - g2.greens_function(z)).max() for z in zs), 1e-9)
+    rd_t = EKTERPAReference(ref, charged_manifold='extended', realization='rdm', cumulant_drop=(4,),
+                            verbose=False)
+    report("extended EKT with L4 = 0: metric unchanged, M0 of the active propagator exact",
+           np.abs(rd_t.active_moments(order=0)[0][0] - np.eye(ref.nact_so)).max(), 1e-10)
+
     print()
     nfail = sum(1 for _, ok in status if not ok)
     print(f"{len(status) - nfail} checks passed, {nfail} failed")

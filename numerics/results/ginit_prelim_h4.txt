@@ -1,0 +1,153 @@
+====================================================================================================
+H4, R = 1.0 A, sto-6g, CASSCF(2,2)
+====================================================================================================
+
+--- exact CAS states (Sec. II) ---
+  reference: 8 charged poles (4 attachment, 4 removal), 3 neutral excitations
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               11.134 (0.966)       8.571 (0.966)      16.997 (0.999)      23.372 (1.000)   n =     12  |M0 - 1| 2e-16  min weight +3e-02  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 2e-16  min weight +2e-01  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 2e-16  min weight +2e-01  |Davidson - dense| 6e-15 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               10.878 (0.936)       8.524 (0.946)      15.938 (0.885)      26.343 (0.495)   n =     96  |M0 - 1| 2e-16  min weight +2e-07  |Davidson - dense| 7e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                10.863 (0.936)       8.504 (0.947)      14.973 (0.782)      26.752 (0.526)   n =     96  |M0 - 1| 2e-16  min weight +2e-07  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            10.861 (0.936)       8.505 (0.947)      14.944 (0.779)      26.765 (0.526)   n =     96  |M0 - 1| 2e-16  min weight +2e-07  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     96  |M0 - 1| 2e-16  min weight +1e-06  |Davidson - dense| 1e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          10.853 (0.935)       8.501 (0.947)      14.934 (0.779)      26.753 (0.525)   n =     96  |M0 - 1| 2e-16  min weight +2e-06  |Davidson - dense| 4e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     96  |M0 - 1| 2e-16  min weight +1e-06  |Davidson - dense| 3e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        10.855 (0.935)       8.500 (0.947)      14.934 (0.779)      26.756 (0.525)   n =     96  |M0 - 1| 2e-16  min weight +2e-06  |Davidson - dense| 2e-14 eV  0.0 s
+
+--- EKT, primary manifold {a_x}, {a_x^+} + ERPA response (Sec. IV) ---
+  reference: 8 EKT poles [(1, 2) att: rank 2 of dim 2 (2 vectors), (2, 1) att: rank 2 of dim 2 (2 vectors), (0, 1) rem: rank 2 of dim 2 (2 vectors), (1, 0) rem: rank 2 of dim 2 (2 vectors)]; complete, max |kappa - kappa_exact| = 2.2e-16 Ha
+  active response: 2 excitations (ERPA; exact CAS: 3); lowest (eV): 6.707, 14.777 vs exact 6.707, 14.777, 22.112
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               11.134 (0.966)       8.571 (0.966)      16.997 (0.999)      23.372 (1.000)   n =     12  |M0 - 1| 2e-16  min weight +3e-02  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 2e-16  min weight +2e-01  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 2e-16  min weight +2e-01  |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               10.878 (0.936)       8.523 (0.946)      15.938 (0.885)      26.343 (0.495)   n =     84  |M0 - 1| 2e-16  min weight +2e-05  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                10.863 (0.936)       8.504 (0.947)      14.973 (0.782)      26.753 (0.526)   n =     84  |M0 - 1| 2e-16  min weight +2e-05  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            10.861 (0.936)       8.504 (0.947)      14.944 (0.779)      26.765 (0.527)   n =     84  |M0 - 1| 2e-16  min weight +2e-05  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     84  |M0 - 1| 2e-16  min weight +4e-05  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          10.853 (0.935)       8.500 (0.947)      14.934 (0.779)      26.754 (0.525)   n =     84  |M0 - 1| 2e-16  min weight +4e-05  |Davidson - dense| 2e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     84  |M0 - 1| 2e-16  min weight +4e-05  |Davidson - dense| 3e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        10.855 (0.935)       8.500 (0.947)      14.934 (0.779)      26.756 (0.525)   n =     84  |M0 - 1| 2e-16  min weight +4e-05  |Davidson - dense| 4e-14 eV  0.0 s
+
+--- EKT, extended manifold 1h+2h1p / 1p+2p1h + ERPA response (Sec. IV) ---
+  reference: 8 EKT poles [(1, 2) att: rank 2 of dim 2 (6 vectors), (2, 1) att: rank 2 of dim 2 (6 vectors), (0, 1) rem: rank 2 of dim 2 (6 vectors), (1, 0) rem: rank 2 of dim 2 (6 vectors)]; complete, max |kappa - kappa_exact| = 2.8e-16 Ha
+  active response: 2 excitations (ERPA; exact CAS: 3); lowest (eV): 6.707, 14.777 vs exact 6.707, 14.777, 22.112
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               11.134 (0.966)       8.571 (0.966)      16.997 (0.999)      23.372 (1.000)   n =     12  |M0 - 1| 7e-16  min weight +3e-02  |Davidson - dense| 9e-15 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 7e-16  min weight +2e-01  |Davidson - dense| 1e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    11.129 (0.966)       8.563 (0.966)      15.855 (0.832)      24.445 (0.839)   n =     12  |M0 - 1| 7e-16  min weight +2e-01  |Davidson - dense| 1e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               10.878 (0.936)       8.523 (0.946)      15.938 (0.885)      26.343 (0.495)   n =     84  |M0 - 1| 7e-16  min weight +2e-05  |Davidson - dense| 1e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                10.863 (0.936)       8.504 (0.947)      14.973 (0.782)      26.753 (0.526)   n =     84  |M0 - 1| 7e-16  min weight +2e-05  |Davidson - dense| 1e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            10.861 (0.936)       8.504 (0.947)      14.944 (0.779)      26.765 (0.527)   n =     84  |M0 - 1| 7e-16  min weight +2e-05  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     84  |M0 - 1| 7e-16  min weight +4e-05  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          10.853 (0.935)       8.500 (0.947)      14.934 (0.779)      26.754 (0.525)   n =     84  |M0 - 1| 7e-16  min weight +4e-05  |Davidson - dense| 5e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            10.855 (0.936)       8.500 (0.947)      14.963 (0.782)      26.743 (0.525)   n =     84  |M0 - 1| 7e-16  min weight +4e-05  |Davidson - dense| 3e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        10.855 (0.935)       8.500 (0.947)      14.934 (0.779)      26.756 (0.525)   n =     84  |M0 - 1| 7e-16  min weight +4e-05  |Davidson - dense| 1e-14 eV  0.0 s
+
+full CI (most intense poles)                              11.086 (0.923)       8.786 (0.933)
+  (energies in eV as |root|; weight in parentheses; min weight over all roots shows positivity)
+
+====================================================================================================
+H4, R = 1.0 A, 6-31g, CASSCF(2,2)
+====================================================================================================
+
+--- exact CAS states (Sec. II) ---
+  reference: 8 charged poles (4 attachment, 4 removal), 3 neutral excitations
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               12.356 (0.970)       3.515 (0.968)      17.908 (1.000)      10.601 (1.000)   n =     20  |M0 - 1| 1e-31  min weight +3e-02  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 1e-31  min weight +1e-01  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 1e-31  min weight +1e-01  |Davidson - dense| 6e-15 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               11.971 (0.931)       3.109 (0.941)      16.678 (0.876)       9.978 (0.944)   n =    400  |M0 - 1| 1e-31  min weight +7e-08  |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                11.960 (0.930)       2.966 (0.947)      15.832 (0.779)       9.634 (0.887)   n =    400  |M0 - 1| 1e-31  min weight +7e-08  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            11.973 (0.929)       3.244 (0.946)      15.829 (0.778)       9.609 (0.883)   n =    400  |M0 - 1| 1e-31  min weight +7e-08  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    400  |M0 - 1| 1e-31  min weight +2e-06  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          11.957 (0.929)       3.258 (0.946)      15.811 (0.778)       9.394 (0.850)   n =    400  |M0 - 1| 1e-31  min weight +9e-07  |Davidson - dense| 4e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    400  |M0 - 1| 1e-31  min weight +2e-06  |Davidson - dense| 5e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        11.947 (0.930)       3.256 (0.946)      15.813 (0.778)       9.384 (0.851)   n =    400  |M0 - 1| 1e-31  min weight +9e-07  |Davidson - dense| 2e-14 eV  0.0 s
+
+--- EKT, primary manifold {a_x}, {a_x^+} + ERPA response (Sec. IV) ---
+  reference: 8 EKT poles [(1, 2) att: rank 2 of dim 2 (2 vectors), (2, 1) att: rank 2 of dim 2 (2 vectors), (0, 1) rem: rank 2 of dim 2 (2 vectors), (1, 0) rem: rank 2 of dim 2 (2 vectors)]; complete, max |kappa - kappa_exact| = 3.3e-16 Ha
+  active response: 2 excitations (ERPA; exact CAS: 3); lowest (eV): 6.376, 13.310 vs exact 6.376, 13.310, 20.311
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               12.356 (0.970)       3.515 (0.968)      17.908 (1.000)      10.601 (1.000)   n =     20  |M0 - 1| 4e-32  min weight +3e-02  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 4e-32  min weight +1e-01  |Davidson - dense| 1e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 4e-32  min weight +1e-01  |Davidson - dense| 9e-15 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               11.970 (0.931)       3.109 (0.941)      16.678 (0.876)       9.978 (0.944)   n =    380  |M0 - 1| 4e-32  min weight +1e-06  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                11.959 (0.930)       2.966 (0.947)      15.832 (0.779)       9.634 (0.887)   n =    380  |M0 - 1| 4e-32  min weight +1e-06  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            11.973 (0.929)       3.244 (0.946)      15.829 (0.778)       9.608 (0.883)   n =    380  |M0 - 1| 4e-32  min weight +1e-06  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    380  |M0 - 1| 4e-32  min weight +2e-06  |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          11.956 (0.929)       3.258 (0.946)      15.811 (0.778)       9.394 (0.850)   n =    380  |M0 - 1| 4e-32  min weight +9e-07  |Davidson - dense| 3e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    380  |M0 - 1| 4e-32  min weight +2e-06  |Davidson - dense| 3e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        11.947 (0.930)       3.256 (0.946)      15.813 (0.778)       9.384 (0.851)   n =    380  |M0 - 1| 4e-32  min weight +9e-07  |Davidson - dense| 2e-14 eV  0.0 s
+
+--- EKT, extended manifold 1h+2h1p / 1p+2p1h + ERPA response (Sec. IV) ---
+  reference: 8 EKT poles [(1, 2) att: rank 2 of dim 2 (6 vectors), (2, 1) att: rank 2 of dim 2 (6 vectors), (0, 1) rem: rank 2 of dim 2 (6 vectors), (1, 0) rem: rank 2 of dim 2 (6 vectors)]; complete, max |kappa - kappa_exact| = 7.8e-16 Ha
+  active response: 2 excitations (ERPA; exact CAS: 3); lowest (eV): 6.376, 13.310 vs exact 6.376, 13.310, 20.311
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         IP (0a(core))         EA (3a(virt))
+reference poles (+ Sigma_1)                               12.356 (0.970)       3.515 (0.968)      17.908 (1.000)      10.601 (1.000)   n =     20  |M0 - 1| 4e-16  min weight +3e-02  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 4e-16  min weight +1e-01  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.347 (0.970)       3.374 (0.973)      16.845 (0.824)      10.267 (0.938)   n =     20  |M0 - 1| 4e-16  min weight +1e-01  |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               11.970 (0.931)       3.109 (0.941)      16.678 (0.876)       9.978 (0.944)   n =    380  |M0 - 1| 4e-16  min weight +1e-06  |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                11.959 (0.930)       2.966 (0.947)      15.832 (0.779)       9.634 (0.887)   n =    380  |M0 - 1| 4e-16  min weight +1e-06  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            11.973 (0.929)       3.244 (0.946)      15.829 (0.778)       9.608 (0.883)   n =    380  |M0 - 1| 4e-16  min weight +1e-06  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    380  |M0 - 1| 4e-16  min weight +2e-06  |Davidson - dense| 6e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          11.956 (0.929)       3.258 (0.946)      15.811 (0.778)       9.394 (0.850)   n =    380  |M0 - 1| 4e-16  min weight +9e-07  |Davidson - dense| 2e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            11.947 (0.930)       2.979 (0.947)      15.818 (0.779)       9.384 (0.848)   n =    380  |M0 - 1| 4e-16  min weight +2e-06  |Davidson - dense| 5e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        11.947 (0.930)       3.256 (0.946)      15.813 (0.778)       9.384 (0.851)   n =    380  |M0 - 1| 4e-16  min weight +9e-07  |Davidson - dense| 2e-14 eV  0.0 s
+
+full CI (most intense poles)                              11.999 (0.921)       2.993 (0.929)
+  (energies in eV as |root|; weight in parentheses; min weight over all roots shows positivity)
+
+====================================================================================================
+H4, R = 1.0 A, 6-31g, CASSCF(4,4)
+====================================================================================================
+
+--- exact CAS states (Sec. II) ---
+  reference: 96 charged poles (48 attachment, 48 removal), 35 neutral excitations
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         EA (4a(virt))
+reference poles (+ Sigma_1)                               12.184 (0.933)       3.794 (0.943)      29.047 (0.972)   n =    104  |M0 - 1| 4e-15  min weight +3e-31  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.176 (0.933)       3.638 (0.953)      29.559 (0.941)   n =    104  |M0 - 1| 4e-15  min weight +6e-33  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.176 (0.933)       3.638 (0.953)      29.573 (0.941)   n =    104  |M0 - 1| 4e-15  min weight +9e-32  |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               12.058 (0.921)       3.416 (0.932)      26.432 (0.789)   n =   8872  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + diag. bath, bare                                12.052 (0.920)       3.267 (0.941)      26.987 (0.757)   n =   8872  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + diag. bath, screened                            12.082 (0.919)       3.778 (0.939)      26.824 (0.771)   n =   8872  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + dressed bath, bare                              12.043 (0.921)       3.295 (0.942)      27.035 (0.788)   n =  10920  |M0 - 1| 4e-15  0.2 s
+Eq. (7) + dressed bath, screened                          12.065 (0.919)       3.807 (0.940)      26.871 (0.803)   n =  10920  |M0 - 1| 4e-15  0.1 s
+dressed bath, bare, no cross-sector [Eq. (45)]            12.043 (0.920)       3.294 (0.943)      27.024 (0.789)   n =  10920  |M0 - 1| 4e-15  0.1 s
+dressed bath, screened, no cross-sector [Eq. (45)]        12.043 (0.920)       3.805 (0.940)      26.796 (0.804)   n =  10920  |M0 - 1| 4e-15  0.1 s
+
+--- EKT, primary manifold {a_x}, {a_x^+} + ERPA response (Sec. IV) ---
+  reference: 16 EKT poles [(2, 3) att: rank 4 of dim 24 (4 vectors), (3, 2) att: rank 4 of dim 24 (4 vectors), (1, 2) rem: rank 4 of dim 24 (4 vectors), (2, 1) rem: rank 4 of dim 24 (4 vectors)]; incomplete
+  active response: 12 excitations (ERPA; exact CAS: 35); lowest (eV): 6.428, 11.740, 13.567 vs exact 6.224, 11.260, 13.332
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         EA (4a(virt))
+reference poles (+ Sigma_1)                               12.722 (0.961)       4.135 (0.955)      37.024 (0.998)   n =     24  |M0 - 1| 3e-15  min weight +1e-02  |Davidson - dense| 8e+00 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.714 (0.961)       3.908 (0.962)      29.953 (0.931)   n =     24  |M0 - 1| 3e-15  min weight +1e-02  |Davidson - dense| 8e-15 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.714 (0.961)       3.908 (0.962)      29.953 (0.931)   n =     24  |M0 - 1| 3e-15  min weight +1e-02  |Davidson - dense| 2e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               12.587 (0.948)       3.756 (0.944)      26.632 (0.809)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + diag. bath, bare                                12.581 (0.948)       3.539 (0.951)      27.320 (0.736)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7) + diag. bath, screened                            12.620 (0.946)       4.071 (0.950)      27.047 (0.755)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 2e-14 eV  0.0 s
+Eq. (7) + dressed bath, bare                              12.571 (0.948)       3.567 (0.952)      27.376 (0.759)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 5e-14 eV  0.0 s
+Eq. (7) + dressed bath, screened                          12.602 (0.946)       4.100 (0.951)      27.086 (0.783)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 7e-14 eV  0.0 s
+dressed bath, bare, no cross-sector [Eq. (45)]            12.571 (0.948)       3.567 (0.952)      27.376 (0.759)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 5e-14 eV  0.0 s
+dressed bath, screened, no cross-sector [Eq. (45)]        12.572 (0.948)       4.099 (0.950)      27.023 (0.783)   n =    552  |M0 - 1| 3e-15  min weight +4e-09  |Davidson - dense| 2e-14 eV  0.0 s
+
+--- EKT, extended manifold 1h+2h1p / 1p+2p1h + ERPA response (Sec. IV) ---
+  reference: 96 EKT poles [(2, 3) att: rank 24 of dim 24 (92 vectors), (3, 2) att: rank 24 of dim 24 (92 vectors), (1, 2) rem: rank 24 of dim 24 (92 vectors), (2, 1) rem: rank 24 of dim 24 (92 vectors)]; complete, max |kappa - kappa_exact| = 1.5e-12 Ha
+  active response: 12 excitations (ERPA; exact CAS: 35); lowest (eV): 6.428, 11.740, 13.567 vs exact 6.224, 11.260, 13.332
+variant                                                     IP (HOMO-like)        EA (LUMO-like)         EA (4a(virt))
+reference poles (+ Sigma_1)                               12.184 (0.933)       3.794 (0.943)      29.047 (0.972)   n =    104  |M0 - 1| 4e-15  min weight +1e-30  |Davidson - dense| 4e-14 eV  0.0 s
+Eq. (7): same-sector H_ia, no bath                        12.176 (0.933)       3.638 (0.953)      29.559 (0.941)   n =    104  |M0 - 1| 4e-15  min weight +8e-31  |Davidson - dense| 3e-14 eV  0.0 s
+Eq. (7): all pairs (bare K_B), no bath                    12.176 (0.933)       3.638 (0.953)      29.573 (0.941)   n =    104  |M0 - 1| 4e-15  min weight +3e-31  |Davidson - dense| 4e-14 eV  0.0 s
+MR-GW (K_B = 0, diag. bath)                               12.057 (0.921)       3.417 (0.932)      26.489 (0.796)   n =   8816  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + diag. bath, bare                                12.052 (0.920)       3.268 (0.941)      27.053 (0.770)   n =   8816  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + diag. bath, screened                            12.081 (0.919)       3.779 (0.939)      26.884 (0.782)   n =   8816  |M0 - 1| 4e-15  0.0 s
+Eq. (7) + dressed bath, bare                              12.042 (0.921)       3.296 (0.942)      27.049 (0.784)   n =  11648  |M0 - 1| 4e-15  0.2 s
+Eq. (7) + dressed bath, screened                          12.064 (0.919)       3.808 (0.940)      26.892 (0.807)   n =  11648  |M0 - 1| 4e-15  0.2 s
+dressed bath, bare, no cross-sector [Eq. (45)]            12.042 (0.920)       3.295 (0.943)      27.038 (0.784)   n =  11648  |M0 - 1| 4e-15  0.1 s
+dressed bath, screened, no cross-sector [Eq. (45)]        12.043 (0.920)       3.807 (0.940)      26.818 (0.808)   n =  11648  |M0 - 1| 4e-15  0.1 s
+
+full CI (most intense poles)                              11.999 (0.921)       2.993 (0.929)
+  (energies in eV as |root|; weight in parentheses; min weight over all roots shows positivity)
+

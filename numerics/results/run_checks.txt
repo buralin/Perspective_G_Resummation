@@ -1,0 +1,161 @@
+RHF energy    = -2.1124606989
+CASSCF energy = -2.1383624244
+Dyall reference
+  nmo = 4, ncore = 1, ncas = 2, nelecas = (1, 1), nso = 8
+  active sectors: (1, 1): 4 states, (2, 1): 2 states, (1, 2): 2 states, (0, 1): 2 states, (1, 0): 2 states
+  charged active poles: 8 (4 attachment, 4 removal)
+  |<Xi0|mc.ci>| = 1.000000000000
+  inactive orbital energies (eV): -16.991, 23.365
+  lowest active attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest active ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+[PASS] h_eff vs mc.get_h1eff: 3.162e-16 (tol 1e-10)
+[PASS] E0(active) + E_core vs CASSCF energy: 0.000e+00 (tol 1e-08)
+[PASS] 1 - |<Xi0|mc.ci>|: -2.220e-16 (tol 1e-08)
+[PASS] active sum rule |d d^T - 1|: 2.220e-16 (tol 1e-10)
+[PASS] Dyall zeroth moment |T_D T_D^T - 1|: 2.220e-16 (tol 1e-10)
+[PASS] Sigma_stat active-active block: 0.000e+00 (tol 1e-10)
+[PASS] Sigma_stat core-core block: 2.175e-11 (tol 1e-08)
+[PASS] Sigma_stat virtual-virtual block: 7.827e-12 (tol 1e-08)
+[PASS] Sigma_stat Hermiticity: 5.066e-16 (tol 1e-10)
+       max |Sigma_stat| core-virtual block (0 for converged CASSCF orbitals): 1.43e-14
+       max |Sigma_stat| inactive-active block: 1.69e-02
+MR-RPA
+  channels: 21 (cv 2, ca 8, av 8, aa 3)
+  A/B asymmetry before symmetrization: 2.90e-16; |R^T S - 1|max = 6.55e-15
+  lowest MR-RPA excitation energies (eV): 6.707, 14.520, 22.105, 25.555, 25.555
+  MR-RPA modes coupled to the residual interaction: 7 of 21; MR-GW pole bath after pruning: 84 poles
+[PASS] MR-RPA A/B asymmetry: 2.898e-16 (tol 1e-10)
+[PASS] MR-RPA normalization |R^T S - 1|: 6.550e-15 (tol 1e-08)
+[PASS] MR-RPA positivity (-min Omega): -2.465e-01 (tol 1e-12)
+[PASS] W_D(0) symmetry |W0 - W0^(pair swap)|: 1.332e-15 (tol 1e-10)
+[PASS] Hermitian linearization == MR-GW Dyson equation: 5.775e-15 (tol 1e-09)
+Same-sector coupling check (bare kernel, no bath) against exact Hamiltonian matrix elements between charged Dyall states:
+  max deviation active-active: 1.998e-15 Ha
+  max deviation inactive-inactive: 2.109e-15 Ha
+  max deviation inactive-active (same sector, common sign per pole): 2.889e-16 Ha
+  max deviation inactive-active (absolute values): 2.889e-16 Ha
+  n_couplings_compared: 8
+[PASS] same-sector K_top vs <charged Dyall states|H|...> (active-active): 1.998e-15 (tol 1e-09)
+[PASS] same-sector K_top vs <charged Dyall states|H|...> (inactive-inactive): 2.109e-15 (tol 1e-09)
+[PASS] same-sector K_top vs <charged Dyall states|H|...> (inactive-active): 2.889e-16 (tol 1e-09)
+Superoperator propagator (a_p^+|(z - H_super)^-1|a_q^+) vs Lehmann representation:
+  z = -0.80+0.05i : max|G_super - G_Lehmann| = 1.26e-15  (max|G| = 6.44e+00)
+  z = -0.30+0.05i : max|G_super - G_Lehmann| = 1.26e-15  (max|G| = 7.78e+00)
+  z = +0.20+0.05i : max|G_super - G_Lehmann| = 9.93e-16  (max|G| = 7.01e+00)
+  z = +0.70+0.05i : max|G_super - G_Lehmann| = 4.48e-16  (max|G| = 4.10e+00)
+[PASS] superoperator propagator == retarded Lehmann Green's function: 1.256e-15 (tol 1e-10)
+First-order Green's function check (finite differences on full CI):
+  z = -1.20+0.05i : |G_D(FCI) - G_D(poles)| = 3.16e-15, |dG/dlam (FD) - dG/dlam (Hermitian)| = 1.87e-07  (max|dG/dlam| = 6.92e-02)
+  z = -0.60+0.05i : |G_D(FCI) - G_D(poles)| = 3.98e-13, |dG/dlam (FD) - dG/dlam (Hermitian)| = 2.23e-06  (max|dG/dlam| = 1.62e+00)
+  z = -0.20+0.05i : |G_D(FCI) - G_D(poles)| = 7.74e-15, |dG/dlam (FD) - dG/dlam (Hermitian)| = 8.31e-08  (max|dG/dlam| = 6.78e-02)
+  z = +0.20+0.05i : |G_D(FCI) - G_D(poles)| = 5.28e-14, |dG/dlam (FD) - dG/dlam (Hermitian)| = 3.53e-07  (max|dG/dlam| = 4.98e-02)
+  z = +0.60+0.05i : |G_D(FCI) - G_D(poles)| = 1.13e-14, |dG/dlam (FD) - dG/dlam (Hermitian)| = 3.14e-07  (max|dG/dlam| = 5.62e-01)
+  z = +1.20+0.05i : |G_D(FCI) - G_D(poles)| = 4.62e-15, |dG/dlam (FD) - dG/dlam (Hermitian)| = 1.69e-07  (max|dG/dlam| = 9.50e-02)
+[PASS] G_D from FCI(H_D) vs pole representation: 3.979e-13 (tol 1e-08)
+[PASS] dG/dlambda: finite difference vs Hermitian K^(1): 7.099e-06 (tol 1e-05)
+[PASS] mixed-MR-GW zeroth moment |M0 - 1|: 2.220e-16 (tol 1e-10)
+[PASS] mixed-MR-GW spectral weights >= 0 (-min w): -2.414e-07 (tol 1e-12)
+FCI: E0 = -4.4740677620 Ha (electronic), 96 charged poles, sum rule |T T^T - 1| = 1.78e-15
+First spectral moment diagnostics (max abs deviation from full CI, Ha):
+  CAS/Dyall                 : 8.909e-03
+  MR-GW                     : 8.909e-03
+  MR-GW + mixed (bare)      : 8.909e-03
+  MR-GW + mixed (screened)  : 1.058e-02
+  h + vbar*gamma_D          : 8.909e-03  (first-order-exact reference: M1 with the Dyall density)
+[PASS] M1(MR-GW + mixed, bare) == h + vbar gamma_D (first-order exactness): 5.622e-16 (tol 1e-09)
+Davidson root following on the screened mixed MR-GW matrix:
+  Davidson it   1  subspace    4  roots(eV):   -11.129160,     8.563507,   -16.991244,    23.365596  max|r| = 3.23e-01
+  Davidson it   2  subspace    8  roots(eV):   -10.860226,     8.504461,   -14.957192,    26.611940  max|r| = 2.13e-01
+  Davidson it   3  subspace   12  roots(eV):   -10.860595,     8.504623,   -14.944209,    26.769495  max|r| = 5.02e-02
+  Davidson it   4  subspace   16  roots(eV):   -10.860595,     8.504623,   -14.944203,    26.764666  max|r| = 2.72e-03
+  Davidson it   5  subspace   18  roots(eV):   -10.860595,     8.504623,   -14.944203,    26.764676  max|r| = 5.24e-07
+  Davidson it   6  subspace   19  roots(eV):   -10.860595,     8.504623,   -14.944203,    26.764676  max|r| = 1.25e-11
+[PASS] Davidson roots vs dense max-overlap eigenvalues: 9.992e-16 (tol 1e-07)
+[PASS] Davidson residual norms: 1.251e-11 (tol 1e-07)
+Dressed bath (top-space Hamiltonian in the one-boson sector):
+[PASS] dressed bath == diagonal bath when K_top is diagonal: 9.058e-15 (tol 1e-10)
+[PASS] dressed bath == GW self-energy built from the Eq. (7) propagator (no cross-sector): 8.992e-15 (tol 1e-09)
+[PASS] dressed-bath variant: zeroth moment |M0 - 1|: 2.220e-16 (tol 1e-10)
+[PASS] dressed-bath variant: spectral weights >= 0 (-min w): -1.487e-06 (tol 1e-12)
+[PASS] dressed-bath variant: Davidson roots vs dense: 7.216e-16 (tol 1e-07)
+EKT/ERPA variant (extended Koopmans poles, extended-RPA active response):
+EKT/ERPA reference (charged manifold: primary {a_x}, {a_x^+}; active response: ERPA; realization: CI vectors)
+  EKT charged poles: 8 (4 attachment, 4 removal); exact: 8; null/linearly dependent manifold directions removed: 0
+    sector (1, 2) (attachment): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (2, 1) (attachment): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (0, 1) (removal): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (1, 0) (removal): rank 2 from 2 manifold vectors, sector dimension 2
+  manifold complete: max |kappa - kappa_exact| = 2.2e-16 Ha
+  lowest EKT attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest EKT ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+  ERPA active excitations: 2 (exact CAS states: 3); metric/structure errors 1.1e-16/0.0e+00
+  lowest ERPA active excitation energies (eV): 6.707, 14.777
+  lowest exact active excitation energies (eV): 6.707, 14.777, 22.112
+[PASS] EKT zeroth moment |sum d d^T - 1|: 2.220e-16 (tol 1e-10)
+[PASS] EKT first moment == exact active first moment: 1.665e-16 (tol 1e-09)
+[PASS] EKT poles == exact poles (complete primary manifold for CAS(2,2)): 2.220e-16 (tol 1e-09)
+EKT/ERPA reference (charged manifold: extended: 1h + 2h1p, 1p + 2p1h; active response: ERPA; realization: CI vectors)
+  EKT charged poles: 8 (4 attachment, 4 removal); exact: 8; null/linearly dependent manifold directions removed: 16
+    sector (1, 2) (attachment): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (2, 1) (attachment): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (0, 1) (removal): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (1, 0) (removal): rank 2 from 6 manifold vectors, sector dimension 2
+  manifold complete: max |kappa - kappa_exact| = 8.9e-16 Ha
+  lowest EKT attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest EKT ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+  ERPA active excitations: 2 (exact CAS states: 3); metric/structure errors 1.1e-16/0.0e+00
+  lowest ERPA active excitation energies (eV): 6.707, 14.777
+  lowest exact active excitation energies (eV): 6.707, 14.777, 22.112
+[PASS] extended (1h+2h1p) manifold: moment M0 == exact: 2.220e-16 (tol 1e-08)
+[PASS] extended (1h+2h1p) manifold: moment M1 == exact: 1.110e-16 (tol 1e-08)
+[PASS] extended (1h+2h1p) manifold: moment M2 == exact: 1.249e-16 (tol 1e-08)
+[PASS] extended (1h+2h1p) manifold: moment M3 == exact: 4.857e-17 (tol 1e-08)
+[PASS] extended manifold poles == exact poles (complete for this active space): 8.882e-16 (tol 1e-08)
+[PASS] ERPA zeroth sum rule vs exact active response: 4.441e-16 (tol 1e-09)
+[PASS] ERPA energy-weighted sum rule vs exact active response: 2.220e-16 (tol 1e-09)
+MR-RPA
+  channels: 20 (cv 2, ca 8, av 8, aa 2)
+  A/B asymmetry before symmetrization: 2.90e-16; |R^T S - 1|max = 9.21e-15
+  lowest MR-RPA excitation energies (eV): 6.707, 14.520, 25.555, 25.555, 25.555
+  MR-RPA modes coupled to the residual interaction: 6 of 20; MR-GW pole bath after pruning: 72 poles
+[PASS] EKT/ERPA Hermitian linearization == Dyson equation: 5.775e-15 (tol 1e-09)
+[PASS] EKT/ERPA mixed-MR-GW zeroth moment |M0 - 1|: 2.220e-16 (tol 1e-10)
+[PASS] EKT/ERPA mixed-MR-GW spectral weights >= 0 (-min w): -1.538e-05 (tol 1e-12)
+[PASS] EKT/ERPA Davidson roots vs dense: 6.106e-16 (tol 1e-07)
+Supermatrix variants with the EKT references:
+[PASS] EKT (primary): M1 of Eq. (7) (bare K_B, no bath) == exact-reference value: 1.665e-16 (tol 1e-09)
+[PASS] EKT (primary): same-sector K_top vs <embedded EKT states|H|...> (active-active): 2.998e-15 (tol 1e-09)
+[PASS] EKT (primary): same-sector K_top vs <embedded EKT states|H|...> (inactive-active): 2.889e-16 (tol 1e-09)
+[PASS] EKT (extended): M1 of Eq. (7) (bare K_B, no bath) == exact-reference value: 1.110e-16 (tol 1e-09)
+[PASS] EKT (extended): same-sector K_top vs <embedded EKT states|H|...> (active-active): 3.331e-15 (tol 1e-09)
+[PASS] EKT (extended): same-sector K_top vs <embedded EKT states|H|...> (inactive-active): 2.889e-16 (tol 1e-09)
+[PASS] EKT (primary): dressed bath == GW self-energy from the Eq. (7) propagator (no cross-sector): 5.381e-15 (tol 1e-09)
+[PASS] EKT (primary), dressed, bare: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (primary), dressed, bare: Davidson roots vs dense: 4.441e-16 (tol 1e-07)
+[PASS] EKT (primary), dressed, screened: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (primary), dressed, screened: Davidson roots vs dense: 4.996e-16 (tol 1e-07)
+[PASS] EKT (primary), diag., bare: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (primary), diag., bare: Davidson roots vs dense: 8.327e-16 (tol 1e-07)
+[PASS] EKT (extended): dressed bath == GW self-energy from the Eq. (7) propagator (no cross-sector): 6.040e-15 (tol 1e-09)
+[PASS] EKT (extended), dressed, bare: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (extended), dressed, bare: Davidson roots vs dense: 6.106e-16 (tol 1e-07)
+[PASS] EKT (extended), dressed, screened: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (extended), dressed, screened: Davidson roots vs dense: 6.661e-16 (tol 1e-07)
+[PASS] EKT (extended), diag., bare: |M0 - 1| and -min weight: 2.220e-16 (tol 1e-10)
+[PASS] EKT (extended), diag., bare: Davidson roots vs dense: 6.661e-16 (tol 1e-07)
+Spin-orbital RDMs, cumulants and the RDM realization of EKT/ERPA:
+[PASS] D_1 == gamma_act: 0.000e+00 (tol 1e-12)
+[PASS] partial traces D_k -> (N-k+1) D_{k-1}: 6.311e-30 (tol 1e-12)
+[PASS] cumulant trace relation sum_r L2[p,r,q,r] = gamma^2 - gamma: 3.331e-16 (tol 1e-12)
+[PASS] all cumulants vanish for a single determinant: 0.000e+00 (tol 1e-14)
+[PASS] cross-subsystem cumulants L2, L3, L4 vanish for a product state: 1.316e-16 (tol 1e-14)
+[PASS] reconstruction: D_4(L4 = 0) + L_4 == D_4: 0.000e+00 (tol 1e-12)
+[PASS] EKT (primary): RDM realization == CI realization (A, S, eigenvalues): 6.328e-15 (tol 1e-09)
+[PASS] EKT (primary): RDM realization == CI realization (ERPA energies): 3.608e-16 (tol 1e-10)
+[PASS] EKT (primary): RDM realization == CI realization (G(z), dressed screened): 3.081e-13 (tol 1e-09)
+[PASS] EKT (extended): RDM realization == CI realization (A, S, eigenvalues): 7.772e-16 (tol 1e-09)
+[PASS] EKT (extended): RDM realization == CI realization (ERPA energies): 3.608e-16 (tol 1e-10)
+[PASS] EKT (extended): RDM realization == CI realization (G(z), dressed screened): 4.072e-14 (tol 1e-09)
+[PASS] extended EKT with L4 = 0: metric unchanged, M0 of the active propagator exact: 8.882e-16 (tol 1e-10)
+
+77 checks passed, 0 failed

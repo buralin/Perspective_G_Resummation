@@ -316,6 +316,7 @@ class DyallReference:
                 & is_act[None, None, :, None] & is_act[None, None, None, :])
         self.VR = self.V * (~mask)
         self._Vbar = None                                # built on demand
+        self._rdms = None                                # spin-orbital RDMs, on demand
         self.VbarR = antisymmetrize(self.VR)
         self.eps = np.repeat(np.diag(F_mo), 2)          # eps[2p+s] = F_pp
         self.hD_so = spin_orbital_one_body(h1_D)
@@ -475,6 +476,15 @@ class DyallReference:
         T_D[np.ix_(self.act_so, nI + np.arange(self.npoles))] = self.d_act
         K_D = np.concatenate([self.eps[self.inact_so], self.kappa])
         return T_D, K_D
+
+    # ------------------------------------------------------------------
+    def rdms(self, order=2):
+        """Spin-orbital RDMs D_1..D_order of |Xi_0> over the active spin
+        orbitals (see rdm.py for the conventions); cached."""
+        from .rdm import spin_orbital_rdms
+        if self._rdms is None or max(self._rdms) < order:
+            self._rdms = spin_orbital_rdms(self.xi0, self.ncas, self.nelecas, order)
+        return {k: v for k, v in self._rdms.items() if k <= order}
 
     # ------------------------------------------------------------------
     @property

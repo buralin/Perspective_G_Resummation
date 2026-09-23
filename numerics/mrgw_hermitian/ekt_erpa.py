@@ -58,8 +58,11 @@ and HermitianGF (same attributes: poles, kappa, pole_sign, d_act, Cc, ...).
 import numpy as np
 
 from .dyall import (DyallReference, ActivePole, apply_cre, apply_des,
-                    apply_hamiltonian, HARTREE2EV)
+                    apply_hamiltonian, HARTREE2EV, spin_orbital_one_body,
+                    spin_orbital_two_body)
 from .mrrpa import solve_rpa
+from . import wick
+from . import rdm as rdmmod
 
 
 def _canonical_orthogonalization(S, tol):
@@ -81,19 +84,54 @@ class EKTERPAReference:
         the ERPA manifold with |n_q - n_p| below this value are discarded.
     lin_tol : relative threshold on the Gram-matrix eigenvalues of the
         extended charged manifold (canonical orthogonalization).
+    response : 'erpa' (default) or 'exact'; the neutral active excitations
+        that enter the active-active channel of the MR-RPA.  'exact' keeps
+        the CAS eigenstates and isolates the effect of the EKT charged
+        manifold.
+    realization : 'ci' (default) evaluates all matrix elements by applying
+        operators and H_act to CI vectors; 'rdm' evaluates them as
+        contractions of the active integrals with the spin-orbital reduced
+        density matrices D_1..D_4 of |Xi_0> (Wick engine of wick.py; RDMs of
+        rdm.py).  Both give identical numbers for exact RDMs.
+    cumulant_drop : tuple of cumulant orders set to zero in the RDM
+        realization, () (exact), (4,) (D_4 without the four-body cumulant)
+        or (3, 4) (D_3 and D_4 without the three- and four-body cumulants).
+        Only D_3 and D_4 are affected, i.e. only the extended manifold.
     """
 
     def __init__(self, ref, charged_manifold='primary', occ_tol=1e-8, lin_tol=1e-10,
-                 verbose=True):
+                 response='erpa', realization='ci', cumulant_drop=(), verbose=True):
         if charged_manifold not in ('primary', 'extended'):
             raise ValueError("charged_manifold must be 'primary' or 'extended'")
+        if response not in ('erpa', 'exact'):
+            raise ValueError("response must be 'erpa' or 'exact'")
+        if realization not in ('ci', 'rdm'):
+            raise ValueError("realization must be 'ci' or 'rdm'")
+        cumulant_drop = tuple(sorted(int(k) for k in cumulant_drop))
+        if cumulant_drop and realization != 'rdm':
+            raise ValueError("cumulant truncation requires realization='rdm'")
+        if any(k not in (3, 4) for k in cumulant_drop) or cumulant_drop == (3,):
+            raise ValueError("cumulant_drop must be (), (4,) or (3, 4)")
         self._ref = ref
         self.charged_manifold = charged_manifold
+        self.response = response
+        self.realization = realization
+        self.cumulant_drop = cumulant_drop
         self.occ_tol = occ_tol
         self.lin_tol = lin_tol
         self.verbose = verbose
-        self._build_ekt()
-        self.C3 = DyallReference._three_operator_amplitudes(self)
+        if realization == 'rdm':
+            order = 4 if charged_manifold == 'extended' else 2
+            self.rdms_exact = ref.rdms(order)
+            self.rdms = (rdmmod.reconstruct(self.rdms_exact, drop=cumulant_drop)
+                         if cumulant_drop else self.rdms_exact)
+            self._tensors = {'h': spin_orbital_one_body(ref.h_eff),
+                             'V': spin_orbital_two_body(ref.eri_cas)}
+            self._build_ekt_rdm()
+            self.C3 = self._three_operator_amplitudes_rdm()
+        else:
+            self._build_ekt()
+            self.C3 = DyallReference._three_operator_amplitudes(self)
         self.Cc = 0.5 * self.C3 - np.einsum('yw,za->azyw', ref.gamma_act, self.d_act)
         self._build_erpa()
         if verbose:
@@ -188,6 +226,198 @@ class EKTERPAReference:
         self.d_act = np.array([p.d for p in poles]).T
 
     # ------------------------------------------------------------------
+    # RDM realization (Wick engine + reduced density matrices)
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _operator_types(sign):
+        """Ket operators of the charged manifolds with their free labels:
+        removal 1h: a_y, 2h1p: a_y^+ a_w a_z; attachment 1p: a_y^+,
+        2p1h: a_y a_w^+ a_z^+.  The bra of each type is the Hermitian
+        conjugate with the labels (y, w, z) -> (a, b, c)."""
+        c, d = wick.cre, wick.des
+        if sign < 0:
+            return {'1h': ([d('y')], ('y',)), '2h1p': ([c('y'), d('w'), d('z')], ('y', 'w', 'z'))}
+        return {'1p': ([c('y')], ('y',)), '2p1h': ([d('y'), c('w'), c('z')], ('y', 'w', 'z'))}
+
+    @staticmethod
+    def _bra(ops, labels):
+        sub = dict(zip(labels, ('a', 'b', 'c')))
+        ket = wick.string([(sub[l], dg) for l, dg in ops])
+        return wick.dagger(ket), tuple(sub[l] for l in labels)
+
+    def _eval(self, expr, free):
+        return wick.evaluate(expr, free, self._ref.nact_so, self._tensors, self.rdms)
+
+    def _manifold_entries(self, sign):
+        """Ordered list of (type, index tuple) of the manifold operators,
+        in the same order as the CI realization."""
+        n = self._ref.nact_so
+        entries = [('1h' if sign < 0 else '1p', (x,)) for x in range(n)]
+        if self.charged_manifold == 'extended':
+            t = '2h1p' if sign < 0 else '2p1h'
+            entries += [(t, (y, w, z)) for z in range(n) for w in range(z + 1, n) for y in range(n)]
+        return entries
+
+    def _entry_sector(self, sign, typ, idx):
+        na, nb = self._ref.nelecas
+        # creators / annihilators of the operator, per spin orbital index
+        if typ in ('1h', '1p'):
+            crs, ans = ((), idx) if sign < 0 else (idx, ())
+        elif typ == '2h1p':
+            crs, ans = (idx[0],), (idx[1], idx[2])
+        else:
+            crs, ans = (idx[1], idx[2]), (idx[0],)
+        da = sum(1 for x in crs if x % 2 == 0) - sum(1 for x in ans if x % 2 == 0)
+        db = sum(1 for x in crs if x % 2 == 1) - sum(1 for x in ans if x % 2 == 1)
+        return (na + da, nb + db)
+
+    def _build_ekt_rdm(self):
+        ref = self._ref
+        n = ref.nact_so
+        rem_secs, att_secs = set(ref.remove_sectors), set(ref.attach_sectors)
+        H = wick.hamiltonian()
+        poles = []
+        self.ekt_dropped = 0
+        self.ekt_problems = {}
+        self.charged_rank = {}
+        self.metric_negative = {}
+        self.rdm_orders_used = set()
+        self._pole_ops = []                       # (type, idx, coefficient) of the dominant component
+        for sign in (+1, -1):
+            types = self._operator_types(sign)
+            if self.charged_manifold == 'primary':
+                types = {k: v for k, v in types.items() if k in ('1h', '1p')}
+            # block arrays S[tb,tk], A[tb,tk] over free labels (bra..., ket...)
+            Sarr, Aarr, dS, C3arr = {}, {}, {}, {}
+            for tk, (kops, klab) in types.items():
+                ket = wick.string(kops)
+                HX = wick.commutator(H, ket)
+                for tb, (bops, blab) in types.items():
+                    bra, bl = self._bra(bops, blab)
+                    eS = wick.normal_order(wick.mul(bra, ket))
+                    eA = wick.normal_order(wick.mul(bra, HX))
+                    self.rdm_orders_used |= wick.rdm_orders(eA)
+                    Sarr[(tb, tk)] = self._eval(eS, bl + klab)
+                    Aarr[(tb, tk)] = self._eval(eA, bl + klab)
+                # residues and three-operator amplitudes
+                bra, bl = self._bra(kops, klab)
+                three = wick.string([wick.cre('u'), wick.des('v'), wick.des('t')])
+                if sign < 0:
+                    dS[tk] = self._eval(wick.normal_order(wick.mul(bra, wick.string([wick.des('x')]))), bl + ('x',))
+                    C3arr[tk] = self._eval(wick.normal_order(wick.mul(bra, three)), bl + ('t', 'u', 'v'))
+                else:
+                    dS[tk] = self._eval(wick.normal_order(wick.mul(wick.string([wick.des('x')]), ket)), ('x',) + klab)
+                    C3arr[tk] = self._eval(wick.normal_order(wick.mul(three, ket)), ('t', 'u', 'v') + klab)
+            # manifold entries grouped by sector, vectors of vanishing norm removed
+            groups = {}
+            for typ, idx in self._manifold_entries(sign):
+                sec = self._entry_sector(sign, typ, idx)
+                if (sign < 0 and sec not in rem_secs) or (sign > 0 and sec not in att_secs):
+                    continue
+                norm2 = Sarr[(typ, typ)][idx + idx]
+                if norm2 < 1e-24:
+                    continue
+                groups.setdefault(sec, []).append((typ, idx))
+            for sec in sorted(groups):
+                ent = groups[sec]
+                m = len(ent)
+                A = np.zeros((m, m))
+                S = np.zeros((m, m))
+                bytype = {}
+                for j, (typ, idx) in enumerate(ent):
+                    bytype.setdefault(typ, []).append(j)
+                for tb, rows in bytype.items():
+                    I = np.array([ent[j][1] for j in rows])
+                    for tk, cols in bytype.items():
+                        J = np.array([ent[j][1] for j in cols])
+                        sel = (tuple(I[:, None, k] for k in range(I.shape[1]))
+                               + tuple(J[None, :, k] for k in range(J.shape[1])))
+                        S[np.ix_(rows, cols)] = Sarr[(tb, tk)][sel]
+                        A[np.ix_(rows, cols)] = Aarr[(tb, tk)][sel]
+                A = 0.5 * (A + A.T)
+                S = 0.5 * (S + S.T)
+                sev = np.linalg.eigvalsh(S)
+                self.metric_negative[(sign, sec)] = int(np.sum(sev < -1e-10))
+                tol = self.occ_tol if self.charged_manifold == 'primary' else self.lin_tol * max(sev.max(), 1e-300)
+                Xo, ndrop = _canonical_orthogonalization(S, tol)
+                self.ekt_dropped += ndrop
+                e, Ct = np.linalg.eigh(Xo.T @ A @ Xo)
+                C = Xo @ Ct
+                self.ekt_problems[(sign, sec)] = (A, S, e, C)
+                self.charged_rank[(sign, sec)] = (e.size, m, ref.sectors[sec].nstates)
+                # residues d_x = sum_j c_j <X_j^+ a_x> (removal) / <a_x X_j> (attachment)
+                Dman = np.zeros((m, n))
+                C3man = np.zeros((m, n, n, n))
+                for tb, rows in bytype.items():
+                    I = np.array([ent[j][1] for j in rows])
+                    if sign < 0:
+                        sel = tuple(I[:, None, k] for k in range(I.shape[1])) + (np.arange(n)[None, :],)
+                        Dman[rows] = dS[tb][sel]
+                        sel3 = (tuple(I[:, None, None, None, k] for k in range(I.shape[1]))
+                                + (np.arange(n)[None, :, None, None], np.arange(n)[None, None, :, None],
+                                   np.arange(n)[None, None, None, :]))
+                        C3man[rows] = C3arr[tb][sel3]
+                    else:
+                        sel = (np.arange(n)[None, :],) + tuple(I[:, None, k] for k in range(I.shape[1]))
+                        Dman[rows] = dS[tb][sel]
+                        sel3 = ((np.arange(n)[None, :, None, None], np.arange(n)[None, None, :, None],
+                                 np.arange(n)[None, None, None, :])
+                                + tuple(I[:, None, None, None, k] for k in range(I.shape[1])))
+                        C3man[rows] = C3arr[tb][sel3]
+                d_all = C.T @ Dman                                   # (rank, n)
+                C3_all = np.einsum('jk,jtuv->ktuv', C, C3man)        # [k, t=z, u=y, v=w]
+                for k in range(e.size):
+                    poles.append(ActivePole(sign, sec, k, sign * e[k], None, d_all[k]))
+                    self._pole_ops.append((ent, C[:, k]))
+                    poles[-1].vec = None
+                    self._c3_rdm = getattr(self, '_c3_rdm', [])
+                    self._c3_rdm.append(C3_all[k])
+        self.poles = poles
+        self.npoles = len(poles)
+        self.kappa = np.array([p.kappa for p in poles])
+        self.pole_sign = np.array([p.sign for p in poles])
+        self.d_act = np.array([p.d for p in poles]).T
+
+    def _three_operator_amplitudes_rdm(self):
+        """C3[alpha, z, y, w] = <Xi0|y^+ w z|alpha^+> or <alpha^-|y^+ w z|Xi0>
+        from the RDMs (assembled in _build_ekt_rdm)."""
+        return np.array(self._c3_rdm)
+
+    def pole_symmetry(self, ia):
+        p = self.poles[ia]
+        if p.vec is not None:
+            return self.state_symmetry(p.vec, p.sector)
+        ref = self._ref
+        if ref.orbsym is None:
+            return None
+        ent, c = self._pole_ops[ia]
+        typ, idx = ent[int(np.argmax(np.abs(c)))]
+        sym = ref.state_symmetry(ref.xi0, ref.nelecas)
+        for x in idx:
+            sym ^= int(ref.orbsym[ref.ncore + x // 2])
+        return sym
+
+    def _erpa_matrices_rdm(self, pairs, U):
+        """Double-commutator matrix M_(pq),(rs) = <[E_qp,[H,E_rs]]> and metric
+        S_(pq),(rs) = <[E_qp,E_rs]> in the natural-orbital basis from the
+        1- and 2-RDM."""
+        n = self._ref.nact_so
+        h = U.T @ self._tensors['h'] @ U
+        V = np.einsum('pa,rb,qc,sd,prqs->abcd', U, U, U, U, self._tensors['V'], optimize=True)
+        D1 = U.T @ self.rdms[1] @ U
+        D2 = np.einsum('pa,qb,rc,sd,pqrs->abcd', U, U, U, U, self.rdms[2], optimize=True)
+        Eqp = wick.string([wick.cre('q'), wick.des('p')])
+        Ers = wick.string([wick.cre('r'), wick.des('s')])
+        eM = wick.normal_order(wick.commutator(Eqp, wick.commutator(wick.hamiltonian(), Ers)))
+        eS = wick.normal_order(wick.commutator(Eqp, Ers))
+        assert max(wick.rdm_orders(eM)) <= 2
+        Marr = wick.evaluate(eM, ['p', 'q', 'r', 's'], n, {'h': h, 'V': V}, {1: D1, 2: D2})
+        Sarr = wick.evaluate(eS, ['p', 'q', 'r', 's'], n, {'h': h, 'V': V}, {1: D1, 2: D2})
+        P = np.array(pairs)
+        sel = (P[:, None, 0], P[:, None, 1], P[None, :, 0], P[None, :, 1])
+        return Marr[sel], Sarr[sel]
+
+    # ------------------------------------------------------------------
     def _build_erpa(self):
         ref = self._ref
         ncas, nact, nel, E0 = ref.ncas, ref.nact_so, ref.nelecas, ref.E0
@@ -202,9 +432,9 @@ class EKTERPAReference:
             n[xs] = ns
             U[np.ix_(xs, xs)] = Us
         self.no_occ, self.no_coeff = n, U
-        # u_xy = x^+ y |0> (same spin) in the original basis
+        # u_xy = x^+ y |0> (same spin) in the original basis (CI realization)
         u = {}
-        for y in range(nact):
+        for y in range(nact if self.realization == 'ci' else 0):
             v1, n1 = ref._des_xi0[y]
             if v1 is None:
                 continue
@@ -220,7 +450,7 @@ class EKTERPAReference:
                  if p != q and p % 2 == q % 2 and abs(n[q] - n[p]) > self.occ_tol]
         idx = {pq: i for i, pq in enumerate(pairs)}
         ut, Hut = {}, {}
-        for (p, q) in pairs:
+        for (p, q) in (pairs if self.realization == 'ci' else []):
             xs = [x for x in range(nact) if x % 2 == p % 2]
             vec = None
             for x in xs:
@@ -232,12 +462,15 @@ class EKTERPAReference:
             ut[(p, q)] = vec
             Hut[(p, q)] = apply_hamiltonian(h, eri, ncas, nel, vec) - E0 * vec
         npair = len(pairs)
-        M = np.zeros((npair, npair))
-        S = np.zeros((npair, npair))
-        for i, (p, q) in enumerate(pairs):
-            for j, (r, s) in enumerate(pairs):
-                M[i, j] = np.vdot(ut[(p, q)], Hut[(r, s)]) + np.vdot(ut[(s, r)], Hut[(q, p)])
-                S[i, j] = np.vdot(ut[(p, q)], ut[(r, s)]) - np.vdot(ut[(s, r)], ut[(q, p)])
+        if self.realization == 'rdm':
+            M, S = self._erpa_matrices_rdm(pairs, U)
+        else:
+            M = np.zeros((npair, npair))
+            S = np.zeros((npair, npair))
+            for i, (p, q) in enumerate(pairs):
+                for j, (r, s) in enumerate(pairs):
+                    M[i, j] = np.vdot(ut[(p, q)], Hut[(r, s)]) + np.vdot(ut[(s, r)], Hut[(q, p)])
+                    S[i, j] = np.vdot(ut[(p, q)], ut[(r, s)]) - np.vdot(ut[(s, r)], ut[(q, p)])
         M = 0.5 * (M + M.T)
         exc = [i for i, (p, q) in enumerate(pairs) if n[q] > n[p]]
         dex = [idx[(pairs[i][1], pairs[i][0])] for i in exc]
@@ -268,7 +501,10 @@ class EKTERPAReference:
     # ------------------------------------------------------------------
     # interface used by MRRPA / HermitianGF
     def neutral_transition_densities(self):
-        """ERPA excitation energies and rho[nu, x, y] = <nu|x^+ y|0>."""
+        """ERPA excitation energies and rho[nu, x, y] = <nu|x^+ y|0>
+        (the exact CAS values for response='exact')."""
+        if self.response == 'exact':
+            return self._ref.neutral_transition_densities()
         return self.erpa_omega, self.erpa_rho
 
     def exact_neutral_transition_densities(self):
@@ -285,10 +521,6 @@ class EKTERPAReference:
     def dyall_greens_function(self, z):
         T_D, K_D = self.pole_representation()
         return T_D @ ((1.0 / (z - K_D))[:, None] * T_D.T)
-
-    def pole_symmetry(self, ia):
-        p = self.poles[ia]
-        return self.state_symmetry(p.vec, p.sector)
 
     # ------------------------------------------------------------------
     def active_moments(self, order=3):
@@ -334,7 +566,13 @@ class EKTERPAReference:
         ref = self._ref
         label = ('primary {a_x}, {a_x^+}' if self.charged_manifold == 'primary'
                  else 'extended: 1h + 2h1p, 1p + 2p1h')
-        print(f"EKT/ERPA reference (charged manifold: {label})")
+        real = ('CI vectors' if self.realization == 'ci' else
+                'RDMs' + (f", cumulants {self.cumulant_drop} set to zero" if self.cumulant_drop else ' (exact)'))
+        print(f"EKT/ERPA reference (charged manifold: {label}; active response: "
+              f"{'ERPA' if self.response == 'erpa' else 'exact CAS states'}; realization: {real})")
+        if self.realization == 'rdm':
+            print(f"  RDM orders used in the EKT matrices: {sorted(self.rdm_orders_used)}; "
+                  f"negative metric eigenvalues per sector: {self.metric_negative}")
         print(f"  EKT charged poles: {self.npoles} "
               f"({np.sum(self.pole_sign > 0)} attachment, {np.sum(self.pole_sign < 0)} removal); "
               f"exact: {ref.npoles}; null/linearly dependent manifold directions removed: "

@@ -1,0 +1,161 @@
+==============================================================================
+Linear H4, R = 1.0 A, basis sto-6g, CAS(2,2)
+==============================================================================
+RHF energy    = -2.1124606989 Ha
+CASSCF energy = -2.1383624244 Ha
+Dyall reference
+  nmo = 4, ncore = 1, ncas = 2, nelecas = (1, 1), nso = 8
+  active sectors: (1, 1): 4 states, (2, 1): 2 states, (1, 2): 2 states, (0, 1): 2 states, (1, 0): 2 states
+  charged active poles: 8 (4 attachment, 4 removal)
+  |<Xi0|mc.ci>| = 1.000000000000
+  inactive orbital energies (eV): -16.991, 23.365
+  lowest active attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest active ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+MR-RPA
+  channels: 21 (cv 2, ca 8, av 8, aa 3)
+  A/B asymmetry before symmetrization: 4.13e-16; |R^T S - 1|max = 6.09e-15
+  lowest MR-RPA excitation energies (eV): 6.707, 14.520, 22.105, 25.555, 25.555
+  MR-RPA modes coupled to the residual interaction: 7 of 21; MR-GW pole bath after pruning: 84 poles
+
+EKT/ERPA reference (charged manifold: primary {a_x}, {a_x^+}; active response: ERPA)
+  EKT charged poles: 8 (4 attachment, 4 removal); exact: 8; null/linearly dependent manifold directions removed: 0
+    sector (1, 2) (attachment): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (2, 1) (attachment): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (0, 1) (removal): rank 2 from 2 manifold vectors, sector dimension 2
+    sector (1, 0) (removal): rank 2 from 2 manifold vectors, sector dimension 2
+  manifold complete: max |kappa - kappa_exact| = 2.2e-16 Ha
+  lowest EKT attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest EKT ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+  ERPA active excitations: 2 (exact CAS states: 3); metric/structure errors 8.3e-48/0.0e+00
+  lowest ERPA active excitation energies (eV): 6.707, 14.777
+  lowest exact active excitation energies (eV): 6.707, 14.777, 22.112
+MR-RPA
+  channels: 20 (cv 2, ca 8, av 8, aa 2)
+  A/B asymmetry before symmetrization: 4.13e-16; |R^T S - 1|max = 5.33e-15
+  lowest MR-RPA excitation energies (eV): 6.707, 14.520, 25.555, 25.555, 25.555
+  MR-RPA modes coupled to the residual interaction: 6 of 20; MR-GW pole bath after pruning: 72 poles
+
+EKT/ERPA reference (charged manifold: extended: 1h + 2h1p, 1p + 2p1h; active response: ERPA)
+  EKT charged poles: 8 (4 attachment, 4 removal); exact: 8; null/linearly dependent manifold directions removed: 16
+    sector (1, 2) (attachment): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (2, 1) (attachment): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (0, 1) (removal): rank 2 from 6 manifold vectors, sector dimension 2
+    sector (1, 0) (removal): rank 2 from 6 manifold vectors, sector dimension 2
+  manifold complete: max |kappa - kappa_exact| = 3.9e-16 Ha
+  lowest EKT attachment energies (eV): 8.563, 8.563, 19.034, 19.034
+  lowest EKT ionization energies (eV): 11.129, 11.129, 21.245, 21.245
+  ERPA active excitations: 2 (exact CAS states: 3); metric/structure errors 8.3e-48/0.0e+00
+  lowest ERPA active excitation energies (eV): 6.707, 14.777
+  lowest exact active excitation energies (eV): 6.707, 14.777, 22.112
+MR-RPA
+  channels: 20 (cv 2, ca 8, av 8, aa 2)
+  A/B asymmetry before symmetrization: 4.13e-16; |R^T S - 1|max = 2.04e-14
+  lowest MR-RPA excitation energies (eV): 6.707, 14.520, 25.555, 25.555, 25.555
+  MR-RPA modes coupled to the residual interaction: 6 of 20; MR-GW pole bath after pruning: 72 poles
+FCI: E0 = -4.4740677620 Ha (electronic), 96 charged poles, sum rule |T T^T - 1| = 3.66e-15
+
+Davidson root following (targets: principal IP, principal EA, core IP, virtual EA)
+------------------------------------------------------------------------------
+CAS (Dyall reference): matrix dimension 12 (top 12, bath 0)
+  converged in 2 iterations, max residual 3.9e-16
+  principal IP  (1a(act), removal)         Davidson   -11.134 eV   dense   -11.134 eV   weight 0.966   overlap with guess 1.000
+  principal EA  (2a(act), attachment)      Davidson     8.571 eV   dense     8.571 eV   weight 0.966   overlap with guess 1.000
+  core IP       (0a(core))                 Davidson   -16.997 eV   dense   -16.997 eV   weight 0.999   overlap with guess 1.000
+  virtual EA    (3a(virt))                 Davidson    23.372 eV   dense    23.372 eV   weight 1.000   overlap with guess 1.000
+MR-GW: matrix dimension 96 (top 12, bath 84)
+  converged in 6 iterations, max residual 9.1e-11
+  principal IP  (1a(act), removal)         Davidson   -10.878 eV   dense   -10.878 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.524 eV   dense     8.524 eV   weight 0.946   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -15.938 eV   dense   -15.938 eV   weight 0.885   overlap with guess 0.940
+  virtual EA    (3a(virt))                 Davidson    26.343 eV   dense    26.343 eV   weight 0.495   overlap with guess 0.703
+MR-GW + mixed (bare): matrix dimension 96 (top 12, bath 84)
+  converged in 6 iterations, max residual 1.2e-11
+  principal IP  (1a(act), removal)         Davidson   -10.863 eV   dense   -10.863 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.504 eV   dense     8.504 eV   weight 0.947   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -14.973 eV   dense   -14.973 eV   weight 0.782   overlap with guess 0.883
+  virtual EA    (3a(virt))                 Davidson    26.752 eV   dense    26.752 eV   weight 0.526   overlap with guess 0.724
+MR-GW + mixed (screened): matrix dimension 96 (top 12, bath 84)
+  converged in 6 iterations, max residual 1.3e-11
+  principal IP  (1a(act), removal)         Davidson   -10.861 eV   dense   -10.861 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.505 eV   dense     8.505 eV   weight 0.947   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -14.944 eV   dense   -14.944 eV   weight 0.779   overlap with guess 0.882
+  virtual EA    (3a(virt))                 Davidson    26.765 eV   dense    26.765 eV   weight 0.526   overlap with guess 0.724
+EKT/ERPA MR-GW: matrix dimension 84 (top 12, bath 72)
+  converged in 6 iterations, max residual 9.1e-11
+  principal IP  (1a(act), removal)         Davidson   -10.878 eV   dense   -10.878 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.523 eV   dense     8.523 eV   weight 0.946   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -15.938 eV   dense   -15.938 eV   weight 0.885   overlap with guess 0.940
+  virtual EA    (3a(virt))                 Davidson    26.343 eV   dense    26.343 eV   weight 0.495   overlap with guess 0.703
+EKT/ERPA MR-GW + mixed (screened): matrix dimension 84 (top 12, bath 72)
+  converged in 6 iterations, max residual 1.3e-11
+  principal IP  (1a(act), removal)         Davidson   -10.861 eV   dense   -10.861 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.504 eV   dense     8.504 eV   weight 0.947   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -14.944 eV   dense   -14.944 eV   weight 0.779   overlap with guess 0.882
+  virtual EA    (3a(virt))                 Davidson    26.765 eV   dense    26.765 eV   weight 0.527   overlap with guess 0.724
+EKT(2h1p)/ERPA MR-GW: matrix dimension 84 (top 12, bath 72)
+  converged in 6 iterations, max residual 9.1e-11
+  principal IP  (1a(act), removal)         Davidson   -10.878 eV   dense   -10.878 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.523 eV   dense     8.523 eV   weight 0.946   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -15.938 eV   dense   -15.938 eV   weight 0.885   overlap with guess 0.940
+  virtual EA    (3a(virt))                 Davidson    26.343 eV   dense    26.343 eV   weight 0.495   overlap with guess 0.703
+EKT(2h1p)/ERPA MR-GW + mixed (screened): matrix dimension 84 (top 12, bath 72)
+  converged in 6 iterations, max residual 1.3e-11
+  principal IP  (1a(act), removal)         Davidson   -10.861 eV   dense   -10.861 eV   weight 0.936   overlap with guess 0.985
+  principal EA  (2a(act), attachment)      Davidson     8.504 eV   dense     8.504 eV   weight 0.947   overlap with guess 0.990
+  core IP       (0a(core))                 Davidson   -14.944 eV   dense   -14.944 eV   weight 0.779   overlap with guess 0.882
+  virtual EA    (3a(virt))                 Davidson    26.765 eV   dense    26.765 eV   weight 0.527   overlap with guess 0.724
+
+Active-space quantities entering the EKT/ERPA variants (eV)
+------------------------------------------------------------------------------
+  neutral excitations, exact CAS states :   6.707,  14.777,  22.112
+  neutral excitations, ERPA (singles)   :   6.707,  14.777
+  charged poles, exact CAS states  : IPs  11.129,  11.129,  21.245,  21.245   EAs   8.563,   8.563,  19.034,  19.034
+  charged poles, EKT, primary      : IPs  11.129,  11.129,  21.245,  21.245   EAs   8.563,   8.563,  19.034,  19.034
+  charged poles, EKT, 1h+2h1p      : IPs  11.129,  11.129,  21.245,  21.245   EAs   8.563,   8.563,  19.034,  19.034
+  primary  manifold rank / sector dimension: (1, 2) att: 2/2, (2, 1) att: 2/2, (0, 1) rem: 2/2, (1, 0) rem: 2/2; complete, max |kappa - kappa_exact| = 2.2e-16 Ha
+  extended manifold rank / sector dimension: (1, 2) att: 2/2, (2, 1) att: 2/2, (0, 1) rem: 2/2, (1, 0) rem: 2/2; complete, max |kappa - kappa_exact| = 3.9e-16 Ha
+
+Most intense poles (energy relative to the N-electron ground state; weight = Tr Z Z^T)
+------------------------------------------------------------------------------
+CAS (Dyall reference)
+  removal    :  -16.997 eV (0.999),  -16.997 eV (0.999),  -11.134 eV (0.966),  -11.134 eV (0.966)
+  attachment :   23.372 eV (1.000),   23.372 eV (1.000),    8.571 eV (0.966),    8.571 eV (0.966)
+MR-GW
+  removal    :  -10.878 eV (0.936),  -10.878 eV (0.936),  -15.938 eV (0.885),  -15.938 eV (0.885)
+  attachment :    8.524 eV (0.946),    8.524 eV (0.946),   26.343 eV (0.495),   26.343 eV (0.495)
+MR-GW + mixed (bare)
+  removal    :  -10.863 eV (0.936),  -10.863 eV (0.936),  -14.973 eV (0.782),  -14.973 eV (0.782)
+  attachment :    8.504 eV (0.947),    8.504 eV (0.947),   26.752 eV (0.526),   26.752 eV (0.526)
+MR-GW + mixed (screened)
+  removal    :  -10.861 eV (0.936),  -10.861 eV (0.936),  -14.944 eV (0.779),  -14.944 eV (0.779)
+  attachment :    8.505 eV (0.947),    8.505 eV (0.947),   26.765 eV (0.526),   26.765 eV (0.526)
+EKT/ERPA MR-GW
+  removal    :  -10.878 eV (0.936),  -10.878 eV (0.936),  -15.938 eV (0.885),  -15.938 eV (0.885)
+  attachment :    8.523 eV (0.946),    8.523 eV (0.946),   26.343 eV (0.495),   26.343 eV (0.495)
+EKT/ERPA MR-GW + mixed (screened)
+  removal    :  -10.861 eV (0.936),  -10.861 eV (0.936),  -14.944 eV (0.779),  -14.944 eV (0.779)
+  attachment :    8.504 eV (0.947),    8.504 eV (0.947),   26.765 eV (0.527),   26.765 eV (0.527)
+EKT(2h1p)/ERPA MR-GW
+  removal    :  -10.878 eV (0.936),  -10.878 eV (0.936),  -15.938 eV (0.885),  -15.938 eV (0.885)
+  attachment :    8.523 eV (0.946),    8.523 eV (0.946),   26.343 eV (0.495),   26.343 eV (0.495)
+EKT(2h1p)/ERPA MR-GW + mixed (screened)
+  removal    :  -10.861 eV (0.936),  -10.861 eV (0.936),  -14.944 eV (0.779),  -14.944 eV (0.779)
+  attachment :    8.504 eV (0.947),    8.504 eV (0.947),   26.765 eV (0.527),   26.765 eV (0.527)
+FCI
+  removal    :  -11.086 eV (0.923),  -11.086 eV (0.923),  -16.027 eV (0.754),  -16.027 eV (0.754)
+  attachment :    8.786 eV (0.933),    8.786 eV (0.933),   23.930 eV (0.860),   23.930 eV (0.860)
+
+Sum rules and first-moment diagnostic (M1 = int omega A(omega) d omega)
+------------------------------------------------------------------------------
+CAS (Dyall reference)              |M0 - 1| = 1.1e-16   min weight = +3.5e-02   |M1 - M1(FCI)|: full 8.91e-03, inactive-active block 6.06e-03 Ha
+MR-GW                              |M0 - 1| = 1.1e-16   min weight = +2.3e-07   |M1 - M1(FCI)|: full 8.91e-03, inactive-active block 6.06e-03 Ha
+MR-GW + mixed (bare)               |M0 - 1| = 1.1e-16   min weight = +2.4e-07   |M1 - M1(FCI)|: full 8.91e-03, inactive-active block 6.06e-03 Ha
+MR-GW + mixed (screened)           |M0 - 1| = 1.1e-16   min weight = +2.4e-07   |M1 - M1(FCI)|: full 1.06e-02, inactive-active block 1.06e-02 Ha
+EKT/ERPA MR-GW                     |M0 - 1| = 3.3e-16   min weight = +1.5e-05   |M1 - M1(FCI)|: full 8.91e-03, inactive-active block 6.06e-03 Ha
+EKT/ERPA MR-GW + mixed (screened)  |M0 - 1| = 3.3e-16   min weight = +1.5e-05   |M1 - M1(FCI)|: full 1.06e-02, inactive-active block 1.06e-02 Ha
+EKT(2h1p)/ERPA MR-GW               |M0 - 1| = 4.4e-16   min weight = +1.5e-05   |M1 - M1(FCI)|: full 8.91e-03, inactive-active block 6.06e-03 Ha
+EKT(2h1p)/ERPA MR-GW + mixed (screened) |M0 - 1| = 4.4e-16   min weight = +1.5e-05   |M1 - M1(FCI)|: full 1.06e-02, inactive-active block 1.06e-02 Ha
+  (the inactive-active block of M1 is where the mixed couplings enter; the bare kernel makes it exact to first order in V_R)
+
+spectral functions written to /Users/johannestoelle/Documents/Paper_PropagatorPerspective/numerics/h4_sto-6g_cas2_2_spectral_functions.png
+note: the Hall-form insertion has negative spectral weight, min A = -4.290e+00 1/eV

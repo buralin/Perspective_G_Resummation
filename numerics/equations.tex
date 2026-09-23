@@ -575,7 +575,11 @@ $G_{\rm FCI}(0;z)=G_D(z)$.
 
 The object replaces the poles, $D_{\act}$, $\kappa$, signs, $C_3$,
 $\mathcal C$ and the neutral transition densities of the Dyall reference and
-delegates everything else to it.
+delegates everything else to it.  With \code{response='exact'} the exact CAS
+excitations of Eq.~\eqref{eq:tdm} are kept in the active--active channel and
+only the charged states are replaced (this isolates the effect of the EKT
+manifold); the default \code{response='erpa'} uses the ERPA of
+Sec.~\ref{sec:erpa-impl}.
 
 \subsection{Charged manifolds and generalized eigenproblems}
 
@@ -623,6 +627,7 @@ $M_k=\sum_\alpha\kappa_\alpha^kd_\alpha d_\alpha^{T}$, $k=0,\ldots,3$, are
 compared with the exact ones.
 
 \subsection{ERPA in the active--active channel}
+\label{sec:erpa-impl}
 
 Natural spin orbitals per spin block: $\gamma^{\act}_{\sigma\sigma}=U_\sigma\operatorname{diag}(n_\sigma)U_\sigma^{T}$,
 assembled into $U$ and $n$ over the local active spin orbitals ($\tilde p^\dagger=\sum_xU_{x\tilde p}\hat a_x^\dagger$).
@@ -677,12 +682,193 @@ transition densities over all same-spin pairs:
   \label{eq:erpa-sumrules}
 \end{equation}
 
+\subsection{Supermatrix variants with the EKT references}
+\label{sec:ekt-supermatrix}
+
+Because the object exposes the same attributes as \code{DyallReference},
+every variant of Secs.~\ref{sec:hermitian}--\ref{sec:dressed-bath} is available with
+an EKT reference: \code{MRRPA(ekt)} builds the four channels of
+Eq.~\eqref{eq:channels} with the EKT poles in (ca) and (av) and the ERPA
+(or exact) excitations in (aa), and \code{HermitianGF(ekt, MRRPA(ekt), ...)}
+assembles Eqs.~\eqref{eq:K}--\eqref{eq:schur} and
+\eqref{eq:dressed-bath}--\eqref{eq:dressed-equiv} with
+\begin{equation}
+  K_D=\operatorname{diag}(\epsilon_P,\kappa^{\rm EKT}_{\alpha}),\qquad
+  T_D=(\mathbf 1_{\rm i}\,|\,D^{\rm EKT}_{\act}),\qquad
+  [K_B]_{P\alpha}=\sum_{zyw}I_{Pz,yw}\,\mathcal C^{\rm EKT}_{\alpha;z,yw},
+  \label{eq:ekt-top}
+\end{equation}
+$\mathcal C^{\rm EKT}$ from Eqs.~\eqref{eq:C3}--\eqref{eq:Cc} with the EKT
+states.  Two identities are specific to the EKT references and are checked in
+\code{run\_checks.py}: (i) the first moment $T_DKT_D^{T}$ of the bare no-bath
+variant is identical to the exact-reference value in all blocks, because
+$\sum_\alpha\ket{\Xi^{\rm EKT}_\alpha}\bra{\Xi^{\rm EKT}_\alpha}$ is the projector on a
+manifold that contains $\hat a_x^{(\dagger)}\ket{\Xi_0}$ (and $\kappa^{\rm EKT}$,
+$D^{\rm EKT}$ conserve the active first moment); (ii) the same-sector
+elements of $K$ equal the Hamiltonian matrix elements between the embedded
+EKT states and $\hat a_P^{(\dagger)}\ket{\Psi_0}$ in the full determinant space,
+Eqs.~\eqref{eq:chk-aa}--\eqref{eq:chk-ia} with the EKT states.  The working
+equations and results are collected in Sec.~IV of \code{notes/mr-hedin.pdf}.
+
+\section{Density-matrix realization of the EKT/ERPA reference and cumulant truncation (\code{wick.py}, \code{rdm.py})}
+\label{sec:rdm}
+
+With \code{EKTERPAReference(ref, ..., realization='rdm', cumulant\_drop=())} all
+matrices of Sec.~\ref{sec:ekt} are evaluated as contractions of the active
+integrals with the spin-orbital reduced density matrices (RDMs) of
+$\ket{\Xi_0}$ instead of by operator applications to CI vectors.  Both
+realizations agree to $10^{-12}$ for exact RDMs (checked); the RDM
+realization is the one in which cumulant approximations can be introduced.
+
+\subsection{Spin-orbital RDMs (\code{rdm.spin\_orbital\_rdms})}
+
+Over the local active spin orbitals, for $k=1,\ldots,4$,
+\begin{equation}
+  D^{(k)}_{p_1\cdots p_k,\,q_1\cdots q_k}
+  =\bra{\Xi_0}\hat a_{p_1}^\dagger\cdots\hat a_{p_k}^\dagger\,\hat a_{q_k}\cdots\hat a_{q_1}\ket{\Xi_0}
+  =\braket{v_{p_1\cdots p_k}|v_{q_1\cdots q_k}},\qquad
+  \ket{v_{q_1\cdots q_k}}=\hat a_{q_k}\cdots\hat a_{q_1}\ket{\Xi_0},
+  \label{eq:rdm-def}
+\end{equation}
+so that $D^{(1)}=\gamma^{\act}$ and $D^{(2)}_{pq,rs}=\braket{p^\dagger q^\dagger s r}$.
+The vectors $\ket{v}$ are generated for the $\binom{n_{\act}}{k}$ sorted
+tuples $q_1<\cdots<q_k$ with \code{apply\_des}, grouped by $(n_a,n_b)$ sector,
+their Gram matrix is formed, and the full tensor is filled by
+antisymmetry, $D^{(k)}[\pi(p),\sigma(q)]=\epsilon_\pi\epsilon_\sigma D^{(k)}[p,q]$.
+Checks: $D^{(1)}=\gamma^{\act}$; random elements against direct operator
+application; partial traces $\sum_rD^{(k)}_{\ldots r,\ldots r}=(N-k+1)D^{(k-1)}$.
+\code{DyallReference.rdms(order)} caches the result.  Memory: $n_{\act}^{8}$
+doubles for $D^{(4)}$ (0.8~GB for $n_{\act}=10$).
+
+\subsection{Cumulants (\code{rdm.wedge}, \code{rdm.cumulants}, \code{rdm.reconstruct})}
+
+The shuffle (Grassmann) product of an $(a,a)$-index tensor $A$ and a
+$(b,b)$-index tensor $B$ is
+\begin{equation}
+  (A\wedge B)_{P,Q}=\sum_{S,T}\operatorname{sgn}(S)\operatorname{sgn}(T)\,A_{P_S,Q_T}\,B_{P_{S'},Q_{T'}},
+  \label{eq:wedge}
+\end{equation}
+$S$, $T$ running over the $a$-element subsets of the $a+b$ upper and lower
+positions (order preserved, $S'$, $T'$ the complements,
+$\operatorname{sgn}(S)=(-1)^{\sum_i(s_i-i)}$), so that every distinct term
+appears once and a product of $m$ identical factors is overcounted by $m!$.
+The cumulant expansion is
+\begin{align}
+  D^{(2)}&=\tfrac1{2!}\gamma^{\wedge2}+\lambda_2,\qquad
+  D^{(3)}=\tfrac1{3!}\gamma^{\wedge3}+\gamma\wedge\lambda_2+\lambda_3,
+  \nonumber\\
+  D^{(4)}&=\tfrac1{4!}\gamma^{\wedge4}+\tfrac1{2!}\gamma^{\wedge2}\wedge\lambda_2
+  +\tfrac1{2!}\lambda_2\wedge\lambda_2+\gamma\wedge\lambda_3+\lambda_4 ,
+  \label{eq:cumulants}
+\end{align}
+solved for $\lambda_k$ in \code{cumulants}; \code{reconstruct(rdms, drop=(4,))}
+returns $D^{(4)}$ with $\lambda_4=0$ and \code{drop=(3, 4)} returns $D^{(3)}$
+and $D^{(4)}$ with $\lambda_3=\lambda_4=0$ ($D^{(1)}$, $D^{(2)}$ unchanged).
+Checks: all $\lambda_k=0$ for a single determinant (\code{determinant\_vector});
+all elements of $\lambda_2$, $\lambda_3$, $\lambda_4$ with indices on both
+halves vanish for the product state of two independent two-orbital
+subsystems; $\sum_r\lambda_{2,pr,qr}=(\gamma^2-\gamma)_{pq}$;
+$D^{(4)}(\lambda_4=0)+\lambda_4=D^{(4)}$.
+
+\subsection{Normal-ordering engine (\code{wick.py})}
+
+An expression is a list of terms (coefficient, Kronecker deltas, integral
+factors, operator string).  \code{normal\_order} moves all creators to the
+left with $\hat a_i\hat a_j^\dagger=\delta_{ij}-\hat a_j^\dagger\hat a_i$,
+eliminates summation indices (labels starting with \code{\_}) through the
+deltas, sorts creators and annihilators (with the sign of the permutation;
+repeated labels give zero) and combines equal terms.  \code{evaluate} turns
+every term into an \code{einsum} of the integrals, identity matrices for
+deltas between free indices, and $D^{(k)}$ for a string with $k$ creators
+and $k$ annihilators (creators in order, annihilators reversed); strings
+with unequal numbers give zero.  \code{hamiltonian()} is
+$\hat H=\sum h_{pq}\,p^\dagger q+\tfrac12\sum V[p,r,q,s]\,p^\dagger q^\dagger s\,r$
+with the convention of Eq.~\eqref{eq:vR}; \code{to\_latex} renders an
+expression (Sec.~\ref{sec:rdm-terms}).
+
+\subsection{EKT and ERPA matrices from RDMs (\code{EKTERPAReference.\_build\_ekt\_rdm}, \code{\_erpa\_matrices\_rdm})}
+
+Ket operators and free labels: removal $X=\hat a_y$ (1h) and
+$X=\hat a_y^\dagger\hat a_w\hat a_z$ (2h1p, $w>z$); attachment
+$X=\hat a_y^\dagger$ (1p) and $X=\hat a_y\hat a_w^\dagger\hat a_z^\dagger$ (2p1h,
+$w>z$); the bra of each type is the Hermitian conjugate with labels
+$(y,w,z)\to(a,b,c)$.  For every pair of types the arrays
+\begin{equation}
+  S[\text{bra},\text{ket}]=\braket{X_i^\dagger X_j},\qquad
+  A[\text{bra},\text{ket}]=\braket{X_i^\dagger[\hat H_A,X_j]},
+  \label{eq:rdm-blocks}
+\end{equation}
+are evaluated over all free indices and gathered into the sector matrices
+of Eq.~\eqref{eq:ekt-AS} with the manifold order of Sec.~\ref{sec:ekt}
+(entries with $\braket{X^\dagger X}<10^{-24}$ removed; the sector of an entry
+follows from the spins of its indices).  The commutators are
+\begin{align}
+  [\hat H_A,\hat a_y]&=-\sum_qh_{yq}\,\hat a_q-\sum_{qrs}v_{yr,qs}\,\hat a_q^\dagger\hat a_s\hat a_r ,
+  \qquad
+  [\hat H_A,\hat a_y^\dagger]=\sum_ph_{py}\,\hat a_p^\dagger+\sum_{pqs}v_{py,qs}\,\hat a_p^\dagger\hat a_q^\dagger\hat a_s ,
+  \label{eq:comm-1h}\\
+  [\hat H_A,\hat a_y^\dagger\hat a_w\hat a_z]&=\sum_ph_{py}\,\hat a_p^\dagger\hat a_w\hat a_z
+  -\sum_qh_{wq}\,\hat a_y^\dagger\hat a_q\hat a_z+\sum_qh_{zq}\,\hat a_y^\dagger\hat a_q\hat a_w
+  -\sum_{rs}v_{zr,ws}\,\hat a_y^\dagger\hat a_s\hat a_r
+  \nonumber\\
+  &\quad+\sum_{pqs}v_{py,qs}\,\hat a_p^\dagger\hat a_q^\dagger\hat a_s\hat a_w\hat a_z
+  -\sum_{qrs}v_{wr,qs}\,\hat a_y^\dagger\hat a_q^\dagger\hat a_s\hat a_r\hat a_z
+  +\sum_{qrs}v_{zr,qs}\,\hat a_y^\dagger\hat a_q^\dagger\hat a_s\hat a_r\hat a_w ,
+  \label{eq:comm-2h1p}
+\end{align}
+and the 2p1h one follows by Hermitian conjugation.  Resulting RDM orders:
+1h--1h $D^{(1)},D^{(2)}$ (3 terms); 1h--2h1p $D^{(2)},D^{(3)}$ (11 terms);
+2h1p--1h (5); 2h1p--2h1p $D^{(2)}$--$D^{(4)}$ (28); metrics
+$S_{x,(ywz)}=D^{(2)}_{xy,zw}$ and
+$S_{(abc),(ywz)}=D^{(3)}_{bcy,zwa}-\delta_{ay}D^{(2)}_{bc,zw}$.  Residues:
+$d_{x,\alpha}=\sum_jc^{\alpha}_j\braket{X_j^\dagger\hat a_x}$ (removal) or
+$\sum_jc^{\alpha}_j\braket{\hat a_xX_j}$ (attachment); three-operator
+amplitudes $C_3[\alpha,z,y,w]=\sum_jc^{\alpha}_j\braket{X_j^\dagger\hat a_y^\dagger\hat a_w\hat a_z}$
+(removal) or $\sum_jc^{\alpha}_j\braket{\hat a_y^\dagger\hat a_w\hat a_z X_j}$
+(attachment), with $D^{(2)}$ (1h/1p rows) and $D^{(3)}$ (2h1p/2p1h rows);
+$\mathcal C$ from Eq.~\eqref{eq:Cc}.  The irrep of a pole is that of
+$\ket{\Xi_0}$ times the irreps of the orbitals of its dominant manifold
+operator.  ERPA: $h$, $V$, $D^{(1)}$, $D^{(2)}$ are transformed to the
+natural-orbital basis and
+$\mathcal M_{(pq),(rs)}=\braket{[\hat E_{qp},[\hat H_A,\hat E_{rs}]]}$ (20 terms,
+$D^{(1)}$, $D^{(2)}$) and $\mathcal S_{(pq),(rs)}=\braket{[\hat E_{qp},\hat E_{rs}]}$
+replace Eqs.~\eqref{eq:erpa-M}--\eqref{eq:erpa-S}; the rest of
+Sec.~\ref{sec:erpa-impl} is unchanged.  All term lists are given in
+Sec.~\ref{sec:rdm-terms}.
+
+\subsection{Cumulant truncation (\code{cumulant\_comparison.py})}
+
+\code{cumulant\_drop=(4,)} replaces $D^{(4)}$ by its reconstruction with
+$\lambda_4=0$ (only the 2h1p--2h1p and 2p1h--2p1h Hamiltonian blocks
+change); \code{cumulant\_drop=(3, 4)} also replaces $D^{(3)}$
+($\lambda_3=0$: the 2h1p metric, the 1h--2h1p blocks and the three-operator
+amplitudes change as well).  The reconstructed RDMs are not
+$N$-representable: the Gram matrix may have negative eigenvalues (reported
+in \code{metric\_negative}), which the canonical orthogonalization
+\eqref{eq:canon-orth} discards together with the directions below
+$\tau_{\rm lin}\max_js_j$; poles may appear on the wrong side of the Fermi
+level, and the MR-RPA built from such poles may be unstable, in which case
+\code{solve\_rpa} falls back to the non-Hermitian solver and
+\code{MRRPA.nmodes\_lost} counts the complex or negative-norm modes.  The
+script reports $\|D^{(k)}\|$, $\|\lambda_k\|$, the numbers of poles,
+dropped directions, negative metric eigenvalues, wrong-sign poles and lost
+RPA modes, the deviation of the sorted poles and of $M_0$--$M_3$ from the
+exact ones, and the supermatrix variants (Eq.~(7) without bath, MR-$GW$,
+diagonal bath screened, dressed bath bare and screened) for the
+realizations CI, RDM exact, $\lambda_4=0$, $\lambda_3=\lambda_4=0$ with
+$\tau_{\rm lin}=10^{-10}$ and with $\tau_{\rm lin}=5\times10^{-2}$; variants of
+an unstable reference (lost MR-RPA modes) are skipped.  Poles on the wrong
+side of the Fermi level are reported but do not by themselves prevent the
+construction: for the CASCI reference of O$_3$(6,4) in RHF orbitals the
+active Dyall Hamiltonian has two $N_a+1$ states below the neutral ground
+state already with exact RDMs.
+
 \section{Workflows of the scripts}
 \label{sec:scripts}
 
 \subsection{\code{run\_checks.py} (H$_4$, STO-6G, CAS(2,2), CASSCF)}
 
-The 43 checks, with the identity tested and the tolerance:
+The 77 checks, with the identity tested and the tolerance:
 \begin{center}\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{9.4cm}>{\raggedright\arraybackslash}p{5.4cm}}
 \toprule
@@ -702,6 +888,11 @@ EKT (primary): $M_0=\mathbf 1$, $M_1$ exact, poles exact (CAS(2,2)) & $10^{-10}$
 EKT (extended): $M_0\ldots M_3$ exact; poles exact & $10^{-8}$\\
 ERPA sum rules, Eq.~\eqref{eq:erpa-sumrules} & $10^{-9}$\\
 EKT/ERPA: linearization identity; $M_0=\mathbf 1$; $w_\lambda\ge0$; Davidson vs dense & $10^{-9}$, $10^{-10}$, $10^{-12}$, $10^{-7}$\\
+EKT (primary, extended): $M_1$ of the bare no-bath variant $=$ exact-reference value; same-sector $K$ vs embedded EKT states (active--active, inactive--active) & $10^{-9}$\\
+EKT (primary, extended): dressed bath $=$ Eq.~\eqref{eq:dressed-equiv} without cross-sector couplings; dressed bare, dressed screened, diagonal bare: $M_0=\mathbf 1$ and $w_\lambda\ge0$; Davidson vs dense & $10^{-9}$, $10^{-10}$, $10^{-7}$\\
+RDMs: $D^{(1)}=\gamma$; partial traces; $\lambda_2$ trace relation; cumulants vanish for a determinant; cross-subsystem cumulants vanish for a product state; $D^{(4)}(\lambda_4=0)+\lambda_4=D^{(4)}$ & $10^{-12}$, $10^{-12}$, $10^{-12}$, $10^{-14}$, $10^{-14}$, $10^{-12}$\\
+RDM realization $=$ CI realization (primary, extended): $A$, $S$, eigenvalues; ERPA energies; $G(z)$ of the dressed screened variant & $10^{-9}$, $10^{-10}$, $10^{-9}$\\
+extended EKT with $\lambda_4=0$: $M_0$ exact & $10^{-10}$\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -731,6 +922,44 @@ EKT/ERPA: linearization identity; $M_0=\mathbf 1$; $w_\lambda\ge0$; Davidson vs 
   Hall-form insertion of Eq.~\eqref{eq:hall}, full CI dashed, to
   \code{h4\_<basis>\_cas<n>\_<m>\_spectral\_functions.png}.
 \end{enumerate}
+
+\subsection{\code{ginit\_prelim.py}}
+
+\begin{enumerate}[leftmargin=2em]
+\item H$_4$ (STO-6G CAS(2,2), 6-31G CAS(2,2), 6-31G CAS(4,4); CASSCF) or,
+  with \code{--o3}, ozone (6-31G, CASCI(6,4) and (8,5) in RHF orbitals;
+  \code{--cas} selects).
+\item For each reference selected by \code{--reference} (\code{cas}: exact
+  Dyall states; \code{ekt}: primary EKT manifold; \code{ekt2}: extended
+  manifold; default all three; \code{--response exact} keeps the exact CAS
+  excitations with the EKT poles) build the MR-RPA and ten Hermitian
+  matrices: reference poles with $\Sigma_{\rm stat}$ (no bath); Eq.~(7) of the
+  notes with same-sector couplings only and with all pairs (bare kernel, no
+  bath); MR-$GW$ ($K_B=0$, diagonal bath); diagonal bath with bare and
+  screened $K_B$; dressed bath with bare and screened $K_B$; dressed bath
+  without cross-sector couplings, bare and screened.
+\item Davidson root following from the HOMO-like removal and LUMO-like
+  attachment guesses plus the first core and virtual spin orbitals (H$_4$),
+  or from the lowest cation pole of each irrep in the sector $(n_a-1,n_b)$
+  of the respective reference (ozone); print energies, weights, matrix
+  dimension, $|M_0-\mathbf 1|$, and for matrices with $n\le6000$ the minimal
+  spectral weight and the deviation from the dense max-overlap eigenvalue;
+  full CI (H$_4$) or the MR-$GW$, DMRG and experimental values of WFL
+  (ozone) for comparison.  These runs produce Tables~I and II of
+  \code{notes/mr-hedin.pdf}; the outputs are kept in \code{results/}.
+\end{enumerate}
+
+\subsection{\code{cumulant\_comparison.py}}
+
+H$_4$ (6-31G, CAS(4,4)) or, with \code{--o3}, ozone (6-31G, CASCI(6,4) and
+(8,5)): RDMs $D^{(1)}$--$D^{(4)}$ and cumulant norms; the five realizations of
+Sec.~\ref{sec:rdm} of the extended EKT/ERPA reference with their MR-RPA;
+agreement of the primary EKT and of the ERPA between the CI and RDM
+realizations; the pole/metric/RPA diagnostics table; the supermatrix
+variants by Davidson root following (H$_4$: HOMO-like removal and LUMO-like
+attachment guesses; ozone: the lowest cation pole of each irrep, whose irrep
+is assigned from the dominant manifold operator); full CI or DMRG for
+comparison.  Outputs in \code{results/cumulant\_comparison\_*.txt}.
 
 \subsection{\code{check\_ozone.py}}
 
@@ -788,9 +1017,25 @@ Sec.~\ref{sec:davidson} & \code{davidson\_root\_following} & \code{davidson.py}\
 \eqref{eq:fci-poles} & \code{FCIReference} & \code{fci\_reference.py}\\
 embedding, \eqref{eq:chk-aa}--\eqref{eq:chk-fd} & \code{embed\_active\_vector}, \code{check\_same\_sector\_couplings}, \code{check\_first\_order\_gf} & \code{fci\_reference.py}\\
 \eqref{eq:man-primary}--\eqref{eq:ekt-poles} & \code{EKTERPAReference.\_build\_ekt} & \code{ekt\_erpa.py}\\
-\eqref{eq:erpa-u}--\eqref{eq:erpa-sumrules} & \code{EKTERPAReference.\_build\_erpa}, \code{response\_sum\_rules}, \code{active\_moments} & \code{ekt\_erpa.py}\\
+\eqref{eq:erpa-u}--\eqref{eq:erpa-sumrules} & \code{EKTERPAReference.\_build\_erpa}, \code{neutral\_transition\_densities}, \code{response\_sum\_rules}, \code{active\_moments} & \code{ekt\_erpa.py}\\
+\eqref{eq:ekt-top} & \code{HermitianGF} with an \code{EKTERPAReference}; driver \code{ginit\_prelim.py} & \code{hermitian.py}\\
+\eqref{eq:rdm-def} & \code{spin\_orbital\_rdms}, \code{DyallReference.rdms} & \code{rdm.py}\\
+\eqref{eq:wedge}--\eqref{eq:cumulants} & \code{wedge}, \code{cumulants}, \code{reconstruct}, \code{cumulant\_norms} & \code{rdm.py}\\
+\eqref{eq:rdm-blocks}--\eqref{eq:comm-2h1p}, Sec.~\ref{sec:rdm-terms} & \code{normal\_order}, \code{evaluate}, \code{to\_latex}; \code{EKTERPAReference.\_build\_ekt\_rdm}, \code{\_erpa\_matrices\_rdm}, \code{pole\_symmetry} & \code{wick.py}, \code{ekt\_erpa.py}\\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\section{Explicit RDM contractions of all EKT and ERPA blocks}
+\label{sec:rdm-terms}
+
+Generated by \code{wick.to\_latex}; $v_{pr,qs}=(pr|qs)$, primed indices are
+summed over the active spin orbitals, $D^{(k)}$ as in Eq.~\eqref{eq:rdm-def},
+and $\delta$ between two free indices is a Kronecker delta.  The bra
+operators are $\hat a_x^\dagger$ / $\hat a_x$ and the Hermitian conjugates of
+$\hat a_a^\dagger\hat a_b\hat a_c$ / $\hat a_a\hat a_b^\dagger\hat a_c^\dagger$.
+{\small\allowdisplaybreaks
+\input{rdm_terms.tex}
+}
 
 \end{document}

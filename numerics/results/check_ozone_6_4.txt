@@ -1,0 +1,141 @@
+====================================================================================
+Ozone, CCCBDB geometry, 6-31g, CASCI(6,4) with RHF orbitals (Wang, Fang, Li, arXiv:2604.16013)
+====================================================================================
+RHF energy    = -224.13678277 Ha
+CASCI energy  = -224.20070095 Ha
+
+RHF orbital energies (Ha) vs Wang-Fang-Li Table S3:
+   6 5a1  -0.83816   paper -0.83815
+   7 3b2  -0.79363   paper -0.79362
+   8 1b1  -0.79184   paper -0.79183
+   9 4b2  -0.57903   paper -0.57902   <- active
+  10 6a1  -0.56192   paper -0.56193   <- active
+  11 1a2  -0.49558   paper -0.49558   <- active
+  12 2b1  -0.06793   paper -0.06794   <- active
+  13 7a1  +0.26190   paper 0.26189
+  14 5b2  +0.36527   paper 0.36524
+  max deviation 3.1e-05 Ha
+  active orbitals: 4b2, 6a1, 1a2, 2b1
+leading CASCI coefficients: +0.9364, -0.3489, -0.0372   (paper, CAS(6,4): +0.936, -0.349)
+
+Dyall reference
+  nmo = 27, ncore = 9, ncas = 4, nelecas = (3, 3), nso = 54, point group C2v
+  active sectors: (3, 3): 16 states, (4, 3): 4 states, (3, 4): 4 states, (2, 3): 24 states, (3, 2): 24 states
+  charged active poles: 56 (8 attachment, 48 removal)
+  |<Xi0|mc.ci>| = 1.000000000000
+  inactive orbital energies (eV): -567.190, -564.819, -564.817, -48.117, -39.514, -29.737, -22.418, -21.465, -21.097, 7.238, 10.254, 27.177, 28.162, 28.205, 29.417, 30.623, 31.201, 31.522, 32.820, 35.863, 36.535, 45.881, 48.192
+  lowest active attachment energies (eV): -0.109, -0.109, 2.679, 2.679
+  lowest active ionization energies (eV): 14.384, 14.384, 14.674, 14.674
+MR-RPA
+  channels: 1531 (cv 252, ca 144, av 1120, aa 15)
+  A/B asymmetry before symmetrization: 7.22e-16; |R^T S - 1|max = 4.37e-12
+  lowest MR-RPA excitation energies (eV): 1.108, 1.555, 1.923, 2.016, 2.114
+  MR-RPA modes coupled to the residual interaction: 499 of 1531; MR-GW pole bath after pruning: 43320 poles
+  MR-RPA time 1.5 s
+
+EKT/ERPA reference (charged manifold: primary {a_x}, {a_x^+}; active response: ERPA)
+  EKT charged poles: 16 (8 attachment, 8 removal); exact: 56; null/linearly dependent manifold directions removed: 0
+    sector (3, 4) (attachment): rank 4 from 4 manifold vectors, sector dimension 4
+    sector (4, 3) (attachment): rank 4 from 4 manifold vectors, sector dimension 4
+    sector (2, 3) (removal): rank 4 from 4 manifold vectors, sector dimension 24
+    sector (3, 2) (removal): rank 4 from 4 manifold vectors, sector dimension 24
+  lowest EKT attachment energies (eV): -0.109, -0.109, 2.679, 2.679
+  lowest EKT ionization energies (eV): 15.205, 15.205, 15.292, 15.292
+  ERPA active excitations: 12 (exact CAS states: 15); metric/structure errors 6.9e-16/0.0e+00
+  lowest ERPA active excitation energies (eV): 1.108, 1.555, 1.923, 2.036
+  lowest exact active excitation energies (eV): 1.108, 1.555, 1.923, 2.036
+MR-RPA
+  channels: 632 (cv 252, ca 144, av 224, aa 12)
+  A/B asymmetry before symmetrization: 7.22e-16; |R^T S - 1|max = 2.45e-11
+  lowest MR-RPA excitation energies (eV): 1.108, 1.555, 1.923, 2.016, 2.114
+  MR-RPA modes coupled to the residual interaction: 239 of 632; MR-GW pole bath after pruning: 14272 poles
+  EKT/ERPA + MR-RPA time 0.5 s
+
+EKT/ERPA reference (charged manifold: extended: 1h + 2h1p, 1p + 2p1h; active response: ERPA)
+  EKT charged poles: 56 (8 attachment, 48 removal); exact: 56; null/linearly dependent manifold directions removed: 144
+    sector (3, 4) (attachment): rank 4 from 20 manifold vectors, sector dimension 4
+    sector (4, 3) (attachment): rank 4 from 20 manifold vectors, sector dimension 4
+    sector (2, 3) (removal): rank 24 from 80 manifold vectors, sector dimension 24
+    sector (3, 2) (removal): rank 24 from 80 manifold vectors, sector dimension 24
+  manifold complete: max |kappa - kappa_exact| = 3.5e-13 Ha
+  lowest EKT attachment energies (eV): -0.109, -0.109, 2.679, 2.679
+  lowest EKT ionization energies (eV): 14.384, 14.384, 14.674, 14.674
+  ERPA active excitations: 12 (exact CAS states: 15); metric/structure errors 6.9e-16/0.0e+00
+  lowest ERPA active excitation energies (eV): 1.108, 1.555, 1.923, 2.036
+  lowest exact active excitation energies (eV): 1.108, 1.555, 1.923, 2.036
+MR-RPA
+  channels: 1528 (cv 252, ca 144, av 1120, aa 12)
+  A/B asymmetry before symmetrization: 7.22e-16; |R^T S - 1|max = 2.32e-11
+  lowest MR-RPA excitation energies (eV): 1.108, 1.555, 1.923, 2.016, 2.114
+  MR-RPA modes coupled to the residual interaction: 496 of 1528; MR-GW pole bath after pruning: 43184 poles
+  EKT(2h1p)/ERPA + MR-RPA time 1.7 s
+
+Cation states in sector (2, 3) (lowest of each irrep), IPs in eV:
+  state    CASCI(6,4)    paper      EKT  EKT(2h1p)
+  2A1          14.384    14.38   15.292     14.384
+  2B2          14.674    14.67   16.016     14.674
+  2A2          15.122    15.12   15.205     15.122
+
+MR-GW: matrix dimension 43422 (top 102, bath 43320); 12 Davidson iterations, converged: True, 0.2 s
+  2A1: IP =  12.647 eV, weight 0.870, overlap with reference cation state 0.963
+  2B2: IP =  12.935 eV, weight 0.829, overlap with reference cation state 0.962
+  2A2: IP =  14.560 eV, weight 0.810, overlap with reference cation state 0.970
+
+MR-GW + mixed (bare): matrix dimension 43422 (top 102, bath 43320); 12 Davidson iterations, converged: True, 0.2 s
+  2A1: IP =  12.684 eV, weight 0.870, overlap with reference cation state 0.965
+  2B2: IP =  12.896 eV, weight 0.826, overlap with reference cation state 0.959
+  2A2: IP =  14.569 eV, weight 0.808, overlap with reference cation state 0.970
+
+MR-GW + mixed (screened): matrix dimension 43422 (top 102, bath 43320); 12 Davidson iterations, converged: True, 0.2 s
+  2A1: IP =  12.683 eV, weight 0.879, overlap with reference cation state 0.937
+  2B2: IP =  13.208 eV, weight 0.815, overlap with reference cation state 0.958
+  2A2: IP =  14.985 eV, weight 0.804, overlap with reference cation state 0.963
+
+EKT/ERPA MR-GW: matrix dimension 14334 (top 62, bath 14272); 12 Davidson iterations, converged: True, 0.1 s
+  2A1: IP =  13.373 eV, weight 0.928, overlap with reference cation state 0.961
+  2B2: IP =  13.943 eV, weight 0.924, overlap with reference cation state 0.961
+  2A2: IP =  14.645 eV, weight 0.821, overlap with reference cation state 0.971
+
+EKT/ERPA MR-GW + mixed (screened): matrix dimension 14334 (top 62, bath 14272); 12 Davidson iterations, converged: True, 0.1 s
+  2A1: IP =  13.150 eV, weight 0.920, overlap with reference cation state 0.919
+  2B2: IP =  14.245 eV, weight 0.916, overlap with reference cation state 0.950
+  2A2: IP =  15.084 eV, weight 0.818, overlap with reference cation state 0.963
+
+EKT(2h1p)/ERPA MR-GW: matrix dimension 43286 (top 102, bath 43184); 12 Davidson iterations, converged: True, 0.2 s
+  2A1: IP =  12.661 eV, weight 0.870, overlap with reference cation state 0.963
+  2B2: IP =  12.947 eV, weight 0.830, overlap with reference cation state 0.962
+  2A2: IP =  14.573 eV, weight 0.811, overlap with reference cation state 0.971
+
+EKT(2h1p)/ERPA MR-GW + mixed (screened): matrix dimension 43286 (top 102, bath 43184); 12 Davidson iterations, converged: True, 0.2 s
+  2A1: IP =  12.680 eV, weight 0.880, overlap with reference cation state 0.936
+  2B2: IP =  13.223 eV, weight 0.816, overlap with reference cation state 0.958
+  2A2: IP =  15.003 eV, weight 0.805, overlap with reference cation state 0.964
+
+====================================================================================
+Vertical ionization energies of O3 (eV), 6-31G, CAS(6,4)
+====================================================================================
+method                                                      2A1      2B2      2A2   ordering
+KT                                                        15.29    15.76    13.49   2A2 < 2A1 < 2B2
+GW@RHF (paper)                                            13.25    13.52    13.20   2A2 < 2A1 < 2B2
+CAS(6,4) (paper)                                          14.38    14.67    15.12   2A1 < 2B2 < 2A2
+CAS(6,4) (this work)                                      14.38    14.67    15.12   2A1 < 2B2 < 2A2
+EKT(6,4) (this work)                                      15.29    16.02    15.21   2A2 < 2A1 < 2B2
+EKT(2h1p)(6,4) (this work)                                14.38    14.67    15.12   2A1 < 2B2 < 2A2
+MR-GW(6,4) (paper)                                        12.65    12.94    14.56   2A1 < 2B2 < 2A2
+MR-GW (this work)                                         12.65    12.94    14.56   2A1 < 2B2 < 2A2
+MR-GW + mixed (bare) (this work)                          12.68    12.90    14.57   2A1 < 2B2 < 2A2
+MR-GW + mixed (screened) (this work)                      12.68    13.21    14.99   2A1 < 2B2 < 2A2
+EKT/ERPA MR-GW (this work)                                13.37    13.94    14.64   2A1 < 2B2 < 2A2
+EKT/ERPA MR-GW + mixed (screened) (this work)             13.15    14.24    15.08   2A1 < 2B2 < 2A2
+EKT(2h1p)/ERPA MR-GW (this work)                          12.66    12.95    14.57   2A1 < 2B2 < 2A2
+EKT(2h1p)/ERPA MR-GW + mixed (screened) (this work)       12.68    13.22    15.00   2A1 < 2B2 < 2A2
+EOM-CCSD (paper)                                          12.42    12.64    13.38   2A1 < 2B2 < 2A2
+DMRG (paper)                                              12.34    12.59    13.34   2A1 < 2B2 < 2A2
+Exp. (paper)                                              12.73    13.00    13.54   2A1 < 2B2 < 2A2
+
+MR-GW (this work) - MR-GW (paper): -0.003, -0.005, -0.000 eV
+total time 5.3 s
+spectral function MR-GW: 8.7 s
+spectral function MR-GW + mixed (bare): 8.9 s
+spectral function MR-GW + mixed (screened): 9.4 s
+spectral functions written to /Users/johannestoelle/Documents/Paper_PropagatorPerspective/numerics/o3_cas6_4_spectral_functions.png
