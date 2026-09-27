@@ -88,23 +88,23 @@ constructions of the self-energy. First, we show that the
 single-particle Green's function is naturally
 expressed in terms of the three-particle Green's
 function through the Martin--Schwinger hierarchies of
-EOMs for $n$-th order Green's functions.
+equations of motion for $n$-th order Green's functions.
 We then introduce the Faddeev decomposition of the 
 three-particle vertex and show that it naturally leads to 
 the parquet approximation of the self-energy. 
 In a next step, finite-order Faddeev kernels are introduced, 
 and it is shown, for $n=1,2$ that the formalism with the 
 $n$th-order Faddeev kernel, before any resummation, 
-is equivalent to GF$n$. Within the Tamm--Dancoff approxmation (TDA) 
+is equivalent to GF($n+2$). Within the Tamm--Dancoff approximation (TDA) 
 to the $\eh$ and $\pp$ Bethe--Salpeter equations, 
-ADC(3)/ADC(4) are obtained. beyond the TDA, 
+ADC(3)/ADC(4) are obtained. Beyond the TDA, 
 to first order in the Faddeev kernel we obtain a
-Hermitian version of Faddeev-ADC(3), and at fourth order 
+Hermitian version of the Faddeev random-phase approximation (FRPA), and at fourth order 
 we obtain a new partial parquet approximation. 
 Full parquet is significantly more involved, and includes 
 a) an internally resummed infinite-order Faddeev kernel, 
-b) cross-channel interactions, and c) self-cosistency in the 
-sigle-particle propagator. 
+b) cross-channel interactions, and c) self-consistency in the 
+single-particle propagator. 
 \end{abstract}
 
 \maketitle
@@ -122,12 +122,6 @@ correlation self-energy in terms of a 6-point response function $R$,
 which is obtained from $G_3$ by subtracting a one-particle reducible
 part and which obeys a Dyson equation with a three-particle kernel
 (Sec.~\ref{sec:eliminating}).
-Of the six fully disconnected terms of $G_3$,\cite{Kappl2025} $R$
-retains only the two of the $\pph$ propagator $D$ of three independent
-lines. Of the nine partially connected terms, it retains the five in
-which two (particle or hole) lines interact, while the third line is
-a spectator. It also contains the connected part of $G_3$ without one
-one-particle reducible diagram.
 
 By dropping the 3-body irreducible kernel, 
 the three-particle kernel is approximated by its Faddeev part,
@@ -226,8 +220,8 @@ self-energy. At fifth order, they all become approximate.
 In the Schwinger--Dyson equation, the vertex
 enters the self-energy with one explicit interaction, so that the
 self-energy through order $n$ needs the fully irreducible vertex
-$\Lambda$ through order $n-1$. Since $\Lambda$ does not have 
-any contribution at second and third order, it therefore gives the
+$\Lambda$ through order $n-1$. Since $\Lambda$ has no 
+second- and third-order contributions, the parquet approximation gives the
 self-energy exactly through order $n=4$.
 In the three-particle route taken here,
 $R$ enters with two explicit interactions, so that the self-energy
@@ -470,7 +464,7 @@ v(1\bar2;1'\bar2')
 -
 v(1\bar2;\bar2'1')
 \big]\,
-G(\bar2'\bar2),
+G(\bar2'\bar2^+),
 \label{eq:Sigma_HF}
 \\[0.5em]
 \Sigma^{c}(11')
@@ -743,7 +737,7 @@ The exchange of the lines 1 and 2 in $D$ is implied.}
 
 Substituting Eq.~\eqref{eq:Faddeev} directly into the Dyson equation, Eq.~\eqref{eq:R},
 and closing the spectator leg of each of the three terms against the
-corresponding $G^{-1}$ via Eq.~\eqref{eq:G0_inverse} gives
+corresponding $G^{-1}$ gives
 \begin{align}
 R(312;1'2'3')
 ={}&
@@ -1095,7 +1089,7 @@ Eq.~\eqref{eq:K_pairs} is the kernel of Barbieri and
 Dickhoff.\cite{Barbieri2001} It is exact at first order, where all
 vertices are $\Gamma^{(1)}$. Beyond first order, iterating $\cK_{3x}[\Gamma^{\pp}]$ alone would
 count the rungs of the ladders in the pairs $(31)$ and $(32)$ twice,
-since $D$ is not antisymmetrized in the lines 3 and $x$: the $\pp$ channel of $R$ in the pair $(3x)$ is the $\eh$ channel of $F$, whose ladder $\Phi^{\eh}$ is already contained in $\Gamma^{\pp}$. We therefore
+since $D$ is not antisymmetrized in the lines 3 and $x$. The $\pp$ channel of $R$ in the pair $(3x)$ is the $\eh$ channel of $F$, whose ladder $\Phi^{\eh}$ is already contained in $\Gamma^{\pp}$. We therefore
 replace $\Gamma^{\pp}$ in $\cK_\alpha$ by a pair vertex $\Gamma_\alpha$,
 fixed such that the pair $\alpha$ alone reproduces its full two-body
 scattering $F$. For the pair $(12)$, $\Gamma_{12}=\Gamma^{\pp}$, and at
@@ -1112,7 +1106,7 @@ This is the Faddeev form of the three-body problem.\cite{Faddeev1961}
 
 Based on the Faddeev construction, we will then show that 
 GF$n$ is the truncation of the Faddeev series,
-at total order $n-2$ in the parquet vertex $F$. 
+at total order $n-2$ in $v$. 
 The ADC($n$) matrices then
 follow from Schirmer's matching,\cite{Schirmer1983} in which the
 resolvent form of ADC($n$) is imposed and matched to the self-energy
@@ -1165,7 +1159,6 @@ R_\alpha
 where $(\bI-\mathcal V_\alpha)^{-1}\mathcal V_\alpha$ sums all
 consecutive interactions in the pair $\alpha$.
 
-\subsubsection{Full two-body scattering in each pair}
 Acting on $D$, $(\bI-\mathcal V_\alpha)^{-1}\mathcal V_\alpha$ gives all
 diagrams of $R$ in which only the pair $\alpha$ interacts, while the
 third line is a free spectator. By the definition of $\Gamma_\alpha$,
@@ -1190,6 +1183,7 @@ R_\alpha
 \end{equation}
 Iterating Eq.~\eqref{eq:Faddeev_F}, \ie\ inserting the $R_\beta$ on
 the right-hand side again and again, gives the Faddeev series
+\cite{watson1953multiple,Faddeev1961,Barbieri2001}
 \begin{equation}
 \label{eq:Faddeev_series}
 \begin{aligned}
@@ -1202,21 +1196,106 @@ D+\sum_{\alpha}\cK_\alpha[F]D
 \cK_\alpha[F]\cK_\beta[F]\cK_\gamma[F]D+\cdots \;,
 \end{aligned}
 \end{equation}
-in which consecutive pairs are always different. Every product of
-$\mathcal V$'s in the Neumann series, Eq.~\eqref{eq:K_series}, is
-contained in exactly one term of Eq.~\eqref{eq:Faddeev_series}. For
-example,
-$\mathcal V_{12}\mathcal V_{12}\mathcal V_{31}\mathcal V_{32}\mathcal V_{32}D$
-is part of $\cK_{12}[F]\cK_{31}[F]\cK_{32}[F]D$, since the runs
-$\mathcal V_{12}\mathcal V_{12}$ and $\mathcal V_{32}\mathcal V_{32}$
-are parts of $\cK_{12}[F]$ and $\cK_{32}[F]$
-(Fig.~\ref{fig:Faddeev_runs}).
-The terms of first order in $F$, $\sum_\alpha\cK_\alpha[F]D$, contain
-only one interacting pair, while the third line is a free spectator.
-They correspond to the five partially connected terms of
-Eq.~\eqref{eq:R_decomposition}. The terms with at least two different
-pairs are the Faddeev approximation to the remaining connected part,
-$G_3^{c}$ minus the one-particle reducible term.
+in which consecutive pairs are always different.
+
+To relate Eq.~\eqref{eq:Faddeev_series} to ADC, we expand $F$ in powers
+of $v$. By Eqs.~\eqref{eq:parquet_channels} and
+\eqref{eq:crossing_Lambda}, $\Lambda$ has no second-order term,
+so that
+\begin{equation}
+\label{eq:F_orders}
+\begin{aligned}
+F^{(1)}
+= &
+\Gamma^{(1)} \;,
+\\
+F^{(2)}
+= &
+\Phi^{\pp,(2)}+\Phi^{\eh,(2)}+\Phi^{\teh,(2)} \;.
+\end{aligned}
+\end{equation}
+The self-energy, Eq.~\eqref{eq:Sigma_closed}, contains two explicit
+interactions $v$. A term of order $m$ in $v$ therefore contributes to
+$\Sigma$ at order $m+2$. ADC($n$) is complete through order $n$, so
+that $R$ is needed through order $n-2$ in $v$. Collecting the terms of
+Eq.~\eqref{eq:Faddeev_series} up to this order,
+\begin{equation}
+\label{eq:ADC_Faddeev}
+\begin{aligned}
+R_{\rm ADC(2)}
+= &
+D \;,
+\\
+R_{\rm ADC(3)}
+= &
+D+\sum_{\alpha}\cK_\alpha\big[F^{(1)}\big]D_{\rm HF} \;,
+\\
+R_{\rm ADC(4)}
+= &
+D+\sum_{\alpha}\cK_\alpha\big[F^{(1)}+F^{(2)}\big]D_{\rm HF}
+\\
+& +\sum_{\alpha\neq\beta}
+\cK_\alpha\big[F^{(1)}\big]\cK_\beta\big[F^{(1)}\big]D_{\rm HF} \;.
+\end{aligned}
+\end{equation}
+Here, $D$ in the first term, $G(\bar3'\bar4)$ and the static part
+$\Sigma_{\rm HF}$ are evaluated with $G$ expanded to the corresponding
+order, while in all terms with at least one $F$, $D_{\rm HF}$ suffices
+at this order.
+
+Before concluding this section,
+we introduce the important own-channel approximation
+to Eq.~\eqref{eq:Faddeev_series}.
+For this, we approximate the BSEs Eq.~\eqref{eq:parquet_BSE}
+in the own-channel approximation, for the special case of 
+the first-order Faddeev kernel, so that 
+$\Gamma^{r}\to\Gamma^{(1)}$.
+The two BSEs then define two separate vertices
+\begin{equation}
+\begin{aligned}
+F^{\pp}_{\rm oc}
+= &
+\Gamma^{(1)}-\frac12\,\Gamma^{(1)}\circ_{\pp}F^{\pp}_{\rm oc} \;,
+\\
+F^{\eh}_{\rm oc}
+= &
+\Gamma^{(1)}+\Gamma^{(1)}\circ_{\eh}F^{\eh}_{\rm oc} \;.
+\end{aligned}
+\label{eq:BSE_oc}
+\end{equation}
+This is also done in the FLEX approximation.\cite{Bickers1989,Bickers2004}
+
+In the own-channel approximation to Eq.~\eqref{eq:Faddeev_series},
+each pair scatters only through the
+ladder of its own channel with the bare kernel. 
+The own-channel approximation amounts to 
+neglecting the channel crossings of
+parquet (and of coupled cluster) inside a pair.\cite{Barbieri2001}
+\citet{Barbieri2001} combined this approximation additionally with
+a no-overlap approximation that we denote here by 
+$[\cdots]_{\pph}$. It neglects the time orderings in which the ladders of
+different pairs overlap in time, \ie\ consecutive pairs are separated by
+a $\pph$ cut, a subinterval spanned only by the three lines of a $\pph$
+state (Sec.~\ref{sec:pph_Dyson}). 
+Due to this restriction, at first-order Faddeev the effective
+Hamiltonian only contains $\pph$ ($\hhp$) configurations.
+At fourth order, the neglected terms are
+added perturbatively together with the $3\text{p}2\text{h}$
+($3\text{h}2\text{p}$) space.
+With these approximations, Eq.~\eqref{eq:Faddeev_series} becomes 
+\begin{equation}
+\label{eq:Faddeev_series_oc}
+\begin{aligned}
+R_{\rm oc}
+= &
+D+\sum_{\alpha}\cK_\alpha[F_\alpha]D
++\sum_{\alpha\neq\beta}\Big[\cK_\alpha[F_\alpha]\cK_\beta[F_\beta]D\Big]_{\pph}
+\\
+& +\sum_{\substack{\alpha\neq\beta\\\beta\neq\gamma}}
+\Big[\cK_\alpha[F_\alpha]\cK_\beta[F_\beta]\cK_\gamma[F_\gamma]D\Big]_{\pph}
++\cdots \;.
+\end{aligned}
+\end{equation}
 
 \begin{figure*}
 \centering
@@ -1270,87 +1349,21 @@ consecutive boxes always belong to different pairs.}
 \label{fig:Faddeev_runs}
 \end{figure*}
 
-
-To relate Eq.~\eqref{eq:Faddeev_series} to ADC, we expand $F$ in powers
-of $v$. By Eqs.~\eqref{eq:parquet_channels} and
-\eqref{eq:crossing_Lambda}, $\Lambda$ has no second-order term,
-so that
-\begin{equation}
-\label{eq:F_orders}
-\begin{aligned}
-F^{(1)}
-= &
-\Gamma^{(1)} \;,
-\\
-F^{(2)}
-= &
-\Phi^{\pp,(2)}+\Phi^{\eh,(2)}+\Phi^{\teh,(2)} \;.
-\end{aligned}
-\end{equation}
-The self-energy, Eq.~\eqref{eq:Sigma_closed}, contains two explicit
-interactions $v$. A term of order $m$ in $F$ therefore contributes to
-$\Sigma$ at order $m+2$. ADC($n$) is complete through order $n$, so
-that $R$ is needed through order $n-2$ in $F$. Collecting the terms of
-Eq.~\eqref{eq:Faddeev_series} up to this order,
-\begin{equation}
-\label{eq:ADC_Faddeev}
-\begin{aligned}
-R_{\rm ADC(2)}
-= &
-D \;,
-\\
-R_{\rm ADC(3)}
-= &
-D+\sum_{\alpha}\cK_\alpha\big[F^{(1)}\big]D_{\rm HF} \;,
-\\
-R_{\rm ADC(4)}
-= &
-D+\sum_{\alpha}\cK_\alpha\big[F^{(1)}+F^{(2)}\big]D_{\rm HF}
-\\
-& +\sum_{\alpha\neq\beta}
-\cK_\alpha\big[F^{(1)}\big]\cK_\beta\big[F^{(1)}\big]D_{\rm HF} \;.
-\end{aligned}
-\end{equation}
-Here, $D$ in the first term, $G(\bar3'\bar4)$ and the static part
-$\Sigma_{\rm HF}$ are evaluated with $G$ expanded to the corresponding
-order, while in all terms with at least one $F$, $D_{\rm HF}$ suffices
-at this order.
-
 \section{\label{sec:parquet_Heff}Parquet in effective-Hamiltonian form}
-In Sec.~\ref{sec:Faddeev_form}, we have seen that ADC($n$) follows from
-the Faddeev series cut at total order $n-2$ in the full vertex $F$. In this section,
-we keep the structure of ADC($n$), \ie\ its
-configuration spaces and its effective Hamiltonian, but replace the
-Tamm--Dancoff ladders of the pairs, which the ADC resolvent already
-resums, by full RPA ladders. This gives versions of ADC($n$) with RPA
-ladders in the pairs, \ie\ partial parquet
-approximations that remain exact through order $n$. At the level of
+In this section, by making use of the own-channel
+and no-overlap approximation
+we have just introduced, we replace the 
+Tamm--Dancoff ladders of each pair in the $\pph$ propagator
+by full RPA ladders. At the level of
 ADC(3), this is essentially the Faddeev random-phase approximation
-(FRPA) of Barbieri and
-co-workers.
+(FRPA) of Barbieri and co-workers.
 \cite{Barbieri2001,
 barbieri2003extension,
 barbieri2007quasiparticles,
 Degroote2011}
-The difference is that our effective Hamiltonian remains Hermitian, as long as its metric is positive definite.
+The difference is that our effective Hamiltonian remains Hermitian,
+as long as its metric is positive definite.
 At the level of ADC(4), it is, to our knowledge, new.
-
-We denote the approximations to parquet that lead to these 
-generalized ADC($n$) versions as the own-channel approximation: 
-The channel crossings of parquet and also of coupled cluster are therefore
-neglected. 
-This approximation also motivates a second approximation, that 
-may be called a no-overlap approximation. It consists in 
-neglecting the ladders of different pairs that
-overlap in time, i.e. 
-consecutive pieces of different pairs are separated by a $\pph$
-cut, a subinterval spanned only by the three lines of a $\pph$ state.
-We include it in the own-channel approximation.
-Due to this restriction, at first-order Faddeev the effective
-Hamiltonian only contains $\pph$ ($\hhp$) configurations.
-At fourth order, the neglected terms are
-added perturbatively together with the $3\text{p}2\text{h}$
-($3\text{h}2\text{p}$) space.
 
 To make this section self-contained, we need to introduce 
 the time-ordering rules for instantaneous interactions,
@@ -1358,22 +1371,21 @@ the pair propagators, and the
 $\pph$ Dyson equation. With these tools, we can 
 construct the reducible vertices of order $n$ in their 
 own-channel approximations. We then derive the effective 
-Hamiltonians of the 3rd- and 4th-order own-channel parquet approximations, 
+Hamiltonians of the 3rd- and 4th-order own-channel and no-overlap parquet approximations, 
 i.e. Faddeev-RPA and its completion to fourth order.
 
-The first approximation that we make is the parquet approximation:
-The fully irreducible vertex is
-replaced by the bare interaction, $\Lambda=\Gamma^{(1)}$. Since
-$\Lambda=\Lambda^{(1)}+O(v^4)$, Eq.~\eqref{eq:crossing_Lambda}, $F$ is
+Let us stress that, the own-channel and no-overlap approximations aside, 
+a couple of other approximations are made by construction.
+The first one is the parquet approximation, that replaces 
+the fully irreducible vertex by the bare interaction, $\Lambda=\Gamma^{(1)}$.
+Since $\Lambda=\Lambda^{(1)}+O(v^4)$, Eq.~\eqref{eq:crossing_Lambda}, $F$ is
 exact through third order. 
-We employ a static HF reference throughout, i.e. all lines of the vertex are
+We also employ a static HF reference throughout, i.e. all lines of the vertex are
 $G_{\rm HF}$. The lines of $D$ are dressed through the self-energy
-order by order, in the same way as in ADC.
-
-With these approximations, every diagram of the vertex is a
+order by order, in the same way as in ADC. With these approximations, every diagram of the vertex is a
 product of instantaneous interactions $\bar v$ and $G_{\rm HF}$ lines.
 The time-ordering rules then remove all three frequencies of the vertex.
-This makes an effective-Hamiltonian form possible at all.
+This makes an effective-Hamiltonian form possible.
 Whether it is possible to obtain an effective Hamiltonian form 
 also beyond the parquet approximation is an open question.
 
@@ -1556,19 +1568,13 @@ with its indices restricted to
 $(xr)\in\big\{(ia)\big\}\cup\big\{(ai)\big\}$.
 
 \subsubsection{Interacting pair propagators}
-The interacting pair propagators\cite{orlando2023three}
-are needed to 
-establish the connection of the parquet equations 
-to the effective Hamiltonian picture of 
-the Faddeev-RPA and therefore ADC.
-\cite{Barbieri2001,barbieri2003extension,barbieri2007quasiparticles,Degroote2011}
 Restricting the $\pp$ pairs to $c<d$, $k<l$ absorbs the
 $\tfrac12$ of Eq.~\eqref{eq:parquet_BSE}. With Eq.~\eqref{eq:Gamma1_bare},
 \begin{equation}
 \ii\Gamma^{(1)}_{pqrs}
 =
 \mel{pq}{}{rs} \;,
-\label{eq:W_eh}
+\label{eq:Gamma1_orbital}
 \end{equation}
 and in the pair spaces $\Gamma^{(1)}\to-\ii K^{r}$,
 \begin{align}
@@ -1911,9 +1917,9 @@ X^{\pp}\big(\omega+\eps_i-\boldsymbol\Omega^{+}\big)^{-1}X^{\pp\dagger} \;.
 \label{eq:Q12}
 \end{equation}
 
-In the Tamm-Dancoff limit where the 
+In the Tamm--Dancoff limit where the 
 two time-orderings of the pair propagators are 
-decoupled, they reduce
+decoupled, they reduce to
 \begin{equation}
 \begin{aligned}
 L^{\eh}(\Omega)
@@ -1944,7 +1950,7 @@ vertex of the pair. With RPA phonons, no such static vertex
 exists, since $Q_\alpha^{-1}$ carries the metric $(X_\alpha X_\alpha^\dagger)^{-1}$,
 Eq.~\eqref{eq:Q_alpha_inverse}.
 
-\subsection{Own-channel approximation}
+\subsection{Own-channel and no-overlap approximation}
 \label{sec:depth1}
 We start from ADC(3). Its block II,
 Eqs.~\eqref{eq:ADC3}, \eqref{eq:C_II} and \eqref{eq:U2_II}, is
@@ -1982,22 +1988,22 @@ with $g$ of Eq.~\eqref{eq:g_equal_time}. This is the Faddeev
 combination of the three pairs. Every product of the $C_\alpha$ in the
 expansion of $R$ is a sequence of instantaneous vertices separated by
 $\pph$ cuts, Eq.~\eqref{eq:pph_Dyson}, so that the ladders of different pairs never overlap. The
-ADC(3) matrix is thus the own-channel approximation with TDA phonons.
+ADC(3) matrix is thus the own-channel and no-overlap approximation with TDA phonons.
 The couplings $U^{(2)}$, Eq.~\eqref{eq:U2_II}, contain the first-order
 doubles $t$, that are the leading ground-state correlations of the
 phonons. Table~\ref{tab:dictionary} relates the
 terms of $R$, Eq.~\eqref{eq:R_decomposition}, to the Faddeev series,
 Eq.~\eqref{eq:Faddeev_series}, and to their counterparts in ADC(3) and
-in the own-channel approximation.
+in the own-channel and no-overlap approximation.
 
 \begin{table*}[hbt!]
 \caption{Terms of $R$, Eq.~\eqref{eq:R_decomposition}, and their
 counterparts in the Faddeev series, Eq.~\eqref{eq:Faddeev_series}, in
-ADC(3), and in the own-channel approximation (block II).}
+ADC(3), and in the own-channel and no-overlap approximation (block II).}
 \label{tab:dictionary}
 \begin{ruledtabular}
 \begin{tabular}{llll}
-Term of $R$ & Faddeev series & ADC(3) & Own-channel approximation \\
+Term of $R$ & Faddeev series & ADC(3) & Own-channel and no-overlap \\
 \hline
 $D$: 2 of the 6 disconnected terms
 & $D$
@@ -2034,23 +2040,26 @@ parts of the ladders.
 
 The phonon eigenvectors are however not needed, 
 since the RPA eigenvalue problem in each channel 
-can be writtenfor each channel as 
+can be written as 
 the Riccati equation
 \begin{equation}
 B_\alpha^\dagger+D_\alpha T_\alpha+T_\alpha A_\alpha
 +T_\alpha B_\alpha T_\alpha
-=0 \;.
+=0 \;,
 \label{eq:Riccati}
 \end{equation}
+with $(A_\alpha,B_\alpha,D_\alpha)=(A,B,A)$ of Eq.~\eqref{eq:TDHF} for the
+pairs $(3x)$ and $(A^{\pp},B^{\pp},C^{\pp})$ of Eq.~\eqref{eq:ppRPA} for
+the pair $(12)$.
 The Riccati amplitudes are related
 to the phonon eigenvector components by\cite{tolle2026connection}
 \begin{equation}
 T_{\alpha}
 =
 Y_{\alpha}X_{\alpha}^{-1}.
-\label{eq:GW_Riccati_amplitude}
+\label{eq:T_YX}
 \end{equation}
-These are
+Eq.~\eqref{eq:Riccati} is
 the ring-CCD ($\eh$) and ladder-CCD ($\pp$) amplitude equation of the
 channel.\cite{Scuseria2013} This shows that 
 each channel introduces its own set of 
@@ -2181,14 +2190,14 @@ K^{\rm II}_{abi,cdj}+C^{\rm II}_{abi,cdj}
 \end{align}
 with
 \begin{align}
-h^{\pp}_{ab,cd}(s)
+h^{\pp}_{ab,cd}
 ={}&
 \sum_{k<l}\Big[\mel{ab}{}{kl}\,T^{\pp}_{kl,cd}+T^{\pp}_{kl,ab}\,\mel{kl}{}{cd}\Big]
 \nonumber\\
 &+\sum_{k<l}\sum_{m<n}T^{\pp}_{kl,ab}
 \big(C^{\pp}_{kl,mn}+\eps_i\,\delta_{km}\delta_{ln}\big)T^{\pp}_{mn,cd} \;,
 \nonumber\\
-h^{\eh}_{ia,jc}(s)
+h^{\eh}_{ia,jc}
 ={}&
 \sum_{ke}\Big[\mel{ae}{}{ik}\,T^{\eh}_{ke,jc}+T^{\eh}_{ke,ia}\,\mel{ce}{}{jk}\Big]
 \nonumber\\
@@ -2219,7 +2228,7 @@ Its $\omega$-linear part gives $\mathcal N$, its constant part $\mathcal H$.
 With Eqs.~\eqref{eq:Q31}~and~\eqref{eq:Q12},
 as well as the normalization 
 Eq.~\eqref{eq:normalization} the quantities 
-appearing the self-energy defined by
+appearing in the self-energy defined by
 Eq.~\eqref{eq:Sigma_depth1}
 are
 \begin{equation}
@@ -2240,22 +2249,25 @@ K^{\rm II}+C^{\rm II}
 U^{(1)}+\sum_\alpha\Big[M_\alpha X_\alpha^{-1}-U^{(1)}\Big] \;,
 \end{aligned}
 \end{equation}
+with the phonon vertices $M_\alpha=U^{(1)}X_\alpha+U^{(1)}_{Y,\alpha}Y_\alpha$,
+\ie\ $M_{31}=-\tilde\rho$ and $M_{12}=\zeta$ of
+Eqs.~\eqref{eq:Phi_eh_phonons} and \eqref{eq:Phi_pp_phonons}.
 
 \subsubsection{All the way back to \texorpdfstring{$GW$}{GW}}
 
-Let us consider the electron--hole (ph)-channel-only approximation to
-the effective Hamiltonian Eq.~\eqref{eq:HNU_phonons}, 
+Let us consider the approximation to
+the effective Hamiltonian Eq.~\eqref{eq:HNU_phonons} with a single $\eh$ pair, $(31)$, in the ordered space of $a$, $b$, 
 \begin{equation}
 \begin{aligned}
 \mathcal N
 &=
-\big(X_{\rm ph}X_{\rm ph}^{\dagger}\big)^{-1},
+\big(X_{\eh}X_{\eh}^{\dagger}\big)^{-1},
 \\
 \mathcal H
 &=
-X_{\rm ph}^{-\dagger}
-\big(\boldsymbol\Omega_{\rm ph}+\epsilon\big)
-X_{\rm ph}^{-1},
+X_{\eh}^{-\dagger}
+\big(\boldsymbol\Omega_{\eh}+s_{31}\big)
+X_{\eh}^{-1},
 \\
 \mathcal U
 &=
@@ -2270,16 +2282,16 @@ Eq.~\eqref{eq:Heff_depth1} gives
 = 
 M_{\eh}
 \big[
-\omega-\eps-\boldsymbol\Omega_{\eh}
+\omega-s_{31}-\boldsymbol\Omega_{\eh}
 \big]^{-1}
 M_{\eh}^{\dagger}.
 \end{equation}
 The $\eh$-first-order reducible vertices have been 
-defined in Eq.~\eqref{eq:Phi_eh_phonons} as $\rho$. 
+defined in Eq.~\eqref{eq:Phi_eh_phonons}, with $M_{\eh}=-\tilde\rho$. 
 Since the corresponding eigenproblem is the TDHF one, 
 the self-energy Eq.~\eqref{eq:GW_phonon_selfenergy}
 is in fact not the $GW$ self-energy. Instead, 
-it is the same as the PSD competion of
+it is the same as the PSD completion of
 Ref.~\citenum{Pavlyukh2026}, with the 
 only difference that they construct 
 Eq.~\eqref{eq:Phi_eh_phonons} with a statically 
@@ -2288,12 +2300,12 @@ Eq.~\eqref{eq:Phi_eh_phonons} with the standard
 (direct electron-hole) RPA gives then the $GW$ 
 approximation. This also illustrates the 
 interpretation of the PSD self-energy of 
-Ref.~\citenum{Pavlyukh2026} as a "single channel parquet"-type
+Ref.~\citenum{Pavlyukh2026} as a ``single-channel parquet''-type
 approximation.
 
 \subsection{Fourth-order completion}
 \label{sec:overlap}
-We now complete the own-channel approximation to fourth order. We
+We now complete the own-channel and no-overlap approximation to fourth order. We
 start from the known ADC(4) effective Hamiltonian.
 In addition to extra interactions within the 2p1h (2h1p) space and
 their couplings to the one-particle space, ADC(4) adds the
@@ -2333,7 +2345,7 @@ additional particle and a hole,
 and the rung of $(12)$ absorbs this hole together with the
 original particle. In between, five lines propagate. These are the
 overlapping orderings of the last term of Eq.~\eqref{eq:ADC_Faddeev},
-which the own-channel approximation excludes.
+which the no-overlap approximation excludes.
 
 \subsubsection{ADC(4)}
 Block II of ADC(4)\cite{Schirmer1983} extends the $\pph$ space of
@@ -2402,7 +2414,7 @@ and $U^{{\rm II},(3)}$ contains the second-order singles, doubles and
 triples, products of two first-order doubles, the second-order
 density matrix, and $\Sigma^{(2)}$ insertions in the lines.\cite{Schirmer1983}
 
-\subsubsection{Own-channel part of ADC(4)}
+\subsubsection{Own-channel and no-overlap part of ADC(4)}
 The first line of Eq.~\eqref{eq:L_II} contains the leading ground-state
 correlations of the phonons of Sec.~\ref{sec:depth1}. With the first-
 and second-order solutions of Eq.~\eqref{eq:Riccati},
@@ -2417,10 +2429,10 @@ D^{(0)}_\alpha T^{(2)}_\alpha+T^{(2)}_\alpha A^{(0)}_\alpha
 \label{eq:Riccati_orders}
 \end{align}
 where $A^{(0)}$, $D^{(0)}$ are the pair energies and $A^{(1)}$,
-$D^{(1)}$ the first-order pair interactions, its two terms are
+$D^{(1)}$ the first-order pair interactions, the two terms of the first line of Eq.~\eqref{eq:L_II} are
 $B_\alpha T^{(1)}_\alpha$ of the $\pp$ pair and of the $\eh$ pairs,
 $T^{(1)}_{12}=t$ and $T^{(1)}_{3x}=t$. The second and third lines of
-Eq.~\eqref{eq:L_II} dress the spectator hole and a particle line with
+Eq.~\eqref{eq:L_II} dress the hole line and a particle line with
 the second-order self-energy. Hence
 for the $C$-block
 \begin{equation}
@@ -2467,7 +2479,7 @@ crossed-channel parts of the second-order doubles, the density-matrix
 terms and the line dressing of the couplings.
 
 \subsubsection{Resummation}
-The own-channel parts, Eqs.~\eqref{eq:d1_second} and \eqref{eq:U3_oc}, are the leading terms
+The own-channel and no-overlap parts, Eqs.~\eqref{eq:d1_second} and \eqref{eq:U3_oc}, are the leading terms
 of the resummed quantities of Sec.~\ref{sec:depth1}. With
 $\mathcal N^{-1/2}=\bI+\tfrac12S+O(v^4)$ and Eq.~\eqref{eq:Riccati_orders},
 Eqs.~\eqref{eq:depth1_amplitudes}, \eqref{eq:Ueff_depth1} and
@@ -2506,7 +2518,7 @@ C_3 & K_3
 The differences to Eq.~\eqref{eq:ADC4_II} are of third order in the
 matrix and of fourth order in the couplings. They enter the self-energy
 at fifth order, so that Eq.~\eqref{eq:d1_ADC4} is exact through fourth
-order and keeps the own-channel resummation of the phonons to all
+order and keeps the own-channel and no-overlap resummation of the phonons to all
 orders. Block I follows in the same way, and the static self-energy is
 needed through fourth order, as in ADC(4).
 
@@ -2524,7 +2536,7 @@ Through the response function $R$, the self-energy is expressed in
 terms of the three-particle kernel, Eq.~\eqref{eq:Sigma_closed}. In the
 Faddeev form, Eq.~\eqref{eq:Faddeev_F}, the only two-body input is the
 parquet vertex $F$. ADC($n$) is the
-Schirmer matching of the Faddeev series at total order $n-2$ in $F$.
+Schirmer matching of the Faddeev series at total order $n-2$ in $v$.
 The orders through which the various
 approximations are exact are collected in Table~\ref{tab:orders}.
 
@@ -2543,14 +2555,14 @@ channel with the bare kernel. Moreover,
 the ladders of different pairs do not
 overlap in time (Sec.~\ref{sec:depth1}). 
 
-In the own-channel approximation, Hermitian effective Hamiltonians
+In the own-channel and no-overlap approximation, Hermitian effective Hamiltonians
 (for a positive-definite metric) are obtained that go beyond ADC by going beyond the TDA. 
 At the ADC(3) level, this amounts to an effective Hamiltonian that
 replaces the first-order double amplitudes in the couplings with the 
 ring-CCD (for the $\eh$ channel) and the ladder-CCD amplitudes
 (for the $\pp$ channel), and adds the metric $\mathcal N$ and the terms $B_\alpha T_\alpha$ to the matrix. Channel crossings
 that are not already part of the Faddeev kernel itself,
-as in the full CCD amplitude equations are not considered. 
+as in the full CCD amplitude equations, are not considered. 
 At first order, the Faddeev kernel does not contain any 
 channel crossings.
 
@@ -2561,19 +2573,19 @@ the presence of $3\text{p}2\text{h}$ configurations. Obtaining
 an effective Hamiltonian requires to include this configuration space,
 in the same way as in the ADC(4) approximation.
 
-An advantage of the Faddeev construction is that 
-it preserves the resolvent-structure of the 
+An advantage of our Faddeev construction is that 
+it preserves the resolvent structure of the 
 self-energy through a Hermitian effective Hamiltonian 
-formalism, in the same way as in ADC. unlike ADC, it also 
-introduces a significantly larger amuont of 
-ground state correlation through an 
+formalism, in the same way as in ADC. Unlike ADC, it also 
+introduces a significantly larger amount of 
+ground-state correlation through an 
 infinite-order amplitude renormalization.
 
-The derivations shown here allow to make a 
+The derivations shown here allow us to make a 
 precise connection to a recent PSD completion of 
 a vertex-corrected self-energy,\cite{Pavlyukh2026}
 suggesting its interpretation as a single-channel 
-parquet-type approximation. It remains to be estblished 
+parquet-type approximation. It remains to be established 
 whether similar connections can be drawn for 
 other PSD-completion schemes.\cite{Bruneval2025,Marie2026}
 
@@ -2689,7 +2701,7 @@ t_i^{a(2)} =
 -\frac12\sum_{jkc}t_{jk}^{ac}\mel{ic}{}{jk}
 \Big] \;,
 \end{equation}
-its blocks are\cite{Keizer2026} 
+the blocks of $\gamma^{(2)}$ are\cite{Keizer2026} 
 \begin{equation}
 \begin{aligned}
 \gamma^{(2)}_{ij}
@@ -2783,21 +2795,9 @@ $\eh$ reducible vertices, Eq.~\eqref{eq:Phi2_explicit}, of the parquet
 equations. 
 %% TODO --> explain
 \subsubsection{GF3 self-energy}
-One can now perform the integrals over $\tau$ analytically in one 
-of the three following ways, ordered from hardest to easiest: 
-\begin{enumerate}
-	\item Perform the integral over $\tau$ in the time domain
-	(Eq.~\eqref{eq:Sigma_K_pp_time} and Eq.~\eqref{eq:Sigma_K_eh_time}) directly and Fourier transform 
-	$\Sigma$ afterwards. This requires splitting all integrals according to 
-	their time-orderings (there are $3! =6$ of them) and is therefore very cumbersome. 
-	\item Use Eq.~\eqref{eq:fourier_transform} to express $G$ in the frequency domain, 
-	where the analytical expressions are given by contour integrals.
-	\item Instead of performing the Fourier transforms directly, it is 
-	far easier to regard each space-time term as a circuit and 
-	use energy conservation at intermediate vertices.
-	We will pursue this strategy. Of course, one must still solve contour integrals 
-	in this way.
-\end{enumerate}
+We perform the integrals over $\tau$ by regarding each space-time term
+as a circuit and using energy conservation at the intermediate vertices,
+which leaves contour integrals over the channel frequency.
 For the $\pp$-channel, one then gets
 \begin{align}
 \Sigma^{\pp}_{\cK,pq}(\omega)
