@@ -459,8 +459,7 @@ Equation~\eqref{eq:BSE_three_frequency} is simply
 Eq.~\eqref{eq:BSE_symbolic} written in the direct-$\eh$ frequency convention
 of Sec.~\ref{sec:frequencies}.
 
-To connect this equation with the parquet vertex, we also use the exact
-amputated representation
+To rewrite the BSE as an equation for the full vertex $F$, we use the exact relation
 \begin{equation}
 	L
 	=
@@ -469,9 +468,8 @@ amputated representation
 	L_0 F L_0
 	\label{eq:L_F_relation}
 \end{equation}
-Combining Eqs.~\eqref{eq:BSE_symbolic} and
-\eqref{eq:L_F_relation} and amputating the external $L_0$ factors gives the
-vertex BSE
+Combining Eqs.~\eqref{eq:BSE_symbolic} and \eqref{eq:L_F_relation}, 
+and removing the external $L_0$ factors by multiplication with $L_0^{-1}$, gives the vertex BSE
 \begin{equation}
 	F
 	=
@@ -511,7 +509,7 @@ The corresponding three-frequency non-interacting pair propagators are
 	L_{0,ia}^{+}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
-	G_{0,a}(\nu+\omega)G_{0,i}(\nu)
+	G_{0,a}(\nu+\omega) G_{0,i}(\nu)
 	\label{eq:L0_three_frequency_plus}
 	\\
 	L_{0,ia}^{-}(\nu,\nu',\omega)
@@ -531,12 +529,12 @@ propagator.
 Define
 \begin{equation}
 	\begin{aligned}
-	(L_0^+)_{ia}(\omega)
+	L_{0,ia}^+(\omega)
 	&=
 	\frac{\ii}
 	{\omega-(\eps_a-\eps_i)+\ii0^+}
 	\\
-	(L_0^-)_{ia}(\omega)
+	L_{0,ia}^-(\omega)
 	&=
 	-\frac{\ii}
 	{\omega+(\eps_a-\eps_i)-\ii0^+}
@@ -549,16 +547,16 @@ and the corresponding one-sided factors
 	Q^+_{ia}(\nu,\omega)
 	&=
 	-\ii
-	\left[
-	G_{0,i}(\nu)-G_{0,a}(\nu+\omega)
-	\right]
+	\qty[
+	G_{0,i}(\nu) - G_{0,a}(\nu+\omega)
+	]
 	\\
 	Q^-_{ia}(\nu,\omega)
 	&=
 	+\ii
-	\left[
-	G_{0,a}(\nu)-G_{0,i}(\nu+\omega)
-	\right]
+	\qty[
+	G_{0,a}(\nu) - G_{0,i}(\nu+\omega)
+	]
 	\end{aligned}
 	\label{eq:Q_pm}
 \end{equation}
@@ -572,14 +570,14 @@ identities
 	&=
 	2\pi\delta(\nu-\nu')
 	Q^+_{ia}(\nu,\omega)
-	(L_0^+)_{ia}(\omega)
+	L_{0,ia}^{+}(\omega)
 	\label{eq:L0_factorization_plus}
 	\\
 	L_{0,ia}^{-}(\nu,\nu',\omega)
 	&=
 	2\pi\delta(\nu-\nu')
 	Q^-_{ia}(\nu,\omega)
-	(L_0^-)_{ia}(\omega)
+	L_{0,ia}^{-}(\omega)
 	\label{eq:L0_factorization_minus}
 \end{align}
 
@@ -593,7 +591,7 @@ internal non-interacting pair propagation of the vertex BSE
 \eqref{eq:Phi_BSE_eh}.
 The delta function in the factorized $L_0$ removes one integration variable,
 leaving one factor $Q^\sigma$ and one one-frequency propagator
-$(L_0^\sigma)(\omega)$.
+$L_0^\sigma(\omega)$.
 
 Let $\sigma,\sigma'=\pm$ denote the propagation directions of the left pair
 $ia$ and right pair $jb$, respectively. Thus $++$ denotes forward propagation
@@ -613,7 +611,7 @@ Projecting the left pair gives
 	\right]^{\sigma\sigma'}_{ia,jb}(\bar\nu_2,\nu',\omega)
 	\\
 	=
-	(L_0^\sigma)_{ia}(\omega)
+	L_{0,ia}^\sigma(\omega)
 	\frac{1}{2\pi}
 	\int \dd{\bar\nu}
 	Q^\sigma_{ia}(\bar\nu,\omega)
@@ -640,7 +638,7 @@ This motivates the definition of the right coupling vertex
 \end{equation}
 so that Eq.~\eqref{eq:BSE_right_factorization} becomes
 \begin{equation}
-	(L_0^\sigma)_{ia}(\omega)
+	L_{0,ia}^\sigma(\omega)
 	V^{\sigma\sigma'}_{ia,jb}(\nu',\omega)
 	\label{eq:BSE_right_compact}
 \end{equation}
@@ -661,7 +659,7 @@ Projecting the right pair gives analogously
 	\ii\Gamma^\eh
 	\right]^{\sigma\sigma'}_{ia,jb}(\nu,\bar\nu',\omega)
 	Q^{\sigma'}_{jb}(\bar\nu',\omega)
-	(L_0^{\sigma'})_{jb}(\omega)
+	L_{0,jb}^{\sigma'}(\omega)
 	\label{eq:BSE_left_factorization}
 \end{multline}
 Equation~\eqref{eq:BSE_left_factorization} follows from the same
@@ -682,7 +680,7 @@ This motivates the definition of the left coupling vertex
 and therefore
 \begin{equation}
 	U^{\sigma\sigma'}_{ia,jb}(\nu,\omega)
-	(L_0^{\sigma'})_{jb}(\omega)
+	L_{0,jb}^{\sigma'}(\omega)
 	\label{eq:BSE_left_compact}
 \end{equation}
 
