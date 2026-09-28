@@ -1,0 +1,1447 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\bcre}[1]{\Hat{b}_{#1}^{\dag}}
+\newcommand{\bani}[1]{\Hat{b}_{#1}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bt}{\boldsymbol{t}}
+\newcommand{\bx}{\boldsymbol{x}}
+
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\bB}{\boldsymbol{B}}
+\newcommand{\bC}{\boldsymbol{C}}
+\newcommand{\bD}{\boldsymbol{D}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\bK}{\boldsymbol{K}}
+\newcommand{\bL}{\boldsymbol{L}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bO}{\boldsymbol{0}}
+\newcommand{\bP}{\boldsymbol{P}}
+\newcommand{\bQ}{\boldsymbol{Q}}
+\newcommand{\bR}{\boldsymbol{R}}
+\newcommand{\bS}{\boldsymbol{S}}
+\newcommand{\bT}{\boldsymbol{T}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bY}{\boldsymbol{Y}}
+\newcommand{\bZ}{\boldsymbol{Z}}
+
+\newcommand{\hF}{\Hat{F}}
+\newcommand{\hH}{\Hat{H}}
+\newcommand{\hP}{\Hat{P}}
+\newcommand{\hQ}{\Hat{Q}}
+\newcommand{\hT}{\Hat{T}}
+\newcommand{\hZ}{\Hat{Z}}
+\newcommand{\timeorder}{\mathcal{T}}
+
+
+\newcommand{\bDel}{\boldsymbol{\Delta}}
+\newcommand{\bOm}{\boldsymbol{\Omega}}
+
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cQ}{\mathcal{Q}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\hhpp}{\text{2h2p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{{\overline{\text{eh}}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+\newcommand{\Hx}{\text{Hx}}
+
+
+% addresses
+\newcommand{\LCPQ}{Univ Toulouse, CNRS, Laboratoire de Chimie et Physique Quantiques, Toulouse, France}
+\newcommand{\UnHam}{Department of Chemistry, University of Hamburg, 22761 Hamburg, Germany; The Hamburg Centre for Ultrafast Imaging (CUI), Hamburg 22761, Germany}
+\newcommand{\UWarsaw}{Institute of Theoretical Physics, Faculty of Physics, University of Warsaw, Warsaw, Poland}
+
+\begin{document}
+
+
+\title{From Parquet Theory to Coupled-Cluster Doubles}
+
+%\author{Pierre-Fran\c{c}ois \surname{Loos}}
+%	\email{loos@irsamc.ups-tlse.fr}
+%	\affiliation{\LCPQ}
+%
+%\author{Antoine \surname{Marie}}
+%	\affiliation{\UWarsaw}
+%
+%\author{Johannes T\"olle}
+%        \email{johannes.toelle@uni-hamburg.de}
+%        \affiliation{\UnHam}
+	
+\begin{abstract}
+Parquet theory and coupled-cluster theory look very different at first sight.
+Parquet theory describes the many-electron problem in terms of a four-point
+vertex and separates this vertex into three scattering channels.  Coupled
+cluster instead works with a correlated wave function and determines its
+excitation amplitudes by projecting a similarity-transformed Hamiltonian.
+In these notes, we show how the two pictures can be connected.
+We first introduce the parquet equations and their three Bethe--Salpeter
+equations (BSEs).  For static kernels, each BSE can be rewritten as a Riccati
+equation by introducing $\bT=\bY\cdot\bX^{-1}$.  We then show that this
+Riccati equation is itself a decoupling condition after a block-triangular
+similarity transformation.  The matrix $\bT$ has a simple physical meaning:
+it describes pairs of elementary electron-hole or particle-particle
+excitations in the correlated quasiboson vacuum.  Once these pairs are
+written in terms of fermionic creation and annihilation operators, they become
+doubly excited determinants.  This naturally leads to a single
+antisymmetric doubles amplitude $t_{ij}^{ab}$.  The direct electron-hole,
+transverse electron-hole, and particle-particle channels then generate the
+ring, crossed-ring, and ladder parts of the CCD equations.  When the three
+channel kernels are kept equal to the bare Coulomb interaction, the resulting
+common-amplitude equation is the CCD doubles equation.  This construction
+also suggests a simple way of going beyond CCD by updating the three parquet
+kernels only after the common amplitude has been converged.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Parquet theory and coupled-cluster (CC) theory provide two different ways of
+organizing the same many-electron problem.  In parquet theory, the central
+object is the full four-point vertex $F$.  Its diagrams are sorted according
+to the two-particle channel in which they can be cut.  In CC theory, the
+central object is the cluster operator, and the amplitudes are found by
+requiring the similarity-transformed Hamiltonian not to couple the reference
+determinant to excited determinants.
+
+These two languages are usually developed separately.  Nevertheless, the
+structure of the CCD equations already hints at a connection.  CCD contains
+ring, crossed-ring, and ladder terms.  Parquet theory contains the direct
+electron-hole ($\eh$), transverse electron-hole ($\teh$), and
+particle-particle ($\pp$) channels.  The correspondence
+\begin{equation}
+    \eh \longleftrightarrow \text{ring},
+    \qquad
+    \teh \longleftrightarrow \text{crossed ring},
+    \qquad
+    \pp \longleftrightarrow \text{ladder}
+    \label{eq:channel_correspondence}
+\end{equation}
+is therefore very tempting, but the connection is deeper than a simple
+comparison of diagrams.
+
+The route followed below is the following.  We start from the parquet
+equations and write the three static BSEs.  Each BSE can be transformed into a
+Riccati equation.  We then show that this Riccati equation is a decoupling
+condition, in much the same way as the CC amplitude equations.  The Riccati
+matrix $\bT=\bY\cdot\bX^{-1}$ describes pairs of elementary excitations in
+the quasiboson vacuum.  A pair of electron-hole excitations acting on the
+reference determinant is simply a doubly excited determinant.  This is the
+step that turns a BSE amplitude into a CC doubles amplitude.  Finally, the
+three channels are tied together by requiring them to use the same
+antisymmetric tensor $t_{ij}^{ab}$.
+
+It is useful to keep one point in mind from the beginning.  The parquet
+decomposition and the three channel BSEs are exact.  For a static kernel, the
+transformation from the BSE eigenvalue problem to a Riccati equation is also
+an exact algebraic step.  The extra ingredient that makes contact with CCD is
+the requirement that the three Riccati amplitudes are three views of one and
+the same fermionic tensor $t_{ij}^{ab}$.  We will refer to this requirement as
+the \emph{common-amplitude closure}.  With bare Coulomb kernels, it gives the
+CCD doubles equation.  With dressed kernels, it defines a natural extension
+that we will discuss at the end of the notes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parquet theory}
+\label{sec:parquet}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We begin with the usual one- and two-particle quantities.  Numerical labels
+denote collective space-spin-time variables,
+\begin{equation}
+    1\equiv(\bx_1,t_1)=(\br_1,\sigma_1,t_1)
+\end{equation}
+and repeated labels are integrated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{One- and two-particle Green's functions}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The time-ordered one-particle Green's function is
+\begin{equation}
+    G(11')
+    =
+    -\ii
+    \mel{\Psi_0^N}{
+        \timeorder[
+            \hat{\psi}(1)
+            \hat{\psi}^{\dagger}(1')
+        ]
+    }{\Psi_0^N}
+    \label{eq:G_def}
+\end{equation}
+and satisfies the Dyson equation
+\begin{equation}
+    G(11')
+    =
+    G_0(11')
+    +
+    G_0(12)
+    \Sigma(22')
+    G(2'1').
+    \label{eq:Dyson}
+\end{equation}
+The corresponding two-particle Green's function is
+\begin{equation}
+    \begin{split}
+    G_2(12;1'2')
+    =
+    (-\ii)^2
+    \mel{\Psi_0^N}{
+        \timeorder[
+            \hat{\psi}(1)
+            \hat{\psi}(2)
+            \hat{\psi}^{\dagger}(2')
+            \hat{\psi}^{\dagger}(1')
+        ]
+    }{\Psi_0^N}.
+    \end{split}
+    \label{eq:G2_def}
+\end{equation}
+Its connected part defines the full four-point vertex $F$.  With the present
+convention,
+\begin{multline}
+    G_2(12;34)
+    =
+    G(13)G(24)
+    -
+    G(14)G(23)
+    \\
+    -
+    G(11')G(22')
+    F(1'2';3'4')
+    G(3'3)G(4'4).
+    \label{eq:G2_F}
+\end{multline}
+The first two terms describe independent propagation of the two fermions.
+Everything that connects the two lines is contained in $F$.
+
+Because the particles are fermions, $F$ changes sign when either pair of
+external legs is exchanged,
+\begin{equation}
+    F(12;34)
+    =
+    -F(21;34)
+    =
+    -F(12;43)
+    =
+    F(21;43).
+    \label{eq:F_crossing}
+\end{equation}
+This simple crossing property will later be responsible for the link between
+the direct and transverse electron-hole channels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The three scattering channels}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A connected four-point diagram is called two-particle reducible if it falls
+apart after cutting two one-particle propagator lines.  There are three
+inequivalent ways of making this cut.  They define the direct electron-hole,
+transverse electron-hole, and particle-particle channels.  We denote the
+parts of the full vertex reducible in these channels by
+$\Phi^\eh$, $\Phi^{\teh}$, and $\Phi^\pp$, respectively.  Everything that is
+irreducible in all three channels is collected in the fully irreducible
+vertex $\Lambda$.
+
+The full vertex can therefore be written exactly as
+\begin{equation}
+    F
+    =
+    \Lambda
+    +
+    \Phi^\eh
+    +
+    \Phi^{\teh}
+    +
+    \Phi^\pp.
+    \label{eq:parquet_decomposition}
+\end{equation}
+From this decomposition, the vertex irreducible in one particular channel is
+obtained by removing only the piece reducible in that channel,
+\begin{align}
+    \Gamma^\eh
+    &=
+    \Lambda+\Phi^{\teh}+\Phi^\pp,
+    \label{eq:Gamma_eh}
+    \\
+    \Gamma^{\teh}
+    &=
+    \Lambda+\Phi^\eh+\Phi^\pp,
+    \label{eq:Gamma_teh}
+    \\
+    \Gamma^\pp
+    &=
+    \Lambda+\Phi^\eh+\Phi^{\teh}.
+    \label{eq:Gamma_pp}
+\end{align}
+Thus, in any channel $r$,
+\begin{equation}
+    F=\Gamma^r+\Phi^r.
+    \label{eq:F_Gamma_Phi}
+\end{equation}
+This last relation is particularly useful: $\Gamma^r$ is the starting
+interaction in channel $r$, while $\Phi^r$ is the extra scattering generated
+by iterating that interaction in the same channel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bethe--Salpeter equations}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The previous statement is made explicit by the BSEs.  In compact notation,
+all three have the same form,
+\begin{equation}
+    F
+    =
+    \Gamma^r
+    +
+    \Gamma^r L_0^r F,
+    \label{eq:BSE_symbolic}
+\end{equation}
+where $L_0^r$ is the independent two-particle propagator in channel $r$.
+Equivalently,
+\begin{equation}
+    \Phi^r
+    =
+    \Gamma^r L_0^r F.
+    \label{eq:Phi_BSE_symbolic}
+\end{equation}
+The three channels differ only by the way the external legs are paired and by
+the corresponding signs and symmetry factors.
+
+For reference, the direct electron-hole equation can be written as
+\begin{multline}
+    F(12;34)
+    =
+    \Gamma^\eh(12;34)
+    \\
+    +
+    \Gamma^\eh(13';31')
+    G(1'4')G(2'3')
+    F(4'2;2'4),
+    \label{eq:BSE_eh}
+\end{multline}
+whereas the transverse electron-hole channel reads
+\begin{multline}
+    F(12;34)
+    =
+    \Gamma^{\teh}(12;34)
+    \\
+    -
+    \Gamma^{\teh}(3'2;32')
+    G(1'3')G(2'4')
+    F(14';1'4),
+    \label{eq:BSE_teh}
+\end{multline}
+and the particle-particle channel is
+\begin{multline}
+    F(12;34)
+    =
+    \Gamma^\pp(12;34)
+    \\
+    -
+    \frac{1}{2}
+    \Gamma^\pp(12;1'2')
+    G(1'3')G(2'4')
+    F(3'4';34).
+    \label{eq:BSE_pp}
+\end{multline}
+The minus sign in the transverse channel comes from crossing two fermionic
+legs.  The factor $1/2$ in the particle-particle channel avoids counting an
+antisymmetric pair twice.
+
+The parquet equations are obtained by solving these three BSEs together with
+Eqs.~\eqref{eq:Gamma_eh}--\eqref{eq:Gamma_pp}.  To close the equations, one
+must still choose the fully irreducible vertex.  In the parquet approximation,
+we take
+\begin{equation}
+    \Lambda\approx\bar v,
+    \label{eq:parquet_approximation}
+\end{equation}
+where $\bar v$ is the antisymmetrized Coulomb interaction.  The simplest
+starting point is even more restrictive: all three channel kernels are kept
+equal to the bare interaction,
+\begin{equation}
+    \Gamma^\eh
+    =
+    \Gamma^{\teh}
+    =
+    \Gamma^\pp
+    =
+    \Lambda
+    =
+    \bar v.
+    \label{eq:bare_kernel_limit}
+\end{equation}
+We will see that this is precisely the limit in which the connection with CCD
+becomes exact.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Static Bethe--Salpeter equations}
+\label{sec:static_bse}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now move to an orbital representation and assume that the channel kernels
+are static.  Occupied spin orbitals are denoted by $i,j,k,l$, virtual spin
+orbitals by $a,b,c,d$, and general spin orbitals by $p,q,r,s$.  The reference
+one-particle propagator is taken diagonal, with orbital energies $\epsilon_p$.
+
+The free two-particle propagator already contains the energy differences that
+will later appear in the CCD equation.  For example, the forward direct
+$\eh$ propagator is
+\begin{equation}
+    L_{0,ia}^{\eh,+}(\omega)
+    =
+    \frac{1}{
+        \omega-(\epsilon_a-\epsilon_i)+\ii\eta
+    }.
+    \label{eq:L0_eh_forward}
+\end{equation}
+Its inverse therefore contains $\epsilon_a-\epsilon_i$.  This point will be
+important when we identify the origin of the usual doubles energy
+denominator.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Direct electron-hole channel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For a static kernel, the direct $\eh$ BSE becomes
+\begin{equation}
+    \begin{pmatrix}
+        \bA^\eh & \bB^\eh
+        \\
+        -{\bB^\eh}^{\dagger} & -{\bA^\eh}^{\dagger}
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        \bX^\eh
+        \\
+        \bY^\eh
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \bX^\eh
+        \\
+        \bY^\eh
+    \end{pmatrix}
+    \cdot
+    \bOm^\eh.
+    \label{eq:BSE_matrix_eh}
+\end{equation}
+We split
+\begin{equation}
+    \bA^\eh
+    =
+    \bA_0^\eh+\bK_A^\eh,
+    \label{eq:A_split_eh}
+\end{equation}
+with
+\begin{equation}
+    [\bA_0^\eh]_{ia,jb}
+    =
+    (\epsilon_a-\epsilon_i)
+    \delta_{ij}\delta_{ab}.
+    \label{eq:A0_eh}
+\end{equation}
+For the bare antisymmetrized Coulomb kernel,
+\begin{align}
+    [\bA^\eh]_{ia,jb}
+    &=
+    (\epsilon_a-\epsilon_i)
+    \delta_{ij}\delta_{ab}
+    +
+    \mel{aj}{}{ib},
+    \label{eq:A_eh_bare}
+    \\
+    [\bB^\eh]_{ia,jb}
+    &=
+    \mel{ab}{}{ij}.
+    \label{eq:B_eh_bare}
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transverse electron-hole channel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The transverse channel pairs the external legs in the crossed order.  Using
+the composite indices $(ib,ja)$, we write
+\begin{equation}
+    \begin{pmatrix}
+        \bA^{\teh} & -\bB^{\teh}
+        \\
+        {\bB^{\teh}}^{\dagger} & -{\bA^{\teh}}^{\dagger}
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        \bX^{\teh}
+        \\
+        \bY^{\teh}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \bX^{\teh}
+        \\
+        \bY^{\teh}
+    \end{pmatrix}
+    \cdot
+    \bOm^{\teh}.
+    \label{eq:BSE_matrix_teh}
+\end{equation}
+The sign changes compared with Eq.~\eqref{eq:BSE_matrix_eh} come directly from
+crossing.  They will later generate the crossed-ring terms of CCD.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Particle-particle channel}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the $\pp$ channel, the forward sector contains two particles and the
+backward sector contains two holes.  We write
+\begin{equation}
+    \begin{pmatrix}
+        \bC^\pp & \bB^\pp
+        \\
+        -{\bB^\pp}^{\dagger} & -{\bD^\pp}^{\dagger}
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix}
+        \bX^\pp
+        \\
+        \bY^\pp
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \bX^\pp
+        \\
+        \bY^\pp
+    \end{pmatrix}
+    \cdot
+    \bOm^\pp.
+    \label{eq:BSE_matrix_pp}
+\end{equation}
+The free parts of $\bC^\pp$ and $\bD^\pp$ contain the two-particle and
+two-hole energies.  Antisymmetric pair normalization is understood throughout.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{From a BSE to an amplitude equation}
+\label{sec:riccati}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The first real step toward coupled cluster is purely algebraic.  Consider the
+direct $\eh$ problem.  Its two block equations are
+\begin{align}
+    \bA^\eh\cdot\bX^\eh
+    +
+    \bB^\eh\cdot\bY^\eh
+    &=
+    \bX^\eh\cdot\bOm^\eh,
+    \label{eq:BSE_upper}
+    \\
+    -{\bB^\eh}^{\dagger}\cdot\bX^\eh
+    -
+    {\bA^\eh}^{\dagger}\cdot\bY^\eh
+    &=
+    \bY^\eh\cdot\bOm^\eh.
+    \label{eq:BSE_lower}
+\end{align}
+Assuming that $\bX^\eh$ is invertible in the relevant subspace, define
+\begin{equation}
+    \bT^\eh
+    =
+    \bY^\eh\cdot(\bX^\eh)^{-1}.
+    \label{eq:T_eh_YX}
+\end{equation}
+The upper equation gives
+\begin{equation}
+    \bX^\eh\cdot\bOm^\eh\cdot(\bX^\eh)^{-1}
+    =
+    \bA^\eh+\bB^\eh\cdot\bT^\eh.
+    \label{eq:Omega_similarity}
+\end{equation}
+Inserting this result into the lower equation removes both $\bX^\eh$ and
+$\bOm^\eh$ and gives
+\begin{equation}
+    {\bB^\eh}^{\dagger}
+    +
+    {\bA^\eh}^{\dagger}\cdot\bT^\eh
+    +
+    \bT^\eh\cdot\bA^\eh
+    +
+    \bT^\eh\cdot\bB^\eh\cdot\bT^\eh
+    =
+    \bO.
+    \label{eq:Riccati_eh}
+\end{equation}
+The BSE eigenvalue problem has therefore become a nonlinear equation for the
+matrix $\bT^\eh$.
+
+Exactly the same manipulation can be made in the other two channels.  For the
+transverse $\eh$ problem,
+\begin{equation}
+    \bT^{\teh}
+    =
+    \bY^{\teh}\cdot(\bX^{\teh})^{-1}
+\end{equation}
+gives
+\begin{equation}
+    -{\bB^{\teh}}^{\dagger}
+    +
+    {\bA^{\teh}}^{\dagger}\cdot\bT^{\teh}
+    +
+    \bT^{\teh}\cdot\bA^{\teh}
+    -
+    \bT^{\teh}\cdot\bB^{\teh}\cdot\bT^{\teh}
+    =
+    \bO.
+    \label{eq:Riccati_teh}
+\end{equation}
+For the $\pp$ problem, the natural Riccati matrix maps the forward vv space
+onto the backward oo space,
+\begin{equation}
+    \bT^\pp
+    =
+    \bY^\pp\cdot(\bX^\pp)^{-1},
+    \label{eq:T_pp_YX}
+\end{equation}
+and obeys
+\begin{equation}
+    {\bB^\pp}^{\dagger}
+    +
+    {\bD^\pp}^{\dagger}\cdot\bT^\pp
+    +
+    \bT^\pp\cdot\bC^\pp
+    +
+    \bT^\pp\cdot\bB^\pp\cdot\bT^\pp
+    =
+    \bO.
+    \label{eq:Riccati_pp}
+\end{equation}
+We have thus replaced the three BSE eigenvalue problems by three amplitude
+equations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Riccati equation is a decoupling condition}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The previous algebra becomes more meaningful if we look at it as a similarity
+transformation.  Introduce
+\begin{equation}
+    \bS(\bT)
+    =
+    \begin{pmatrix}
+        \bI & \bO
+        \\
+        \bT & \bI
+    \end{pmatrix},
+    \qquad
+    \bS^{-1}(\bT)
+    =
+    \begin{pmatrix}
+        \bI & \bO
+        \\
+        -\bT & \bI
+    \end{pmatrix}.
+    \label{eq:S_T}
+\end{equation}
+For the direct $\eh$ BSE matrix
+\begin{equation}
+    \bH^\eh
+    =
+    \begin{pmatrix}
+        \bA^\eh & \bB^\eh
+        \\
+        -{\bB^\eh}^{\dagger} & -{\bA^\eh}^{\dagger}
+    \end{pmatrix},
+\end{equation}
+one finds
+\begin{equation}
+    \bS^{-1}\cdot\bH^\eh\cdot\bS
+    =
+    \begin{pmatrix}
+        \bA^\eh+\bB^\eh\cdot\bT
+        &
+        \bB^\eh
+        \\
+        -\bR^\eh[\bT]
+        &
+        -{\bA^\eh}^{\dagger}-\bT\cdot\bB^\eh
+    \end{pmatrix},
+    \label{eq:block_similarity}
+\end{equation}
+where
+\begin{equation}
+    \bR^\eh[\bT]
+    =
+    {\bB^\eh}^{\dagger}
+    +
+    {\bA^\eh}^{\dagger}\cdot\bT
+    +
+    \bT\cdot\bA^\eh
+    +
+    \bT\cdot\bB^\eh\cdot\bT.
+    \label{eq:Riccati_residual}
+\end{equation}
+The Riccati equation simply says that the lower-left block of the transformed
+matrix must vanish.
+
+If $\bP_r$ and $\bQ_r$ project onto the forward and backward sectors of
+channel $r$, this condition can be written as
+\begin{equation}
+    \bQ_r
+    \cdot
+    \bS_r^{-1}(\bT^r)
+    \cdot
+    \bH^r
+    \cdot
+    \bS_r(\bT^r)
+    \cdot
+    \bP_r
+    =
+    \bO.
+    \label{eq:BSE_decoupling}
+\end{equation}
+This is our first direct contact with coupled cluster.  The CCD amplitude
+equation can also be written as a decoupling condition,
+\begin{equation}
+    \hQ_2
+    e^{-\hT_2}
+    \hH
+    e^{\hT_2}
+    \hP
+    =
+    0,
+    \label{eq:CCD_decoupling}
+\end{equation}
+where $\hP=\dyad{\Phi}{\Phi}$ projects onto the reference determinant and
+$\hQ_2$ projects onto the doubly excited determinants.  The two equations do
+not yet live in the same spaces, but they have exactly the same purpose: a
+similarity transformation is chosen so that a coupling between two sectors
+vanishes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{What does \texorpdfstring{$\bT=\bY\cdot\bX^{-1}$}{T = Y times X inverse} describe?}
+\label{sec:boson_to_doubles}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The remaining step becomes clear in operator language.  Define an elementary
+electron-hole excitation operator
+\begin{equation}
+    \bcre{ia}
+    =
+    \cre{a}\ani{i},
+    \qquad
+    \bani{ia}
+    =
+    \cre{i}\ani{a}.
+    \label{eq:B_ph_creation}
+\end{equation}
+Within the quasiboson approximation, these composite fermionic operators are
+treated as bosonic creation and annihilation operators.  An RPA excitation
+operator then has the form
+\begin{equation}
+    \hQ_n^{\dagger}
+    =
+    \sum_{ia}
+    \left(
+        X_{ia,n}\bcre{ia}
+        -
+        Y_{ia,n}\bani{ia}
+    \right).
+    \label{eq:RPA_excitation_operator}
+\end{equation}
+Because $\bY$ is nonzero, the RPA vacuum is not the uncorrelated reference.  In
+the quasiboson picture it can be written as
+\begin{equation}
+    \ket{\Psi_{\rm RPA}}
+    =
+    e^{\hZ}\ket{\Phi},
+    \label{eq:RPA_vacuum}
+\end{equation}
+with
+\begin{equation}
+    \hZ
+    =
+    \frac{1}{2}
+    \sum_{iajb}
+    Z_{ia,jb}
+    \bcre{ia}\bcre{jb}.
+    \label{eq:Z_operator}
+\end{equation}
+The condition that every RPA annihilation operator kills this vacuum,
+\begin{equation}
+    \hQ_n\ket{\Psi_{\rm RPA}}=0,
+\end{equation}
+gives
+\begin{equation}
+    \bZ
+    =
+    \bY\cdot\bX^{-1}
+    =
+    \bT.
+    \label{eq:Z_equals_T}
+\end{equation}
+The Riccati matrix $\bT$ is therefore the amplitude for creating a \emph{pair}
+of elementary quasibosonic excitations in the correlated vacuum.
+
+Now return to the exact fermionic operators.  Two electron-hole excitations
+acting on the reference give
+\begin{equation}
+    \begin{split}
+    \bcre{ia}\bcre{jb}\ket{\Phi}
+    &=
+    \cre{a}\ani{i}\cre{b}\ani{j}\ket{\Phi}
+    \\
+    &=
+    \cre{a}\cre{b}\ani{j}\ani{i}\ket{\Phi}
+    \\
+    &=
+    \ket{\Phi_{ij}^{ab}},
+    \end{split}
+    \label{eq:ph_pair_to_double}
+\end{equation}
+up to the fixed operator-ordering convention.  In other words, a pair of
+$\eh$ excitations is exactly a $\hhpp$ excitation.  The pair index
+$(ia,jb)$ can therefore be unfolded into the four fermionic indices $(ijab)$.
+This is the missing link between the BSE and CCD spaces.
+
+The same idea can be expressed directly at the level of the decoupling
+condition.  In the quasiboson picture, the Riccati equation is equivalent to
+requiring the pair-creation part of the transformed RPA Hamiltonian to vanish,
+\begin{equation}
+    \mel{\Phi}{
+        \bani{jb}\bani{ia}
+        e^{-\hZ}
+        \hH_{\rm RPA}
+        e^{\hZ}
+    }{\Phi}
+    =
+    0.
+    \label{eq:RPA_pair_decoupling}
+\end{equation}
+After the pair $\bcre{ia}\bcre{jb}$ is interpreted as a true fermionic double
+excitation, this has the same form as the CCD projection
+\begin{equation}
+    \mel{\Phi_{ij}^{ab}}{
+        e^{-\hT_2}
+        \hH
+        e^{\hT_2}
+    }{\Phi}
+    =
+    0.
+    \label{eq:CCD_projection}
+\end{equation}
+The difference is that the first equation was obtained in a quasiboson space,
+whereas the second one acts in the fermionic Hilbert space.  The rest of the
+construction is precisely about restoring that fermionic structure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{One doubles amplitude for the three channels}
+\label{sec:common_t}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+If the three BSEs were solved independently, each channel would have its own
+Riccati matrix and its own quasiboson vacuum.  CCD does not work this way.
+There is only one doubles operator,
+\begin{equation}
+    \hT_2
+    =
+    \frac{1}{4}
+    \sum_{ijab}
+    t_{ij}^{ab}
+    \cre{a}\cre{b}\ani{j}\ani{i},
+    \label{eq:T2_def}
+\end{equation}
+with
+\begin{equation}
+    t_{ij}^{ab}
+    =
+    -t_{ji}^{ab}
+    =
+    -t_{ij}^{ba}
+    =
+    t_{ji}^{ba}.
+    \label{eq:t_antisymmetry}
+\end{equation}
+The key step is therefore to use this same tensor in the three channel
+representations,
+\begin{align}
+    T^\eh_{ia,jb}
+    &=
+    t_{ij}^{ab},
+    \label{eq:T_eh_map}
+    \\
+    T^{\teh}_{ib,ja}
+    &=
+    t_{ij}^{ab},
+    \label{eq:T_teh_map}
+    \\
+    T^\pp_{ij,ab}
+    &=
+    t_{ij}^{ab}.
+    \label{eq:T_pp_map}
+\end{align}
+The last convention follows the natural orientation
+$\bT^\pp = \bY^\pp \cdot (\bX^\pp)^{-1}$, which maps the forward vv space onto the
+backward oo space.
+
+These three matrices are not three amplitudes.  They are three ways of
+arranging the indices of the same fermionic tensor.  This common-amplitude
+condition is the additional information that is absent when the three RPA
+problems are solved separately.
+
+The transverse channel has a particularly simple role in this picture.  A
+single direct $\eh$ quasiboson amplitude is symmetric under exchange of its
+composite bosonic indices.  This is not enough to guarantee separate
+antisymmetry in the occupied and virtual fermionic indices.  The crossed
+pairing supplies the missing exchange.  Schematically,
+\begin{equation}
+    t_{ij}^{ab}
+    \sim
+    T^\eh_{ia,jb}
+    -
+    T^\eh_{ib,ja}.
+    \label{eq:crossed_antisymmetry}
+\end{equation}
+Thus the transverse channel is not an optional extra term.  It is what allows
+the ring-like quasiboson amplitudes to be combined into an antisymmetric
+fermionic doubles tensor.  The $\pp$ representation describes ladder
+propagation of that same tensor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{From the three parquet channels to the common amplitude equation}
+\label{sec:amplitude_equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We can now put the pieces together.  The derivation is easiest to follow if we
+first separate, in every channel Riccati equation, the free propagation from
+the interaction terms.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The free term comes from \texorpdfstring{$L_0^{-1}$}{the inverse free propagator}}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Consider again the direct $\eh$ equation and use
+$\bA^\eh=\bA_0^\eh+\bK_A^\eh$.  The part containing only the free propagator is
+\begin{equation}
+    \bA_0^\eh\cdot\bT^\eh
+    +
+    \bT^\eh\cdot\bA_0^\eh.
+    \label{eq:Delta_matrix}
+\end{equation}
+With $T^\eh_{ia,jb}=t_{ij}^{ab}$, this becomes
+\begin{equation}
+    \Delta_{ij}^{ab}[\bt]
+    =
+    (\epsilon_a+\epsilon_b-\epsilon_i-\epsilon_j)
+    t_{ij}^{ab}.
+    \label{eq:Delta_def}
+\end{equation}
+This term is sometimes introduced from the CC side as the orbital-energy part
+of the doubles equation.  Here its origin is more direct: it is simply the
+inverse free two-particle propagator acting on the pair amplitude,
+\begin{equation}
+    \bDel[\bt]
+    \longleftrightarrow
+    (\bL_0^r)^{-1}\cdot\bT^r.
+    \label{eq:Delta_L0}
+\end{equation}
+Once written in CC language, the same contribution comes from the one-body
+commutator $\comm{\hF}{\hT_2}$.
+
+The $\pp$ channel gives the same total energy difference by combining the
+particle-pair and hole-pair energies.  In the transverse $\eh$ channel, the
+crossed orientation gives the opposite sign before the three channel pieces
+are put together.  It is therefore convenient to write the free part of an
+isolated channel as
+\begin{equation}
+    s_r\Delta[\bt],
+    \qquad
+    s_\eh=+1,
+    \quad
+    s_{\teh}=-1,
+    \quad
+    s_\pp=+1.
+    \label{eq:s_r}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{What each Riccati equation adds}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For fixed kernels, let $\cQ_r[\bt;\Gamma^r]$
+denote the Riccati residual of channel $r$ after its composite indices have
+been unfolded into $ijab$ notation.  At $\bt = \bO$, only the block of the kernel
+that directly couples the forward and backward sectors remains.  We denote
+this channel driver by
+\begin{equation}
+    \cK^r
+    =
+    \cQ_r[\bO;\Gamma^r].
+    \label{eq:K_r_def}
+\end{equation}
+The useful quantity is not the whole channel residual, because the three
+drivers should not later be added independently.  Instead, we keep only what
+is generated beyond the driver,
+\begin{equation}
+    \Delta\cQ_r[\bt;\Gamma^r]
+    =
+    \cQ_r[\bt;\Gamma^r]
+    -
+    \cK^r.
+    \label{eq:Delta_Q_r}
+\end{equation}
+This is the amplitude-space counterpart of the simple parquet relation
+$\Phi^r=F-\Gamma^r$.
+
+We write
+\begin{equation}
+    \Delta\cQ_r[\bt;\Gamma^r]
+    =
+    s_r\Delta[\bt]
+    +
+    \Phi^r[\bt;\Gamma^r].
+    \label{eq:Delta_Q_decomposition}
+\end{equation}
+From this point on, $\Phi^r[\bt;\Gamma^r]$ denotes the interaction part
+produced by the Riccati equation in channel $r$.  This notation is chosen on
+purpose: these are the amplitude-space versions of the three channel-reducible
+pieces that will be used in the parquet update below.
+
+At the bare-kernel level, they take a simple form.  The direct $\eh$ channel
+gives
+\begin{equation}
+    \begin{split}
+    [\Phi^\eh]_{ij}^{ab}[\bt]
+    ={}
+    &
+    \sum_{kc}
+    \mel{ak}{}{ic}
+    t_{kj}^{cb}
+    +
+    \sum_{kc}
+    \mel{bk}{}{jc}
+    t_{ki}^{ca}
+    \\
+    &+
+    \sum_{klcd}
+    t_{ki}^{ca}
+    \mel{kl}{}{cd}
+    t_{lj}^{db},
+    \end{split}
+    \label{eq:Phi_eh}
+\end{equation}
+which is the ring part.  The transverse channel gives
+\begin{equation}
+    \begin{split}
+    [\Phi^{\teh}]_{ij}^{ab}[\bt]
+    ={}
+    &-
+    \sum_{kc}
+    \mel{kb}{}{ic}
+    t_{kj}^{ac}
+    -
+    \sum_{kc}
+    \mel{ka}{}{jc}
+    t_{ki}^{bc}
+    \\
+    &-
+    \sum_{klcd}
+    t_{ki}^{bc}
+    \mel{kl}{}{cd}
+    t_{lj}^{ad},
+    \end{split}
+    \label{eq:Phi_teh}
+\end{equation}
+which is the crossed-ring part.  Finally, the $\pp$ channel gives
+\begin{equation}
+    \begin{split}
+    [\Phi^\pp]_{ij}^{ab}[\bt]
+    ={}
+    &
+    \frac{1}{2}
+    \sum_{cd}
+    \mel{ab}{}{cd}
+    t_{ij}^{cd}
+    +
+    \frac{1}{2}
+    \sum_{kl}
+    \mel{kl}{}{ij}
+    t_{kl}^{ab}
+    \\
+    &+
+    \frac{1}{4}
+    \sum_{klcd}
+    t_{ij}^{cd}
+    \mel{cd}{}{kl}
+    t_{kl}^{ab},
+    \end{split}
+    \label{eq:Phi_pp}
+\end{equation}
+which is the ladder part.  The first two expressions are related by crossing;
+the different signs simply reflect the chosen orientation of the external
+legs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Adding the three channels only once}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We can now return to the parquet equation.  The full vertex contains $\Lambda$
+only once,
+\begin{equation}
+    F
+    =
+    \Lambda
+    +
+    \Phi^\eh
+    +
+    \Phi^{\teh}
+    +
+    \Phi^\pp.
+\end{equation}
+The common amplitude equation should have the same structure.  We therefore
+add the three pieces generated beyond their individual drivers and put back
+the fully irreducible interaction only once,
+\begin{equation}
+    \mathcal R[\bt]
+    =
+    \Lambda
+    +
+    \sum_{r=\eh,\teh,\pp}
+    \Delta\cQ_r[\bt;\Gamma^r].
+    \label{eq:R_common_def}
+\end{equation}
+Using Eq.~\eqref{eq:Delta_Q_decomposition},
+\begin{equation}
+    \begin{split}
+    \mathcal R[\bt]
+    ={}
+    &
+    \Lambda
+    +
+    \left(\Delta+\Phi^\eh\right)
+    +
+    \left(-\Delta+\Phi^{\teh}\right)
+    \\
+    &+
+    \left(\Delta+\Phi^\pp\right),
+    \end{split}
+\end{equation}
+and the three free pieces leave a single $\Delta$.  The final common-amplitude
+residual is therefore
+\begin{equation}
+    \mathcal R[\bt]
+    =
+    \Delta[\bt]
+    +
+    \Lambda
+    +
+    \Phi^\eh[\bt;\Gamma^\eh]
+    +
+    \Phi^{\teh}[\bt;\Gamma^{\teh}]
+    +
+    \Phi^\pp[\bt;\Gamma^\pp].
+    \label{eq:R_common_final}
+\end{equation}
+The amplitude equation is simply
+\begin{equation}
+    \mathcal R[\bt]=0.
+    \label{eq:common_amplitude_equation}
+\end{equation}
+This equation is the main result of the construction.  Every term now has a
+clear origin.  The free part $\Delta$ comes from $L_0^{-1}$, $\Lambda$ is the
+fully irreducible interaction, and the three $\Phi^r$ are the extra scattering
+created in the three Riccati channels.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The bare-kernel limit is CCD}
+\label{sec:ccd_limit}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now set
+\begin{equation}
+    \Gamma^\eh
+    =
+    \Gamma^{\teh}
+    =
+    \Gamma^\pp
+    =
+    \Lambda
+    =
+    \bar v.
+\end{equation}
+The three channel pieces in Eq.~\eqref{eq:R_common_final} are then exactly the
+ring, crossed-ring, and ladder contractions written in
+Eqs.~\eqref{eq:Phi_eh}--\eqref{eq:Phi_pp}.  The remaining CCD terms are the
+one-body mosaic contributions.  We denote them by $\mathcal M[\bt]$.  They
+may either be kept explicitly or absorbed into an amplitude-dependent
+one-body matrix, which simply replaces the bare free propagation by its
+dressed counterpart.
+
+The complete equation is therefore
+\begin{equation}
+    \begin{split}
+    0
+    ={}
+    &
+    \Delta_{ij}^{ab}[\bt]
+    +
+    \mel{ab}{}{ij}
+    +
+    \mathcal M_{ij}^{ab}[\bt]
+    \\
+    &+
+    [\Phi^\eh]_{ij}^{ab}[\bt]
+    +
+    [\Phi^{\teh}]_{ij}^{ab}[\bt]
+    +
+    [\Phi^\pp]_{ij}^{ab}[\bt].
+    \end{split}
+    \label{eq:CCD_channel_equation}
+\end{equation}
+This is the CCD doubles equation written channel by channel.  In the usual CC
+language, the same equation is
+\begin{equation}
+    \mel{\Phi_{ij}^{ab}}{
+        e^{-\hT_2}
+        \hH
+        e^{\hT_2}
+    }{\Phi}
+    =
+    0.
+    \label{eq:CCD_exact_projection}
+\end{equation}
+
+The connection can now be stated very simply.  The direct $\eh$ BSE provides
+the ring terms, the transverse $\eh$ BSE provides the crossed-ring terms, and
+the $\pp$ BSE provides the ladder terms.  The three are not solved with three
+independent amplitudes.  They are evaluated with the same antisymmetric
+$t_{ij}^{ab}$.  The mosaic terms take care of the one-body renormalization.
+With these ingredients, the bare-kernel parquet construction and CCD give the
+same doubles equation.
+
+It is worth stressing what would go wrong if the three RPA problems were
+solved independently.  In that case one would obtain three different
+matrices $\bT^r=\bY^r \cdot (\bX^r)^{-1}$ and therefore three different quasiboson
+vacua.  There would be no reason for those three matrices to be different
+arrangements of one antisymmetric fermionic tensor.  The equality with CCD
+comes from the common-amplitude closure, not from solving three unrelated RPA
+problems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Updating the parquet kernels: beyond CCD}
+\label{sec:beyond_ccd}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The previous section suggests a natural next step.  At the first stage, keep
+all three kernels equal to the bare interaction and converge the common
+amplitude.  This gives the CCD solution.  Once this amplitude is converged,
+use the three channel pieces to update the parquet kernels,
+\begin{align}
+    \Gamma^{\eh,(n+1)}
+    &=
+    \Lambda
+    +
+    \Phi^{\teh,(n)}
+    +
+    \Phi^{\pp,(n)},
+    \label{eq:kernel_update_eh}
+    \\
+    \Gamma^{\teh,(n+1)}
+    &=
+    \Lambda
+    +
+    \Phi^{\eh,(n)}
+    +
+    \Phi^{\pp,(n)},
+    \label{eq:kernel_update_teh}
+    \\
+    \Gamma^{\pp,(n+1)}
+    &=
+    \Lambda
+    +
+    \Phi^{\eh,(n)}
+    +
+    \Phi^{\teh,(n)}.
+    \label{eq:kernel_update_pp}
+\end{align}
+The new kernels are then frozen, and the common amplitude equation
+\begin{equation}
+    \mathcal R[
+        \bt;
+        \Gamma^{\eh,(n+1)},
+        \Gamma^{\teh,(n+1)},
+        \Gamma^{\pp,(n+1)}
+    ]
+    =
+    0
+    \label{eq:inner_t_solve}
+\end{equation}
+is converged again.  Only after this inner solve is finished are the kernels
+updated once more.
+
+The two-body self-consistency therefore has a simple nested structure,
+\begin{equation}
+    \Gamma^{r,(n)}
+    \longrightarrow
+    \bt^{(n)}
+    \longrightarrow
+    \Phi^{r,(n)}
+    \longrightarrow
+    \Gamma^{r,(n+1)}.
+    \label{eq:nested_two_body_loop}
+\end{equation}
+At $n=0$, $\Gamma^{r,(0)}=\Lambda$ and the inner problem is CCD.  Later
+iterations dress the channel kernels and therefore go beyond ordinary CCD.
+Keeping the inner amplitude solve and the outer kernel update separate makes
+the logic of the approximation much easier to follow.
+
+There is, however, an important point that should not be hidden.  The equality
+with CCD is exact only in the bare-kernel limit described above.  Once the
+kernels are dressed, Eq.~\eqref{eq:common_amplitude_equation} defines a
+CC-parametrized parquet extension.  Its detailed relation to conventional
+static parquet theory has to be checked by comparing the diagrams generated
+at each order.  In particular, one must make sure that the common-amplitude
+closure and the kernel update do not count the same mixed-channel diagrams
+more than once.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{One-shot quasiparticle energies}
+\label{sec:self_energy}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+If the goal is a quasiparticle spectrum rather than a ground-state correlation
+energy, the one-body self-energy can be evaluated after the entire two-body
+problem has been converged for a fixed reference propagator.  The natural
+order is therefore
+\begin{equation}
+    G_0
+    \longrightarrow
+    \text{converged two-body problem}
+    \longrightarrow
+    \Sigma_{pp}(\omega)
+    \longrightarrow
+    \epsilon_p^{\rm QP}.
+    \label{eq:one_shot_scheme}
+\end{equation}
+For a one-shot calculation, only the diagonal self-energy elements are needed.
+The screened couplings entering $\Sigma_{pp}(\omega)$ can be constructed from
+the channel BSE eigenvectors and eigenvalues, or equivalently from the
+corresponding channel resolvents.  In the present construction, the two-body
+problem is solved first; the spectral information required for the self-energy
+is reconstructed only afterwards.
+
+This last step is logically separate from the derivation of the common
+amplitude equation.  The main point of the present notes is the two-body
+connection between parquet and CCD.  A detailed derivation of the screened
+couplings and of the resulting self-energy can therefore be added once the
+static two-body construction has been fully settled.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+\label{sec:summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The connection developed in these notes can be followed as one continuous
+sequence,
+\begin{equation}
+    \begin{split}
+    \text{parquet BSE}
+    &\longrightarrow
+    \text{static BSE matrix}
+    \longrightarrow
+    \text{Riccati equation}
+    \\
+    &\longrightarrow
+    \text{pair amplitude}
+    \longrightarrow
+    t_{ij}^{ab}.
+    \end{split}
+    \label{eq:central_sequence}
+\end{equation}
+The BSE-to-Riccati step is a similarity-transformation decoupling.  The matrix
+$\bT=\bY \cdot \bX^{-1}$ describes pairs of elementary excitations in the correlated
+quasiboson vacuum.  Two electron-hole excitations acting on the reference are
+a doubly excited determinant, which turns this pair amplitude into a natural
+CC doubles amplitude.  Requiring the direct $\eh$, transverse $\eh$, and
+$\pp$ representations to use the same antisymmetric $t_{ij}^{ab}$ then ties
+the three channels together.
+
+In this language, the familiar pieces of CCD have a simple origin.  The free
+term $\Delta$ comes from the inverse two-particle propagator $L_0^{-1}$.  The
+bare doubles driver comes from the fully irreducible interaction $\Lambda$.
+The direct $\eh$, transverse $\eh$, and $\pp$ Riccati equations generate the
+ring, crossed-ring, and ladder terms.  The mosaic terms complete the one-body
+part.  With bare kernels, these pieces reproduce the projected CCD equation.
+
+The same construction also points toward a broader theory.  One can first
+converge the common amplitude for fixed kernels, then update those kernels
+with the converged channel contributions, and repeat.  The first inner solve
+is CCD; subsequent outer iterations add parquet dressing.  Establishing the
+precise diagrammatic content of this kernel-updated common-amplitude theory is
+the next step.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
