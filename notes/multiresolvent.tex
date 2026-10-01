@@ -81,10 +81,12 @@
 %	\affiliation{\LCPQ}
 
 \begin{abstract}
-A general four-point vertex depends on three independent frequencies and cannot, in general, be represented by the familiar single-frequency resolvent structure encountered in one-body Green's function, self-energy, and polarization-propagator theories, including the algebraic-diagrammatic construction (ADC).
-In these notes, we develop a channel-resolved multiresolvent representation of the parquet vertex through second order in the bare interaction, taking the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and generating the transverse electron-hole ($\teh$) contribution by crossing symmetry.
-Integrating over one fermionic frequency of the three-frequency non-interacting two-particle propagator generates two-frequency coupling vertices whose poles lie in the $(N\pm1)$-electron sectors.
-As independent checks, a second frequency integration recovers the corresponding single-frequency $\eh$ and $\pp$ kernels of second-order Green's function theory (GF2), while application of the same reduction to the conventional dynamical $GW$ kernel, retained to first order in the screened interaction $W$, reproduces the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
+A general four-point vertex depends on three independent frequencies and requires a richer resolvent structure than those used in one-body Green's function, self-energy, and polarization propagator theories. 
+We establish the second-order foundation of a channel-resolved multiresolvent representation of the parquet vertex, taking the electron-hole (eh) and particle-particle (pp) reducible vertices as primitive objects and generating the transverse electron-hole contribution by crossing symmetry. 
+For a Hartree-Fock reference, an exact factorization of the three-frequency non-interacting two-particle propagator provides one-sided frequency projections that define left and right coupling vertices. 
+Through second order in the bare interaction, the coupling vertices entering the reducible vertices are instantaneous, and the frequency dependence is carried by central resolvents associated with neutral $N$-electron and $(N\pm2)$-electron propagation in the eh and pp channels, respectively. 
+The projected couplings provide a starting point for extensions with explicit fermionic-frequency dependence. 
+As consistency checks, a second frequency integration recovers the corresponding single-frequency eh and pp kernels of second-order Green's function theory (GF2), while applying the same reduction to the conventional dynamical $GW$ kernel, retained to first order in the screened interaction $W$, reproduces the known dynamical eh and pp Bethe-Salpeter kernels.
 \end{abstract}
 
 \maketitle
@@ -357,19 +359,19 @@ with
 	R^\eh(\omega)
 	&=
 	\left[
-	\omega\eta^\eh-M^\eh
+	\omega\eta^\eh-M^\eh + \ii 0^+ I
 	\right]^{-1}
 	\label{eq:target_R_eh}
 	\\
 	R^\pp(\Omega_\pp)
 	&=
 	\left[
-	\Omega_\pp\eta^\pp-M^\pp
+	\Omega_\pp\eta^\pp-M^\pp + \ii 0^+ I
 	\right]^{-1}
 	\label{eq:target_R_pp}
 \end{align}
 Here $\eta^r$ is the channel metric, with eigenvalues $+1$ and $-1$ for
-the two propagation sectors.
+the two propagation sectors and $I$ is the identity operator.
 Antisymmetrized two-electron integrals are written directly as
 $\mel{pq}{}{rs}$ throughout.
 
@@ -408,7 +410,7 @@ The zeroth-order central resolvent is
 	R^{r,(0)}(\Omega_r)
 	=
 	\left[
-	\Omega_r\eta^r-M^{r,(0)}
+	\Omega_r \eta^r - M^{r,(0)} + \ii 0^+ I
 	\right]^{-1}
 	\label{eq:target_R_zero}
 \end{equation}
@@ -1133,20 +1135,20 @@ coupling vertices are
 \begin{align}
 	U^{\pp,(1)}_{pq,ab}
 	&=
-	\mel{pq}{}{ab}
+	\frac{\mel{pq}{}{ab}}{\sqrt{2}}
 	&
 	V^{\pp,(1)}_{ab,rs}
 	&=
-	\mel{ab}{}{rs}
+	\frac{\mel{ab}{}{rs}}{\sqrt{2}}
 	\label{eq:UV_pp_first_ee}
 	\\
 	U^{\pp,(1)}_{pq,ij}
 	&=
-	\mel{pq}{}{ij}
+	\frac{\mel{pq}{}{ij}}{\sqrt{2}}
 	&
 	V^{\pp,(1)}_{ij,rs}
 	&=
-	\mel{ij}{}{rs}
+	\frac{\mel{ij}{}{rs}}{\sqrt{2}}
 	\label{eq:UV_pp_first_hh}
 \end{align}
 Substituting Eqs.~\eqref{eq:R_pp_zero},
