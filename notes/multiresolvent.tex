@@ -894,8 +894,7 @@ This gives
 	\begin{split}
 	\ii\Phi_{pqrs}^{\pp,(2)}(\Omega)
 	&=
-	\frac{1}{2}
-	\sum_{cd}
+	\sum_{c<d}
 	\frac{
 	\mel{pq}{}{cd}
 	\mel{cd}{}{rs}
@@ -903,8 +902,7 @@ This gives
 	{\Omega-(\eps_c+\eps_d)+\ii0^+}
 	\\
 	&-
-	\frac{1}{2}
-	\sum_{kl}
+	\sum_{k<l}
 	\frac{
 	\mel{pq}{}{kl}
 	\mel{kl}{}{rs}
@@ -923,8 +921,7 @@ Eq.~\eqref{eq:Phi_pp_second_native} gives
 	\begin{split}
 	\ii\Phi^{\pp,(2)}_{pqrs}(\nu,\nu',\omega)
 	&=
-	\frac{1}{2}
-	\sum_{cd}
+	\sum_{c<d}
 	\frac{
 	\mel{pq}{}{cd}
 	\mel{cd}{}{rs}
@@ -932,8 +929,7 @@ Eq.~\eqref{eq:Phi_pp_second_native} gives
 	{\nu+\nu'+\omega-\eps_c-\eps_d+\ii0^+}
 	\\
 	&-
-	\frac{1}{2}
-	\sum_{kl}
+	\sum_{k<l}
 	\frac{
 	\mel{pq}{}{kl}
 	\mel{kl}{}{rs}
@@ -1120,6 +1116,7 @@ Eq.~\eqref{eq:target_R_zero} by choosing
 	\end{pmatrix}
 	\label{eq:eta_M_pp_zero}
 \end{align}
+with $a<b$ and $i<j$.
 Inserting Eq.~\eqref{eq:eta_M_pp_zero} into
 Eq.~\eqref{eq:target_R_zero} gives
 \begin{equation}
@@ -1135,20 +1132,20 @@ coupling vertices are
 \begin{align}
 	U^{\pp,(1)}_{pq,ab}
 	&=
-	\frac{\mel{pq}{}{ab}}{\sqrt{2}}
+	\mel{pq}{}{ab}
 	&
 	V^{\pp,(1)}_{ab,rs}
 	&=
-	\frac{\mel{ab}{}{rs}}{\sqrt{2}}
+	\mel{ab}{}{rs}
 	\label{eq:UV_pp_first_ee}
 	\\
 	U^{\pp,(1)}_{pq,ij}
 	&=
-	\frac{\mel{pq}{}{ij}}{\sqrt{2}}
+	\mel{pq}{}{ij}
 	&
 	V^{\pp,(1)}_{ij,rs}
 	&=
-	\frac{\mel{ij}{}{rs}}{\sqrt{2}}
+	\mel{ij}{}{rs}
 	\label{eq:UV_pp_first_hh}
 \end{align}
 Substituting Eqs.~\eqref{eq:R_pp_zero},
