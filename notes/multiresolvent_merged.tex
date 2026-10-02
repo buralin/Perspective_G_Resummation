@@ -83,10 +83,10 @@
 \begin{abstract}
 A general four-point vertex depends on three independent frequencies and requires a richer resolvent structure than those used in one-body Green's function, self-energy, and polarization-propagator theories.
 We develop a channel-resolved multiresolvent construction of the parquet vertex through third order in the bare interaction, taking the electron-hole ($\eh$) and particle-particle ($\pp$) reducible vertices as primitive objects and generating the transverse electron-hole contribution by crossing symmetry.
-For a Hartree--Fock reference, an exact factorization of the non-interacting pair propagator defines one-sided frequency projections and left and right coupling vertices.
+For a Hartree--Fock reference, exact factorization of the ordinary non-interacting pair sectors defines one-sided frequency projections and left and right coupling vertices.
 At second order, the couplings are instantaneous and the frequency dependence is carried by central resolvents associated with neutral $N$-electron and $(N\pm2)$-electron propagation.
 At third order, the projected couplings acquire $\hhp$ and $\pph$ poles, while the dynamic irreducible kernels activate additional orbital sectors: occupied-occupied and virtual-virtual propagation in the $\eh$ channel, and mixed occupied-virtual propagation in the $\pp$ channel.
-The complete third-order result retains these contributions alongside the ordinary coupling and central-resolvent corrections.
+All third-order contributions follow from the Bethe--Salpeter expansion with the full non-interacting pair propagator, including every internal orbital sector.
 Detailed derivations are given in two channel-specific appendices.
 Second-order consistency checks recover the corresponding single-frequency GF2 kernels and, on applying the same reduction to the conventional dynamical $GW$ kernel at first order in $W$, the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
 \end{abstract}
@@ -150,9 +150,10 @@ organized as a left coupling vertex, a channel-specific central resolvent,
 and a right coupling vertex.
 The central resolvent carries the natural bosonic transfer of the channel,
 while the coupling vertices retain the remaining fermionic-frequency dependence.
-At third order, the frequency-dependent irreducible kernels also activate
-orbital sectors outside the ordinary channel-pair spaces; these contributions
-are retained explicitly.
+At third order, the full internal propagation also gives nonzero
+contributions from complementary orbital sectors when it is integrated
+against a frequency-dependent irreducible kernel.
+These contributions follow directly from the same BSE expansion.
 This construction also provides a direct route to the four-point Hedin
 kernel.
 The vertex irreducible in the direct $\eh$ channel is
@@ -168,16 +169,16 @@ The vertex irreducible in the direct $\eh$ channel is
 \end{equation}
 At the exact level, this is the same four-point kernel that enters Hedin's
 Bethe--Salpeter equation (BSE) through the functional derivative
-$\Xi=\fdv*{\Sigma}{G}$, once a common index convention is adopted 
-.~\cite{Hedin1965,Onida2002,StarkeKresse2012,MarieAmmarLoos2024}
+$\Xi=\fdv*{\Sigma}{G}$, once common index and phase conventions are adopted.\cite{Hedin1965,Onida2002,StarkeKresse2012,MarieAmmarLoos2024}
 Thus, constructing $\Phi^\eh$ and $\Phi^\pp$ also yields a multiresolvent
 representation of the direct $\eh$ Hedin kernel.
 
 The present notes establish the primitive channel construction through
 second and third order in the bare interaction.
 The second-order result involves instantaneous couplings and non-interacting
-central resolvents. At third order, corrections to both couplings and central
-propagation coexist with additional contributions from activated orbital sectors.
+central resolvents. At third order, the full-propagator BSE expansion
+includes corrections to both couplings and central propagation together
+with nonzero contributions from complementary orbital sectors.
 The main text presents the complete structure, while Appendices~\ref{sec:eh_third}
 and \ref{sec:pp_third} give the detailed frequency integrations.
 Independent second-order GF2 and dynamical-$GW$ reductions are summarized
@@ -201,13 +202,12 @@ Occupied spinorbitals are denoted by $i,j,k,l$, virtual spinorbitals by
 $a,b,c,d$, and general spinorbitals by $p,q,r,s$.
 Antisymmetric particle-pair and hole-pair states are represented by unique
 orbital pairs, $a<b$ and $i<j$, respectively.
-All matrix contractions in these auxiliary spaces use unique pairs, and the
-coupling vertices contain no $1/\sqrt{2}$ normalization factors.
+All matrix contractions in these auxiliary spaces use unique pairs,
+and the bare coupling matrix elements are the antisymmetrized integrals themselves.
+These ordering restrictions apply to antisymmetric particle-pair and hole-pair
+states; orbital sums for electron-hole propagation remain unrestricted.
 The two relative-frequency orientations of a unique pair are retained and
 averaged when defining frequency projections.
-Orbital pairs describing electron-hole propagation remain unrestricted.
-Whenever an explicit sum represents an antisymmetric particle or hole pair,
-its ordering restriction is displayed.
 
 The direct $\eh$ convention is used throughout these notes.
 The natural bosonic transfer frequencies of the three parquet channels are\cite{OrlandoRomanielloLoos2023,MarieLoos2025}
@@ -282,8 +282,9 @@ Beyond second order, the primitive reducible vertices are genuine
 three-frequency objects.
 The ordinary channel-pair contribution assigns the natural bosonic transfer
 to the central resolvent and the remaining fermionic frequencies to the
-coupling vertices. The complete third-order construction also retains the
-activated-sector terms identified below.
+coupling vertices. The complete third-order result is obtained by expanding
+with the full pair propagator before evaluating any internal frequency
+integral, as shown in Sec.~\ref{sec:second_order_multiresolvent}.
 
 The exact channel-irreducible vertices satisfy
 \begin{align}
@@ -346,13 +347,15 @@ by a central resolvent, while the remaining fermionic-frequency dependences
 are carried by a left and a right coupling vertex.
 We denote these coupling vertices by $U^r$ and $V^r$ (with $r = \eh$ or $\pp$), respectively, and keep
 them as independent objects unless a symmetry relation is explicitly used.
-We denote this contribution by $\Phi^r_{\mathrm{pair}}$. The target forms are
+We denote the sum of its second- and third-order contributions by
+$\Phi^r_{\mathrm{pair}}$. Through this order, the target forms are
 \begin{align}
 	\ii\Phi^\eh_{\mathrm{pair}}(\nu,\nu',\omega)
 	&=
 	U^\eh(\nu,\omega)
 	R^\eh(\omega)
 	V^\eh(\nu',\omega)
+	+\mathcal O(v^4)
 	\label{eq:target_eh}
 	\\
 	\ii\Phi^\pp_{\mathrm{pair}}(\nu_\pp,\nu'_\pp,\Omega_\pp)
@@ -360,6 +363,7 @@ We denote this contribution by $\Phi^r_{\mathrm{pair}}$. The target forms are
 	U^\pp(\nu_\pp,\Omega_\pp)
 	R^\pp(\Omega_\pp)
 	V^\pp(\nu'_\pp,\Omega_\pp)
+	+\mathcal O(v^4)
 	\label{eq:target_pp}
 \end{align}
 with
@@ -385,7 +389,7 @@ $\mel{pq}{}{rs}$ throughout.
 
 The corresponding particle-number structures of these contributions are
 \begin{align}
-	\Phi^\eh
+	\Phi^\eh_{\mathrm{pair}}
 	&:\quad
 	N\pm1
 	\longrightarrow
@@ -394,7 +398,7 @@ The corresponding particle-number structures of these contributions are
 	N\pm1
 	\label{eq:target_sector_eh}
 	\\
-	\Phi^\pp
+	\Phi^\pp_{\mathrm{pair}}
 	&:\quad
 	N\pm1
 	\longrightarrow
@@ -460,22 +464,28 @@ then
     R^{r,(0)}M^{r,(1)}R^{r,(0)}
     \label{eq:target_R_first}
 \end{align}
-and one obtains the familiar third-order combination
+and one obtains the ordinary third-order pair contribution
 \begin{equation}
-    U^{r,(2)}R^{r,(0)}V^{r,(1)}
+    \begin{split}
+    \ii\Phi^{r,(3)}_{\mathrm{pair}}
+    &=U^{r,(2)}R^{r,(0)}V^{r,(1)}
     +
     U^{r,(1)}R^{r,(0)}V^{r,(2)}
-    +
-    U^{r,(1)}R^{r,(1)}V^{r,(1)}
+    \\
+    &+U^{r,(1)}R^{r,(1)}V^{r,(1)}
+    \end{split}
     \label{eq:target_third_order}
 \end{equation}
 The three terms correspond, respectively, to second-order corrections to the left and right coupling vertices and to a first-order correction to the central resolvent.
 
 
-This three-term combination describes the ordinary channel-pair contribution.
-At second order, $\Phi^r_{\mathrm{pair}}=\Phi^r$; at third order, the complete
-vertex also contains activated-sector terms. Their relation to the target
-form is established in Sec.~\ref{sec:second_order_multiresolvent}.
+Equation~\eqref{eq:target_third_order} organizes the ordinary pair sectors
+at third order. The complete vertex is obtained from the full-propagator
+BSE expansion in Sec.~\ref{sec:second_order_multiresolvent}, which also
+evaluates the complementary orbital sectors.
+At second order, the ordinary pair sectors already give the complete result.
+All expressions here are used only through third order; an unexpanded
+resolvent would generate higher-order terms outside the present truncation.
 
 \section{Three-frequency BSE and one-sided frequency reduction}
 \label{sec:three_frequency_bse}
@@ -536,13 +546,33 @@ part therefore satisfies
 	\Gamma^\eh L_0^\eh F
 	\label{eq:Phi_BSE_eh}
 \end{equation}
-The analogous relation $\Phi^r=\Gamma^rL_0^rF$ holds in each parquet
-channel $r$ with the corresponding channel propagation and its symmetry
-weight. In the $\pp$ channel, the two orientations of each unique pair
-are averaged before the final pair-space contraction.
+Throughout, $L_0^r$ denotes the full non-interacting pair propagator,
+formed from products of two $G_0$ factors and including all
+internal orbital sectors. With this convention, the corresponding $\pp$
+relation is $\Phi^\pp=-\Gamma^\pp L_0^\pp F$.
+In the $\pp$ channel, the two orientations of each unique pair are averaged
+before the final pair-space contraction; an ordered-orientation sum therefore
+carries a symmetry weight $1/2$. When the end vertices are written as
+$\ii\Gamma^r$ and $\ii F$, the propagation factors are explicitly
+$-\ii L_0^\eh$ and $+\ii L_0^\pp$, respectively.
+We write $\chi_\eh=-\ii$ and $\chi_\pp=+\ii$.
+The convolution symbol $\circ$ denotes internal-frequency integration
+and orbital contraction, including the $\pp$ orientation average but no
+implicit phase factor. In this notation, the primitive-channel vertex BSE is
+\begin{equation}
+    \ii F
+    =\ii\Gamma^r
+    +[\ii\Gamma^r]\circ[\chi_r L_0^r]\circ[\ii F],
+    \qquad r=\eh,\pp.
+    \label{eq:F_BSE_channel_phases}
+\end{equation}
 These reference-propagator vertex relations are expanded perturbatively below.
 Barred frequencies denote integration variables throughout these notes.
 
+For real external frequencies, all internal-frequency integrals are taken
+along the real axis with finite positive causal widths retained until after
+integration. The notation $0^+$ denotes the resulting causal limit;
+positive sums of widths are also abbreviated as $0^+$.
 For occupied and virtual reference orbitals, we have
 \begin{align}
 	G_{0,i}(\nu)
@@ -575,9 +605,9 @@ The corresponding three-frequency non-interacting pair propagators are
 \subsection{Exact factorization of the non-interacting pair propagator}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The key observation is that each three-frequency pair propagator factorizes
-exactly into a two-frequency factor and the usual one-frequency pair
-propagator.
+The key observation is that each ordinary occupied-virtual or
+virtual-occupied pair propagator factorizes exactly into a two-frequency
+factor and the usual one-frequency pair propagator.
 Define
 \begin{equation}
 	\begin{aligned}
@@ -616,7 +646,9 @@ Starting from Eqs.~\eqref{eq:L0_three_frequency_plus} and
 \eqref{eq:L0_three_frequency_minus}, substituting the Green's functions of
 Eq.~\eqref{eq:G0}, and using the definitions
 \eqref{eq:L0_pm} and \eqref{eq:Q_pm}, partial fractioning gives the exact
-identities
+identities below. At finite one-particle width $\eta>0$, the causal shifts
+in Eq.~\eqref{eq:L0_pm} are $+2\ii\eta$ and $-2\ii\eta$, respectively;
+with these summed widths the identities hold before taking the causal limit.
 \begin{align}
 	L_{0,ia}^{+}(\nu,\nu',\omega)
 	&=
@@ -635,12 +667,20 @@ identities
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The one-sided factors are normalized according to
+Let $Q^\sigma_{ia,\eta}$ denote Eq.~\eqref{eq:Q_pm} with finite
+one-particle width $\eta>0$. Each Green's function separately behaves as
+$1/\nu$, but their difference behaves as $1/\nu^2$.
+Thus the integral of the combined factor is convergent and its large
+semicircle contribution vanishes. Closing in the upper half-plane encloses
+one pole with residue $-\ii$ for either propagation direction, so that
 \begin{equation}
-    \frac{1}{2\pi}\int\dd{\nu}\,Q^\sigma_{ia}(\nu,\omega)=1,
+    \lim_{\eta\to0^+}\frac{1}{2\pi}
+    \int_{-\infty}^{\infty}\dd{\nu}\,
+    Q^\sigma_{ia,\eta}(\nu,\omega)=1,
     \qquad \sigma=\pm.
     \label{eq:Q_normalization}
 \end{equation}
+The value is already unity at every finite positive width.
 The factorization above concerns occupied-virtual and virtual-occupied
 propagation. The isolated frequency integrals of the complementary
 occupied-occupied and virtual-virtual propagators vanish, but their
@@ -665,7 +705,9 @@ on both pairs, whereas $+-$ denotes forward propagation on $ia$ and backward
 propagation on $jb$.
 In this pair-space discussion we suppress the channel superscript $\eh$ on
 $U$ and $V$.
-To match the convention $\ii\Phi^r=U^rR^rV^r$, the projected coupling vertices are defined from $\ii\Gamma^\eh$.
+To match the ordinary pair representation
+$\ii\Phi^r_{\mathrm{pair}}=U^rR^rV^r+\mathcal O(v^4)$,
+the projected coupling vertices are defined from $\ii\Gamma^\eh$.
 
 Projecting the left pair gives
 \begin{multline}
@@ -757,8 +799,18 @@ of exact one-sided projections of the three-frequency irreducible vertex.
 They use only the exact factorization of $L_0$,
 Eqs.~\eqref{eq:L0_factorization_plus} and
 \eqref{eq:L0_factorization_minus}.
-Perturbative approximations enter only when $\Gamma$, the coupling vertices,
-and the central resolvent are truncated in powers of the interaction.
+For a frequency-independent first-order interaction, normalization gives
+\begin{equation}
+    U^{\sigma\sigma',(1)}_{ia,jb}
+    =V^{\sigma\sigma',(1)}_{ia,jb}
+    =[\ii\Gamma^{\eh,(1)}]^{\sigma\sigma'}_{ia,jb}.
+    \label{eq:bare_projection_normalization}
+\end{equation}
+Thus a one-sided projection leaves the bare interaction unchanged.
+For a dynamic kernel, its frequency dependence must remain inside the
+integral. These projections apply to the ordinary $\text{ov}/\text{vo}$
+sectors; the full BSE still includes $\text{oo}/\text{vv}$ propagation.
+The multiresolvent reorganization below is established through third order.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{From three to two to one frequency}
@@ -844,7 +896,8 @@ antisymmetrized interaction
 	\mel{pq}{}{rs}
 	\label{eq:Gamma_eh_first}
 \end{equation}
-We now expand the exact vertex BSE Eq.~\eqref{eq:Phi_BSE_eh} in powers of
+The same first-order interaction is used in the $\pp$ channel.
+We now expand the reference-propagator vertex BSE Eq.~\eqref{eq:Phi_BSE_eh} in powers of
 the bare interaction.
 At first order, the full and irreducible vertices coincide,
 $F^{(1)}=\Gamma^{\eh,(1)}$, because the only contribution is the bare
@@ -866,7 +919,7 @@ Keeping the second-order term of Eq.~\eqref{eq:Phi_BSE_eh} therefore gives
 	\label{eq:Phi_eh_second_convolution}
 \end{equation}
 Equation~\eqref{eq:Phi_eh_second_convolution}
-is simply the second-order component of the exact vertex BSE.
+is simply the second-order component of the reference-propagator vertex BSE.
 Using Eq.~\eqref{eq:Gamma_eh_first} for the two end vertices and
 Eqs.~\eqref{eq:L0_three_frequency_plus},
 \eqref{eq:L0_three_frequency_minus}, and \eqref{eq:L0_pm} for the
@@ -944,7 +997,7 @@ by $\nu'-\nu$.
 
 At third order, the same crossing relation is applied to the complete
 direct-$\eh$ result, including the ordinary channel-pair corrections,
-the activated $\text{oo}/\text{vv}$ contributions, and the three-interaction
+the $\text{oo}/\text{vv}$ contributions from the full internal propagation, and the three-interaction
 term. The direct result is summarized in
 Sec.~\ref{sec:second_order_multiresolvent} and derived in
 Appendix~\ref{sec:eh_third}.
@@ -957,9 +1010,9 @@ all its terms follow by crossing the complete direct contribution.
 
 The $\pp$ channel contains $\pp$ and $\hh$ propagation.
 Applying the channel analogue of Eq.~\eqref{eq:Phi_BSE_eh},
-$\Phi^\pp=\Gamma^\pp L_0^\pp F$, and retaining its second-order component
-produces the same two-bare-vertex structure as
-Eq.~\eqref{eq:Phi_eh_second_convolution}, now in the native transfer
+$\Phi^\pp=-\Gamma^\pp L_0^\pp F$, and retaining its second-order component
+produces the corresponding two-bare-vertex structure with propagation
+factor $+\ii L_0^\pp$, in the native transfer
 frequency $\Omega_\pp$ defined by Eq.~\eqref{eq:Omega_pp}.
 This gives
 \begin{equation}
@@ -1243,80 +1296,85 @@ representation completely through second order.
 
 \subsection{Complete third-order construction}
 
-At third order, the ordinary channel-pair contribution contains second-order
-corrections to the left and right couplings and a first-order correction
-to central propagation, as in Eq.~\eqref{eq:target_third_order}.
+We expand Eq.~\eqref{eq:F_BSE_channel_phases} with the full $L_0^r$,
+including all internal orbital sectors. Since
+$F^{(1)}=\Gamma^{r,(1)}$ and
+$F^{(2)}=\Gamma^{r,(2)}+\Phi^{r,(2)}$, the third-order reducible vertex
+contains two terms with a second-order irreducible kernel and a term with
+three instantaneous first-order interactions. The explicit three-term BSE
+expansions are Eqs.~\eqref{eq:Phi_eh_third_convolution} and
+\eqref{eq:Phi_pp_third_convolution}.
+
+The three-instantaneous-interaction term is evaluated using the ordinary
+pair resolvents: all complementary-sector integrations vanish in that term.
+It is exactly $U^{r,(1)}R^{r,(1)}V^{r,(1)}$, where
+$R^{r,(1)}=R^{r,(0)}M^{r,(1)}R^{r,(0)}$.
+The complete result can therefore be written as
+\begin{equation}
+\begin{split}
+\ii\Phi^{r,(3)}
+&=[\ii\Gamma^{r,(2)}]\circ[\chi_r L_0^r]
+\circ[\ii\Gamma^{r,(1)}]
+\\
+&\quad+[\ii\Gamma^{r,(1)}]\circ[\chi_r L_0^r]
+\circ[\ii\Gamma^{r,(2)}]
+\\
+&\quad+U^{r,(1)}R^{r,(1)}V^{r,(1)}.
+\end{split}
+\label{eq:complete_third_main}
+\end{equation}
+Here $\chi_\eh=-\ii$ and $\chi_\pp=+\ii$, and the $\pp$ contractions
+include the orientation average defined in Sec.~\ref{sec:frequencies}.
+No orbital sector has been removed from the first two terms.
+
+The ordinary pair sectors of these two frequency convolutions give
+\begin{equation}
+\begin{split}
+&U^{r,(2)}R^{r,(0)}V^{r,(1)}
++U^{r,(1)}R^{r,(0)}V^{r,(2)}.
+\end{split}
+\label{eq:ordinary_third_couplings}
+\end{equation}
 The first-order interaction matrices $M^{\eh,(1)}$ and $M^{\pp,(1)}$
 are given in Eqs.~\eqref{eq:M_eh_first} and \eqref{eq:M_pp_first}.
 The explicit $U^{r,(2)}$ and $V^{r,(2)}$ expressions in
 Appendices~\ref{sec:eh_third} and \ref{sec:pp_third} contain
 $\hhp$ and $\pph$ denominators and retain one external fermionic frequency.
 
-The frequency-dependent second-order irreducible kernel also activates
-orbital sectors whose isolated reference-propagator frequency integrals
-vanish. Their role is complementary in the two primitive channels:
+The complementary orbital sectors have zero isolated propagator integrals,
+but they need not vanish when integrated against $\Gamma^{r,(2)}$.
+Their nonzero contributions follow directly from the first two terms of
+Eq.~\eqref{eq:complete_third_main}; no separate contribution is added to
+the perturbative expansion.
 \begin{table}[b]
-\caption{Internal orbital sectors in the third-order primitive vertices.
-The activated sectors contribute when the second-order irreducible kernel
-is frequency dependent.}
+\caption{Internal orbital sectors of the full third-order propagation.
+Instantaneous interactions select the ordinary pair sectors; a dynamic
+second-order kernel can also give nonzero complementary-sector integrals.}
 \label{tab:orbital_sectors}
 \begin{ruledtabular}
 \begin{tabular}{ccc}
-Channel & Ordinary pair sectors & Activated sectors \\
+Channel & Ordinary pair sectors & Complementary sectors \\
 $\eh$ & $\text{ov},\text{vo}$ & $\text{oo},\text{vv}$ \\
 $\pp$ & $\text{oo},\text{vv}$ & $\text{ov},\text{vo}$
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-Let $\mathcal L_0^{r,x}$ denote the reduced reference propagation in orbital
-sector $x$, with the phase and pair-orientation weights appropriate to the
-channel. These propagators are defined in
-Eqs.~\eqref{eq:L0_eh_reduced_sectors} and \eqref{eq:L0_pp_reduced_oriented}.
-The additional third-order contributions are
-\begin{equation}
-\begin{split}
-\mathcal E^{r,(3)}
-&=\sum_{x\in\mathcal A_r}\Big(
-[\ii\Gamma^{r,(2)}]\circ\mathcal L_0^{r,x}
-\circ[\ii\Gamma^{r,(1)}]
-\\
-&\qquad+[\ii\Gamma^{r,(1)}]\circ\mathcal L_0^{r,x}
-\circ[\ii\Gamma^{r,(2)}]\Big),
-\end{split}
-\label{eq:activated_third}
-\end{equation}
-where $\mathcal A_\eh=\{\text{oo},\text{vv}\}$ and
-$\mathcal A_\pp=\{\text{ov},\text{vo}\}$.
-The complete result is therefore
-\begin{equation}
-\begin{split}
-\ii\Phi^{r,(3)}
-&=U^{r,(2)}R^{r,(0)}V^{r,(1)}
-+U^{r,(1)}R^{r,(0)}V^{r,(2)}
-\\
-&\quad+U^{r,(1)}R^{r,(1)}V^{r,(1)}
-+\mathcal E^{r,(3)}.
-\end{split}
-\label{eq:complete_third_main}
-\end{equation}
-Here $\mathcal E^{r,(3)}$ is already the contribution to $\ii\Phi^{r,(3)}$;
-no further phase factor is implied.
-For the $\eh$ channel, its explicit terms are
+The $\eh$ complementary-sector integrals are evaluated explicitly in
 Eqs.~\eqref{eq:Phi_eh_third_vv_left}--\eqref{eq:Phi_eh_third_oo_right};
-for the $\pp$ channel, they are
+the $\pp$ mixed-sector integrals are
 Eqs.~\eqref{eq:Phi_pp_third_mixed_left} and
 \eqref{eq:Phi_pp_third_mixed_right}.
-They are expressed as products of charged-state denominators without
-introducing artificial differences between same-occupancy orbital energies.
-The full orbital-sector expressions are collected in
+They give products of charged-state denominators.
+The complete orbital-sector evaluations are collected in
 Eqs.~\eqref{eq:Phi_eh_third_final} and \eqref{eq:Phi_pp_third_final}.
 
 Equations~\eqref{eq:target_second_order} and
 \eqref{eq:complete_third_main} specify the primitive vertices through third
-order. The additional sector terms are part of the complete result; the
-three-term expansion of the ordinary $URV$ product alone describes only
-the ordinary channel-pair contribution.
+order. Equation~\eqref{eq:target_third_order} is the ordinary pair-space
+reorganization of the third-order terms; the full-propagator form
+\eqref{eq:complete_third_main} retains every orbital sector throughout
+frequency integration.
 
 \section{Channel consistency and validation}
 \label{sec:channel_consistency}
@@ -1471,27 +1529,27 @@ multiresolvent form.
 At third order, the direct-$\eh$ reducible vertex contains three
 contributions.
 Suppressing the explicit internal-frequency integrations with the convolution
-symbol $\circ$, we absorb the phase associated with the internal pair
-propagation into the reduced propagator $\mathcal L_0^\eh$, defined below.
+symbol $\circ$, we retain the full pair propagator $L_0^\eh$ defined below
+and display its phase factor $-\ii$ explicitly.
 The third-order expansion is then
 \begin{equation}
     \begin{split}
     \ii\Phi^{\eh,(3)}
     & =
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\mathcal L_0^\eh
+    \circ\left[-\ii L_0^\eh\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \\
     &+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^\eh
+    \circ\left[-\ii L_0^\eh\right]
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \\
     &+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^\eh
+    \circ\left[-\ii L_0^\eh\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^\eh
+    \circ\left[-\ii L_0^\eh\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \end{split}
     \label{eq:Phi_eh_third_convolution}
@@ -1519,60 +1577,60 @@ third-order direct-$\eh$ reducible contribution.
 \subsection{Orbital decomposition of the internal propagation}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-We resolve the reduced internal pair propagator as
+We resolve the full non-interacting pair propagator as
 \begin{equation}
-    \mathcal L_0^\eh
+    L_0^\eh
     =
-    \mathcal L_0^{\eh,\text{oo}}
+    L_0^{\eh,\text{oo}}
     +
-    \mathcal L_0^{\eh,\text{ov}}
+    L_0^{\eh,\text{ov}}
     +
-    \mathcal L_0^{\eh,\text{vo}}
+    L_0^{\eh,\text{vo}}
     +
-    \mathcal L_0^{\eh,\text{vv}}
+    L_0^{\eh,\text{vv}}
     \label{eq:L0_sector_decomposition}
 \end{equation}
 where $\text{oo}$ and $\text{vv}$ contain the $ij$ and $ab$ sectors, respectively,
 while $\text{ov}$ contains the $ia$ sector associated with $Q^+$ and $\text{vo}$ contains
 the $ai$ sector associated with $Q^-$.  Explicitly,
 \begin{align}
-    \mathcal L_{0,ia}^{\eh}(x,\omega)
+    L_{0,ia}^{\eh}(x,\omega)
     &=
-    -\ii G_{0,a}(x+\omega)G_{0,i}(x)
+    G_{0,a}(x+\omega)G_{0,i}(x)
     \\
-    \mathcal L_{0,ai}^{\eh}(x,\omega)
+    L_{0,ai}^{\eh}(x,\omega)
     &=
-    -\ii G_{0,i}(x+\omega)G_{0,a}(x)
+    G_{0,i}(x+\omega)G_{0,a}(x)
     \\
-    \mathcal L_{0,ij}^{\eh}(x,\omega)
+    L_{0,ij}^{\eh}(x,\omega)
     &=
-    -\ii G_{0,i}(x+\omega)G_{0,j}(x)
+    G_{0,i}(x+\omega)G_{0,j}(x)
     \\
-    \mathcal L_{0,ab}^{\eh}(x,\omega)
+    L_{0,ab}^{\eh}(x,\omega)
     &=
-    -\ii G_{0,a}(x+\omega)G_{0,b}(x)
-    \label{eq:L0_eh_reduced_sectors}
+    G_{0,a}(x+\omega)G_{0,b}(x)
+    \label{eq:L0_eh_sectors}
 \end{align}
-Their isolated frequency integrals are
+Including the explicit channel phase, their isolated frequency integrals are
 \begin{align}
     \frac{1}{2\pi}\int\dd{x}\,
-    \mathcal L_{0,ia}^{\eh}(x,\omega)
+    (-\ii) L_{0,ia}^{\eh}(x,\omega)
     &=
     \frac{1}{\omega-(\eps_a-\eps_i)+\ii0^+}
     \label{eq:eh_ov_integral}
     \\
     \frac{1}{2\pi}\int\dd{x}\,
-    \mathcal L_{0,ai}^{\eh}(x,\omega)
+    (-\ii) L_{0,ai}^{\eh}(x,\omega)
     &=
     -\frac{1}{\omega+(\eps_a-\eps_i)-\ii0^+}
     \label{eq:eh_vo_integral}
     \\
     \frac{1}{2\pi}\int\dd{x}\,
-    \mathcal L_{0,ij}^{\eh}(x,\omega)
+    (-\ii) L_{0,ij}^{\eh}(x,\omega)
     &=0
     \\
     \frac{1}{2\pi}\int\dd{x}\,
-    \mathcal L_{0,ab}^{\eh}(x,\omega)
+    (-\ii) L_{0,ab}^{\eh}(x,\omega)
     &=0
     \label{eq:same_occupancy_bubbles_zero}
 \end{align}
@@ -1582,11 +1640,11 @@ $\text{oo}$ and $\text{vv}$ sectors vanish because their two one-particle poles 
 the same half-plane.  At third order, however, $\Gamma^{\eh,(2)}$ supplies an
 additional pole and activates these same-occupancy sectors.
 
-The two elementary contour identities needed for the activated sectors are
+The two elementary contour identities needed for the complementary sectors are
 \begin{align}
     \frac{1}{2\pi}
     \int\dd{x}
-    \frac{\mathcal L_{0,ab}^{\eh}(x,\omega)}{x-A-\ii0^+}
+    \frac{-\ii L_{0,ab}^{\eh}(x,\omega)}{x-A-\ii0^+}
     & =
     \frac{1}
     {(A+\omega-\eps_a+\ii0^+)(A-\eps_b+\ii0^+)}
@@ -1594,7 +1652,7 @@ The two elementary contour identities needed for the activated sectors are
     \\
     \frac{1}{2\pi}
     \int\dd{x}
-    \frac{\mathcal L_{0,ij}^{\eh}(x,\omega)}{x-A+\ii0^+}
+    \frac{-\ii L_{0,ij}^{\eh}(x,\omega)}{x-A+\ii0^+}
     & =
     -\frac{1}
     {(A+\omega-\eps_i-\ii0^+)(A-\eps_j-\ii0^+)}
@@ -1783,7 +1841,7 @@ For the first ordering in Eq.~\eqref{eq:Phi_eh_third_convolution},
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\mathcal L_0^{\eh,\text{vv}}
+    \circ\left[-\ii L_0^{\eh,\text{vv}}\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \right\}_{pqrs}
     & =
@@ -1805,7 +1863,7 @@ and the opposite ordering gives
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^{\eh,\text{vv}}
+    \circ\left[-\ii L_0^{\eh,\text{vv}}\right]
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \right\}_{pqrs}
     & =
@@ -1829,7 +1887,7 @@ For the first ordering,
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\mathcal L_0^{\eh,\text{oo}}
+    \circ\left[-\ii L_0^{\eh,\text{oo}}\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \right\}_{pqrs}
     & =
@@ -1851,7 +1909,7 @@ and for the opposite ordering,
     \begin{split}
     \left\{
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^{\eh,\text{oo}}
+    \circ\left[-\ii L_0^{\eh,\text{oo}}\right]
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \right\}_{pqrs}
     & =
@@ -1945,12 +2003,12 @@ orbital sectors of Eq.~\eqref{eq:L0_sector_decomposition},
     \sum_{x\in\{\text{oo},\text{ov},\text{vo},\text{vv}\}}
     \Big(
     \left[\ii\Gamma^{\eh,(2)}\right]
-    \circ\mathcal L_0^{\eh,x}
+    \circ\left[-\ii L_0^{\eh,x}\right]
     \circ\left[\ii\Gamma^{\eh,(1)}\right]
     \\
     &\qquad+
     \left[\ii\Gamma^{\eh,(1)}\right]
-    \circ\mathcal L_0^{\eh,x}
+    \circ\left[-\ii L_0^{\eh,x}\right]
     \circ\left[\ii\Gamma^{\eh,(2)}\right]
     \Big)
     \\
@@ -2015,26 +2073,26 @@ The oriented propagator defined below does not itself contain this weight.
 At third order, the $\pp$ reducible vertex contains the same three
 perturbative contributions as the direct-$\eh$ vertex.
 Suppressing the explicit internal-frequency integrations with the convolution
-symbol $\circ$, and using the reduced native pair propagator
-$\mathcal L_0^\pp$ defined below,
+symbol $\circ$, and using the full native pair propagator
+$L_0^\pp$ defined below with its phase factor $+\ii$ displayed explicitly,
 \begin{equation}
     \begin{split}
     \ii\Phi^{\pp,(3)}
     & =
     \left[\ii\Gamma^{\pp,(2)}\right]
-    \circ\mathcal L_0^\pp
+    \circ\left[+\ii L_0^\pp\right]
     \circ\left[\ii\Gamma^{\pp,(1)}\right]
     \\
     &+
     \left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\mathcal L_0^\pp
+    \circ\left[+\ii L_0^\pp\right]
     \circ\left[\ii\Gamma^{\pp,(2)}\right]
     \\
     &+
     \left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\mathcal L_0^\pp
+    \circ\left[+\ii L_0^\pp\right]
     \circ\left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\mathcal L_0^\pp
+    \circ\left[+\ii L_0^\pp\right]
     \circ\left[\ii\Gamma^{\pp,(1)}\right]
     \end{split}
     \label{eq:Phi_pp_third_convolution}
@@ -2084,47 +2142,47 @@ and the map above gives
 \label{eq:Gamma_pp_second_native_third}
 \end{equation}
 
-It is convenient to define the reduced
-native pair propagator
+The full oriented non-interacting
+native pair propagator is
 \begin{equation}
-    \mathcal L_{0,tu}^{\pp}(y,\Omega)
+    L_{0,tu}^{\pp}(y,\Omega)
     =
-    \ii G_{0,t}(\Omega+y)G_{0,u}(-y)
-    \label{eq:L0_pp_reduced_oriented}
+    G_{0,t}(\Omega+y)G_{0,u}(-y)
+    \label{eq:L0_pp_oriented}
 \end{equation}
-and decompose
+and its orbital-sector decomposition is
 \begin{equation}
-    \mathcal L_0^\pp
+    L_0^\pp
     =
-    \mathcal L_0^{\pp,\text{oo}}
+    L_0^{\pp,\text{oo}}
     +
-    \mathcal L_0^{\pp,\text{ov}}
+    L_0^{\pp,\text{ov}}
     +
-    \mathcal L_0^{\pp,\text{vo}}
+    L_0^{\pp,\text{vo}}
     +
-    \mathcal L_0^{\pp,\text{vv}}
+    L_0^{\pp,\text{vv}}
     \label{eq:L0_pp_sector_decomposition}
 \end{equation}
-For an instantaneous kernel,
+For an instantaneous kernel, including the explicit channel phase,
 \begin{align}
     \frac{1}{2\pi}\int\dd{y}\,
-    \mathcal L_{0,ab}^{\pp}(y,\Omega)
+    (+\ii) L_{0,ab}^{\pp}(y,\Omega)
     &=
     \frac{1}{\Omega-(\eps_a+\eps_b)+\ii0^+}
     \label{eq:pp_vv_integral}
     \\
     \frac{1}{2\pi}\int\dd{y}\,
-    \mathcal L_{0,ij}^{\pp}(y,\Omega)
+    (+\ii) L_{0,ij}^{\pp}(y,\Omega)
     &=
     -\frac{1}{\Omega-(\eps_i+\eps_j)-\ii0^+}
     \label{eq:pp_oo_integral}
     \\
     \frac{1}{2\pi}\int\dd{y}\,
-    \mathcal L_{0,ia}^{\pp}(y,\Omega)
+    (+\ii) L_{0,ia}^{\pp}(y,\Omega)
     &=0
     \\
     \frac{1}{2\pi}\int\dd{y}\,
-    \mathcal L_{0,ai}^{\pp}(y,\Omega)
+    (+\ii) L_{0,ai}^{\pp}(y,\Omega)
     &=0
     \label{eq:pp_mixed_integrals_zero}
 \end{align}
@@ -2162,7 +2220,20 @@ and, for a unique occupied pair $i<j$,
     -\ii\left[G_{0,j}(\Omega+y)+G_{0,i}(-y)\right]
     \label{eq:Q_pp_minus_orientations}
 \end{align}
-Each oriented factor integrates to unity.
+The propagator factorizations are
+\begin{align}
+    +\ii L_{0,ab}^{\pp}(y,\Omega)
+    &=Q_{ab}^{\pp,+}(y,\Omega)R_{ab,ab}^{\pp,(0)}(\Omega)
+    \\
+    +\ii L_{0,ij}^{\pp}(y,\Omega)
+    &=Q_{ij}^{\pp,-}(y,\Omega)R_{ij,ij}^{\pp,(0)}(\Omega),
+    \label{eq:pp_oriented_factorization}
+\end{align}
+with the analogous identities for the reversed orientations.
+As in Sec.~\ref{sec:three_frequency_bse}, the finite causal widths are
+summed before taking their limit. Each oriented $Q$ factor integrates to
+unity under that prescription; its $1/y$ terms cancel and the upper
+half-plane pole has residue $-\ii$.
 The antisymmetric unique-pair projection must be applied to the full
 kernel--propagator product.  For example,
 \begin{equation}
@@ -2325,7 +2396,7 @@ The resulting first ordering is
 \begin{split}
 \left\{
 \left[\ii\Gamma^{\pp,(2)}\right]
-\circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
+\circ\left[+\ii\left(L_0^{\pp,\text{ov}}+L_0^{\pp,\text{vo}}\right)\right]
 \circ\left[\ii\Gamma^{\pp,(1)}\right]
 \right\}_{pqrs}
 &=
@@ -2352,7 +2423,7 @@ and the reversed ordering is
 \begin{split}
 \left\{
 \left[\ii\Gamma^{\pp,(1)}\right]
-\circ\left(\mathcal L_0^{\pp,\text{ov}}+\mathcal L_0^{\pp,\text{vo}}\right)
+\circ\left[+\ii\left(L_0^{\pp,\text{ov}}+L_0^{\pp,\text{vo}}\right)\right]
 \circ\left[\ii\Gamma^{\pp,(2)}\right]
 \right\}_{pqrs}
 &=
@@ -2441,12 +2512,12 @@ orbital sectors of Eq.~\eqref{eq:L0_pp_sector_decomposition},
     \sum_{x\in\{\text{oo},\text{ov},\text{vo},\text{vv}\}}
     \Big(
     \left[\ii\Gamma^{\pp,(2)}\right]
-    \circ\mathcal L_0^{\pp,x}
+    \circ\left[+\ii L_0^{\pp,x}\right]
     \circ\left[\ii\Gamma^{\pp,(1)}\right]
     \\
     &\qquad+
     \left[\ii\Gamma^{\pp,(1)}\right]
-    \circ\mathcal L_0^{\pp,x}
+    \circ\left[+\ii L_0^{\pp,x}\right]
     \circ\left[\ii\Gamma^{\pp,(2)}\right]
     \Big)
     \\
@@ -2471,7 +2542,6 @@ No additional orbital sector or third-order topology occurs in the primitive
 $\pp$ reducible vertex.
 
 
-\bibliography{multiresolvent}
+\bibliography{multiresolvent_revised}
 
 \end{document}
-
