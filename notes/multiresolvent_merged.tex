@@ -86,8 +86,7 @@ We develop a channel-resolved multiresolvent construction of the parquet vertex 
 For a Hartree--Fock reference, exact factorization of the ordinary non-interacting pair sectors defines one-sided frequency projections and left and right coupling vertices.
 At second order, the couplings are instantaneous and the frequency dependence is carried by central resolvents associated with neutral $N$-electron and $(N\pm2)$-electron propagation.
 At third order, the projected couplings acquire $\hhp$ and $\pph$ poles, while the dynamic irreducible kernels activate additional orbital sectors: occupied-occupied and virtual-virtual propagation in the $\eh$ channel, and mixed occupied-virtual propagation in the $\pp$ channel.
-All third-order contributions follow from the Bethe--Salpeter expansion with the full non-interacting pair propagator, including every internal orbital sector.
-Detailed derivations are given in two channel-specific appendices.
+All third-order contributions are given in two channel-specific appendices.
 Second-order consistency checks recover the corresponding single-frequency GF2 kernels and, on applying the same reduction to the conventional dynamical $GW$ kernel at first order in $W$, the known dynamical $\eh$ and $\pp$ Bethe--Salpeter kernels.
 \end{abstract}
 
@@ -101,8 +100,8 @@ Second-order consistency checks recover the corresponding single-frequency GF2 k
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 A general four-point quantity contains substantially more analytic
-structure than a one-particle Green's function or a linear-response
-propagator.
+structure than a one-particle Green's function, a self-energy, 
+or a linear-response propagator.
 For a time-independent Hamiltonian, time-translation invariance removes
 one overall time variable, leaving three independent time differences or,
 equivalently, three independent frequencies.
@@ -145,17 +144,13 @@ fermionic crossing.
 Consequently, only two primitive multiresolvent constructions are required:
 $\Phi^\eh$ and $\Phi^\pp$.
 
-In each primitive channel, the ordinary channel-pair contribution is
-organized as a left coupling vertex, a channel-specific central resolvent,
-and a right coupling vertex.
-The central resolvent carries the natural bosonic transfer of the channel,
-while the coupling vertices retain the remaining fermionic-frequency dependence.
-At third order, the full internal propagation also gives nonzero
-contributions from complementary orbital sectors when it is integrated
-against a frequency-dependent irreducible kernel.
-These contributions follow directly from the same BSE expansion.
-This construction also provides a direct route to the four-point Hedin
-kernel.
+%At third order, the full internal propagation also gives nonzero
+%contributions from complementary orbital sectors when it is integrated
+%against a frequency-dependent irreducible kernel.
+%These contributions follow directly from the same BSE expansion.
+%This construction also provides a direct route to the four-point Hedin
+%kernel.
+
 The vertex irreducible in the direct $\eh$ channel is
 \begin{equation}
 	\Gamma^\eh
@@ -172,6 +167,13 @@ Bethe--Salpeter equation (BSE) through the functional derivative
 $\Xi=\fdv*{\Sigma}{G}$, once common index and phase conventions are adopted.\cite{Hedin1965,Onida2002,StarkeKresse2012,MarieAmmarLoos2024}
 Thus, constructing $\Phi^\eh$ and $\Phi^\pp$ also yields a multiresolvent
 representation of the direct $\eh$ Hedin kernel.
+
+In each primitive channel, the ordinary channel-pair contribution is
+organized as a left coupling vertex, a channel-specific central resolvent,
+and a right coupling vertex.
+The central resolvent carries the natural bosonic transfer of the channel,
+while the coupling vertices retain the remaining fermionic-frequency dependence.
+
 
 The present notes establish the primitive channel construction through
 second and third order in the bare interaction.
@@ -348,7 +350,7 @@ are carried by a left and a right coupling vertex.
 We denote these coupling vertices by $U^r$ and $V^r$ (with $r = \eh$ or $\pp$), respectively, and keep
 them as independent objects unless a symmetry relation is explicitly used.
 We denote the sum of its second- and third-order contributions by
-$\Phi^r_{\mathrm{pair}}$. Through this order, the target forms are
+\titou{$\Phi^r_{\mathrm{pair}}$}. Through this order, the target forms are
 \begin{align}
 	\ii\Phi^\eh_{\mathrm{pair}}(\nu,\nu',\omega)
 	&=

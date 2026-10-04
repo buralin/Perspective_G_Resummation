@@ -146,9 +146,11 @@ antisymmetric doubles amplitude $t_{ij}^{ab}$.  The direct electron-hole,
 transverse electron-hole, and particle-particle channels then generate the
 ring, crossed-ring, and ladder parts of the CCD equations.  When the three
 channel kernels are kept equal to the bare Coulomb interaction, the resulting
-common-amplitude equation is the CCD doubles equation.  This construction
-also suggests a simple way of going beyond CCD by updating the three parquet
-kernels only after the common amplitude has been converged.
+common-amplitude equation is the CCD doubles equation.  We carefully
+distinguish the interaction-generated pieces of this Riccati residual from
+the genuine frequency-dependent parquet vertices.  This distinction also
+makes clear what additional information is required for a controlled
+extension beyond CCD.
 \end{abstract}
 
 \maketitle
@@ -199,8 +201,10 @@ an exact algebraic step.  The extra ingredient that makes contact with CCD is
 the requirement that the three Riccati amplitudes are three views of one and
 the same fermionic tensor $t_{ij}^{ab}$.  We will refer to this requirement as
 the \emph{common-amplitude closure}.  With bare Coulomb kernels, it gives the
-CCD doubles equation.  With dressed kernels, it defines a natural extension
-that we will discuss at the end of the notes.
+CCD doubles equation.  With dressed kernels, the common-amplitude residual
+remains well defined, but it must not be confused with a full parquet update:
+the latter requires the genuine four-point channel-reducible vertices.  We
+will return to this distinction at the end of the notes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Parquet theory}
@@ -367,6 +371,31 @@ Equivalently,
     \Gamma^r L_0^r F.
     \label{eq:Phi_BSE_symbolic}
 \end{equation}
+For a static kernel, Eq.~\eqref{eq:BSE_symbolic} can be solved algebraically.
+Using
+\begin{equation}
+    F
+    =
+    \left(1-\Gamma^r L_0^r\right)^{-1}\Gamma^r,
+\end{equation}
+Eq.~\eqref{eq:Phi_BSE_symbolic} becomes
+\begin{equation}
+    \Phi^r(\omega)
+    =
+    \Gamma^r
+    \left[
+        \left(L_0^r\right)^{-1}(\omega)-\Gamma^r
+    \right]^{-1}
+    \Gamma^r.
+    \label{eq:Phi_resolvent_exact}
+\end{equation}
+Equation~\eqref{eq:Phi_resolvent_exact} is the genuine channel-reducible
+four-point vertex.  Even when $\Gamma^r$ is static, $\Phi^r$ remains a
+frequency-dependent object through the BSE resolvent.  This distinction will
+be important below: the interaction-generated part of a Riccati residual is a
+reduced amplitude-space quantity and is not identical to
+$\Phi^r(\omega)$.
+
 The three channels differ only by the way the external legs are paired and by
 the corresponding signs and symmetry factors.
 
@@ -549,7 +578,37 @@ the composite indices $(ib,ja)$, we write
     \label{eq:BSE_matrix_teh}
 \end{equation}
 The sign changes compared with Eq.~\eqref{eq:BSE_matrix_eh} come directly from
-crossing.  They will later generate the crossed-ring terms of CCD.
+crossing.  They will later generate the crossed-ring terms of CCD.  To make
+the sign bookkeeping explicit, we split
+\begin{equation}
+    \bA^{\teh}
+    =
+    \bA_0^{\teh}+\bK_A^{\teh},
+    \label{eq:A_split_teh}
+\end{equation}
+with, in the crossed composite ordering,
+\begin{equation}
+    [\bA_0^{\teh}]_{ib,kc}
+    =
+    (\epsilon_b-\epsilon_i)\delta_{ik}\delta_{bc}.
+    \label{eq:A0_teh}
+\end{equation}
+For the bare antisymmetrized Coulomb kernel we use
+\begin{align}
+    [\bK_A^{\teh}]_{ib,kc}
+    &=
+    \mel{bk}{}{ic},
+    \label{eq:KA_teh_bare}
+    \\
+    [\bB^{\teh}]_{ib,ja}
+    &=
+    \mel{ba}{}{ij}
+    =
+    -\mel{ab}{}{ij}.
+    \label{eq:B_teh_bare}
+\end{align}
+Thus the crossing signs are carried by the interaction blocks themselves;
+they do not reverse the sign of the free propagation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Particle-particle channel}
@@ -1009,20 +1068,33 @@ Once written in CC language, the same contribution comes from the one-body
 commutator $\comm{\hF}{\hT_2}$.
 
 The $\pp$ channel gives the same total energy difference by combining the
-particle-pair and hole-pair energies.  In the transverse $\eh$ channel, the
-crossed orientation gives the opposite sign before the three channel pieces
-are put together.  It is therefore convenient to write the free part of an
-isolated channel as
-\begin{equation}
-    s_r\Delta[\bt],
-    \qquad
-    s_\eh=+1,
-    \quad
-    s_{\teh}=-1,
-    \quad
-    s_\pp=+1.
-    \label{eq:s_r}
-\end{equation}
+particle-pair and hole-pair energies.  The transverse $\eh$ channel does so
+as well.  Indeed, using Eqs.~\eqref{eq:A0_teh} and
+\eqref{eq:T_teh_map},
+\begin{align}
+    &\left[
+        {\bA_0^{\teh}}^{\dagger}\cdot\bT^{\teh}
+        +
+        \bT^{\teh}\cdot\bA_0^{\teh}
+    \right]_{ib,ja}
+    \nonumber\\
+    &\qquad=
+    \left[
+        (\epsilon_b-\epsilon_i)
+        +
+        (\epsilon_a-\epsilon_j)
+    \right]
+    t_{ij}^{ab}
+    =
+    \Delta_{ij}^{ab}[\bt].
+    \label{eq:Delta_teh}
+\end{align}
+The crossing signs in Eq.~\eqref{eq:Riccati_teh} therefore reside in the
+kernel blocks $- {\bB^{\teh}}^{\dagger}$ and
+$-\bT^{\teh}\bB^{\teh}\bT^{\teh}$, together with the crossed orbital
+ordering of $\bK_A^{\teh}$; they do not multiply the free term by an
+overall minus sign.  After unfolding to $ijab$ notation, all three channels
+contain the same $+\Delta[\bt]$ contribution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{What each Riccati equation adds}
@@ -1030,48 +1102,52 @@ isolated channel as
 
 For fixed kernels, let $\cQ_r[\bt;\Gamma^r]$
 denote the Riccati residual of channel $r$ after its composite indices have
-been unfolded into $ijab$ notation.  At $\bt = \bO$, only the block of the kernel
-that directly couples the forward and backward sectors remains.  We denote
-this channel driver by
+been unfolded into $ijab$ notation.  At $\bt = \bO$, only the block of the
+kernel that directly couples the forward and backward sectors remains.  We
+denote this channel driver by
 \begin{equation}
     \cK^r
     =
     \cQ_r[\bO;\Gamma^r].
     \label{eq:K_r_def}
 \end{equation}
-The useful quantity is not the whole channel residual, because the three
-drivers should not later be added independently.  Instead, we keep only what
-is generated beyond the driver,
+Each residual also contains the same free contribution $\Delta[\bt]$.
+We therefore define the interaction-generated Riccati contribution
 \begin{equation}
-    \Delta\cQ_r[\bt;\Gamma^r]
+    \Xi^r[\bt;\Gamma^r]
     =
     \cQ_r[\bt;\Gamma^r]
     -
-    \cK^r.
-    \label{eq:Delta_Q_r}
+    \cK^r
+    -
+    \Delta[\bt].
+    \label{eq:Xi_r_def}
 \end{equation}
-This is the amplitude-space counterpart of the simple parquet relation
-$\Phi^r=F-\Gamma^r$.
-
-We write
+Equivalently,
 \begin{equation}
-    \Delta\cQ_r[\bt;\Gamma^r]
+    \cQ_r[\bt;\Gamma^r]
     =
-    s_r\Delta[\bt]
+    \cK^r
     +
-    \Phi^r[\bt;\Gamma^r].
-    \label{eq:Delta_Q_decomposition}
+    \Delta[\bt]
+    +
+    \Xi^r[\bt;\Gamma^r].
+    \label{eq:Q_r_decomposition}
 \end{equation}
-From this point on, $\Phi^r[\bt;\Gamma^r]$ denotes the interaction part
-produced by the Riccati equation in channel $r$.  This notation is chosen on
-purpose: these are the amplitude-space versions of the three channel-reducible
-pieces that will be used in the parquet update below.
+The notation $\Xi^r$ is deliberate.  The genuine parquet quantity
+$\Phi^r(\omega)$ is the four-point vertex of
+Eq.~\eqref{eq:Phi_resolvent_exact}; by contrast,
+$\Xi^r[\bt;\Gamma^r]$ is the interaction part of the Riccati decoupling
+condition after reduction to the common amplitude space.  The two objects are
+related through the same channel BSE, but they are not identical and should
+not be denoted by the same symbol.
 
-At the bare-kernel level, they take a simple form.  The direct $\eh$ channel
+At the bare-kernel level, the three $\Xi^r$ take a simple form.  The direct
+$\eh$ channel
 gives
 \begin{equation}
     \begin{split}
-    [\Phi^\eh]_{ij}^{ab}[\bt]
+    [\Xi^\eh]_{ij}^{ab}[\bt]
     ={}
     &
     \sum_{kc}
@@ -1088,12 +1164,12 @@ gives
     \mel{kl}{}{cd}
     t_{lj}^{db},
     \end{split}
-    \label{eq:Phi_eh}
+    \label{eq:Xi_eh}
 \end{equation}
 which is the ring part.  The transverse channel gives
 \begin{equation}
     \begin{split}
-    [\Phi^{\teh}]_{ij}^{ab}[\bt]
+    [\Xi^{\teh}]_{ij}^{ab}[\bt]
     ={}
     &-
     \sum_{kc}
@@ -1110,12 +1186,12 @@ which is the ring part.  The transverse channel gives
     \mel{kl}{}{cd}
     t_{lj}^{ad},
     \end{split}
-    \label{eq:Phi_teh}
+    \label{eq:Xi_teh}
 \end{equation}
 which is the crossed-ring part.  Finally, the $\pp$ channel gives
 \begin{equation}
     \begin{split}
-    [\Phi^\pp]_{ij}^{ab}[\bt]
+    [\Xi^\pp]_{ij}^{ab}[\bt]
     ={}
     &
     \frac{1}{2}
@@ -1135,59 +1211,26 @@ which is the crossed-ring part.  Finally, the $\pp$ channel gives
     \mel{cd}{}{kl}
     t_{kl}^{ab},
     \end{split}
-    \label{eq:Phi_pp}
+    \label{eq:Xi_pp}
 \end{equation}
 which is the ladder part.  The first two expressions are related by crossing;
 the different signs simply reflect the chosen orientation of the external
 legs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Adding the three channels only once}
+\subsection{Assembling the common-amplitude residual}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-We can now return to the parquet equation.  The full vertex contains $\Lambda$
-only once,
-\begin{equation}
-    F
-    =
-    \Lambda
-    +
-    \Phi^\eh
-    +
-    \Phi^{\teh}
-    +
-    \Phi^\pp.
-\end{equation}
-The common amplitude equation should have the same structure.  We therefore
-add the three pieces generated beyond their individual drivers and put back
-the fully irreducible interaction only once,
-\begin{equation}
-    \mathcal R[\bt]
-    =
-    \Lambda
-    +
-    \sum_{r=\eh,\teh,\pp}
-    \Delta\cQ_r[\bt;\Gamma^r].
-    \label{eq:R_common_def}
-\end{equation}
-Using Eq.~\eqref{eq:Delta_Q_decomposition},
-\begin{equation}
-    \begin{split}
-    \mathcal R[\bt]
-    ={}
-    &
-    \Lambda
-    +
-    \left(\Delta+\Phi^\eh\right)
-    +
-    \left(-\Delta+\Phi^{\teh}\right)
-    \\
-    &+
-    \left(\Delta+\Phi^\pp\right),
-    \end{split}
-\end{equation}
-and the three free pieces leave a single $\Delta$.  The final common-amplitude
-residual is therefore
+The three Riccati equations are three representations of the same fermionic
+doubles amplitude, not three residuals that should be added in full.  In
+particular, adding them directly would count the same free propagation
+$\Delta[\bt]$ three times and would also repeat the channel drivers.  The
+common-amplitude closure is instead assembled by including each common piece
+once and each channel-specific interaction contribution once.
+
+The fully irreducible interaction supplies the common doubles driver.  The
+free propagation supplies a single $\Delta[\bt]$.  The channel-specific parts
+are the three $\Xi^r$ defined in Eq.~\eqref{eq:Xi_r_def}.  We therefore define
 \begin{equation}
     \mathcal R[\bt]
     =
@@ -1195,25 +1238,28 @@ residual is therefore
     +
     \Lambda
     +
-    \Phi^\eh[\bt;\Gamma^\eh]
+    \Xi^\eh[\bt;\Gamma^\eh]
     +
-    \Phi^{\teh}[\bt;\Gamma^{\teh}]
+    \Xi^{\teh}[\bt;\Gamma^{\teh}]
     +
-    \Phi^\pp[\bt;\Gamma^\pp].
+    \Xi^\pp[\bt;\Gamma^\pp].
     \label{eq:R_common_final}
 \end{equation}
-The amplitude equation is simply
+The common-amplitude equation is
 \begin{equation}
     \mathcal R[\bt]=0.
     \label{eq:common_amplitude_equation}
 \end{equation}
-This equation is the main result of the construction.  Every term now has a
-clear origin.  The free part $\Delta$ comes from $L_0^{-1}$, $\Lambda$ is the
-fully irreducible interaction, and the three $\Phi^r$ are the extra scattering
-created in the three Riccati channels.
+Equation~\eqref{eq:R_common_final} is an additional fermionic closure imposed
+on the three channel Riccati representations.  It should not be confused with
+summing the three BSEs.  Its ingredients have distinct origins: $\Delta$ is
+the common free propagation, $\Lambda$ is the common fully irreducible
+driver, and the three $\Xi^r$ are the channel-specific interaction terms.
+This construction avoids any cancellation between different copies of the
+free term.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The bare-kernel limit is CCD}
+\section{The bare-kernel common-amplitude limit is CCD}
 \label{sec:ccd_limit}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1229,9 +1275,9 @@ We now set
     =
     \bar v.
 \end{equation}
-The three channel pieces in Eq.~\eqref{eq:R_common_final} are then exactly the
-ring, crossed-ring, and ladder contractions written in
-Eqs.~\eqref{eq:Phi_eh}--\eqref{eq:Phi_pp}.  The remaining CCD terms are the
+The three Riccati contributions in Eq.~\eqref{eq:R_common_final} are then
+exactly the ring, crossed-ring, and ladder contractions written in
+Eqs.~\eqref{eq:Xi_eh}--\eqref{eq:Xi_pp}.  The remaining CCD terms are the
 one-body mosaic contributions.  We denote them by $\mathcal M[\bt]$.  They
 may either be kept explicitly or absorbed into an amplitude-dependent
 one-body matrix, which simply replaces the bare free propagation by its
@@ -1250,11 +1296,11 @@ The complete equation is therefore
     \mathcal M_{ij}^{ab}[\bt]
     \\
     &+
-    [\Phi^\eh]_{ij}^{ab}[\bt]
+    [\Xi^\eh]_{ij}^{ab}[\bt]
     +
-    [\Phi^{\teh}]_{ij}^{ab}[\bt]
+    [\Xi^{\teh}]_{ij}^{ab}[\bt]
     +
-    [\Phi^\pp]_{ij}^{ab}[\bt].
+    [\Xi^\pp]_{ij}^{ab}[\bt].
     \end{split}
     \label{eq:CCD_channel_equation}
 \end{equation}
@@ -1276,8 +1322,8 @@ the ring terms, the transverse $\eh$ BSE provides the crossed-ring terms, and
 the $\pp$ BSE provides the ladder terms.  The three are not solved with three
 independent amplitudes.  They are evaluated with the same antisymmetric
 $t_{ij}^{ab}$.  The mosaic terms take care of the one-body renormalization.
-With these ingredients, the bare-kernel parquet construction and CCD give the
-same doubles equation.
+With these ingredients, the bare-kernel common-amplitude construction
+reproduces the CCD doubles equation.
 
 It is worth stressing what would go wrong if the three RPA problems were
 solved independently.  In that case one would obtain three different
@@ -1288,81 +1334,55 @@ comes from the common-amplitude closure, not from solving three unrelated RPA
 problems.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Updating the parquet kernels: beyond CCD}
+\section{Beyond CCD: what a parquet update requires}
 \label{sec:beyond_ccd}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-The previous section suggests a natural next step.  At the first stage, keep
-all three kernels equal to the bare interaction and converge the common
-amplitude.  This gives the CCD solution.  Once this amplitude is converged,
-use the three channel pieces to update the parquet kernels,
+The distinction between $\Phi^r$ and $\Xi^r$ becomes essential beyond the
+bare-kernel construction.  The quantities $\Xi^r[\bt;\Gamma^r]$ are pieces of
+the common-amplitude Riccati residual.  They cannot simply be inserted into
+the parquet kernel identities
 \begin{align}
-    \Gamma^{\eh,(n+1)}
+    \Gamma^\eh
     &=
-    \Lambda
-    +
-    \Phi^{\teh,(n)}
-    +
-    \Phi^{\pp,(n)},
-    \label{eq:kernel_update_eh}
+    \Lambda+\Phi^{\teh}+\Phi^\pp,
     \\
-    \Gamma^{\teh,(n+1)}
+    \Gamma^{\teh}
     &=
-    \Lambda
-    +
-    \Phi^{\eh,(n)}
-    +
-    \Phi^{\pp,(n)},
-    \label{eq:kernel_update_teh}
+    \Lambda+\Phi^\eh+\Phi^\pp,
     \\
-    \Gamma^{\pp,(n+1)}
+    \Gamma^\pp
     &=
-    \Lambda
-    +
-    \Phi^{\eh,(n)}
-    +
-    \Phi^{\teh,(n)}.
-    \label{eq:kernel_update_pp}
+    \Lambda+\Phi^\eh+\Phi^{\teh},
 \end{align}
-The new kernels are then frozen, and the common amplitude equation
+because those equations require the genuine four-point reducible vertices.
+
+For a fixed static channel kernel, the required object is obtained from the
+channel BSE itself,
 \begin{equation}
-    \mathcal R[
-        \bt;
-        \Gamma^{\eh,(n+1)},
-        \Gamma^{\teh,(n+1)},
-        \Gamma^{\pp,(n+1)}
-    ]
+    \Phi^r(\omega)
     =
-    0
-    \label{eq:inner_t_solve}
+    \Gamma^r
+    \left[
+        \left(L_0^r\right)^{-1}(\omega)-\Gamma^r
+    \right]^{-1}
+    \Gamma^r,
+    \label{eq:Phi_for_kernel_update}
 \end{equation}
-is converged again.  Only after this inner solve is finished are the kernels
-updated once more.
+which is Eq.~\eqref{eq:Phi_resolvent_exact}.  A genuine parquet iteration
+would use these $\Phi^r$ objects in the three kernel identities above.
+However, Eq.~\eqref{eq:Phi_for_kernel_update} also makes clear that a static
+input kernel generally produces a frequency-dependent reducible vertex, so a
+full parquet update does not remain within the static-kernel manifold.  A
+static implementation would therefore require an additional, explicitly
+defined frequency projection or static approximation.
 
-The two-body self-consistency therefore has a simple nested structure,
-\begin{equation}
-    \Gamma^{r,(n)}
-    \longrightarrow
-    \bt^{(n)}
-    \longrightarrow
-    \Phi^{r,(n)}
-    \longrightarrow
-    \Gamma^{r,(n+1)}.
-    \label{eq:nested_two_body_loop}
-\end{equation}
-At $n=0$, $\Gamma^{r,(0)}=\Lambda$ and the inner problem is CCD.  Later
-iterations dress the channel kernels and therefore go beyond ordinary CCD.
-Keeping the inner amplitude solve and the outer kernel update separate makes
-the logic of the approximation much easier to follow.
-
-There is, however, an important point that should not be hidden.  The equality
-with CCD is exact only in the bare-kernel limit described above.  Once the
-kernels are dressed, Eq.~\eqref{eq:common_amplitude_equation} defines a
-CC-parametrized parquet extension.  Its detailed relation to conventional
-static parquet theory has to be checked by comparing the diagrams generated
-at each order.  In particular, one must make sure that the common-amplitude
-closure and the kernel update do not count the same mixed-channel diagrams
-more than once.
+One may instead consider feeding the Riccati quantities $\Xi^r[\bt]$ back
+into effective static kernels.  Such a procedure could be useful, but it
+would define a distinct CC-parametrized channel-feedback approximation rather
+than the standard parquet equations.  Its diagrammatic content and possible
+double counting would have to be established separately.  We therefore do
+not identify $\Xi^r$ with $\Phi^r$ in the present notes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{One-shot quasiparticle energies}
@@ -1385,8 +1405,9 @@ order is therefore
 \end{equation}
 For a one-shot calculation, only the diagonal self-energy elements are needed.
 The screened couplings entering $\Sigma_{pp}(\omega)$ can be constructed from
-the channel BSE eigenvectors and eigenvalues, or equivalently from the
-corresponding channel resolvents.  In the present construction, the two-body
+the channel BSE eigenvectors and eigenvalues, or equivalently from the genuine
+channel resolvents entering $\Phi^r(\omega)$ in
+Eq.~\eqref{eq:Phi_resolvent_exact}.  In the present construction, the two-body
 problem is solved first; the spectral information required for the self-energy
 is reconstructed only afterwards.
 
@@ -1427,18 +1448,21 @@ $\pp$ representations to use the same antisymmetric $t_{ij}^{ab}$ then ties
 the three channels together.
 
 In this language, the familiar pieces of CCD have a simple origin.  The free
-term $\Delta$ comes from the inverse two-particle propagator $L_0^{-1}$.  The
-bare doubles driver comes from the fully irreducible interaction $\Lambda$.
-The direct $\eh$, transverse $\eh$, and $\pp$ Riccati equations generate the
-ring, crossed-ring, and ladder terms.  The mosaic terms complete the one-body
-part.  With bare kernels, these pieces reproduce the projected CCD equation.
+term $\Delta$ comes from the inverse two-particle propagator $L_0^{-1}$ and
+appears with the same sign in all three channel representations.  The bare
+doubles driver comes from the fully irreducible interaction $\Lambda$.  The
+direct $\eh$, transverse $\eh$, and $\pp$ Riccati equations generate the
+three interaction contributions $\Xi^r$, which become the ring,
+crossed-ring, and ladder terms for bare kernels.  The mosaic terms complete
+the one-body part.  Combining these common and channel-specific pieces once
+reproduces the projected CCD equation.
 
-The same construction also points toward a broader theory.  One can first
-converge the common amplitude for fixed kernels, then update those kernels
-with the converged channel contributions, and repeat.  The first inner solve
-is CCD; subsequent outer iterations add parquet dressing.  Establishing the
-precise diagrammatic content of this kernel-updated common-amplitude theory is
-the next step.
+The genuine parquet vertices remain the frequency-dependent quantities
+$\Phi^r(\omega)$ obtained from the channel BSE resolvents.  They should not
+be identified with the Riccati-space quantities $\Xi^r[\bt]$.  A controlled
+extension beyond CCD therefore requires either retaining the full dynamical
+$\Phi^r$ in the parquet kernel updates or specifying an additional static
+projection.  Determining the most useful closure is the next step.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{parquet-mr-hedin}
