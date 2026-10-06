@@ -2186,22 +2186,22 @@ $\pp$ pair & $T$ matrix & $G_0T_0$@ppRPA (one-shot) & yes & yes & \citenum{Zhang
  & $T$ matrix & generalized $T$ matrix (self-consistent, Gorkov) & yes & yes & \citenum{Bozek2002,Bozek2003} \\
 \addlinespace
 $\pp$ pair, screened kernel & screened $T$ matrix & screened ladder ($W$ in the rungs) & -- & in general no & \citenum{Kraeft1986,Kremp2005,Bonitz2016} \\
- & screened $T$ matrix & screened $T$ matrix I & yes & in general no & \citenum{Romaniello2012} \\
  & screened $T$ matrix & $\pp$ Hedin vertex corrections (perturbative in $T$) & yes & not discussed & \citenum{Marie2024a} \\
 \addlinespace
 $\eh$ pair & $GW$ & $GW$ & no ($\Sigma^{(2)}_{\rm D}$ only) & yes & \citenum{Hedin1965} \\
  & $\eh$ $T$ matrix & $\eh$ $T$ matrix & yes & no & \citenum{orlando2023three} \\
  & $\Sigma^{\rm TDHF}$ + PSD & PSDI & no & yes & \citenum{Pavlyukh2026} \\
  & $\Sigma^{\rm TDHF}$ + PSD & PSDII ($\Sigma_{\eh}$) & no & yes & \citenum{Pavlyukh2026} \\
- & vertex in $W$ only & $GW$ with TDDFT, BSE or EOM-CCSD screening & no ($\Sigma^{(2)}_{\rm D}$ only) & yes & \citenum{Shishkin2007,Chen2015,Lewis2019} \\
+ & vertex in $W$ only & $GW$ with beyond-RPA screening & no ($\Sigma^{(2)}_{\rm D}$ only) & yes & \citenum{Shishkin2007,Chen2015,Cunningham2018,Cunningham2023,Bruneval2021,Lewis2019} \\
 \addlinespace
-channel sums & $GW$ + $T$ matrix & FLEX & yes & no & \citenum{Bickers1989,Bickers1989b,Bickers2004} \\
+channel sums & $GW$ + $T$ matrix & FLEX & yes & no & \citenum{Bickers1989,Bickers1989b,Bickers2004,MarieLoos2025} \\
  & $GW$ + $T$ matrix & $GW+T$ & yes & no & \citenum{Springer1998,Zhukov2004} \\
+ & $GW$ + $T$ matrix & statically screened FLEX (Hedin form) & yes & no & \citenum{Cunningham2024} \\
  & charge + spin ladders & ladder D$\Gamma$A, TPSC (lattice models) & -- & -- & \citenum{Toschi2007,Katanin2009,Vilk1997} \\
  & $GW$ + spin-flip ladder & $GWT$ (magnons) & -- & -- & \citenum{Muller2019,Nabok2021} \\
 \addlinespace
 channels coupled & all channels & dynamically screened ladder ($g_{123}\to0$) & yes & no guarantee & \citenum{Joost2022,Bonitz2024} \\
- & all channels & parquet (static kernels) & yes & no guarantee & \citenum{MarieLoos2025} \\
+ & all channels & parquet (static reducible vertices, TDA) & yes & no guarantee & \citenum{MarieLoos2025} \\
  & all channels & parquet approximation (lattice models) & yes & no guarantee & \citenum{Bickers1991,Yang2009} \\
 \addlinespace
 three-particle & Faddeev & real-time Faddeev (NEGF, bare $v$) & yes & not discussed & \citenum{Pavlyukh2021,Pavlyukh2022a} \\
@@ -2213,9 +2213,11 @@ PSD completions & vertex-corrected $GW$ & half-diagram squares ($GW$ + vertex) &
 \addlinespace
 non-PSD vertex & $G3W2$-type & SOSEX & yes & no & \citenum{Ren2015} \\
  & $G3W2$-type & 2SOSEX & yes & no & \citenum{Bruneval2024} \\
- & $G3W2$-type & $G3W2$ & yes & no & \citenum{Kutepov2016,Bruneval2024} \\
+ & $G3W2$-type & $G3W2$ & yes & no & \citenum{Kutepov2016,Bruneval2024,Pokhilko2025,Wang2026} \\
  & $G3W2$-type & statically screened $G3W2$ & yes & no & \citenum{Gruneis2014,Forster2022} \\
- & $GW\Gamma$ & $GW\Gamma$ (first-order vertex) & yes & no & \citenum{Maggio2017,Forster2024} \\
+ & $G3W2$-type & screened $T$ matrix as vertex & yes & no & \citenum{Romaniello2012} \\
+ & $GW\Gamma$ & $GW\Gamma$ (TDHF vertex, $\Sigma^{\rm TDHF}$) & yes & no & \citenum{Kuwahara2014,Kuwahara2016,Maggio2017,Vacondio2024,Forster2024} \\
+ & $GW\Gamma$ & $GW\Gamma$ (BSE vertex, $\Sigma^{\rm BSE}$) & yes & no & \citenum{Forster2024,Forster2025} \\
  & $GW\Gamma$ & $GW\Gamma$ (local TDDFT vertex) & no & no & \citenum{DelSole1994,Bruneval2005,Schmidt2017} \\
 \addlinespace
 extended CC & vertex-corrected $GW$ & ECC exchange corrections & no ($\Sigma^{(2)}_{\rm D}$ only) & not discussed & \citenum{tolle2026connection} \\
