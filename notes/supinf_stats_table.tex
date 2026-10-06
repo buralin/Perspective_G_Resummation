@@ -1,29 +1,44 @@
 \begin{table}[hbt!]
 \centering
-\caption{Errors (eV) with respect to sCI over the 49 states of Table~\ref{tab:supinf_ips} with a value for every method, and MAD over their 20 first IPs.}
+\caption{Errors (eV) with respect to sCI over the 48 states of Table~\ref{tab:supinf_ips} with a value for every method, and MAD over their 20 first IPs.}
 \label{tab:supinf_stats}
 \footnotesize
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \toprule
- & MAD & MSE & max & \makecell{MAD\\first IP} \\
+ & N & MAD & MSE & max & \makecell{MAD\\first IP} \\
 \midrule
-ADC(3) & 0.31 & $+0.31$ & 1.12 & 0.26 \\
-CCD-ADC(3) & 0.28 & $+0.27$ & 0.74 & 0.23 \\
-EN-ADC(3) & 0.07 & $-0.01$ & 0.25 & 0.05 \\
-Faddeev-ADC(3) RPA & 2.02 & $+2.00$ & 21.03 & 1.54 \\
-Faddeev-ADC(3) T1 & 0.33 & $+0.32$ & 1.39 & 0.29 \\
-Faddeev-ADC(3) T0 & 0.53 & $+0.48$ & 3.47 & 0.28 \\
-FLEX RPA & -- & -- & -- & -- \\
-FLEX T1 & -- & -- & -- & -- \\
-FLEX T0 & -- & -- & -- & -- \\
-PSD1 & 0.51 & $-0.15$ & 2.88 & 0.35 \\
-PSD1 $-D/4-X$ & 0.29 & $-0.07$ & 1.64 & 0.19 \\
-PSD2 & 2.28 & $-1.59$ & 8.30 & 1.83 \\
-PSD2 $-$GF2 & 1.61 & $-0.62$ & 5.39 & 1.40 \\
-PSD2 T1 $-$GF2 & 1.40 & $-1.32$ & 4.44 & 1.14 \\
-$GW$ & 0.52 & $+0.49$ & 2.14 & 0.44 \\
-GF2 & 0.79 & $-0.66$ & 1.94 & 0.78 \\
+ADC(3) & 48 & 0.30 & $+0.30$ & 1.12 & 0.26 \\
+CCD-ADC(3) & 48 & 0.27 & $+0.26$ & 0.71 & 0.23 \\
+EN-ADC(3) & 48 & 0.07 & $-0.01$ & 0.25 & 0.05 \\
+Faddeev-ADC(3) RPA$^{a}$ & 48 & 2.05 & $+2.03$ & 21.03 & 1.54 \\
+Faddeev-ADC(3) T1 & 48 & 0.33 & $+0.31$ & 1.39 & 0.29 \\
+Faddeev-ADC(3) T0 & 48 & 0.51 & $+0.45$ & 3.47 & 0.28 \\
+CCD-Faddeev-ADC(3) & 48 & 0.19 & $+0.11$ & 1.08 & 0.14 \\
+FLEX RPA & 48 & 1.42 & $-0.33$ & 5.87 & 1.24 \\
+FLEX T1 & 48 & 1.09 & $-1.01$ & 3.96 & 0.85 \\
+FLEX T0 & 48 & 0.49 & $+0.44$ & 3.24 & 0.27 \\
+PSD1 & 48 & 0.51 & $-0.17$ & 2.88 & 0.35 \\
+PSD1 $-D/4-X$ & 48 & 0.29 & $-0.08$ & 1.64 & 0.19 \\
+PSD2 & 48 & 2.16 & $-1.45$ & 5.84 & 1.83 \\
+PSD2 $-$GF2 & 48 & 1.60 & $-0.59$ & 5.39 & 1.40 \\
+PSD2 T1 $-$GF2 & 48 & 1.38 & $-1.29$ & 4.44 & 1.14 \\
+CCSD & 48 & 0.16 & $+0.09$ & 0.86 & 0.08 \\
+$GW$ & 48 & 0.52 & $+0.50$ & 2.14 & 0.44 \\
+GF2 & 48 & 0.78 & $-0.66$ & 1.94 & 0.78 \\
+\midrule
+\multicolumn{6}{l}{All 56 states with an sCI value (23 first IPs), C$_2$, BN and F$_2$ included} \\
+\midrule
+ADC(3) & 56 & 0.33 & $+0.31$ & 1.12 & 0.28 \\
+CCD-ADC(3) & 56 & 0.29 & $+0.29$ & 0.77 & 0.24 \\
+EN-ADC(3) & 56 & 0.09 & $-0.01$ & 0.64 & 0.06 \\
+CCD-Faddeev-ADC(3) & 56 & 0.27 & $+0.17$ & 1.96 & 0.20 \\
+CCSD & 56 & 0.17 & $+0.11$ & 1.08 & 0.10 \\
+$GW$ & 56 & 0.53 & $+0.49$ & 2.14 & 0.45 \\
 \bottomrule
 \end{tabular}
+\par\smallskip
+{\raggedright\footnotesize
+$^a$ Faddeev-ADC(3) RPA for BF and CH$_2$O. The TDHF triplet channel is close to unstable (lowest triplet excitation 1.4 and 2.1 eV). The Davidson root of the HOMO (BF) and of 1b$_1$ (CH$_2$O) does not converge, so the entries are the remaining converged roots in energy order, not assigned states.\par
+}
 \end{table}
 

@@ -16,6 +16,7 @@
 \urlstyle{same}
 
 \DeclareUnicodeCharacter{0308}{\"{}}
+\DeclareUnicodeCharacter{2212}{-}
 
 
 \newcommand{\ie}{\textit{i.e.}}
@@ -92,7 +93,7 @@ constructions of the self-energy. First, we show that the
 single-particle Green's function is naturally
 expressed in terms of the three-particle Green's
 function through the Martin--Schwinger hierarchies of
-equations of motion for $n$-th order Green's functions.
+equations of motion for $n$th-order Green's functions.
 We then introduce the Faddeev decomposition of the 
 three-particle vertex and show that it naturally leads to 
 the parquet approximation of the self-energy. 
@@ -144,8 +145,7 @@ of the phonons, the ring-CCD ($\eh$) and ladder-CCD ($\pp$) amplitudes
 of the channels.\cite{Scuseria2013} The hierarchy is
 $\text{ADC(3)}\subset\text{FRPA}\subset\text{parquet}$ for the dynamic
 self-energy. At fourth order, the crossed channels, the overlaps and the
-line dressing are added in the $\ppphh$ space
-(Sec.~\ref{sec:overlap}).
+line dressing are added in the $\ppphh$ space.
 
 Three approximations are made by construction. The parquet
 approximation, $\Lambda=\Lambda^{(1)}$, keeps $F$ exact through third
@@ -186,9 +186,9 @@ $\Lambda^{(\le4)}$ $+$ $\Xi_{\rm 3B}^{(\le4)}$
 \end{ruledtabular}
 \end{table}
 
+\section{Faddeev Approach to the Self-Energy}
 
-
-\section{Martin--Schwinger Equations}
+\subsection{Martin--Schwinger Equations}
 \label{sec:MS}
 Let us define the $n$-particle Green's function as 
 \begin{equation}
@@ -209,7 +209,7 @@ G_n(1\ldots n;1'\ldots n')
 with $\hat{\psi}$ in the Heisenberg picture.
 $G_n$ might be expressed in terms of $G_{n-1}$ and
 $G_{n+1}$ through the
-Martin--Schwinger hierarchy,
+Martin--Schwinger hierarchy,\cite{Martin1959}
 \begin{align}
 &
 \left[
@@ -316,11 +316,12 @@ self-energy according to
 	G^{-1}(\bar3 1') \;.
 	\label{eq:SDE_G2}
 \end{equation}
-\section{Eliminating $G_2$}
+
+\subsection{Eliminating $G_2$}
 \label{sec:eliminating}
 We can now use Eq.~\eqref{eq:Martin_Schwinger_G2}
 to eliminate the dependence of 
-Eq.~\eqref{eq:SDE_G2} in favour of $G_3$. 
+Eq.~\eqref{eq:SDE_G2} on $G_2$ in favor of $G_3$. 
 $G_4$ might be eliminated as well, 
 and Eq.~\eqref{eq:SDE_G2} can be expressed in terms 
 of $G_3$ and $G_5$, or, more generally, in terms 
@@ -415,9 +416,8 @@ G(12')\,G(21')
 As in $G_3$, all
 three lines run from the second to the first triple. From here on, the
 first triple of $R$ is ordered as in Eq.~\eqref{eq:D_pph}, with the line 3 of $\mathcal G$ in the first slot. The second triple keeps the order $(1'2'3')$, so that line 3 runs from the last slot of the second triple to the first slot of the first.
-Which parts of $G_3$ are contained in $R$ is shown in App.~\ref{app:R_content}.
 
-\section{Faddeev Decomposition}
+\subsection{Faddeev Decomposition}
 \label{sec:Faddeev}
 The kernel $\Xi$ of the Dyson equation for $R$ is split into the Faddeev
 (pairwise-reducible) part and the 3-body irreducible kernel
@@ -577,20 +577,23 @@ incoming legs of $Y$ in $\cK_\alpha[Y]$, \ie\ all three pairs scatter
 in the $\pp$ channel of $R$.
 In $\Sigma^{c}$, Eq.~\eqref{eq:Sigma_3}, line 3 becomes the hole for
 $t_{1'}<t_1$ (block II) or the particle for $t_1<t_{1'}$ (block I). The
-pairs $(31)$ and $(32)$ then give the ring-type self-energy diagrams,
-labelled $\eh$ and $\teh$ below.
+pair $(12)$ then gives the ladder-type self-energy diagrams of the $\pp$
+channel, and the pairs $(31)$ and $(32)$ give the ring-type diagrams of
+the $\eh$ and $\teh$ channels. From here on, we label the pairs by these
+channels, $\alpha\in\{\pp,\eh,\teh\}$ for $(12)$, $(31)$ and $(32)$.
 
 Eq.~\eqref{eq:K_pairs} is exact at first order, where all
-vertices are $\Gamma^{(1)}$. Beyond first order, iterating $\cK_{3x}[\Gamma^{\pp}]$ alone would
-count the rungs of the ladders in the pairs $(31)$ and $(32)$ twice,
-since $\mathcal G$ is not antisymmetrized in the lines 3 and $x$. The $\pp$ channel of $R$ in the pair $(3x)$ is the $\eh$ channel of $F$, whose ladder $\Phi^{\eh}$ is already contained in $\Gamma^{\pp}$.\cite{Degroote2011} We therefore
+vertices are $\Gamma^{(1)}$. Beyond first order, iterating $\cK_{\eh}[\Gamma^{\pp}]$ or $\cK_{\teh}[\Gamma^{\pp}]$ alone
+would count the rungs of the ladders in these pairs twice,
+since $\mathcal G$ is not antisymmetrized in the lines 3 and 1 (3 and 2). The $\pp$ channel of $R$ in these pairs is the $\eh$ channel of $F$, whose ladder $\Phi^{\eh}$ is already contained in $\Gamma^{\pp}$.\cite{Degroote2011} We therefore
 replace $\Gamma^{\pp}$ in $\cK_\alpha$ by a pair vertex $\Gamma_\alpha$,
 fixed such that the pair $\alpha$ alone reproduces its full two-body
-scattering $F$. For the pair $(12)$, $\Gamma_{12}=\Gamma^{\pp}$, and at
+scattering $F$. For the $\pp$ pair, $\Gamma_{\pp}=\Gamma^{\pp}$, and at
 first order $\Gamma_\alpha=\Gamma^{(1)}$ for all pairs. Their explicit form is not needed,
 since only $F$ appears in the Faddeev form derived next.
 
 \subsection{\label{sec:Faddeev_form}Faddeev form of Eq.~\eqref{eq:Sigma_3}: the ADC--parquet link}
+\subsubsection{The Faddeev Series}
 Eq.~\eqref{eq:K_pairs} contains the pair-irreducible vertex
 $\Gamma^{\pp}$ in all three pairs.
 The aim of this subsection is to rewrite $R$ in Eq.~\eqref{eq:Sigma_3} such
@@ -625,7 +628,7 @@ for $R_\alpha$ gives
 \begin{aligned}
 R
 = &
-\mathcal G+R_{12}+R_{31}+R_{32} \;,
+\mathcal G+R_{\pp}+R_{\eh}+R_{\teh} \;,
 \\
 R_\alpha
 = &
@@ -675,8 +678,7 @@ R
 \end{equation}
 in which consecutive pairs are always different (Fig.~\ref{fig:Faddeev_runs}).
 Eq.~\eqref{eq:Faddeev_series} is the starting point for two
-approximations. Truncated at fixed order in $v$, it gives GF$n$ and, with Schirmer's matching, ADC($n$), which we
-need for the fourth-order completion in Sec.~\ref{sec:overlap}. Keeping
+approximations. Truncated at fixed order in $v$, it gives GF$n$ and, with Schirmer's matching, ADC($n$). Keeping
 only the own-channel ladders without overlaps, but to all orders, gives
 Eq.~\eqref{eq:Faddeev_series_oc}, from which an effective Hamiltonian is 
 derived in Sec.~\ref{sec:parquet_Heff}.
@@ -702,12 +704,12 @@ derived in Sec.~\ref{sec:parquet_Heff}.
 \draw[ln,br] (6.6,\ym) -- (-0.3,\ym);
 \draw[vx] (2.6,\ym) -- (2.6,\yt);
 \node[left] at (-0.3,\yt) {3}; \node[left] at (-0.3,\ym) {1}; \node[left] at (-0.3,\yb) {2};
-\node at (0.4,-0.4) {$\Gamma_{12}$}; \node at (1.4,-0.4) {$\Gamma_{12}$};
-\node at (2.6,-0.4) {$\Gamma_{31}$}; \node at (3.8,-0.4) {$\Gamma_{32}$};
-\node at (4.8,-0.4) {$\Gamma_{32}$}; \node at (5.9,-0.4) {$\mathcal G$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (0.1,-0.7) -- (1.7,-0.7) node[midway,below=4pt] {$\subset\cK_{12}[F]$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (2.3,-0.7) -- (2.9,-0.7) node[midway,below=4pt] {$\subset\cK_{31}[F]$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (3.5,-0.7) -- (5.1,-0.7) node[midway,below=4pt] {$\subset\cK_{32}[F]$};
+\node at (0.4,-0.4) {$\Gamma_{\pp}$}; \node at (1.4,-0.4) {$\Gamma_{\pp}$};
+\node at (2.6,-0.4) {$\Gamma_{\eh}$}; \node at (3.8,-0.4) {$\Gamma_{\teh}$};
+\node at (4.8,-0.4) {$\Gamma_{\teh}$}; \node at (5.9,-0.4) {$\mathcal G$};
+\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (0.1,-0.7) -- (1.7,-0.7) node[midway,below=4pt] {$\subset\cK_{\pp}[F]$};
+\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (2.3,-0.7) -- (2.9,-0.7) node[midway,below=4pt] {$\subset\cK_{\eh}[F]$};
+\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (3.5,-0.7) -- (5.1,-0.7) node[midway,below=4pt] {$\subset\cK_{\teh}[F]$};
 \end{scope}
 \node at (7.4,0.5) {$\subset$};
 %------------- row: K12[F] K31[F] K32[F] \mathcal G
@@ -720,13 +722,13 @@ derived in Sec.~\ref{sec:parquet_Heff}.
 \draw[Fb] (1.8,0.38) rectangle (2.6,1.12); \node at (2.2,0.75) {$F$};
 \draw[Fb] (0.2,-0.12) rectangle (1.0,0.62); \node at (0.6,0.25) {$F$};
 \node at (3.8,0.25) {$F$};
-\node at (0.6,-0.4) {$\cK_{12}[F]$}; \node at (2.2,-0.4) {$\cK_{31}[F]$};
-\node at (3.8,-0.4) {$\cK_{32}[F]$}; \node at (4.8,-0.4) {$\mathcal G$};
+\node at (0.6,-0.4) {$\cK_{\pp}[F]$}; \node at (2.2,-0.4) {$\cK_{\eh}[F]$};
+\node at (3.8,-0.4) {$\cK_{\teh}[F]$}; \node at (4.8,-0.4) {$\mathcal G$};
 \end{scope}
 \end{tikzpicture}
 \caption{Regrouping of the iterated Eq.~\eqref{eq:Dyson_pairs} into
 the Faddeev series. Left: one term of the iteration, a sequence of
-pair vertices $\cK_\alpha\big[\Gamma_\alpha\big]$ (thick bars). Right: each run of
+pair vertices $\cK_\alpha\big[\Gamma_\alpha\big]$ (thick bars). Right: each sequence of
 consecutive vertices in the same pair is part of the full two-body
 scattering $\cK_\alpha[F]$ of that pair (shaded box), so that
 consecutive boxes always belong to different pairs.}
@@ -820,9 +822,9 @@ added perturbatively together with the $\ppphh$
 ($\hhhpp$) space.
 Each pair scatters with the own-channel vertex of its channel,
 \begin{equation}
-F_{12}=F^{\pp}_{\rm oc} \;,
+F_{\pp}=F^{\pp}_{\rm oc} \;,
 \qquad
-F_{31}=F_{32}=F^{\eh}_{\rm oc} \;.
+F_{\eh}=F_{\teh}=F^{\eh}_{\rm oc} \;.
 \label{eq:F_alpha}
 \end{equation}
 With these approximations, Eq.~\eqref{eq:Faddeev_series} becomes 
@@ -862,7 +864,7 @@ G^{-1}(\bar3 1') \;.
 \end{aligned}
 \label{eq:Sigma_oc}
 \end{equation}
-We then show, that, with $G_{\rm HF}$ lines, the self-energy becomes
+We then show that, with $G_{\rm HF}$ lines, the self-energy becomes
 \begin{equation}
 	\begin{aligned}
 	\Sigma(\omega) = &
@@ -887,530 +889,73 @@ remains Hermitian as long as its metric is positive definite,
 whereas the Faddeev eigenvalue problem of FRPA is non-Hermitian
 and contains spurious solutions.\cite{Degroote2011}
 
-Evaluating Eq.~\eqref{eq:Sigma_oc} requires the
-propagation of the pairs, free and interacting
-(Sec.~\ref{sec:propagators}), the sequences of
-pairs (Sec.~\ref{sec:depth1}), and the coupling to the external
-vertices (Sec.~\ref{sec:ext_vertices}).
-
-We first introduce some notation.
-We use real canonical spin-orbitals and map numbers to orbitals
-with $1,2,1',2'\to p,q,r,s$.
-Since $\bar v$, Eq.~\eqref{eq:Gamma1_bare}, is instantaneous,
-\begin{equation}
-\bar v(12;1'2')
-\to
-\mel{pq}{}{rs}\,
-\delta(t_1-t_2)\,\delta(t_1-t_{1'})\,\delta(t_2-t_{2'}),
-\label{eq:vbar_orbital}
-\end{equation}
-with
-\begin{equation}
-\mel{pq}{}{rs} =
-\braket{pq}{rs}-\braket{pq}{sr} \;.
-\label{eq:mel_def}
-\end{equation}
-The antisymmetrizer of a pair of indices is
-\begin{equation}
-\hat P^-_{ab}=1-\hat P_{ab} \;,
-\label{eq:Pminus}
-\end{equation}
-where $\hat P_{ab}$ exchanges $a$ and $b$.
-In canonical spin-orbitals $p$ with energies $\eps_p$, occupations
-$n_p$ ($n_i=1$, $n_a=0$, $\bar n_p=1-n_p$), and
-$\sigma_p=\bar n_p-n_p$, the HF Green's function is
-\begin{equation}
-	\label{eq:GHF_omega}
-G_{{\rm HF},p}(\omega)
-=
-\frac{\bar n_p}{\omega-\eps_p+\ii0^+}
-+
-\frac{n_p}{\omega-\eps_p-\ii0^+}.
-\end{equation}
-
-\subsection{Pair propagators}
-\label{sec:propagators}
-In Eq.~\eqref{eq:Faddeev_series_oc}, each term
-$\cK_\alpha\mathcal G$ lets the pair $\alpha$ scatter through its
-own-channel ladder, Eq.~\eqref{eq:BSE_oc}, while the third line
-propagates freely. This means, key to the evaluation of this expression 
-are the pair propagators. 
-
-The non-interacting particle-particle propagator is 
-\begin{equation}
-	\label{eq:L_pp}
-	L^{\pp}_0(12;1'2')=G(11')G(22')-G(12')G(21') \;,
-\end{equation}
-and performing the frequency integrations,
-\begin{equation}
-\label{eq:L0pp_omega}
-\begin{aligned}
-L^{\pp}_{0,xy}(\Omega)
-= &
-\int\frac{\dd\nu}{2\pi}\,
-G_x(\nu)\,G_y(\Omega-\nu)
-\\
-= &
-\frac{-\ii\sigma_x\,\delta_{\sigma_x\sigma_y}}
-{\Omega-(\eps_x+\eps_y)+\ii\sigma_x0^+} \;,
-\end{aligned}
-\end{equation}
-with its indices restricted to 
-$(xy)\in\big\{(cd),\,c<d\big\}\cup\big\{(kl),\,k<l\big\}$.
-The particle-hole propagator is
-\begin{equation}
-\label{eq:L_eh}
-L^{\eh}_0(31;1'3')=G(33')G(11') \;.
-\end{equation}
-After performing the frequency integrations, we obtain
-\begin{equation}
-\label{eq:L0eh_omega}
-\begin{aligned}
-L^{\eh}_{0,xr}(\Omega)
-= & 
-\int\frac{\dd\nu}{2\pi}\,
-G_x(\nu)\,G_r(\nu+\Omega)
-\\
-= &
-\frac{\ii\sigma_r\,\delta_{\sigma_x,-\sigma_r}}
-{\Omega-(\eps_r-\eps_x)+\ii\sigma_r0^+} \;,
-\end{aligned}
-\end{equation}
-with its indices restricted to 
-$(xr)\in\big\{(ia)\big\}\cup\big\{(ai)\big\}$.
-
-The interacting propagators follow from the own-channel BSEs,
-Eq.~\eqref{eq:BSE_oc}. Restricting the $\pp$ pairs to $c<d$, $k<l$
-absorbs the $\tfrac12$ of the $\pp$ BSE, and
-$\ii\Gamma^{(1)}_{pqrs}=\mel{pq}{}{rs}$ by Eqs.~\eqref{eq:Gamma1_bare}
-and \eqref{eq:vbar_orbital}. With the metric
-$\eta^{\lambda}={\rm diag}(\bI,-\bI)$, the $\eh$ propagator is
-\begin{equation}
-	\label{eq:TDHF}
-L^{\eh}(\Omega)
-= 
-\ii\big(\Omega\,\eta^{\eh}-\mathbf H^{\eh}\big)^{-1} \;,
-\end{equation}
-with 
-\begin{equation}
-\mathbf H^{\eh}
-=
-\begin{pmatrix}
-A^{\eh} & B^{\eh}\\ B^{\eh} & A^{\eh}
-\end{pmatrix} \;,
-\end{equation}
-and the matrix elements 
-\begin{align}
-A^{\eh}_{ia,jb}
-= & 
-(\eps_a-\eps_i)\,\delta_{ab}\delta_{ij}+\mel{aj}{}{ib},
-\nonumber\\
-B^{\eh}_{ia,jb}
-= &
-\mel{ab}{}{ij} \;.
-\end{align}
-The eigenvalues of $\eta^{\eh}\mathbf H^{\eh}$ come in pairs
-$\pm\Omega_n$, with eigenvectors $Z_n=(X_n,Y_n)$ and
-$\tilde Z_n=(Y_n,X_n)$.
-The spectral representation 
-of the interacting first-order propagator is therefore
-\begin{equation}
-L^{\eh}(\Omega)
-=
-\ii\sum_{\Omega_n>0}
-\bigg[
-\frac{Z_nZ_n^\dagger}{\Omega-\Omega_n+\ii0^+}
--
-\frac{\tilde Z_n\tilde Z_n^\dagger}{\Omega+\Omega_n-\ii0^+}
-\bigg].
-\label{eq:L_eh_phonons}
-\end{equation}
-In the $\pp$ channel,
-\begin{equation}
-L^{\pp}(\Omega)
-=  
--\ii\big(\Omega\,\eta^{\pp}-\mathbf H^{\pp}\big)^{-1} \;,
-\end{equation}
-with
-\begin{equation}
-\mathbf H^{\pp}
-= 
-\begin{pmatrix}
-A^{\pp} & B^{\pp}\\ B^{\pp\dagger} & D^{\pp}
-\end{pmatrix}
-\end{equation}
-and 
-\begin{align}
-A^{\pp}_{cd,ef}
-= &
-(\eps_c+\eps_d)\,\delta_{ce}\delta_{df}+\mel{cd}{}{ef},
-\nonumber\\
-B^{\pp}_{cd,kl}
-= &
-\mel{cd}{}{kl},
-\nonumber\\
-D^{\pp}_{kl,mn}
-= &
--(\eps_k+\eps_l)\,\delta_{km}\delta_{ln}+\mel{kl}{}{mn} \;.
-\label{eq:ppRPA}
-\end{align}
-Unlike in the $\eh$-case, the spectrum of 
-$\eta^{\pp}\mathbf H^{\pp}$ is not symmetric. With the eigenvectors
-$Z_n=(X_n,Y_n)$, the positive-norm eigenvectors are the
-$N+2$ states ($\Omega^+_n$), the negative-norm ones the $N-2$ states
-($\Omega^-_m$). The interacting particle-particle propagator is 
-\begin{equation}
-\label{eq:L_pp_phonons}
-L^{\pp}(\Omega)
-= 
--\ii\sum_{n\in N+2}
-\frac{Z_nZ_n^\dagger}{\Omega-\Omega^{+}_n+\ii0^+}
-+
-\ii\sum_{m\in N-2}
-\frac{Z_mZ_m^\dagger}{\Omega-\Omega^{-}_m-\ii0^+} \;.
-\end{equation}
-
-Let us now turn to the three-particle propagators.
-First, we note that the terms 
-of Eq.~\eqref{eq:Faddeev_series_oc} with one interacting pair
-can be written as
+\subsection{Resummation of the no-overlap own-channel Faddeev series}
+\label{sec:depth1}
+Our first goal is to evaluate the terms 
+of Eq.~\eqref{eq:Faddeev_series_oc} up to first order in 
+$\cK_\alpha$. 
+It is convenient to rewrite these contributions as
 \begin{equation}
 	\label{eq:one_pair_split}
 \mathcal G+\sum_\alpha\cK_\alpha[F_\alpha]\,\mathcal G
 =
 \sum_\alpha\Big(\mathcal G+\cK_\alpha[F_\alpha]\,\mathcal G\Big)
--2\,\mathcal G \;.
+-2\,\mathcal G \;,
 \end{equation}
-This means that we can focus on a single pair at a time.
-For the pair $(12)$,
-Eqs.~\eqref{eq:D_pph}, \eqref{eq:pair_ops} and \eqref{eq:L_pp} 
-give
+which can then be evaluated channel by channel. The terms 
+inside the sum over $\alpha$ are interacting single-channel
+three-particle propagators, for which we introduce the shorthand 
+$Q_{\alpha}$, 
 \begin{equation}
-\begin{aligned}
-\mathcal G+\cK_{12}\big[F^{\pp}_{\rm oc}\big]\mathcal G
-={}&
-G(33')\Big[L^{\pp}_0
--\tfrac14\,L^{\pp}_0F^{\pp}_{\rm oc}L^{\pp}_0\Big](12;1'2')
-\\
-={}&
-G(33')\,L^{\pp}(12;1'2') \;,
-\end{aligned}
-\label{eq:one_pair_pp}
+	\label{eq:Q_alpha}
+	Q_\alpha = \mathcal G+\cK_\alpha[F_\alpha]\,\mathcal G \;,
+\end{equation} 
+so that 
+\begin{equation}
+	\mathcal G+\sum_\alpha\cK_\alpha[F_\alpha]\,\mathcal G = 
+	\sum_{\alpha} Q_{\alpha} - 2 \mathcal G \;.
+	\label{eq:R_FLEX_def}
 \end{equation}
-Working out the frequency integral with
-Eqs.~\eqref{eq:GHF_omega} and \eqref{eq:L_pp_phonons}, we obtain
+Truncating the Faddeev series, Eq.~\eqref{eq:Faddeev_series_oc}, after
+these terms is the one-shot FLEX approximation\cite{Bickers1989,Bickers2004}
+(Sec.~\ref{sec:flex}).
+We also require that these propagators obey a three-particle 
+Dyson-type equation, 
 \begin{equation}
-\begin{aligned}
-Q^{\pp}_{xyr,uwr}(\omega)
-\equiv{}&
-\int\frac{\dd\Omega}{2\pi}\,
-L^{\pp}_{xy,uw}(\Omega)\,G_r(\Omega-\omega)
-\\
-={}&
-n_r\sum_{n\in N+2}
-\frac{Z^n_{xy}Z^{n}_{uw}}{\omega+\eps_r-\Omega^{+}_n+\ii0^+}
-\\
-&+
-\bar n_r\sum_{m\in N-2}
-\frac{Z^m_{xy}Z^{m}_{uw}}{\omega+\eps_r-\Omega^{-}_m-\ii0^+} \;.
-\end{aligned}
-\label{eq:Q12_full}
+	Q_\alpha = \mathcal{G} +\mathcal{G} \mathcal C_{\alpha} Q_\alpha \;,
 \end{equation}
-For a hole spectator, $n_r=1$, the pole of $G_r$ lies in the upper
-half-plane together with the $N-2$ poles of $L^{\pp}$, and only the
-$N+2$ solutions survive. For a particle spectator, only the $N-2$
-solutions survive.
-For the pair $(31)$, Eqs.~\eqref{eq:D_pph}, \eqref{eq:pair_ops} and \eqref{eq:L_eh} give
+or
 \begin{equation}
-\begin{aligned}
-\mathcal G+\cK_{31}\big[F^{\eh}_{\rm oc}\big]\mathcal G
-={}&
-G(22')\Big[L^{\eh}_0
-+L^{\eh}_0F^{\eh}_{\rm oc}L^{\eh}_0\Big](31;1'3')
-\\
-&-
-G(21')\Big[L^{\eh}_0
-+L^{\eh}_0F^{\eh}_{\rm oc}L^{\eh}_0\Big](31;2'3')
-\\
-={}&
-G(22')\,L^{\eh}(31;1'3')
--
-G(21')\,L^{\eh}(31;2'3') \;,
-\end{aligned}
-\label{eq:one_pair_eh}
-\end{equation}
-Unlike the pair
-$(12)$, the pair $(31)$ is not antisymmetrized in $\mathcal G$, so that
-the exchange of the lines 1 and 2 appears as the second term. The pair
-$(32)$ follows with $1\leftrightarrow2$.
-Eq.~\eqref{eq:one_pair_eh} defines the three-particle $\eh$ propagator.
-Working out the frequency integral with Eqs.~\eqref{eq:GHF_omega} and
-\eqref{eq:L_eh_phonons},
-\begin{equation}
-\begin{aligned}
-Q^{\eh}_{xrs,yus}(\omega)
-\equiv{}&
-\int\frac{\dd\Omega}{2\pi}\,
-L^{\eh}_{xr,yu}(\Omega)\,G_s(\omega-\Omega)
-\\
-={}&
-\bar n_s\sum_{\Omega_n>0}
-\frac{Z^n_{xr}Z^{n}_{yu}}{\omega-\eps_s-\Omega_n+\ii0^+}
-\\
-&+
-n_s\sum_{\Omega_n>0}
-\frac{\tilde Z^n_{xr}\tilde Z^{n}_{yu}}{\omega-\eps_s+\Omega_n-\ii0^+} \;.
-\end{aligned}
-\label{eq:Q31_full}
-\end{equation}
-For a particle spectator, only the forward phonons $Z_n$ survive; for a
-hole spectator, only the backward ones, $\tilde Z_n$.
-
-\subsubsection{Forward and backward blocks}
-With the shorthand
-\begin{equation}
-	\label{eq:denom_triple}
-\Delta_{xyz}
+	\label{eq:dyson_q}
+Q_\alpha^{-1}
 =
-\eps_x+\eps_y-\eps_z \;,
-\end{equation}
-the zeroth-order matrices and first-order couplings in the restricted
-$\pph$ and $\hhp$ spaces ($a<b$, $i<j$) are
-\begin{align}
-K^{\rm II}_{abi,cdj}
-={}&
-\Delta_{abi}\,\delta_{ac}\delta_{bd}\delta_{ij},
-\qquad
-K^{\rm I}_{ija,klb}
-=
--\Delta_{ija}\,\delta_{ik}\delta_{jl}\delta_{ab},
-\nonumber\\
-U^{{\rm II},(1)}_{p;abi}
-={}&
-\mel{pi}{}{ab},
-\qquad
-U^{{\rm I},(1)}_{p;ija}
-=
-\mel{pa}{}{ij}.
-\label{eq:K_U1}
-\end{align}
-We treat both blocks at once, in the space $\pph\oplus\hhp$ of the
-equal-time three-line states, with
-\begin{equation}
-K=K^{\rm II}\oplus\big(-K^{\rm I}\big) \;,
-\qquad
-U^{(1)}=\big(U^{{\rm II},(1)},\,U^{{\rm I},(1)}\big) \;.
-\label{eq:K_combined}
-\end{equation}
-With $L^{\pp}_0$ in place of $L^{\pp}$, Eq.~\eqref{eq:Q12_full} gives
-the free propagation between two equal-time three-line states,
-\begin{equation}
-\mathcal G(\omega)=\big(\omega-K\big)^{-1} \;,
-\label{eq:G_free}
-\end{equation}
-with $\omega+\ii0^+$ in the $\pph$ and $\omega-\ii0^+$ in the $\hhp$ block. Since the particle number of a
-three-line state is fixed by the order of $t_1$ and $t_{1'}$, all
-propagators below are block-diagonal in $\pph\oplus\hhp$, and the two
-blocks are connected only through the one-particle space.
-
-In the $\pph$ block (block II), the spectator of the pair $(12)$ is the
-hole $i$, and the spectators of the pairs $(31)$ and $(32)$ are the
-particles $b$ and $a$. In the $\hhp$ block (block I), the spectator of
-the pair $(12)$ is the particle $a$, and the spectators of the pairs
-$(31)$ and $(32)$ are the holes $j$ and $i$. The occupation factors of
-Eqs.~\eqref{eq:Q12_full} and \eqref{eq:Q31_full} select the first terms
-in block II and the second terms in block I. Their forward blocks,
-between the configurations $(cd;i)$, $(ia;b)$ in block II and $(kl;a)$,
-$(ai;j)$ in block I, are the propagators of one interacting pair between
-two equal-time three-line states,
-\begin{equation}
-Q_{12}(\omega)
-=
-X^{\pp}\big(\omega+\eps_i-\boldsymbol\Omega^{+}\big)^{-1}X^{\pp\dagger}
-\;\oplus\;
-Y^{\pp}\big(\omega+\eps_a-\boldsymbol\Omega^{-}\big)^{-1}Y^{\pp\dagger} \;,
-\label{eq:Q12}
-\end{equation}
-with the $N+2$ solutions in the first and the $N-2$ solutions in the
-second term, and
-\begin{equation}
-\begin{aligned}
-Q_{31}(\omega)
-={}&
-X^{\eh}\big(\omega-\eps_b-\boldsymbol\Omega\big)^{-1}X^{\eh\dagger}
-\;\oplus\;
-X^{\eh}\big(\omega-\eps_j+\boldsymbol\Omega\big)^{-1}X^{\eh\dagger} \;,
-\\
-Q_{32}(\omega)
-={}&
-X^{\eh}\big(\omega-\eps_a-\boldsymbol\Omega\big)^{-1}X^{\eh\dagger}
-\;\oplus\;
-X^{\eh}\big(\omega-\eps_i+\boldsymbol\Omega\big)^{-1}X^{\eh\dagger} \;,
-\end{aligned}
-\label{eq:Q31}
-\end{equation}
-so that
-\begin{equation}
-\cK_\alpha[F_\alpha]\mathcal G\;\to\;Q_\alpha(\omega)-\mathcal G(\omega) \;.
-\label{eq:KF_to_Q}
-\end{equation}
-In block I, the forward component of the $N-2$ solutions is $Y^{\pp}$,
-and that of the backward phonons $\tilde Z_n=(Y_n,X_n)$ on $(ai)$ is
-$X^{\eh}$. The backward blocks connect the forward configurations to the
-backward configurations of the pair, $(kl;i)$, $(ai;b)$ in block II and
-$(cd;a)$, $(ia;j)$ in block I. They enter only at the external
-vertices, Sec.~\ref{sec:ext_vertices}.
-
-The pair propagators act on labelled lines. In block II, $a$ is on
-line 1, $b$ on line 2 and $i$ on line 3, with $a$ and $b$ unrestricted,
-so that the configurations $(ia;b)$ of $Q_{31}$ and $(ib;a)$ of
-$Q_{32}$ are distinct. In this labelled space, $\mathcal G$ and
-$\sum_\alpha Q_\alpha$ are symmetric under $\hat P_{ab}$, but a single
-pair is not,
-\begin{equation}
-\hat P_{ab}\,Q_{31}\,\hat P_{ab}
-=
-Q_{32} \;.
+\mathcal G^{-1}-\mathcal C_\alpha(\omega) \;.
 \nonumber
 \end{equation}
-The restricted space $a<b$ of Eq.~\eqref{eq:K_U1} is the antisymmetric
-part of the labelled space. For $\hat P_{ab}$-symmetric $R$ and a
-coupling $\mathcal U$ antisymmetric in $a$, $b$, the projection onto
-$a<b$ and Eq.~\eqref{eq:pair_identities} give
-\begin{equation}
-\begin{aligned}
-&\sum_{a<b,i}\sum_{c<d,j}
-\mathcal U_{p;abi}\,R^{a<b}_{abi,cdj}\,\mathcal U^{*}_{q;cdj}
-\\
-&\qquad=
-\frac12\sum_{abi}\sum_{cdj}
-\mathcal U_{p;abi}\,R_{abi,cdj}\,\mathcal U^{*}_{q;cdj} \;,
-\end{aligned}
-\label{eq:labelled_space}
-\end{equation}
-with $R^{a<b}$ the matrix of $R$ between normalized antisymmetric
-states, and block I in the same way. For approximations that keep only
-some of the pairs, $R$ and $\mathcal U$ are no longer symmetric, and we
-define the self-energy by the right-hand side of
-Eq.~\eqref{eq:labelled_space}.
+This serves as a definition for $\mathcal C_\alpha$, as soon 
+as we have specified the explicit form of $Q_\alpha$. 
 
-\subsubsection{Amplitude Form of Propagators}
-In each channel, the RPA eigenvalue problem
-can equivalently be expressed as
-the Riccati equation (see Appendix~\ref{app:Riccati})
+Once we have these propagators at hand, we must evaluate the remaining 
+terms in Eq.~\eqref{eq:Sigma_oc}, i.e. the terms of the form 
 \begin{equation}
-B_\alpha^\dagger+D_\alpha T_\alpha+T_\alpha A_\alpha
-+T_\alpha B_\alpha T_\alpha
-=0 \;.
-\label{eq:Riccati}
+	\cK_{\alpha}[F_\alpha]
+	\cK_{\beta}[F_\beta] \mathcal G \;, \quad \alpha \neq \beta \;, 
 \end{equation}
-Here, $A_\alpha$, $B_\alpha$ and $D_\alpha$ are the blocks of the RPA
-matrix of the channel of the pair,
+and so on. We can rewrite these terms using the identity and
+Eq.~\eqref{eq:Q_alpha}
 \begin{equation}
-\begin{aligned}
-\big(A_{12},B_{12},D_{12}\big)
-={}&
-\big(A^{\pp},B^{\pp},D^{\pp}\big) \;,
-\\
-\big(A_{3x},B_{3x},D_{3x}\big)
-={}&
-\big(A^{\eh},B^{\eh},A^{\eh}\big) \;.
-\end{aligned}
-\label{eq:RPA_blocks}
-\end{equation}
-The Riccati amplitudes map the forward onto the backward components
-(See Ref.~\citenum{tolle2026connection}),
-\begin{equation}
-	\label{eq:T_YX}
-Y_{\alpha} =
-T_{\alpha}X_{\alpha} \;,
-\end{equation}
-so that the backward blocks are $T_\alpha Q_\alpha(\omega)$.
-Eq.~\eqref{eq:Riccati} is
-the ring-CCD ($\eh$) and ladder-CCD ($\pp$) amplitude equation of the
-channel.\cite{Scuseria2013} Each
-channel introduces its own set of 
-amplitudes, but they remain decoupled.
-Full CCD couples them through the
-crossed-ring and mosaic terms of the amplitude
-equation.\cite{Shepherd2014} 
-These couplings play the role of the crossed channels
-that the own-channel approximation neglects.
-The same amplitudes serve both blocks. For the $\eh$ pairs, the forward
-and backward components in block I are again $X^{\eh}$ and $Y^{\eh}$.
-For the $\pp$ pair, the forward component in block I is $Y_-$, and the
-$N+2$ and $N-2$ solutions are $\eta$-orthogonal,
-\begin{equation}
-X_+^\dagger X_-=Y_+^\dagger Y_- \;.
-\nonumber
-\end{equation}
-The block-I amplitudes are therefore
-\begin{equation}
-T^{\rm I}_{3x}=T^{\eh} \;,
-\qquad
-T^{\rm I}_{12}=X_-Y_-^{-1}=T^{\pp\dagger} \;.
-\label{eq:T_blockI}
-\end{equation}
-In each block, the forward components are normalized as
-\begin{equation}
-\big(X_\alpha X_\alpha^\dagger\big)^{-1}=\bI-T_\alpha^\dagger T_\alpha \;,
-\label{eq:X_norm}
-\end{equation}
-and Eqs.~\eqref{eq:Q12} and \eqref{eq:Q31} become
-\begin{equation}
-Q_\alpha(\omega)
-=
-\big(\omega-K-C_\alpha-B_\alpha T_\alpha\big)^{-1}
-\big(\bI-T_\alpha^\dagger T_\alpha\big)^{-1} \;,
-\label{eq:Q_alpha_inverse}
-\end{equation}
-where $C_\alpha$ is the bare vertex of the pair in the three-line space, with $C_{12}+C_{31}+C_{32}$ given by Eqs.~\eqref{eq:C_II} and \eqref{eq:C_I}, and $B_\alpha$ is its RPA coupling block. As $K$, all block-I quantities
-enter with a minus sign,
-\begin{equation}
-\begin{aligned}
-C_\alpha
-={}&
-C^{\rm II}_\alpha\oplus\big(-C^{\rm I}_\alpha\big) \;,
-\\
-B_\alpha T_\alpha
-={}&
-B_\alpha^{\rm II}T_\alpha^{\rm II}\oplus
-\big(-B_\alpha^{\rm I}T_\alpha^{\rm I}\big) \;,
-\end{aligned}
-\label{eq:CB_blocks}
-\end{equation}
-with $B^{\rm I}_{12}=B^{\pp\dagger}$ and $B^{\rm I}_{3x}=B^{\eh}$. Block I
-of Eq.~\eqref{eq:Q_alpha_inverse} thus has the form of ADC,
-\begin{equation}
-Q^{\rm I}_\alpha(\omega)
-=
-\big(\omega+K^{\rm I}+C^{\rm I}_\alpha+B^{\rm I}_\alpha T^{\rm I}_\alpha\big)^{-1}
-\big(\bI-T^{{\rm I}\dagger}_\alpha T^{\rm I}_\alpha\big)^{-1} \;.
-\nonumber
-\end{equation}
-In the Tamm--Dancoff limit, $B_\alpha=0$ and $T_\alpha=0$, and
-\begin{equation}
-Q_\alpha(\omega)
-=
-\big(\omega-K-C_\alpha\big)^{-1} \;,
-\label{eq:Q_TDA}
-\end{equation}
-where $K+C_\alpha$ is the Tamm--Dancoff Hamiltonian of the pair,
-shifted by the spectator energy.
-
-\subsection{Sequences of pairs}
-\label{sec:depth1}
-In the no-overlap brackets of Eq.~\eqref{eq:Faddeev_series_oc},
-consecutive pairs meet at an equal-time three-line state. Its free
-propagation, $\mathcal G(\omega)$, is contained in both neighbouring factors and
-is divided out once,
-\begin{equation}
-\Big[\cK_\alpha\cK_\beta \mathcal G\Big]_{\pph}
-\;\to\;
-\big(Q_\alpha-\mathcal G\big)\mathcal G^{-1}\big(Q_\beta-\mathcal G\big) \;.
-\nonumber
-\end{equation}
-Eq.~\eqref{eq:Faddeev_series_oc} then becomes
+	\begin{aligned}
+	\cK_{\alpha}[F_\alpha]
+	\cK_{\beta}[F_\beta] \mathcal G = &  
+	\cK_{\alpha}[F_\alpha]\mathcal G \mathcal G^{-1}
+	\cK_{\beta}[F_\beta] \mathcal G \\
+	= & 
+	\left(Q_\alpha - \mathcal G\right)	
+	\mathcal G^{-1}
+	\left(Q_\beta - \mathcal G\right) \;,
+	\end{aligned}	
+\end{equation} 
+and therefore, Eq.~\eqref{eq:Faddeev_series_oc} becomes 
 \begin{equation}
 \begin{aligned}
 R_{\rm oc}(\omega)
@@ -1424,88 +969,631 @@ R_{\rm oc}(\omega)
 \end{aligned}
 \label{eq:R_oc_omega}
 \end{equation}
-We define $\mathcal C_\alpha(\omega)$ by
+Notice that this step strictly requires the no-overlap 
+approximation, otherwise we could not just insert 
+$\mathcal G \mathcal G^{-1}$ in each term.
+
+To resum the series, we collect all terms whose leftmost interacting
+pair is $\alpha$ into a Faddeev component $R_\alpha$. Thus,
 \begin{equation}
-Q_\alpha^{-1}
-=
-\mathcal G^{-1}-\mathcal C_\alpha(\omega) \;.
-\nonumber
+	R_{\rm oc}
+	=
+	\mathcal G+\sum_\alpha R_\alpha \;.
+	\label{eq:R_oc_Faddeev_components}
 \end{equation}
-In the TDA, $\mathcal C_\alpha=C_\alpha$. Then
+The constraint that two consecutive factors $Q_\alpha-\mathcal G$ must belong to
+different pairs implies
 \begin{equation}
-Q_\alpha-\mathcal G
-=
-\mathcal G\,\mathcal C_\alpha\big(\bI-\mathcal G\,\mathcal C_\alpha\big)^{-1}\mathcal G
-\nonumber
+\begin{aligned}
+	R_\alpha
+	={}&
+	\big(Q_\alpha-\mathcal G\big)\mathcal G^{-1}
+	\left(
+		\mathcal G+\sum_{\beta\neq\alpha}R_\beta
+	\right)
+	\\
+	={}&
+	\big(Q_\alpha-\mathcal G\big)\mathcal G^{-1}
+	\big(R_{\rm oc}-R_\alpha\big) \;.
+	\label{eq:Faddeev_components}
+\end{aligned}
 \end{equation}
-is a run of $\mathcal C_\alpha$ of any length, and the sequences of Eq.~\eqref{eq:R_oc_omega} are all products of $\mathcal C_{12}$, $\mathcal C_{31}$ and $\mathcal C_{32}$,
+By the Dyson equation Eq.~\eqref{eq:dyson_q}
+and after some algebra, we obtain
 \begin{equation}
-R_{\rm oc}(\omega)
-=
-\big(\mathcal G^{-1}-\mathcal C_{12}-\mathcal C_{31}-\mathcal C_{32}\big)^{-1} \;,
-\nonumber
+	\big(\mathbf 1+Q_\alpha\mathcal C_\alpha\big)R_\alpha
+	=
+	Q_\alpha\mathcal C_\alpha R_{\rm oc} \;.
 \end{equation}
-or
+Since
 \begin{equation}
-R_{\rm oc}^{-1}
-=
-Q_{12}^{-1}+Q_{31}^{-1}+Q_{32}^{-1}-2\,\mathcal G^{-1} \;.
+	\mathbf 1+Q_\alpha\mathcal C_\alpha
+	=
+	Q_\alpha
+	\big(Q_\alpha^{-1}+\mathcal C_\alpha\big)
+	=
+	Q_\alpha\mathcal G^{-1} \;,
+\end{equation}
+it follows that
+\begin{equation}
+	R_\alpha
+	=
+	\mathcal G\mathcal C_\alpha R_{\rm oc} \;.
+	\label{eq:R_alpha_Dyson}
+\end{equation}
+Summing Eq.~\eqref{eq:R_alpha_Dyson} over the three pair channels and
+using Eq.~\eqref{eq:R_oc_Faddeev_components} gives
+\begin{equation}
+\begin{aligned}
+	R_{\rm oc}
+	={}&
+	\mathcal G
+	+
+	\mathcal G
+	\left(
+		\mathcal C_{\pp}
+		+\mathcal C_{\eh}
+		+\mathcal C_{\teh}
+	\right)
+	R_{\rm oc} \;.
+\end{aligned}
+\end{equation}
+Hence,
+\begin{equation}
+	R_{\rm oc}(\omega)
+	=
+	\big(
+		\mathcal G^{-1}
+		-\mathcal C_{\pp}
+		-\mathcal C_{\eh}
+		-\mathcal C_{\teh}
+	\big)^{-1} \;,
+\end{equation}
+or, equivalently,
+\begin{equation}
+	\mathcal C_\alpha
+	=
+	\mathcal G^{-1}-Q_\alpha^{-1} \;,
+\end{equation}
+\begin{equation}
+\begin{aligned}
+	R_{\rm oc}^{-1} =
+	Q_{\pp}^{-1}
+	+Q_{\eh}^{-1}
+	+Q_{\teh}^{-1}
+	-2\mathcal G^{-1} \;.
+\end{aligned}
 \label{eq:Faddeev_inverse}
 \end{equation}
-Eq.~\eqref{eq:Faddeev_inverse} holds for any $Q_\alpha$, and in both
-blocks. With the TDA propagators, Eq.~\eqref{eq:Q_TDA}, it is the
-ADC(3) resolvent,
+Eq.~\eqref{eq:Faddeev_inverse} holds in the
+space $\mathcal P$ of the $\pph$ and $\hhp$ configurations, where
+$\mathcal G$ lives. To insert it into Eq.~\eqref{eq:Sigma_oc}, we still
+need to know how the two bare interactions of Eq.~\eqref{eq:Sigma_oc},
+at $t_1$ and $t_{1'}$ (the time arguments of the self-energy),
+connect the orbitals $p$ and $q$ of
+$\Sigma^c_{pq}$ to the three-line configurations of $R_{\rm oc}$. 
+
+In the orbital basis, each line of Eq.~\eqref{eq:Sigma_oc} is a particle
+or a hole, depending on its time direction. For $R=\mathcal G$, all
+lines run between $t_{1'}$ and $t_1$, and only the configurations in
+$\mathcal P$ contribute. In this case, 
+the free propagation between two equal-time three-line states is
 \begin{equation}
-R_{\rm oc}^{-1}
-=
-\omega-K-C
-=
-\big(\omega-K^{\rm II}-C^{\rm II}\big)\oplus
-\big(\omega+K^{\rm I}+C^{\rm I}\big) \;,
+\mathcal G(\omega)=\big(\omega-K\big)^{-1} \;,
+\label{eq:G_free}
+\end{equation}
+with $\omega+\ii0^+$ in the $\pph$ and $\omega-\ii0^+$ in the $\hhp$
+block, and
+\begin{equation}
+K=K^{\rm II}\oplus\big(-K^{\rm I}\big) \;,
 \nonumber
 \end{equation}
-with $C=C_{12}+C_{31}+C_{32}$.
-Table~\ref{tab:dictionary} relates the terms of $R$ to the Faddeev
-series, ADC(3) and the own-channel and no-overlap approximation.
-\begin{table*}[hbt!]
-\caption{Terms of $R$, Eq.~\eqref{eq:R_decomposition}, and their
-counterparts in the Faddeev series, Eq.~\eqref{eq:Faddeev_series}, in
-ADC(3), and in the own-channel and no-overlap approximation.}
-\label{tab:dictionary}
-\begin{ruledtabular}
-\begin{tabular}{llll}
-Term of $R$ & Faddeev series & ADC(3) & Own-channel and no-overlap \\
-\hline
-$\mathcal G$: 2 of the 6 disconnected terms
-& $\mathcal G$
-& $K$ (ADC(2))
-& $K$ \\
-5 of the 9 partially connected terms:
-& $\sum_\alpha\cK_\alpha[F]\mathcal G$
-& $C_{12}$, $C_{31}$, $C_{32}$ with $F=\Gamma^{(1)}$;
-& $Q_\alpha$ with RPA phonons, \\
-\quad 1 for $(12)$, 2 each for $(31)$, $(32)$
-&
-& $Q_\alpha$ of Eq.~\eqref{eq:Q_TDA}
-& Eqs.~\eqref{eq:Q31}, \eqref{eq:Q12}, \eqref{eq:Q_alpha_inverse} \\
-$G_3^c$ minus the 1PR term, Faddeev part
-& $\sum_{\alpha\neq\beta}\cK_\alpha[F]\cK_\beta[F]\mathcal G+\cdots$
-& products $C_\alpha C_\beta\cdots$ in the resolvent
-& non-overlapping sequences, \\
-&
-&
-& Eq.~\eqref{eq:Faddeev_inverse} \\
-$G_3^c$, 3-body irreducible part
-& dropped
-& ---
-& --- \\
-\end{tabular}
-\end{ruledtabular}
-\end{table*}
+\begin{equation}
+\begin{aligned}
+K^{\rm II}_{abi,cdj}
+&=
+\Delta_{abi}\,\delta_{ac}\delta_{bd}\delta_{ij} \;,
+\\
+K^{\rm I}_{ija,klb}
+&=
+-\Delta_{ija}\,\delta_{ik}\delta_{jl}\delta_{ab} \;,
+\end{aligned}
+\nonumber
+\end{equation}
+with the shorthand 
+\begin{equation}
+\Delta_{xyz}
+=
+\eps_x+\eps_y-\eps_z \;.
+\label{eq:denom_triple}
+\end{equation}
+The first-order couplings of the one-particle states to the three-line
+states are
+\begin{equation}
+U^{(1)}=\big(U^{{\rm II},(1)},\,U^{{\rm I},(1)}\big) \;,
+\label{eq:K_combined}
+\end{equation}
+with
+\begin{equation}
+\begin{aligned}
+U^{{\rm II},(1)}_{p;abi}
+&=
+\mel{pi}{}{ab} \;,
+\\
+U^{{\rm I},(1)}_{p;ija}
+&=
+\mel{pa}{}{ij} \;.
+\end{aligned}
+\label{eq:K_U1}
+\end{equation}
+In these expressions, $a<b$ and $i<j$.
 
-Inserting the amplitude form of $Q_\alpha$,
-Eq.~\eqref{eq:Q_alpha_inverse}, into Eq.~\eqref{eq:Faddeev_inverse},
-the frequency dependence of the phonons reduces to a metric,
+
+These are not all configurations that the two bare interactions of
+Eq.~\eqref{eq:Sigma_oc} can reach. If the last interaction of a pair
+$\alpha$ happens after $t_1$, or its first one before $t_{1'}$, the two
+lines of the pair arrive at the vertex in reversed time direction. For
+the $\pp$ pair, for instance, the vertex at $t_1$ then meets the three
+holes $(kl;i)$ instead of $(ab;i)$.
+Fig.~\ref{fig:reversed} shows the lowest-order example. In (a), the
+$\pp$ rung lies between the two vertices, and all intermediate states are
+$\pph$ configurations. In (b), the rung lies after $t_1$. At $t_1$, the
+bare interaction $\mel{pi}{}{kl}$ removes the electrons $k$ and $l$,
+\ie\ it creates the holes $k$ and $l$, which end at the later rung
+together with the particles $a$ and $b$. The pair attached at $t_1$ is
+thus the hole pair $(kl)$, and the rung enters with the static
+denominator $\eps_k+\eps_l-\eps_a-\eps_b$. This is the coupling
+$U^{(2)}$ of ADC(3).
+
+The diagram in Fig.~\ref{fig:reversed}(b) and its mirror image, with the
+rung before $t_{1'}$, are the GF3 terms of
+Eqs.~\eqref{eq:pp_lt_plus} and \eqref{eq:pp_gt_plus}; the $\eh$
+analogues are Eqs.~\eqref{eq:eh_lt_plus} and \eqref{eq:eh_gt_plus}. They
+arise from the time orderings of the three-particle propagator in which
+the pair lines run outside $[t_{1'},t_1]$. When the pair interactions
+are resummed, reversed configurations appear in two places:
+\begin{itemize}
+\item At the two outer vertices, when the ladder or ring of a pair
+continues beyond $t_1$ or before $t_{1'}$. These configurations are
+folded into the couplings, $\mathcal U=U^{(1)}+\sum_\alpha\bar U^{(1)}_\alpha T_\alpha$,
+and enter $\Sigma$ from third order on.
+\item Inside $[t_{1'},t_1]$, within one pair, when the pair turns
+backward in time and forward again. These orderings give the terms
+$B_\alpha T_\alpha$ in $\mathcal H$ and the metric
+$\mathcal N=\bI-\sum_\alpha T_\alpha^\dagger T_\alpha$, and enter
+$\Sigma$ from fourth order on.
+\end{itemize}
+Between two different pairs, reversed configurations do not occur,
+since the no-overlap approximation separates consecutive pairs by a
+$\pph$ cut, the factor $\mathcal G^{-1}$ in Eq.~\eqref{eq:R_oc_omega}.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=0.7,every node/.style={font=\footnotesize},
+  ln/.style={thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}},
+  ia/.style={dashed,thick},
+  dot/.style={circle,fill,inner sep=1.1pt}]
+%=================== (a) rung between the vertices
+\begin{scope}
+\node at (-1.3,3.3) {(a)};
+\coordinate (A) at (0,0); \coordinate (B) at (1.4,0);
+\coordinate (E) at (0,1.3); \coordinate (F) at (1.4,1.3);
+\coordinate (C) at (0,2.6); \coordinate (D) at (1.4,2.6);
+\draw[ia] (A) -- (B); \draw[ia] (E) -- (F); \draw[ia] (C) -- (D);
+\draw[ln] (-0.6,0) -- (A) node[pos=0.0,left] {$q$};
+\draw[ln] (A) -- (E) node[pos=0.25,left] {$a$};
+\draw[ln] (B) -- (F) node[midway,left] {$b$};
+\draw[ln] (E) -- (C) node[midway,left] {$c$};
+\draw[ln] (F) -- (D) node[midway,left] {$d$};
+\draw[ln] (D) to[bend left=50] node[midway,right] {$i$} (B);
+\draw[ln] (C) -- (-0.6,2.6) node[pos=1.0,left] {$p$};
+\foreach \P in {A,B,C,D,E,F} \node[dot] at (\P) {};
+\node[right] at (2.3,0) {$t_{1'}$};
+\node[right] at (2.3,1.3) {$\tau$};
+\node[right] at (2.3,2.6) {$t_1$};
+\node[align=center] at (0.7,-1.2) {$U^{(1)}\mathcal G\,C\,\mathcal G\,U^{(1)\dagger}$};
+\end{scope}
+%=================== (b) rung after t1: reversed pair at t1
+\begin{scope}[xshift=4.6cm]
+\node at (-0.9,3.3) {(b)};
+\coordinate (A) at (0,0); \coordinate (B) at (3,0);
+\coordinate (C) at (1.35,1.3); \coordinate (D) at (2.15,1.3);
+\coordinate (E) at (0,2.6); \coordinate (F) at (3,2.6);
+\draw[ia] (A) -- (B); \draw[ia] (C) -- (D); \draw[ia] (E) -- (F);
+\draw[ln] (-0.6,0) -- (A) node[pos=0.0,left] {$q$};
+\draw[ln] (A) -- (E) node[pos=0.25,left] {$a$};
+\draw[ln] (B) -- (F) node[midway,right] {$b$};
+\draw[ln] (E) -- (C) node[midway,above right] {$k$};
+\draw[ln] (F) -- (D) node[midway,above left] {$l$};
+\draw[ln] (D) -- (B) node[midway,right] {$i$};
+\draw[ln] (C) -- (0.8,1.3) node[left] {$p$};
+\foreach \P in {A,B,C,D,E,F} \node[dot] at (\P) {};
+\node[right] at (3.5,0) {$t_{1'}$};
+\node[right] at (3.5,1.3) {$t_1$};
+\node[right] at (3.5,2.6) {$\tau$};
+\node[align=center] at (1.5,-1.2) {$U^{(2)}\mathcal G\,U^{(1)\dagger}$};
+\end{scope}
+\end{tikzpicture}
+\caption{Time-ordered third-order self-energy diagrams with one $\pp$
+rung (block II, time upward, dashed lines: bare interactions, external
+legs drawn horizontally, so that each horizontal cut between two
+interactions crosses only the lines of one intermediate state). (a) Rung
+at $t_{1'}<\tau<t_1$: the pair propagates in $\mathcal P$. (b) Rung at
+$\tau>t_1$: at $t_1$, the pair slot holds the holes $k$ and $l$, the
+reversed configuration $(kl;i)$ in $\bar{\mathcal P}_{\pp}$, and the
+rung gives the first-order amplitude $t^{ab}_{kl}$ of $U^{(2)}$.}
+\label{fig:reversed}
+\end{figure}
+
+We call $\mathcal P$ the $\pph$ and $\hhp$ configurations of
+Eq.~\eqref{eq:G_free}, and $\bar{\mathcal P}_\alpha$ the reversed
+configurations of the pair $\alpha$. Then:
+\begin{itemize}
+\item $\mathcal G$ lives on $\mathcal P$ only.
+\item $Q_\alpha$ lives on $\mathcal P\oplus\bar{\mathcal P}_\alpha$. We
+keep the symbol $Q_\alpha$ for its block on $\mathcal P$ and write
+$[Q_\alpha]_{\bar{\mathcal P}_\alpha\mathcal P}$ for its block from
+$\mathcal P$ to $\bar{\mathcal P}_\alpha$.
+\item The bare interaction couples the orbital $p$ to $\mathcal P$
+through $U^{(1)}$, Eq.~\eqref{eq:K_combined}, and to
+$\bar{\mathcal P}_\alpha$ through antisymmetrized integrals
+$\bar U^{(1)}_\alpha$.
+\end{itemize}
+Eq.~\eqref{eq:Sigma_oc} is therefore a sum over the blocks of $R$,
+\begin{equation}
+\Sigma^{c}(\omega)
+=
+\sum_{X,Y}
+V_X\,\big[R(\omega)\big]_{XY}\,V_Y^\dagger \;,
+\label{eq:Sigma_full_space}
+\end{equation}
+with $X,Y\in\{\mathcal P,\bar{\mathcal P}_{\pp},\bar{\mathcal P}_{\eh},\bar{\mathcal P}_{\teh}\}$,
+$V_{\mathcal P}=U^{(1)}$ and $V_{\bar{\mathcal P}_\alpha}=\bar U^{(1)}_\alpha$.
+For $R=\mathcal G$, only $X=Y=\mathcal P$ contributes, and
+$\Sigma^c=U^{(1)}\mathcal G\,U^{(1)\dagger}=\Sigma^{(2)}$.
+
+The block on $\mathcal P$ is $R_{\rm oc}$,
+Eq.~\eqref{eq:Faddeev_inverse}. The other blocks follow in three steps.
+
+First, in Eq.~\eqref{eq:R_oc_omega}, consecutive factors are joined by
+$\mathcal G^{-1}$, which lives on $\mathcal P$. Only the first factor of
+a term can reach $\bar{\mathcal P}_\alpha$, and only if it is
+$Q_\alpha-\mathcal G$. These terms make up $R_\alpha$,
+Eq.~\eqref{eq:Faddeev_components}, so that
+\begin{equation}
+\big[R\big]_{\bar{\mathcal P}_\alpha\mathcal P}
+=
+\big[Q_\alpha\big]_{\bar{\mathcal P}_\alpha\mathcal P}\,
+\mathcal G^{-1}\big(R_{\rm oc}-R_\alpha\big) \;.
+\label{eq:R_Pbar_row}
+\end{equation}
+
+Second, we eliminate $R_\alpha$. Adding $R_{\rm oc}-R_\alpha$ to both
+sides of Eq.~\eqref{eq:Faddeev_components} gives
+\begin{equation}
+R_{\rm oc}
+=
+Q_\alpha\,\mathcal G^{-1}\big(R_{\rm oc}-R_\alpha\big) \;,
+\nonumber
+\end{equation}
+\ie\
+\begin{equation}
+\mathcal G^{-1}\big(R_{\rm oc}-R_\alpha\big)
+=
+Q_\alpha^{-1}R_{\rm oc} \;.
+\nonumber
+\end{equation}
+Inserted into Eq.~\eqref{eq:R_Pbar_row},
+\begin{equation}
+\big[R\big]_{\bar{\mathcal P}_\alpha\mathcal P}
+=
+\big[Q_\alpha\big]_{\bar{\mathcal P}_\alpha\mathcal P}\,
+Q_\alpha^{-1}\,R_{\rm oc} \;.
+\nonumber
+\end{equation}
+
+Third, the same argument for the last factor of a term gives the
+columns, and both together the corners,
+\begin{equation}
+\begin{aligned}
+\big[R\big]_{\mathcal P\bar{\mathcal P}_\beta}
+&=
+R_{\rm oc}\,Q_\beta^{-1}\big[Q_\beta\big]_{\mathcal P\bar{\mathcal P}_\beta} \;,
+\\
+\big[R\big]_{\bar{\mathcal P}_\alpha\bar{\mathcal P}_\beta}
+&=
+\big[Q_\alpha\big]_{\bar{\mathcal P}_\alpha\mathcal P}\,Q_\alpha^{-1}\,
+R_{\rm oc}\,
+Q_\beta^{-1}\big[Q_\beta\big]_{\mathcal P\bar{\mathcal P}_\beta} \;.
+\end{aligned}
+\nonumber
+\end{equation}
+
+All blocks of $R$ are thus $R_{\rm oc}$, multiplied from the left by
+$[Q_\alpha]_{\bar{\mathcal P}_\alpha\mathcal P}Q_\alpha^{-1}$ for a row
+in $\bar{\mathcal P}_\alpha$ and from the right by its adjoint for a
+column in $\bar{\mathcal P}_\beta$. Inserted into
+Eq.~\eqref{eq:Sigma_full_space}, the sum over the blocks factorizes,
+\begin{equation}
+\Sigma^{c}(\omega)
+=
+\mathcal U\,R_{\rm oc}(\omega)\,\mathcal U^\dagger \;,
+\nonumber
+\end{equation}
+with the couplings
+\begin{equation}
+\mathcal U
+=
+U^{(1)}+\sum_\alpha\bar U^{(1)}_\alpha
+\big[Q_\alpha\big]_{\bar{\mathcal P}_\alpha\mathcal P}\,Q_\alpha^{-1} \;.
+\label{eq:U_general}
+\end{equation}
+The reversed configurations are thus folded into the couplings, and
+$R_{\rm oc}$ is needed only on $\mathcal P$. It remains to specify the
+three-particle propagators in the $\pp$ and $\eh$ channels, which we do
+in the next section.
+
+
+\subsection{Pair and three-particle propagators}
+\label{sec:propagators}
+The Faddeev series correlates two particles at a time, while the third one
+is a spectator. The three-particle propagators $Q_\alpha$ of
+Eq.~\eqref{eq:Faddeev_inverse} therefore follow from two-body pair problems
+and the free propagation of the spectator.
+The two-body problems are well known
+for the herein used first-order Faddeev kernel.\cite{orlando2023three}
+The $\eh$ propagator is obtained by solving the TDHF equations Eq.~\eqref{eq:TDHF}, and the 
+$\teh$ propagator follows by crossing. Analogously, the $\pp$ propagator follows from the 
+solution of the ppRPA, Eq.~\eqref{eq:ppRPA}.
+Coupled to two external orbitals, they give the two-body pair vertices $M^{\eh}_{pq,n}$ and
+$M^{\pp}_{pq,n}$ of the reducible vertices, Eqs.~\eqref{eq:Phi_eh_phonons}
+and \eqref{eq:Phi_pp_phonons}.
+
+With one interacting pair, the three-particle propagator is the pair
+propagator times the free propagation of the spectator. For the $\pp$
+pair with spectator $r$,
+\begin{equation}
+\begin{aligned}
+Q_{\pp;xyr,uwr}(\omega)
+={}&
+n_r\sum_{n\in N+2}
+\frac{Z^n_{xy}Z^{n}_{uw}}{\omega+\eps_r-\Omega^{+}_n+\ii0^+}
+\\
+&+
+\bar n_r\sum_{m\in N-2}
+\frac{Z^m_{xy}Z^{m}_{uw}}{\omega+\eps_r-\Omega^{-}_m-\ii0^+} \;,
+\end{aligned}
+\label{eq:Q12_full}
+\end{equation}
+and for the $\eh$ pair with spectator $s$,
+\begin{equation}
+\begin{aligned}
+Q_{\eh;xrs,yus}(\omega)
+={}&
+\bar n_s\sum_{\Omega_n>0}
+\frac{Z^n_{xr}Z^{n}_{yu}}{\omega-\eps_s-\Omega_n+\ii0^+}
+\\
+&+
+n_s\sum_{\Omega_n>0}
+\frac{\tilde Z^n_{xr}\tilde Z^{n}_{yu}}{\omega-\eps_s+\Omega_n-\ii0^+} \;.
+\end{aligned}
+\label{eq:Q31_full}
+\end{equation}
+Here, $Z^n_{xy}$ are the components of the two-body eigenvectors of
+Eq.~\eqref{eq:pair_eigenproblem} on the pair indices $(xy)$, forward ($X$)
+or backward ($Y$). $Q_{\teh}$ follows from $Q_{\eh}$ with the lines 1 and 2
+exchanged. For a particle spectator only the forward $\eh$ excitations
+$Z_n$ survive, for a hole spectator only the backward ones, $\tilde Z_n$.
+
+Both propagators are block diagonal in $\pph\oplus\hhp$. The occupation
+factors select the first terms of Eqs.~\eqref{eq:Q12_full} and
+\eqref{eq:Q31_full} in block II, where the spectator of the $\pp$ pair is
+the hole $i$ and the spectators of the $\eh$ and $\teh$ pairs are the
+particles $b$ and $a$. The second term is selected in block I, where the
+spectator of the $\pp$ pair is the particle $a$ and the spectators of the
+$\eh$ and $\teh$ pairs are the holes $j$ and $i$. Between the
+configurations of $\pph\oplus\hhp$, Eqs.~\eqref{eq:Q12_full} and
+\eqref{eq:Q31_full} read, in matrix notation,
+\begin{equation}
+Q_{\pp}(\omega)
+=
+Z^{\rm II}_{\pp}\big(\omega+\eps_i-\boldsymbol\Omega^{+}\big)^{-1}Z^{{\rm II}\dagger}_{\pp}
+\;\oplus\;
+Z^{\rm I}_{\pp}\big(\omega+\eps_a-\boldsymbol\Omega^{-}\big)^{-1}Z^{{\rm I}\dagger}_{\pp} \;,
+\label{eq:Q12}
+\end{equation}
+with the $N+2$ solutions in block II and the $N-2$ solutions in block I, and
+\begin{equation}
+\begin{aligned}
+Q_{\eh}(\omega)
+={}&
+Z_{\eh}\big(\omega-\eps_b-\boldsymbol\Omega\big)^{-1}Z_{\eh}^{\dagger}
+\;\oplus\;
+Z_{\eh}\big(\omega-\eps_j+\boldsymbol\Omega\big)^{-1}Z_{\eh}^{\dagger} \;,
+\\
+Q_{\teh}(\omega)
+={}&
+Z_{\teh}\big(\omega-\eps_a-\boldsymbol\Omega\big)^{-1}Z_{\teh}^{\dagger}
+\;\oplus\;
+Z_{\teh}\big(\omega-\eps_i+\boldsymbol\Omega\big)^{-1}Z_{\teh}^{\dagger} \;.
+\end{aligned}
+\label{eq:Q31}
+\end{equation}
+Here, $Z_\alpha$ contains the components of the pair eigenvectors on the
+configurations of the block, $(ab;i)$, $(ia;b)$ in block II and $(ij;a)$,
+$(ia;j)$ in block I. The components on the remaining configurations of
+the pair, $\bar Z_\alpha$, enter only at the external vertices,
+Sec.~\ref{sec:ext_vertices}.
+
+\subsubsection{Amplitude Form of Propagators}
+It is useful to replace the propagators above by a form
+that uses CC-amplitudes. This is possible as
+the RPA eigenvalue problem in each channel
+can equivalently be expressed as
+the Riccati equation (see Appendix~\ref{app:Riccati}, and
+Refs.~\citenum{tolle2026connection,Scuseria2013,Shepherd2014})
+\begin{equation}
+B^\dagger+DT+TA
++TBT
+=0 \;.
+\label{eq:Riccati}
+\end{equation}
+The amplitudes map the forward components on the backward components,
+\begin{equation}
+Y
+=
+T X \;.
+\label{eq:T_YX}
+\end{equation}
+
+Eq.~\eqref{eq:Riccati} is
+the ring-CCD ($\eh$) and ladder-CCD ($\pp$) amplitude equation of the
+channel.\cite{Scuseria2013} The relations between $GW$, the RPA and
+(equation-of-motion) coupled cluster theory are analyzed in
+Refs.~\citenum{Lange2018,QuinteroMonsebaiz2022,Tolle2023,tolle2026connection}.
+Each channel introduces its own set of
+amplitudes, but they remain decoupled.
+Full CCD couples them through the
+crossed-ring and mosaic terms of the amplitude
+equation.\cite{Shepherd2014}
+These couplings play the role of the crossed channels
+that the own-channel approximation neglects.
+
+One can then show the relations
+\begin{equation}
+X\boldsymbol\Omega X^{-1}
+=
+A+B T \;.
+\label{eq:ZOmegaZ}
+\end{equation}
+and
+\begin{equation}
+XX^\dagger
+=
+\big(\bI-T^\dagger T\big)^{-1} \;.
+\label{eq:X_norm}
+\end{equation}
+
+These relations are readily upgraded to the three-particle space 
+in each channel,
+\begin{equation}
+\begin{aligned}
+\bar Z_\alpha
+&=
+T_\alpha Z_\alpha \;,
+\\
+Z_\alpha\boldsymbol\Omega_\alpha Z_\alpha^{-1}
+&=
+A_\alpha+B_\alpha T_\alpha \;,
+\\
+Z_\alpha Z_\alpha^\dagger
+&=
+\big(\bI-T_\alpha^\dagger T_\alpha\big)^{-1} \;,
+\end{aligned}
+\label{eq:three_line_T}
+\end{equation}
+with $\boldsymbol\Omega_{\pp}=\boldsymbol\Omega^+$ and
+$\boldsymbol\Omega_{\eh}=\boldsymbol\Omega_{\teh}=\boldsymbol\Omega$.
+
+
+For block II (block I follows equivalently),
+Eqs.~\eqref{eq:Q12} and \eqref{eq:Q31} are
+$Q_\alpha=Z_\alpha(\omega-s_\alpha-\boldsymbol\Omega_\alpha)^{-1}Z_\alpha^\dagger$,
+with the spectator energies
+\begin{equation}
+s_{\pp}=-\eps_i \;,
+\qquad
+s_{\eh}=\eps_b \;,
+\qquad
+s_{\teh}=\eps_a \;.
+\label{eq:s_alpha}
+\end{equation}
+With Eq.~\eqref{eq:three_line_T}, it can be written as
+\begin{equation}
+\begin{aligned}
+Q_\alpha(\omega)
+={}&
+Z_\alpha\big(\omega-s_\alpha-\boldsymbol\Omega_\alpha\big)^{-1}Z_\alpha^{-1}
+\,Z_\alpha Z_\alpha^\dagger
+\\
+={}&
+\big[Z_\alpha\big(\omega-s_\alpha-\boldsymbol\Omega_\alpha\big)Z_\alpha^{-1}\big]^{-1}
+Z_\alpha Z_\alpha^\dagger
+\\
+={}&
+\big(\omega-s_\alpha-Z_\alpha\boldsymbol\Omega_\alpha Z_\alpha^{-1}\big)^{-1}
+Z_\alpha Z_\alpha^\dagger
+\\
+={}&
+\big(\omega-s_\alpha-A_\alpha-B_\alpha T_\alpha\big)^{-1}
+\big(\bI-T_\alpha^\dagger T_\alpha\big)^{-1} \;.
+\end{aligned}
+\label{eq:Q_blockII_T}
+\end{equation}
+Next, the spectator energy and the orbital energies in
+$A_\alpha$ add
+up to $K$, and the interaction part of $A_\alpha$ is the pair
+interaction $C^{\rm II}_\alpha$. For the $\pp$ pair in the configuration
+$(ab;i)$ and the $\eh$ pair in $(ia;b)$,
+\begin{equation}
+\begin{aligned}
+s_{\pp}+A^{\pp}_{ab,cd}
+&=
+\big(\eps_a+\eps_b-\eps_i\big)\delta_{ac}\delta_{bd}+\mel{ab}{}{cd} \;,
+\\
+s_{\eh}+A^{\eh}_{ia,jc}
+&=
+\big(\eps_a+\eps_b-\eps_i\big)\delta_{ac}\delta_{ij}+\mel{aj}{}{ic} \;,
+\end{aligned}
+\nonumber
+\end{equation}
+\ie\ $s_\alpha+A_\alpha=K+C^{\rm II}_\alpha$, and
+\begin{equation}
+Q_\alpha(\omega)
+=
+\big(\omega-K-C^{\rm II}_\alpha-B_\alpha T_\alpha\big)^{-1}
+\big(\bI-T_\alpha^\dagger T_\alpha\big)^{-1} \;.
+\nonumber
+\end{equation}
+After a similar treatment for block I, and with
+\begin{equation}
+\begin{aligned}
+C_\alpha
+={}&
+C^{\rm II}_\alpha\oplus\big(-C^{\rm I}_\alpha\big) \;,
+\\
+B_\alpha T_\alpha
+={}&
+B_\alpha^{\rm II}T_\alpha^{\rm II}\oplus
+\big(-B_\alpha^{\rm I}T_\alpha^{\rm I}\big) \;,
+\end{aligned}
+\label{eq:CB_blocks}
+\end{equation}
+both blocks combine into
+\begin{equation}
+Q_\alpha(\omega)
+=
+\big(\omega-K-C_\alpha-B_\alpha T_\alpha\big)^{-1}
+\big(\bI-T_\alpha^\dagger T_\alpha\big)^{-1} \;.
+\label{eq:Q_alpha_inverse}
+\end{equation}
+In the Tamm--Dancoff limit, $B_\alpha=0$ and $T_\alpha=0$, and
+\begin{equation}
+Q_\alpha(\omega)
+=
+\big(\omega-K-C_\alpha\big)^{-1} \;,
+\label{eq:Q_TDA}
+\end{equation}
+where $K+C_\alpha$ is the Tamm--Dancoff Hamiltonian of the pair,
+shifted by the spectator energy.
+
+\subsection{External vertices and effective Hamiltonian}
+\label{sec:ext_vertices}
+We are now in a position to state the central result of 
+these derivations.
+Inserting the amplitude form of $Q_\alpha$ defined by
+Eq.~\eqref{eq:Q_alpha_inverse} into Eq.~\eqref{eq:Faddeev_inverse},
+we obtain
 \begin{equation}
 	\begin{aligned}
 R_{\rm oc}^{-1}(\omega)
@@ -1526,7 +1614,7 @@ K+C
 \end{aligned} 
 \end{equation}
 in both blocks. $\mathcal H$ and the metric $\mathcal N$ are Hermitian
-and block-diagonal,
+and block diagonal,
 \begin{equation}
 \mathcal N=\mathcal N^{\rm II}\oplus\mathcal N^{\rm I} \;,
 \qquad
@@ -1534,28 +1622,30 @@ and block-diagonal,
 \nonumber
 \end{equation}
 
-\subsection{External vertices and effective Hamiltonian}
-\label{sec:ext_vertices}
-For $R_{\rm oc}=\mathcal G$, the external vertices couple to the
-three-line states through $U^{(1)}$, Eq.~\eqref{eq:K_combined}. With
-interacting pairs, the pair next to $t_1$ (or $t_{1'}$) can also be in a
-backward configuration, to which the external vertex couples through
-$U^{(1)}_{Y,\alpha}$. By the backward blocks of
-Eqs.~\eqref{eq:Q12_full} and \eqref{eq:Q31_full} and Eq.~\eqref{eq:T_YX}, its amplitude
-is $T_\alpha$ times the forward one. The external vertices therefore
-couple to $R_{\rm oc}$ through $\mathcal U$ instead of $U^{(1)}$.
-
-The resulting effective Hamiltonian, Eq.~\eqref{eq:Heff_depth1}, is
-the central result of this derivation.
-In contrast to ADC(3), its couplings
-contain the channel-restricted CCD amplitudes instead of the
-first-order doubles,
+For the couplings, Eq.~\eqref{eq:U_general}, we need the blocks of the
+three-particle propagators between $\bar{\mathcal P}_\alpha$ and
+$\mathcal P$. With all rows of the pair eigenvectors,
+Eqs.~\eqref{eq:Q12_full} and \eqref{eq:Q31_full} have the block
+$\bar Z_\alpha(\omega-s_\alpha-\boldsymbol\Omega_\alpha)^{-1}Z_\alpha^\dagger$
+between $\bar{\mathcal P}_\alpha$ and $\mathcal P$. With
+$\bar Z_\alpha=T_\alpha Z_\alpha$, Eq.~\eqref{eq:three_line_T},
+\begin{equation}
+\big[Q_\alpha\big]_{\bar{\mathcal P}_\alpha\mathcal P}
+=
+T_\alpha Z_\alpha\big(\omega-s_\alpha-\boldsymbol\Omega_\alpha\big)^{-1}Z_\alpha^\dagger
+=
+T_\alpha Q_\alpha \;,
+\nonumber
+\end{equation}
+so that Eq.~\eqref{eq:U_general} becomes
+$\mathcal U=U^{(1)}+\sum_\alpha\bar U^{(1)}_\alpha T_\alpha$. With all indices 
+given explicitly, the couplings become
 \begin{align}
 \mathcal U
 ={}&
 \big(\mathcal U^{\rm II},\,\mathcal U^{\rm I}\big)
 =
-U^{(1)}+\sum_\alpha U^{(1)}_{Y,\alpha}\,T_\alpha \;,
+U^{(1)}+\sum_\alpha \bar U^{(1)}_{\alpha}\,T_\alpha \;,
 \nonumber\\
 \mathcal U^{\rm II}_{p;abi}
 ={}&
@@ -1570,16 +1660,22 @@ U^{(1)}+\sum_\alpha U^{(1)}_{Y,\alpha}\,T_\alpha \;,
 +\sum_{b<c}\mel{pa}{}{bc}\,T^{\pp}_{ij,bc} \;.
 \label{eq:Ueff_depth1}
 \end{align}
-Here, $U^{(1)}_{Y,\alpha}$ couples to the backward configurations of the
-pair $\alpha$ (all but the first terms). To first order, with the first-order doubles of Eq.~\eqref{eq:mp2_double},
+Here, $\bar U^{(1)}_{\alpha}$ couples to the backward configurations of the
+pair $\alpha$ (all but the first terms). 
+In contrast to ADC(3), the couplings
+contain the channel-restricted CCD amplitudes instead of the
+first-order doubles ones. With the substitutions
 \begin{equation}
-T^{\eh}_{jc,ia}\to t^{ac}_{ij} \;,
-\qquad
-T^{\pp}_{kl,ab}\to t^{ab}_{kl} \;,
-\nonumber
+	T^{\eh}_{jc,ia} \rightarrow t^{ac}_{ij}
 \end{equation}
-and Eq.~\eqref{eq:Ueff_depth1} becomes $U^{(1)}+U^{(2)}$ of
-Eqs.~\eqref{eq:U2_II} and \eqref{eq:U2_I}. Projected onto $a<b$ and
+and 
+\begin{equation}
+	T^{\pp}_{kl,ab} \rightarrow t^{ab}_{kl} \;,
+\end{equation}
+these are the ADC(3) couplings, that describe the first-order coupling 
+of the backward amplitudes to single-particle states.
+
+Projected onto $a<b$ and
 $i<j$, and with
 \begin{equation}
 \omega\mathcal N-\mathcal H
@@ -1587,7 +1683,7 @@ $i<j$, and with
 \mathcal N^{1/2}\big(\omega-H_{\rm eff}\big)\mathcal N^{1/2}
 \nonumber
 \end{equation}
-for positive definite $\mathcal N$,
+for positive definite $\mathcal N$, we obtain the self-energy
 \begin{equation}
 \begin{aligned}
 \Sigma^{c}(\omega)
@@ -1609,7 +1705,7 @@ H_{\rm eff}
 \label{eq:Heff_depth1}
 \end{equation}
 which, written out block by block, is Eq.~\eqref{eq:Sigma_goal}.
-As in ADC, the quasiparticle energies are the eigenvalues of the
+The quasiparticle energies are the eigenvalues of the corresponding
 Hermitian Dyson supermatrix
 \begin{equation}
 \begin{pmatrix}
@@ -1621,19 +1717,6 @@ h_0+\Sigma(\infty) & \mathcal U\,\mathcal N^{-1/2}
 \end{equation}
 with $h_0$ the one-body Hamiltonian of
 Eq.~\eqref{eq:Martin_Schwinger_general}.
-
-
-The CCD-ADC(3) from Ref.~\citenum{forster2026third} 
-uses exactly Eq.~\eqref{eq:Ueff_depth1}, but solves the 
-full CCD equations to couple all channel amplitudes. However,
-the effective Hamiltonian is kept at the TDA level. Their 
-EN-ADC(3) is the linearized, diagonal version of the ladder-CCD couplings.
-Also Coveney\cite{Coveney2025} uses the full CCD amplitudes,
-but his Hamiltonian is constructed in the CC similarity transform structure.
-It does not contain any metric and is non-Hermitian due to the similarity transformation. It also contains a line dressing that
-ADC(4) and Eq.~\eqref{eq:d1_ADC4} contain 
-only at 4th order.
-
 In block II, the matrix elements of Eq.~\eqref{eq:depth1_amplitudes} are
 \begin{align}
 \mathcal H_{abi,cdj}
@@ -1671,58 +1754,9 @@ h^{\eh}_{ia,jc}
 
 \subsection{Phonon form}
 \label{sec:phonon_form}
-In the own-channel approximation, the reducible vertices $\Phi^{\lambda}$
-follow from the channel propagators of Sec.~\ref{sec:propagators}.
-In the $\eh$~channel, the reducible vertex, the resummed counterpart of
-$\Phi^{\eh,(2)}$ in Eq.~\eqref{eq:Phi2_explicit}, is a sum over $\eh$
-phonons,
-\begin{align}
-\ii\Phi^{\eh}_{pqrs}(\Omega)
-={}&
-\sum_{\Omega_n>0}
-\bigg[
-\frac{\rho^n_{pr}\,\rho^n_{qs}}{\Omega-\Omega_n+\ii0^+}
--
-\frac{\tilde\rho^n_{pr}\,\tilde\rho^n_{qs}}{\Omega+\Omega_n-\ii0^+}
-\bigg],
-\nonumber\\
-\rho^n_{pr}
-={}&
-\sum_{ia}\Big[\mel{pa}{}{ri}\,X^n_{ia}+\mel{pi}{}{ra}\,Y^n_{ia}\Big],
-\nonumber\\
-\tilde\rho^n_{pr}
-={}&
-\sum_{ia}\Big[\mel{pa}{}{ri}\,Y^n_{ia}+\mel{pi}{}{ra}\,X^n_{ia}\Big] \;,
-\label{eq:Phi_eh_phonons}
-\end{align}
-with $X^n_{ia}$, $Y^n_{ia}$ the components of $Z_n$.
-The same first-order vertex appears in the vertex-corrected 
-$GW$ self-energies of Ref.~
-\citenum{Maggio2017,Vacondio2024,Forster2024}.
-In the $\eh$ variables, $\Phi^{\eh}$ depends only on the bosonic
-transfer frequency $\Omega$. The crossed channel, $\teh$, follows by crossing,
-Eq.~\eqref{eq:crossing}.
-
-With Eq.~\eqref{eq:L_pp_phonons}, the reducible $\pp$-vertex is
-\begin{align}
-\ii\Phi^{\pp}_{pqrs}(\Omega)
-= & 
-\sum_{n\in N+2}
-\frac{\zeta^n_{pq}\,\zeta^n_{rs}}{\Omega-\Omega^{+}_n+\ii0^+}
--
-\sum_{m\in N-2}
-\frac{\zeta^m_{pq}\,\zeta^m_{rs}}{\Omega-\Omega^{-}_m-\ii0^+},
-\nonumber\\
-\zeta^n_{pq}
-= & 
-\sum_{c<d}\mel{pq}{}{cd}\,X^n_{cd}
-+\sum_{k<l}\mel{pq}{}{kl}\,Y^n_{kl} \;.
-\label{eq:Phi_pp_phonons}
-\end{align}
-
 It is instructive to write the effective 
-Hamiltonian in terms of the phonons. 
-We do this for block II; block I follows in the same way with the block-I forward components of Eqs.~\eqref{eq:Q12} and \eqref{eq:Q31}. By Eqs.~\eqref{eq:Faddeev_inverse} and \eqref{eq:depth1_amplitudes},
+Hamiltonian in terms of the pair excitations (phonons). 
+We do this for block II; block I follows in the same way with the block-I parts of Eqs.~\eqref{eq:Q12} and \eqref{eq:Q31}. By Eqs.~\eqref{eq:Faddeev_inverse} and \eqref{eq:depth1_amplitudes},
 \begin{equation}
 \begin{aligned}
 \omega\mathcal N-\mathcal H
@@ -1731,21 +1765,13 @@ We do this for block II; block I follows in the same way with the block-I forwar
 \\
 Q_\alpha^{-1}
 ={}&
-X_\alpha^{-\dagger}\big(\omega-s_\alpha-\boldsymbol\Omega_\alpha\big)X_\alpha^{-1} \;.
+Z_\alpha^{-\dagger}\big(\omega-s_\alpha-\boldsymbol\Omega_\alpha\big)Z_\alpha^{-1} \;.
 \end{aligned}
 \label{eq:Rinv_phonons}
 \end{equation}
 Here, $\boldsymbol\Omega_\alpha$ is the diagonal matrix of the pair
-energies, $\boldsymbol\Omega^+$ for the pair $(12)$ and $\boldsymbol\Omega$
-for the pairs $(3x)$, and $s_\alpha$ is the spectator energy,
-\begin{equation}
-s_{12}=-\eps_i \;,
-\qquad
-s_{31}=\eps_b \;,
-\qquad
-s_{32}=\eps_a \;.
-\label{eq:s_alpha}
-\end{equation}
+energies, $\boldsymbol\Omega^+$ for the $\pp$ pair and $\boldsymbol\Omega$
+for the $\eh$ and $\teh$ pairs, and $s_\alpha$ is the spectator energy, Eq.~\eqref{eq:s_alpha}.
 Its $\omega$-linear part gives $\mathcal N$, its constant part $\mathcal H$.
 With Eqs.~\eqref{eq:Q31}~and~\eqref{eq:Q12},
 as well as the normalization in
@@ -1759,56 +1785,126 @@ are
 \mathcal N
 = &
 \bI+\sum_\alpha\Big
-[\big(X_\alpha X_\alpha^\dagger\big)^{-1}
+[\big(Z_\alpha Z_\alpha^\dagger\big)^{-1}
 -\bI\Big] \;, \\
 \mathcal H
 = &
 K^{\rm II}+C^{\rm II}
-+\sum_\alpha\Big[X_\alpha^{-\dagger}\big(\boldsymbol\Omega_\alpha+s_\alpha\big)X_\alpha^{-1}
++\sum_\alpha\Big[Z_\alpha^{-\dagger}\big(\boldsymbol\Omega_\alpha+s_\alpha\big)Z_\alpha^{-1}
 -K^{\rm II}-C_\alpha\Big] \;, \\
 \mathcal U
 = &
-U^{(1)}+\sum_\alpha\Big[M_\alpha X_\alpha^{-1}-U^{(1)}\Big] \;,
+U^{(1)}+\sum_\alpha\Big[M_\alpha Z_\alpha^{-1}-U^{(1)}\Big] \;,
 \end{aligned}
 \end{equation}
-with the phonon vertices $M_\alpha=U^{(1)}X_\alpha+U^{(1)}_{Y,\alpha}Y_\alpha$,
-\ie\ $M_{31}=-\tilde\rho$ and $M_{12}=\zeta$ of
-Eqs.~\eqref{eq:Phi_eh_phonons} and \eqref{eq:Phi_pp_phonons}.
+with the three-body couplings of the pairs
+$M_\alpha=U^{(1)}Z_\alpha+\bar U^{(1)}_{\alpha}\bar Z_\alpha$. Their entries are the
+two-body vertices of Eqs.~\eqref{eq:Phi_eh_phonons} and
+\eqref{eq:Phi_pp_phonons}, with the spectator as second orbital index,
+\begin{equation}
+\begin{aligned}
+M_{\pp,p;ni}
+&=
+M^{\pp}_{pi,n} \;,
+\\
+M_{\eh,p;nb}
+&=
+-M^{\eh}_{bp,n} \;.
+\end{aligned}
+\nonumber
+\end{equation}
 
+\section{Relations to various schemes to construct electronic self-energies}
+
+\subsection{Tamm--Dancoff limit and ADC(3)}
+\label{sec:adc3_tda}
+In the Tamm--Dancoff limit, $B_\alpha=0$, Eq.~\eqref{eq:Riccati} gives
+$T_\alpha=0$, and the three-particle propagators reduce to
+Eq.~\eqref{eq:Q_TDA}. Eq.~\eqref{eq:Faddeev_inverse} then gives
+\begin{equation}
+R_{\rm oc}(\omega)
+=
+\big(\omega-K-C\big)^{-1}
+=
+\big(\omega-K^{\rm II}-C^{\rm II}\big)^{-1}\oplus
+\big(\omega+K^{\rm I}+C^{\rm I}\big)^{-1} \;,
+\label{eq:R_TDA}
+\end{equation}
+with $C=C_{\pp}+C_{\eh}+C_{\teh}$, \ie\ $\mathcal N=\bI$ and
+$\mathcal H=K+C$. Since $T_\alpha=0$, the couplings reduce to
+$\mathcal U=U^{(1)}$, and the self-energy is that of
+ADC(2)-X,\cite{von1984computational} also known as the 
+2ph-TDA,\cite{Cederbaum1977,
+cederbaum1977theoretical,
+schirmer1978two} or multi-channel Dyson equation (MCDE).
+\cite{Riva2023,Riva2024,Riva2025}
+
+ADC(3) is not the strict Tamm--Dancoff limit. Instead, 
+the amplitudes are restricted to second order,
+\begin{equation}
+\begin{aligned}
+\mathcal U
+=
+U^{(1)}+U^{(2)}+O(v^3) \;.
+\end{aligned}
+\nonumber
+\end{equation}
+The TDA-limit [ADC(2)-X] and ADC(3) differ, in principle,
+only in the couplings. However, since ADC(3) is usually constructed to 
+be third order complete, $\Sigma(\infty)$ is chosen to be the 
+third-order static self-energy, while ADC(2)-X keeps it at the 
+Hartree--Fock level. For molecules, ADC(2)-X is a very crude approximation anyway, with 
+large errors for charged excitations, while offering no tangible numerical 
+advantage over ADC(3). Changing the static part has a non-negligible effect, 
+but its accuracy remains poor either way.\cite{Keizer2026}
+
+Recent work has used CC-amplitudes in ADC(3).
+The CCD-ADC(3) from Ref.~\citenum{forster2026third} 
+uses exactly Eq.~\eqref{eq:Ueff_depth1}, but solves the 
+full CCD equations to couple all channel amplitudes. However,
+the effective Hamiltonian is kept at the TDA level. Their 
+EN-ADC(3) is the linearized, diagonal version of the ladder-CCD couplings.
+
+Superficially, this scheme seems related to recent work by \citet{Coveney2025}, 
+since also Coveney\cite{Coveney2025} uses the full CCD amplitudes. However, 
+his construction differs in key points.
+His Hamiltonian is constructed in the CC similarity transform structure.
+It does not contain any metric and is non-Hermitian due to the similarity transformation.
+It also contains a line dressing that ADC(4) contains
+only at 4th order.
 
 \subsection{Connections to (vertex-corrected) \texorpdfstring{$GW$}{GW}}
 The $GW$ approximation and other schemes derived in the framework of
-Hedin's equations\cite{Hedin1965} are formulated in the $\eh$-channel only.
-It is therefore 
-instructive to retain only the $\eh$ pair $(31)$ in
+Hedin's equations\cite{Hedin1965} are formulated in the $\eh$ channel only.
+It is therefore instructive to retain only the $\eh$ pair in
 Eq.~\eqref{eq:HNU_phonons}. The quantities entering the 
-effective hamiltonian then simplify to  
+effective Hamiltonian then simplify to  
 \begin{equation}
 	\label{eq:GW_phonon_HNU}
 \begin{aligned}
 \mathcal N^{\rm II}_{iab,jcd}
 &=
-\big[(X_{31}X_{31}^\dagger)^{-1}\big]_{ia,jc}\,\delta_{bd} \;,
+\big[(Z_{\eh}Z_{\eh}^\dagger)^{-1}\big]_{ia,jc}\,\delta_{bd} \;,
 \\
 \mathcal H^{\rm II}_{iab,jcd}
 &=
-\big[X_{31}^{-\dagger}\big(\boldsymbol\Omega_{31}+\eps_b\big)X_{31}^{-1}\big]_{ia,jc}\,\delta_{bd} \;,
+\big[Z_{\eh}^{-\dagger}\big(\boldsymbol\Omega_{\eh}+\eps_b\big)Z_{\eh}^{-1}\big]_{ia,jc}\,\delta_{bd} \;,
 \\
 \mathcal U^{\rm II}_{p;iab}
 &=
-\sum_n M^{\rm II}_{31,p;nb}\,\big[X_{31}^{-1}\big]_{n,ia} \;,
+\sum_n M^{\rm II}_{\eh,p;nb}\,\big[Z_{\eh}^{-1}\big]_{n,ia} \;,
 \\
 \mathcal N^{\rm I}_{iaj,kbl}
 &=
-\big[(X_{31}X_{31}^\dagger)^{-1}\big]_{ia,kb}\,\delta_{jl} \;,
+\big[(Z_{\eh}Z_{\eh}^\dagger)^{-1}\big]_{ia,kb}\,\delta_{jl} \;,
 \\
 \mathcal H^{\rm I}_{iaj,kbl}
 &=
-\big[X_{31}^{-\dagger}\big(\boldsymbol\Omega_{31}-\eps_j\big)X_{31}^{-1}\big]_{ia,kb}\,\delta_{jl} \;,
+\big[Z_{\eh}^{-\dagger}\big(\boldsymbol\Omega_{\eh}-\eps_j\big)Z_{\eh}^{-1}\big]_{ia,kb}\,\delta_{jl} \;,
 \\
 \mathcal U^{\rm I}_{p;iaj}
 &=
-\sum_n M^{\rm I}_{31,p;nj}\,\big[X_{31}^{-1}\big]_{n,ia} \;,
+\sum_n M^{\rm I}_{\eh,p;nj}\,\big[Z_{\eh}^{-1}\big]_{n,ia} \;,
 \end{aligned}
 \end{equation}
 where we have specified the indices explicitly for later reference. In
@@ -1819,26 +1915,26 @@ With Eq.~\eqref{eq:Sigma_goal},
 \begin{aligned}
 \omega\,\mathcal N^{\rm II}-\mathcal H^{\rm II}
 &=
-X_{31}^{-\dagger}\big(\omega-\eps_b-\boldsymbol\Omega_{31}\big)X_{31}^{-1} \;,
+Z_{\eh}^{-\dagger}\big(\omega-\eps_b-\boldsymbol\Omega_{\eh}\big)Z_{\eh}^{-1} \;,
 \\
 \omega\,\mathcal N^{\rm I}+\mathcal H^{\rm I}
 &=
-X_{31}^{-\dagger}\big(\omega-\eps_j+\boldsymbol\Omega_{31}\big)X_{31}^{-1} \;,
+Z_{\eh}^{-\dagger}\big(\omega-\eps_j+\boldsymbol\Omega_{\eh}\big)Z_{\eh}^{-1} \;,
 \end{aligned}
 \nonumber
 \end{equation}
 and the self-energy becomes
 \begin{equation}
 	\label{eq:GW_phonon_selfenergy}
-\Sigma_{31,pq}(\omega)
+\Sigma_{\eh,pq}(\omega)
 =
 \sum_{nb}
-\frac{M^{\rm II}_{31,p;nb}\,M^{{\rm II}*}_{31,q;nb}}{\omega-\eps_b-\Omega_n}
+\frac{M^{\rm II}_{\eh,p;nb}\,M^{{\rm II}*}_{\eh,q;nb}}{\omega-\eps_b-\Omega_n}
 +\sum_{nj}
-\frac{M^{\rm I}_{31,p;nj}\,M^{{\rm I}*}_{31,q;nj}}{\omega-\eps_j+\Omega_n} \;.
+\frac{M^{\rm I}_{\eh,p;nj}\,M^{{\rm I}*}_{\eh,q;nj}}{\omega-\eps_j+\Omega_n} \;.
 \end{equation}
 The $\eh$-first-order reducible vertices have been
-defined in Eq.~\eqref{eq:Phi_eh_phonons}, with $M_{31}=-\tilde\rho$.
+defined in Eq.~\eqref{eq:Phi_eh_phonons}, with $M_{\eh,p;nb}=-M^{\eh}_{bp,n}$.
 The self-energy Eq.~\eqref{eq:GW_phonon_selfenergy}
 is completely equivalent to the PSD completion of
 the $\Sigma^{\text{TDHF}}$ self-energy\cite{Forster2024} from
@@ -1853,423 +1949,695 @@ approximation.
 \subsubsection{Double counting}
 It has been remarked in Ref.~\citenum{Pavlyukh2026} that $\Sigma^\text{PSDII}$ 
 double counts the $\Sigma^{(2)}$ contribution.
-This raises the natural question how this can be the case, 
-since the Faddeev-ADC(3) construction performed here is double counting-free 
+This raises the natural question of how this can be the case, 
+since the Faddeev-ADC(3) construction performed here is double-counting-free 
 by construction. 
 
 To see how the double counting of $\Sigma^{(2)}$ arises, we take
-$v\to0$. Then $X_{31}\to\bI$, $Y_{31}\to0$, $\Omega_n\to\eps_a-\eps_i$,
+$v\to0$. Then $Z_{\eh}\to\bI$, $\bar Z_{\eh}\to0$, $\Omega_n\to\eps_a-\eps_i$,
 $\mathcal N\to\bI$, $\mathcal H^{\rm II}\to\Delta_{abi}$,
 $\mathcal H^{\rm I}\to-\Delta_{ija}$, and the couplings become those of
 Eq.~\eqref{eq:K_U1}, $\mathcal U^{\rm II}_{p;iab}\to\mel{pi}{}{ab}$ and
 $\mathcal U^{\rm I}_{p;iaj}\to\mel{pa}{}{ij}$.
 Eq.~\eqref{eq:GW_phonon_selfenergy} gives
 \begin{equation}
+	\label{eq:Sigma31_GF2}
 \begin{aligned}
-\Sigma_{31,pq}
+\Sigma_{\eh,pq}
 \to{}&
 \sum_{abi}
 \frac{\mel{pi}{}{ab}\mel{ab}{}{qi}}{\omega+\eps_i-\eps_a-\eps_b}
 +\sum_{ija}
 \frac{\mel{pa}{}{ij}\mel{ij}{}{qa}}{\omega+\eps_a-\eps_i-\eps_j}
-\\
-={}&
-2\,\Sigma^{>}_{pq}+2\,\Sigma^{<}_{pq}
-=
-2\,\Sigma^{(2)}_{pq} \;,
+\\ = &
+2\,\Sigma^{(2)}_{pq} \;.
 \end{aligned}
-\label{eq:Sigma31_GF2}
 \end{equation}
-with $\Sigma^>$ and $\Sigma^<$ of Eq.~\eqref{eq:Sigma2_gl}. Since the
-pair and its spectator are independent, every $\pph$ configuration
-appears twice, as the pair $(ia)$ with spectator $b$ and as the pair
-$(ib)$ with spectator $a$, \ie\ once in each $\eh$ pair, $(31)$ and
-$(32)$, and each with its own free propagation. The same holds for the
-$\hhp$ configurations, with the pairs $(ia)$ and $(ja)$ and the
-spectators $j$ and $i$.
-The three ways of combining the
-$\eh$ pairs differ in how often they count $\mathcal G$,
-\begin{equation}
-\begin{aligned}
-Q_{31}
-={}&
-\mathcal G+\mathcal G\,C_{31}\,\mathcal G+\cdots \;,
-\\
-Q_{31}+Q_{32}
-={}&
-2\,\mathcal G+\mathcal G\big(C_{31}+C_{32}\big)\mathcal G+\cdots \;,
-\\
-\mathcal G+\sum_{\alpha=31,32}\big(Q_\alpha-\mathcal G\big)
-={}&
-\mathcal G+\mathcal G\big(C_{31}+C_{32}\big)\mathcal G+\cdots \;,
-\end{aligned}
-\nonumber
-\end{equation}
-whereas the $\eh$ part of ADC(3) is
-$\mathcal G+\mathcal G(C_{31}+C_{32})\mathcal G$. The single pair,
-$\frac12\Sigma_{31}$ by Eq.~\eqref{eq:labelled_space}, counts $\mathcal G$ once, but has only half of
-the $\eh$ interaction at third order. $\Sigma_{31}$ has all of it, but
-counts $\mathcal G$, and thus $\Sigma^{(2)}$, twice. The Faddeev
-series, Eq.~\eqref{eq:R_oc_omega}, truncated after the single-pair
-runs, counts both correctly,
+Every $\pph$ and $\hhp$ configuration
+appears twice: first, as the pair $(ia)$ with spectator $b$
+and then as the pair $(ib)$ with spectator $a$.
+Of course, it would be possible to subtract this contribution
 \begin{equation}
 \Sigma^{c}
 =
-\Sigma_{31}-\Sigma^{(2)} \;.
+\Sigma_{\eh}-\Sigma^{(2)} \;,
 \label{eq:eh_dc}
 \end{equation}
-In Eq.~\eqref{eq:Faddeev_inverse}, the term $-2\,\mathcal G^{-1}$ does
-the same.
-This subtraction is possible for PSDII as well, but it would defeat the 
+as is done in the FLEX approximation\cite{Bickers1989,Bickers1989b,Bickers2004,MarieLoos2025}
+and in the several flavors of combinations of the 
+$GW + T$-matrix approximations.\cite{Springer1998,Zhukov2004}
+This would however defeat the 
 purpose of the PSD-construction, as the resulting self-energy 
-is then noa sum of squares anymore and hence not PSD.
+is then not a sum of squares anymore and hence not PSD. 
 
-\subsubsection{$GW$ and other Vertex Corrections from Hedin's Equations}
+
+\subsubsection{$GW$}
 
 Constructing Eq.~\eqref{eq:Phi_eh_phonons} with the standard (direct
-electron-hole) RPA, and keeping only the direct vertex, gives the $GW$
-approximation. The vertex-corrected $GW\Gamma$ self-energy with TDHF screening and
-the first-order vertex\cite{Maggio2017,Forster2024} replaces one of
+electron--hole) RPA, and keeping only the direct vertex, gives the $GW$
+approximation, 
+\begin{equation}
+\Sigma_{GW}(\omega)
+=
+M^{\rm D}_{\eh}
+\big[
+\omega-s_{\eh}-\boldsymbol\Omega_{\eh}
+\big]^{-1}
+M^{\rm D^{\dagger}} \;.
+\label{eq:GW}
+\end{equation}
+Written as an eigenvalue problem in the $\pph$ and $\hhp$ spaces, this is
+the upfolded form of $GW$.\cite{Bintrim2021,Monino2023}
+The functional form of the $GW$ self-energy is retained independent of the 
+linear-response problem that is solved to construct the $M^{\rm D}_{\eh}$ and to 
+obtain $\boldsymbol\Omega_{\eh}$. Usually, the direct RPA is used, which is 
+the TDHF form of the RPA without the direct electron--hole interaction. 
+In Hedin's framework, the $GW$ approximation naturally goes together with the RPA, 
+since both arise from the lowest-order vertex, $\Gamma=1$, when the non-interacting propagator is 
+calculated at the Hartree level. In practice, the non-interacting Green's function is 
+almost always chosen to be a (generalized) Kohn--Sham one.\cite{Hybertsen1986} 
+This, together with the availability of TDDFT codes, has motivated the use of 
+TDDFT to construct Eq.~\eqref{eq:GW} in $GW$ calculations for solids,
+\cite{Hybertsen1987,Northrup1987,Northrup1989,DelSole1994,Morris2007,Chen2015,Sharma2011,Schmidt2017,Ma2019,Olsen2019}
+but also in molecules,\cite{Tiago2006,vanSetten2013,Hung2016,Hung2017,Ma2019}
+and it is to be noted that local vertices from the same kernels have also been placed in the
+self-energy.\cite{Northrup1987,Northrup1989,Mahan1989,DelSole1994,Shirley1996,Hindgren1997,Takada2001,Bruneval2005,Tiago2006,Morris2007,Romaniello2009,Hung2016,Hung2017,Schmidt2017,Hellgren2018,Ma2019,Olsen2019,Tal2021,Kutepov2022,Lorin2023,Tal2024}
+More recently, the solid state community has used statically screened TDHF, i.e. the usual 
+BSE. This approach is quite successful as it
+lowers the overestimated band gaps of quasiparticle
+self-consistent $GW$ in solids.\cite{Shishkin2007,Cunningham2018,Sakakibara2020,Cunningham2023}
+For molecules, this approach significantly worsens ionization potentials\cite{Forster2025}
+compared to standard qs$GW$.
+For molecules, TDHF screening has been tested,\cite{Bruneval2021,Patterson2024}
+and even polarizabilities from EOM-CCSD.\cite{Lewis2019}
+Combined with HF Green's functions, they somewhat improve over the RPA. However, 
+they are unbalanced and miss the corresponding vertex in the self-energy.\cite{Forster2024}
+
+\subsubsection{$\Sigma^{\text{TDHF}}$}
+This naturally motivates the choice of the $\Sigma^{\text{TDHF}}$ self-energy
+that has been introduced by 
+\citet{Maggio2017} and investigated later by several authors.
+\cite{Vlcek2019,MejutoZaera2021,Vacondio2024,Bruneval2024,Patterson2024, Forster2025}
+A first-order vertex constructed to satisfy the Ward identity had been
+used before in self-consistent calculations for atoms and small
+molecules.\cite{Kuwahara2014,Kuwahara2016}
+It operates in Hedin's framework. It solves the BSE for the $\eh$ channel
+with the complete first-order vertex (TDHF), and uses the same vertex in the 
+self-energy. This self-energy is the natural choice if based on a HF non-interacting reference, 
+since the TDHF vertex is the functional derivative of the HF self-energy with respect to $G$.
+
+Hedin's formalism operates with a self-energy with two vertices, 
+but one of them stays bare at first order. The resulting self-energies cannot be written 
+in resolvent form, which has been the motivation to introduce the PSD construction
+from above\cite{Pavlyukh2026} in the first place. Of course, the idea of the 
+PSD completion of the self-energy is much older.\cite{stefanucci2014diagrammatic} 
+Either way, the $\Sigma^{\text{TDHF}}$ self-energy can be obtained by 
+replacing one of
 the two vertices of Eq.~\eqref{eq:GW_phonon_selfenergy} by its direct
-part $M^{\rm D}_{31}$, the $GW$ vertex,
+part $M^{\rm D}_{\eh}$,
 \begin{equation}
 \Sigma_{GW\Gamma}(\omega)
 =
-M^{\rm D}_{31}
+M^{\rm D}_{\eh}
 \big[
-\omega-s_{31}-\boldsymbol\Omega_{31}
+\omega-s_{\eh}-\boldsymbol\Omega_{\eh}
 \big]^{-1}
-M_{31}^{\dagger} \;.
+M_{\eh}^{\dagger} \;.
 \label{eq:GWGamma}
 \end{equation}
-With $U^{\rm D}$ the direct part of $U^{(1)}$ and
-$U^{(1)}\hat P_{ab}=-U^{(1)}$, the direct vertex acts as the factor
-$\frac12$ on $\mathcal G$, which is symmetric in $a\leftrightarrow b$,
-but not on $C_{31}$, which $\hat P_{ab}$ maps onto $C_{32}$,
-\begin{equation}
-\begin{aligned}
-U^{\rm D}\mathcal G\,U^{(1)\dagger}
-={}&
-\tfrac12\,U^{(1)}\mathcal G\,U^{(1)\dagger}
-=
-\Sigma^{(2)} \;,
-\\
-U^{(1)}\mathcal G\,C_{31}\,\mathcal G\,U^{(1)\dagger}
-={}&
-U^{\rm D}\mathcal G\big(C_{31}+C_{32}\big)\mathcal G\,U^{(1)\dagger} \;.
-\end{aligned}
-\nonumber
-\end{equation}
-$\Sigma_{GW\Gamma}$ is therefore double
-counting free. Furthermore, the triplet phonons drop out,
-since the direct vertex
-couples only to singlet densities.
+This clearly looks like a hybrid between the $GW$ approximation
+Eq.~\eqref{eq:GW} and the PSDII self-energy Eq.~\eqref{eq:GW_phonon_selfenergy}. 
+From the perspective of the present review,
+such a hybrid approximation seems to make very little sense.
+We however emphasize that, unlike the PSDII self-energy, it is derived 
+rigorously in Hedin's framework. It of course comes with the downside 
+that it stops being PSD. It also eliminates the contribution from the 
+$\eh$-triplet channel. The $\eh$-triplet channel turns out to be absolutely 
+devastating for numerical accuracy. In fact, in Ref.~\citenum{Pavlyukh2026}, the 
+triplet channel has been eliminated completely, and the resulting self-energy, 
+coined PSD1, was found to give excellent agreement with experiment.
+This is of course not a very satisfactory ad hoc approximation, albeit a physically well-motivated one.
 
-At third order, the PSDII self-energy
-contains $C_{31}+C_{32}$, i.e. the full $\eh$ part of the self-energy 
-at third order in perturbation theory.
-$\Sigma_{GW\Gamma}$ however only contains half of it. It only contains
-$U^{\rm D}\mathcal G\,C_{31}\,\mathcal G\,U^{(1)\dagger}$,
-while 
-$U^{\rm D}\mathcal G\,C_{32}\,\mathcal G\,U^{(1)\dagger}$ is missing. 
-These are the third-order terms that the second-order vertex would
-add to $GW\Gamma$. In addition to this part, the second-order vertex also 
-adds the missing $\pp$ channel to the self-energy. It is a feature of hedin's equations, 
-that it never adds diagrammatically complete sets of diagrams at an
-iteration order.
 
-\subsubsection{The FLEX Approximation}
-Finally, the truncation \cite{Bickers1989,Bickers2004}
+A significant upside of the $\Sigma^{\text{TDHF}}$ self-energy is that it is 
+double-counting-free, by virtue of the fact that Hedin's equations only create 
+a single diagram once. However, at third order in perturbation theory, it only 
+contains half of the $\eh$ contribution. 
+In the correlation channel language adopted here, it contains 
+the contribution from $C_{\eh}$
+(through $U^{\rm D}\mathcal G\,C_{\eh}\,\mathcal G\,U^{(1)\dagger}$), but not from $C_{\teh}$
+(which is also the reason why it is double-counting-free at second order).
+
+In Hedin's scheme, these missing diagrams would be added to the self-energy 
+through the second-order vertex. In addition to the missing half of the 
+$\eh$ channel, the second-order vertex also adds the missing $\pp$ channel
+to the self-energy; the $T$ matrix is fully contained in Hedin's
+equations.\cite{MejutoZaera2022} It is a feature of Hedin's equations
+that they never add diagrammatically complete sets of diagrams at an
+iteration order. This can be understood from the structure of the equations
+and has for instance been pointed out by \citet{Schindlmayr1998}.
+Being diagrammatically complete at a certain order, a quality closely linked 
+but not equivalent to being crossing symmetric, is a feature we consider an important property 
+of any theory of the electronic self-energy.
+
+\subsubsection{$G3W2$-type vertex corrections}
+Within Hedin's equations, some of the simplest 
+possible vertex corrections arise from a first-order (3-point) vertex 
+of the form\cite{Romaniello2012,Bruneval2024} 
 \begin{equation}
-R_{\rm FLEX}
-= 
-\mathcal G+\sum_\alpha\big(Q_\alpha-\mathcal G\big) \;,
-\end{equation}
-of the Faddeev series becomes the FLEX approximation,
+	\Gamma(123) = \delta(12)\delta(13) + \ii W(21)G(13)G(32) \;,
+\end{equation} 
+that, inserted into Hedin's expression for $\Sigma$, results in the 
+family of the so-called $G3W2$-type self-energies, 
 \begin{equation}
-\Sigma_{\rm FLEX}
-=
-\tfrac12\,\Sigma_{12}+\Sigma_{31}-2\,\Sigma^{(2)} \;.
-\label{eq:FLEX}
+	\label{eq:g3w2}
+	\Sigma_{xc}(11') = \Sigma^{GW} - G(14)W(1'4)G(42)G(21')W(21)
 \end{equation}
-Like
-Eq.~\eqref{eq:eh_dc}, FLEX counts $\mathcal G$ once.
-$\frac12\Sigma_{12}$
-and $\Sigma_{31}$ contain $\Sigma^{(2)}$ once and twice, and
-$-2\,\Sigma^{(2)}$ removes the excess.
-FLEX and 
-Faddeev-ADC(3) are both 
-exact through third order. FLEX misses
-the sequences of different pairs in Eq.~\eqref{eq:R_oc_omega}. Since
-the subtraction is outside the resolvent, $\Sigma_{\rm FLEX}$ has
-negative residues and no Hermitian effective Hamiltonian.
-Table~\ref{tab:single_pair} summarizes the approximations of this
-section.
+that have been investigated first for solids
+\cite{Bobbert1994,Ummels1998,Kutepov2016,Kutepov2017a,Pavlyukh2020} and later for molecules.\cite{Bruneval2024,Yoneyama2024}
+By splitting the screened Coulomb interaction into the bare interaction
+and its polarizable part $W = v + W^\text{c}$, the $G3W2$ term splits into 
+4 contributions, schematically
+\begin{equation}
+	GWGWG = GvGvG + GW^\text{c}GvG + GvGW^\text{c}G + GW^\text{c}GW^\text{c}G \;.
+\end{equation}
+The sum of the first two terms is known as the SOSEX-approximation.\cite{Ren2015,Vacondio2022}
+\citet{Bruneval2024} have coined the sum of the first three terms the 
+2SOSEX-approximation, pointing out that it constitutes a more systematic 
+approximation to the full $G3W2$. We note that also a statically screened 
+$G3W2$ approximation has been investigated both for
+solids\cite{Gruneis2014} and molecules,\cite{Forster2022} and more recently all these
+approximations to $G3W2$ have been used in a fully self-consistent scheme by
+\citet{Pokhilko2025} and assessed for molecules\cite{Wang2026}
+(notice that the authors of this method denote the
+static approximation to $G3W2$ as $G3W2$).
+Resumming the statically screened $G3W2$ vertex to all orders as an
+$\eh$ ladder gives the screened $\eh$ $T$ matrix, recast as a
+vertex.\cite{Romaniello2012} With $W$ in the static limit, as used in
+practice by \citet{Romaniello2012}, this is the vertex of
+$\Sigma^{\rm BSE}$ of Ref.~\citenum{Forster2024}, but in the self-energy
+only, while the $\eh$ propagator is kept at the level of the direct RPA.
+
+Without any vertex corrections to the inner vertex that is used to generate $W$, 
+the performance of all of these approximations is exceptionally poor. 
+The performance of the statically screened $G3W2$ self-energy is satisfactory, 
+but only because the magnitude of its effect in QP energies is very small.
+\cite{Forster2022} However, when paired with vertex corrections for $W$,
+$G3W2$-type approximations perform well.\cite{Gruneis2014, Forster2024} 
 
 \begin{table}[hbt!]
 \caption{Approximations to Eq.~\eqref{eq:Heff_depth1} built from the
 pairs of Eq.~\eqref{eq:R_oc_omega}: exact at second order, $\eh$ and
 $\pp$ parts of ADC(3) at third order, and positive semidefinite
 self-energy (Faddeev: for positive definite $\mathcal N$). Faddeev,
-$\eh$ only: Eq.~\eqref{eq:Faddeev_inverse} with $Q_{12}\to\mathcal G$.}
+$\eh$ only: Eq.~\eqref{eq:Faddeev_inverse} with $Q_{\pp}\to\mathcal G$.}
 \label{tab:single_pair}
 \begin{ruledtabular}
 \begin{tabular}{lccccc}
  & $\Sigma^{(2)}$ & $\eh$ & $\pp$ & PSD & Ref. \\
 \hline
-$\Sigma_{31}$ (PSD) & $2\,\Sigma^{(2)}$ & $C_{31}+C_{32}$ & -- & yes & \citenum{Pavlyukh2026} \\
-$\frac12\Sigma_{31}$ & exact & $\frac12(C_{31}+C_{32})$ & -- & yes & this work \\
-$\Sigma_{31}-\Sigma^{(2)}$ & exact & $C_{31}+C_{32}$ & -- & no & this work \\
-$\Sigma_{GW\Gamma}$ & exact & $C_{31}$ & -- & no & \citenum{Maggio2017,Forster2024} \\
-Faddeev, $\eh$ only & exact & $C_{31}+C_{32}$ & -- & yes & this work \\
-$\Sigma_{\rm FLEX}$ & exact & $C_{31}+C_{32}$ & $C_{12}$ & no & \citenum{Bickers1989,Bickers2004} \\
-Faddeev-ADC(3) & exact & $C_{31}+C_{32}$ & $C_{12}$ & yes & this work \\
+$\Sigma_{\eh}$ (PSD) & $2\,\Sigma^{(2)}$ & $C_{\eh}+C_{\teh}$ & -- & yes & \citenum{Pavlyukh2026} \\
+$\frac12\Sigma_{\eh}$ & exact & $\frac12(C_{\eh}+C_{\teh})$ & -- & yes &\citenum{Pavlyukh2026} \\
+$\Sigma_{\eh}-\Sigma^{(2)}$ & exact & $C_{\eh}+C_{\teh}$ & -- & no & this work \\
+$\Sigma_{GW\Gamma}$ & exact & $C_{\eh}$ & -- & no & \citenum{Maggio2017,Forster2024} \\
+$\Sigma_{\rm FLEX}$ & exact & $C_{\eh}+C_{\teh}$ & $C_{\pp}$ & no & \citenum{Bickers1989,Bickers2004} \\
+Faddeev-ADC(3) & exact & $C_{\eh}+C_{\teh}$ & $C_{\pp}$ & yes &
+\citenum{Barbieri2001,barbieri2003extension,barbieri2007quasiparticles,Degroote2011} \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-\subsection{Fourth-order completion}
-\label{sec:overlap}
-We now complete the own-channel and no-overlap approximation to fourth order. We
-start from the known ADC(4) effective Hamiltonian.
-In addition to extra interactions within the $\pph$ ($\hhp$) space and
-their couplings to the one-particle space, ADC(4) adds the
-$\ppphh$ ($\hhhpp$) space.
-How can these states be created when we stay in a three-particle
-picture? A $\ppphh$ state is an intermediate state with
-five lines, the $\pph$ state $(ab;i)$ and one additional
-particle--hole pair $(c;j)$. This pair is emitted from one line of the
-$\pph$ state at a bare interaction and absorbed later. A first-order rung of
-the own channel cannot do this, as it is instantaneous and connects two
-lines of the $\pph$ state, so that three lines enter and leave it. 
+\begin{table*}[hbt!]
+\caption{Treatment and combination of correlation channels in self-energy
+approximations: second-order exactness in the bare interaction and positive
+semidefiniteness (PSD). Second order of the PSD completions in finite
+systems: Ref.~\citenum{Pavlyukh2026} and this work.}
+\label{tab:channel_literature}
+\footnotesize
+\begin{tabular}{llllll}
+\toprule
+Class & Type & Approximation & $\Sigma^{(2)}$ exact & PSD & Ref. \\
+\midrule
+$\pp$ pair & $T$ matrix & $G_0T_0$@ppRPA (one-shot) & yes & yes & \citenum{Zhang2017,orlando2023three} \\
+ & $T$ matrix & $G_{\rm RS}T_{\rm RS}$ (renormalized singles) & yes & yes & \citenum{Li2021} \\
+ & $T$ matrix & first order of the $\pp$ Hedin equations & yes & yes & \citenum{Marie2024a} \\
+ & $T$ matrix & Kadanoff--Baym $T$ matrix (self-consistent) & yes & yes & \citenum{PuigvonFriesen2009,PuigvonFriesen2010,Kohler1999} \\
+ & $T$ matrix & $\pp$ and $\eh$ $T$ matrix in the G1--G2 scheme (GKBA) & yes & not discussed & \citenum{Schluenzen2017,Schluenzen2020,Joost2020,Schluenzen2020b} \\
+ & $T$ matrix & generalized $T$ matrix (self-consistent, Gorkov) & yes & yes & \citenum{Bozek2002,Bozek2003} \\
+\addlinespace
+$\pp$ pair, screened kernel & screened $T$ matrix & screened ladder ($W$ in the rungs) & -- & in general no & \citenum{Kraeft1986,Kremp2005,Bonitz2016} \\
+ & screened $T$ matrix & screened $T$ matrix I & yes & in general no & \citenum{Romaniello2012} \\
+ & screened $T$ matrix & $\pp$ Hedin vertex corrections (perturbative in $T$) & yes & not discussed & \citenum{Marie2024a} \\
+\addlinespace
+$\eh$ pair & $GW$ & $GW$ & no ($\Sigma^{(2)}_{\rm D}$ only) & yes & \citenum{Hedin1965} \\
+ & $\eh$ $T$ matrix & $\eh$ $T$ matrix & yes & no & \citenum{orlando2023three} \\
+ & $\Sigma^{\rm TDHF}$ + PSD & PSDI & no & yes & \citenum{Pavlyukh2026} \\
+ & $\Sigma^{\rm TDHF}$ + PSD & PSDII ($\Sigma_{\eh}$) & no & yes & \citenum{Pavlyukh2026} \\
+ & vertex in $W$ only & $GW$ with TDDFT, BSE or EOM-CCSD screening & no ($\Sigma^{(2)}_{\rm D}$ only) & yes & \citenum{Shishkin2007,Chen2015,Lewis2019} \\
+\addlinespace
+channel sums & $GW$ + $T$ matrix & FLEX & yes & no & \citenum{Bickers1989,Bickers1989b,Bickers2004} \\
+ & $GW$ + $T$ matrix & $GW+T$ & yes & no & \citenum{Springer1998,Zhukov2004} \\
+ & charge + spin ladders & ladder D$\Gamma$A, TPSC (lattice models) & -- & -- & \citenum{Toschi2007,Katanin2009,Vilk1997} \\
+ & $GW$ + spin-flip ladder & $GWT$ (magnons) & -- & -- & \citenum{Muller2019,Nabok2021} \\
+\addlinespace
+channels coupled & all channels & dynamically screened ladder ($g_{123}\to0$) & yes & no guarantee & \citenum{Joost2022,Bonitz2024} \\
+ & all channels & parquet (static kernels) & yes & no guarantee & \citenum{MarieLoos2025} \\
+ & all channels & parquet approximation (lattice models) & yes & no guarantee & \citenum{Bickers1991,Yang2009} \\
+\addlinespace
+three-particle & Faddeev & real-time Faddeev (NEGF, bare $v$) & yes & not discussed & \citenum{Pavlyukh2021,Pavlyukh2022a} \\
+ & Faddeev & Faddeev-ADC(3) (RPA pairs, metric $\mathcal N$) & yes & yes & this work \\
+\addlinespace
+PSD completions & vertex-corrected $GW$ & half-diagram squares ($GW$ + vertex) & no (finite systems) & yes & \citenum{stefanucci2014diagrammatic,Pavlyukh2016,Pavlyukh2020} \\
+ & vertex-corrected $GW$ & $GW$+2SOSEX-psd & no & yes & \citenum{Bruneval2025} \\
+ & vertex-corrected $GW$ & ADC-$G3W2$ & no & yes & \citenum{Marie2026} \\
+\addlinespace
+non-PSD vertex & $G3W2$-type & SOSEX & yes & no & \citenum{Ren2015} \\
+ & $G3W2$-type & 2SOSEX & yes & no & \citenum{Bruneval2024} \\
+ & $G3W2$-type & $G3W2$ & yes & no & \citenum{Kutepov2016,Bruneval2024} \\
+ & $G3W2$-type & statically screened $G3W2$ & yes & no & \citenum{Gruneis2014,Forster2022} \\
+ & $GW\Gamma$ & $GW\Gamma$ (first-order vertex) & yes & no & \citenum{Maggio2017,Forster2024} \\
+ & $GW\Gamma$ & $GW\Gamma$ (local TDDFT vertex) & no & no & \citenum{DelSole1994,Bruneval2005,Schmidt2017} \\
+\addlinespace
+extended CC & vertex-corrected $GW$ & ECC exchange corrections & no ($\Sigma^{(2)}_{\rm D}$ only) & not discussed & \citenum{tolle2026connection} \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
-The first mechanism is line dressing. A line emits a particle--hole
-pair and absorbs it again, $a\to c'+(c;j)\to a$. In between, five
-lines propagate. This is a $\Sigma^{(2)}$ insertion into a line of
-$\mathcal G$.
+\subsubsection{PSD-version of $G3W2$-type self-energies}
 
-The second mechanism are the crossed channels. The pair is emitted by
-one line of a pair and absorbed by the other line of the same pair.
-The two bare interactions, joined by the lines $c$ and $j$, form a
-second-order vertex of this pair in a channel other than its own:
-$\Phi^{\eh,(2)}$ and $\Phi^{\teh,(2)}$ in the pair $(12)$, whose own
-channel is the $\pp$ ladder, and $\Phi^{\pp,(2)}$ and
-$\Phi^{\teh,(2)}$ in the pairs $(3x)$. These are the crossed-channel
-parts of $F^{(2)}$ in Eq.~\eqref{eq:ADC_Faddeev}, \ie\ the channel
-crossing inside the second-order pair vertex, which the own-channel
-approximation neglects.
+\paragraph{PSD-2SOSEX.}
+Like all vertex-corrected self-energies derived in Hedin's formalism,
+also the ones of $G3W2$-type cannot be written in resolvent form. Instead, their pole 
+structures are rather complicated. Recently, the PSD-completion procedure of 
+\citet{stefanucci2014diagrammatic} has been applied to derive a PSD-version of the 
+$GW+\text{2SOSEX}$ self-energy,\cite{Bruneval2025} and it is interesting to investigate 
+how it fits into the effective Hamiltonian framework of Faddeev-ADC(3). 
+Like $GW$, the $GW+\text{2SOSEX}$ self-energy is of the form of 
+Eq.~\eqref{eq:GW_phonon_selfenergy} and can be written in 
+the form of Eq.~\eqref{eq:GW},
+\begin{equation}
+	\label{eq:psd-2SOSEX}
+    \Sigma_{pq}^{{\rm PSD},p}(\omega)
+    =
+    \sum_{c,bi}
+    \frac{
+        \bigl(
+            M^{\rm D}_{pc,bi}
+            +
+            \widetilde M^{\rm D}_{pc,bi}
+        \bigr)
+        \bigl(
+            M^{\rm D}_{qc,bi}
+            +
+            \widetilde M^{\rm D}_{qc,bi}
+        \bigr)^*
+    }
+    {
+        \omega-\eps_c-\Delta_{bi}
+    }.
+\end{equation}
+where
+\begin{equation}
+    \widetilde{M}^{\rm D}_{pc,n}
+    =
+    \sum_{aj}
+    M^{\rm D}_{aj,n}
+    \left[
+        \frac{\braket{pa}{jc}}
+        {\eps_a-\eps_j-\Omega_n}
+        +
+        \frac{\braket{pj}{ac}}
+        {\eps_a-\eps_j+\Omega_n}
+    \right].
+    \label{eq:2sosex-tilde-couplings}
+\end{equation}
+Clearly, in their first-order limit, $\Omega_n \rightarrow \eps_b -\eps_i$ 
+and $M^{\rm D}_{aj,n} \rightarrow \braket{ab}{ij}$, 
+Eq.~\eqref{eq:2sosex-tilde-couplings} becomes  
+\begin{equation}
+    \widetilde{M}^{\rm D,(1)}_{pc,bi}
+    =
+    \sum_{aj}
+    \langle ab|ji\rangle
+    \left[
+        \frac{\langle pa|jc\rangle}
+        {\eps_a+\eps_i-\eps_b-\eps_j}
+        +
+        \frac{\langle pj|ac\rangle}
+        {\eps_a+\eps_b-\eps_i-\eps_j}
+    \right].
+    \label{eq:2sosex-weak-coupling}
+\end{equation}
+The second term in this expression is a non-antisymmetrized 
+second-order doubles amplitude, that is contained in 
+ADC(3), and its renormalized version
+Eq.~\eqref{eq:2sosex-tilde-couplings} is completely 
+contained in Faddeev-ADC(3) as part of the ring-CCD 
+amplitudes. The first term contains instead
+the transition-energy difference
+\begin{equation}
+    \Delta_{aj}-\Delta_{bi}
+    =
+    (\epsilon_a-\epsilon_j)-(\epsilon_b-\epsilon_i).
+    \label{eq:forward-ph-denominator}
+\end{equation}
+This is the
+denominator for first-order mixing of the two forward particle--hole
+transitions $(bi)$ and $(aj)$, and it is part neither of the $\pp$ nor 
+the $\eh$-type couplings in Eq.~\eqref{eq:Ueff_depth1}. 
 
-The last mechanism are the overlaps. The pair is emitted at the rung
-of one pair and absorbed at the rung of a different pair, both at first
-order. For
-instance, in $\cK_{31}[\Gamma^{(1)}]\cK_{12}[\Gamma^{(1)}]\mathcal G$,
-the rung of the pair $(31)$ can occur before that of the pair
-$(12)$. Line 1, shared by both pairs, then runs backward in time
-between the two rungs. The rung of $(31)$ then creates an
-additional particle and a hole,
-and the rung of $(12)$ absorbs this hole together with the
-original particle. In between, five lines propagate. These are the
-overlapping orderings of the last term of Eq.~\eqref{eq:ADC_Faddeev},
-which the no-overlap approximation excludes.
+To see how 
+it fits into Faddeev-ADC(3), define the direct electron--hole scattering
+matrix between the $2p1h$ configurations $(c;bi)$ and $(c;aj)$ by
+\begin{equation}
+    C^{{\rm eh},{\rm D},(1)}_{c,bi;\,c,aj}
+    \equiv
+    -\braket{ab}{ji}.
+    \label{eq:direct-eh-interaction}
+\end{equation}
+where $c$ is a fixed spectator. Their unperturbed energies are
+$E_{c,bi}=\epsilon_c+\Delta_{bi}$ and $E_{c,aj}=\epsilon_c+\Delta_{aj}$.
+They enter the Faddeev-ADC(3) self-energy, Eq.~\eqref{eq:Heff_depth1}, via 
+the expansion of the resolvent $(\omega\mathcal{N} - \mathcal{H})^{-1}$ via 
+Eq.~\eqref{eq:depth1_amplitudes} through the contribution
+\begin{equation}
+    \begin{aligned}
+    \Sigma^{(3)}_{\rm fwd,pq}(\omega)
+    ={}&
+    \left[
+        U^{(1)}g(\omega)C^{{\rm eh},(1)}
+        g(\omega)U^{(1)\dagger}
+    \right]_{pq}
+    \\
+    ={}&
+    \sum_{c,bi,aj}
+    \frac{
+        m_{p;c,bi}
+        C^{{\rm eh},(1)}_{c,bi;\,c,aj}
+        m_{q;c,aj}^{*}
+    }
+    {(\omega-E_{c,bi})(\omega-E_{c,aj})}
+    \\
+    ={}&
+    -\sum_{c,bi,aj}
+    \frac{
+        \braket{pb}{ci}\,
+        \braket{ab}{ji}\,
+        \braket{qa}{cj}
+    }
+    {(\omega-E_{c,bi})(\omega-E_{c,aj})}.
+    \end{aligned}
+    \label{eq:adc3-forward-eh-insertion}
+\end{equation}
+The denominator of this term can be expanded through a partial 
+fraction decomposition as 
+\begin{equation}
+    \frac{1}
+    {(\omega-E_{c,bi})(\omega-E_{c,aj})}  
+    =
+    -\frac{1}{\Delta_{aj}-\Delta_{bi}}
+    \left[
+        \frac{1}{\omega-E_{c,bi}}
+        -
+        \frac{1}{\omega-E_{c,aj}}
+    \right] \;,
+    \label{eq:forward-eh-partial-fraction}
+\end{equation}
+which shows that it contains
+the denominator of the first term in Eq.~\eqref{eq:2sosex-weak-coupling}.
+The numerators are the same as the ones of the 
+third-order terms of Eq.~\eqref{eq:psd-2SOSEX},
+\begin{equation}
+    \Sigma_{pq}^{(3),{\rm PSD},p}(\omega)
+    =
+    \sum_{c,bi}
+    \frac{
+        \widetilde M_{pc,bi}^{\rm D,(1)}
+        M_{qc,bi}^{\rm D,(0)*}
+        +
+        M_{pc,bi}^{\rm D,(0)}
+        \widetilde M_{qc,bi}^{\rm D,(1)*}
+    }
+    {
+        \omega-\eps_c-\Delta_{bi}
+    }.
+    \label{eq:PSD-third-order-cross-term}
+\end{equation}
+Of course, by expanding the 
+resolvent, one can match the terms in the PSD-2SOSEX and 
+Eq.~\eqref{eq:Heff_depth1} order by order. 
 
-\subsubsection{ADC(4)}
-Block II of ADC(4)\cite{Schirmer1983} extends the $\pph$ space of
-ADC(3) by the $\ppphh$ space,
+Like its PSDII sibling, PSD-2SOSEX double counts part of $\Sigma^{(2)}$.
+The origin is the first term of Eq.~\eqref{eq:2sosex-tilde-couplings}.
+For the phonon $n$ that reduces to the transition $(aj)$ for $v\to0$,
+its denominator is the RPA shift of that transition,
 \begin{equation}
-\begin{aligned}
-\mathbf H^{\rm ADC(4), \pph}
-={}&
-\begin{pmatrix}
-K^{\rm II}+C^{\rm II}+C^{{\rm II},(2)} & E_3^{\dagger}
-\\
-E_3 & K_3
-\end{pmatrix}  \;,
-\\
-\mathbf U^{\rm ADC(4)}
-={}&
-\big(U^{(1)}+U^{(2)}+U^{{\rm II},(3)},\;U_3\big) \;.
-\end{aligned}
-\label{eq:ADC4_II}
-\end{equation}
-In the $\ppphh$ space, $a<b<c$, $i<j$,
-\begin{align}
-K_{3;abcij}
-={}&
-\eps_a+\eps_b+\eps_c-\eps_i-\eps_j \;, \nonumber \\
-E_{3;abcij,dek}
-={}&
-\hat P^-_{de}\Big[
-\hat P^-_{ij}\hat P_{c/ab}\mel{di}{}{ab}\,\delta_{ec}\delta_{kj}
-\nonumber\\
-&\hphantom{\hat P^-_{de}\Big[}
--\hat P_{c/ab}\mel{kc}{}{ij}\,\delta_{da}\delta_{eb}
-\Big] \;,
-\label{eq:ADC4_3p2h}
-\end{align}
-with $\hat P_{x/yz}f(x,y,z)=f(x,y,z)-f(y,x,z)-f(z,y,x)$,
-and couplings 
-\begin{equation}
-U_{3;p;abcij}
+\eps_a-\eps_j-\Omega_n
 =
-\hat P_{c/ab}\sum_{d}t_{ij}^{dc}\mel{pd}{}{ab}
-+\hat P_{a/bc}\hat P^-_{ij}\sum_{k}t_{kj}^{bc}\mel{pi}{}{ka} \;.
-\end{equation}
-The
-second-order $\pph$ block is
-$C^{{\rm II},(2)}=\tfrac12(L+L^\dagger)$,
-\begin{align}
-L_{abi,cdj}
-={}&
-\frac12\delta_{ij}\sum_{kl}t_{kl}^{ab}\mel{kl}{}{cd}
-+\hat P^-_{ab}\hat P^-_{cd}\,\delta_{bd}
-\sum_{ke}t_{ik}^{ae}\mel{ec}{}{kj}
-\nonumber\\
-&+
-\frac12\big(\delta_{ac}\delta_{bd}-\delta_{ad}\delta_{bc}\big)
-\sum_{kef}t_{ik}^{ef}\mel{ef}{}{kj}
-\nonumber\\
-&-
-\frac12\hat P^-_{ab}\hat P^-_{cd}\,\delta_{ij}\delta_{bd}
-\sum_{kle}t_{kl}^{ae}\mel{kl}{}{ce} \;,
-\label{eq:L_II}
-\end{align}
-and $U^{{\rm II},(3)}$ contains the second-order singles, doubles and
-triples, products of two first-order doubles, the second-order
-density matrix, and $\Sigma^{(2)}$ insertions in the lines.\cite{Schirmer1983}
-
-\subsubsection{Own-channel and no-overlap part of ADC(4)}
-The first line of Eq.~\eqref{eq:L_II} contains the leading ground-state
-correlations of the phonons of Sec.~\ref{sec:propagators}. With the first-
-and second-order solutions of Eq.~\eqref{eq:Riccati},
-\begin{align}
-D^{(0)}_\alpha T^{(1)}_\alpha+T^{(1)}_\alpha A^{(0)}_\alpha
-={}&
--B_\alpha^\dagger,
-\nonumber\\
-D^{(0)}_\alpha T^{(2)}_\alpha+T^{(2)}_\alpha A^{(0)}_\alpha
-={}&
--D^{(1)}_\alpha T^{(1)}_\alpha-T^{(1)}_\alpha A^{(1)}_\alpha,
-\label{eq:Riccati_orders}
-\end{align}
-where $A^{(0)}$, $D^{(0)}$ are the pair energies and $A^{(1)}$,
-$D^{(1)}$ the first-order pair interactions, the two terms of the first line of Eq.~\eqref{eq:L_II} are
-$B_\alpha T^{(1)}_\alpha$ of the $\pp$ pair and of the $\eh$ pairs,
-$T^{(1)}_{12}=t$ and $T^{(1)}_{3x}=t$. The second and third lines of
-Eq.~\eqref{eq:L_II} dress the hole line and a particle line with
-the second-order self-energy. Hence
-for the $C$-block
-\begin{equation}
-C^{{\rm II},(2)}
-=
-C^{(2)}_{\rm oc}+\Delta C \;,
-\label{eq:C2_split}
-\end{equation}
-and coupling block,
-\begin{equation}
-U^{{\rm II},(3)}
-=
-U^{(3)}_{\rm oc}+\Delta U \;,
-\label{eq:U3_split}
-\end{equation}
-with
-\begin{equation}
-C^{(2)}_{\rm oc}
-=
-\frac12\sum_\alpha\big(B_\alpha T^{(1)}_\alpha+T^{(1)\dagger}_\alpha B^\dagger_\alpha\big) \;,
-\label{eq:d1_second}
-\end{equation}
-and
-\begin{equation}
-U^{(3)}_{\rm oc}
-=
-\sum_\alpha U^{(1)}_{Y,\alpha}\,T^{(2)}_\alpha
-+\tfrac12\,U^{(1)}S \;,
-\label{eq:U3_oc}
-\end{equation}
-and, for convenience, the overlap
-\begin{equation}
-S
-=
-\sum_\alpha T^{(1)\dagger}_\alpha T^{(1)}_\alpha \;,
-\label{eq:S_def}
-\end{equation}
-with $\Delta C$ the symmetrized second and third lines of Eq.~\eqref{eq:L_II}, \ie\
-the line dressing. $T^{(2)}_{12}$ contains only the $\pp$ and $\hh$
-ladder terms of the second-order doubles. $T^{(2)}_{3x}$ contains
-only the ring terms of the pair $(3x)$. $\Delta U$ contains the rest of
-$U^{{\rm II},(3)}$, in particular the singles, the triples, the
-crossed-channel parts of the second-order doubles, the density-matrix
-terms and the line dressing of the couplings.
-
-\subsubsection{Resummation}
-The own-channel and no-overlap parts, Eqs.~\eqref{eq:d1_second} and \eqref{eq:U3_oc}, are the leading terms
-of the resummed quantities of Sec.~\ref{sec:depth1}. With
-$\mathcal N^{-1/2}=\bI+\tfrac12S+O(v^3)$ and Eq.~\eqref{eq:Riccati_orders},
-Eqs.~\eqref{eq:depth1_amplitudes}, \eqref{eq:Ueff_depth1} and
-\eqref{eq:Heff_depth1} give
-\begin{equation}
-\begin{aligned}
-H_{\rm eff}
-={}&
-K^{\rm II}+C^{\rm II}+C^{(2)}_{\rm oc}+O(v^3) \;,
-\\
-\mathcal U\,\mathcal N^{-1/2}
-={}&
-U^{(1)}+U^{(2)}+U^{(3)}_{\rm oc}+O(v^4) \;.
-\end{aligned}
+O(v) \;,
 \nonumber
 \end{equation}
-We therefore replace these truncated sums by their resummed forms and
-keep $\Delta C$, $\Delta U$ and the $\ppphh$ space at their
-ADC(4) order,
+and the term is of first order, not of second. In
+Eq.~\eqref{eq:2sosex-weak-coupling} it is the diagonal term
+$(aj)=(bi)$, where $\Delta_{aj}-\Delta_{bi}=0$. With the singlet
+phonons and spin-adapted vertices of
+Refs.~\citenum{Bruneval2025,Marie2026},
+$M^{\rm D}_{aj,n}/(\eps_a-\eps_j-\Omega_n)\to-1/\sqrt2$, and the vertex of
+Eq.~\eqref{eq:psd-2SOSEX} becomes, to first order,
 \begin{equation}
-\begin{aligned}
-\mathbf H_{\rm oc}
-={}&
-\begin{pmatrix}
-H_{\rm eff}+\Delta C & E_3^{\dagger}
-\\
-E_3 & K_3
-\end{pmatrix} ,
-\\
-\mathbf U_{\rm oc}
-={}&
-\big(\mathcal U\,\mathcal N^{-1/2}+\Delta U,\;U_3\big) \;.
-\end{aligned}
-\label{eq:d1_ADC4}
+M^{\rm D}_{pc,aj}+\widetilde M^{\rm D}_{pc,aj}
+\to
+\frac{1}{\sqrt2}\Big(2\braket{pa}{cj}-\braket{pa}{jc}\Big) \;,
+\nonumber
 \end{equation}
-The differences to Eq.~\eqref{eq:ADC4_II} are of third order in the
-matrix and of fourth order in the couplings. They enter the self-energy
-at fifth order, so that Eq.~\eqref{eq:d1_ADC4} is exact through fourth
-order and keeps the own-channel and no-overlap resummation of the phonons to all
-orders. Block I follows in the same way, and the static self-energy is
-needed through fourth order, as in ADC(4).
+the singlet antisymmetrized vertex of PSDI. Summed over $a$, $c$ and
+$j$,
+\begin{equation}
+\Sigma^{{\rm PSD}}
+=
+\tfrac54\,\Sigma^{(2)}_{\rm D}+2\,\Sigma^{(2)}_{\rm X}+O(v^3) \;,
+\nonumber
+\end{equation}
+the same second order as PSDI. The cross term $2\,\Sigma^{(2)}_{\rm X}$
+is the second-order exchange that $GW$+2SOSEX-aug already counts
+twice;\cite{Bruneval2025} completing the square adds
+$\frac14\Sigma^{(2)}_{\rm D}$. 
 
-$\Delta C$, $\Delta U$ and the $\ppphh$ space collect the
-line dressing, the crossed-channel vertices inside a pair and the
-orderings in which the ladders of different pairs overlap in time. The
-latter open $\ppphh$ subintervals, but only their sum with
-the crossed channels and the line dressing has the Hamiltonian form
-$E_3^\dagger(\omega-K_3)^{-1}E_3$. A resummation of these terms would
-therefore have to be carried out in the $\ppphh$
-configuration space.
+In summary, double counting aside,
+the PSD-2SOSEX self-energy is a (severely) channel-restricted subset of
+the Faddeev-ADC(3) self-energy, but not through a one-to-one 
+correspondence of individual pieces. As it does not assume the TDA, 
+it contains terms that are not contained in ADC(3).
+
+\paragraph{PSD-$G3W2$.}
+\citet{Marie2026} applied the ADC construction to the expansion of the
+$G3W2$ self-energy in $W$, with the goal to complete it into a PSD expression.
+The configurations are those of
+Eq.~\eqref{eq:GW_phonon_HNU}, with direct-RPA phonons,
+$K=\eps_a+\Omega_\nu$ ($\eps_i-\Omega_\nu$). Their PSD-$G3W2$ effective Hamiltonian 
+goes beyond the Faddeev-ADC(3) configuration space and adds 
+3p2h configurations that would show up in ADC(4) and ADC(5). It also 
+correlates the 5-particle block, terms that would otherwise only show up in 
+ADC(5). Of course, since they solve the RPA problem, their scheme goes beyond 
+ADC, but it is reasoanble to assume that their self-energy is obtained in 
+Faddeev-ADC(5).
+In the bare interaction PSD-$G3W2$ contains PSD-2SOSEX.
+A doubly resonant term of $U^{(3)}$ adds a
+further first-order exchange vertex, so that ADC-$G3W2$ gives
+$\frac{17}{16}\Sigma^{(2)}_{\rm D}+\Sigma^{(2)}_{\rm X}$ in total.
+
+All constructions
+that make self-energies derived in Hedins method PSD seem to share this shortcoming, 
+and it is unclear how it can be overcome. It is also reasonable to assume that the PSD
+completions of higher-order self-energie derived in Hedins equations would 
+also double count contriburions at higher orders. As already pointed out, 
+the double cunted contributions can of course be subtracted, but this would make the 
+self-energies non-PSD. For this reason, the current PSD-completions do not seem 
+to consitute a path toward systemarically improvable self-energy approximations 
+
+\subsection{The $\pp$ channel}
+Very similar to working in the $\eh$ channel only, it is 
+of course also possible to restrict Eq.~\eqref{eq:HNU_phonons} to the 
+$\pp$ channel only. The canonical self-energy approximation that operates in this 
+channel is the $T$-matrix approximation.\cite{orlando2023three, Marie2024a}
+Unlike in the $\eh$ channel, there is no double counting ambiguity in the 
+$\pp$ channel, simply due to the fact that it is not related by a simple symmetry to another 
+channel in the same way as the $\eh$ channel. In the same way as the PSDII self-energy, 
+the resulting self-energy is complete to third order in the $\pp$ channel, and of course, by construction, 
+it is also PSD.
+
+$T$-matrix self-energies have been used and extended in several
+communities. In molecules, the $G_0T_0$ approximation is built on the
+ppRPA,\cite{Zhang2017} on a renormalized-singles
+reference,\cite{Li2021} compared to $GW$ and the $\eh$ $T$
+matrix,\cite{orlando2023three} used in the Bethe--Salpeter
+equation,\cite{Loos2022} and obtained as the first order of the $\pp$
+Hedin equations.\cite{Marie2024a} Self-consistent $T$ matrices are used
+in Kadanoff--Baym dynamics,\cite{Kohler1999,PuigvonFriesen2009,PuigvonFriesen2010,Schluenzen2020,Joost2020}
+and, with anomalous propagators, in nuclear
+matter.\cite{Bozek2002,Bozek2003} Screening enters the $\pp$ kernel in
+the screened ladder approximation of plasma
+physics,\cite{Kraeft1986,Kremp2005,Bonitz2016} through the
+Gorkov--Melik-Barkhudarov correction,\cite{Pisani2018} and through the
+vertex corrections of the $\pp$ Hedin equations.\cite{Marie2024a}
+
+\subsection{FLEX and other combinations of $\eh$ and $\pp$ channels}
+\label{sec:flex}
+Truncating the Faddeev series, Eq.~\eqref{eq:R_oc_omega}, after the
+terms with a single interacting pair, Eq.~\eqref{eq:R_FLEX_def}, gives the one-shot FLEX
+approximation,\cite{Bickers1989,Bickers2004}
+\begin{equation}
+R_{\rm FLEX}
+=
+\mathcal G+\sum_\alpha\big(Q_\alpha-\mathcal G\big)
+=
+Q_{\pp}+Q_{\eh}+Q_{\teh}-2\,\mathcal G \;.
+\nonumber
+\end{equation}
+Each pair couples to the one-particle states through its own couplings,
+$\mathcal U_\alpha=M_\alpha Z_\alpha^{-1}$, and the free propagation through
+$U^{(1)}$,
+\begin{equation}
+\Sigma_{\rm FLEX}
+=
+\sum_\alpha\mathcal U_\alpha\,Q_\alpha\,\mathcal U_\alpha^\dagger
+-2\,U^{(1)}\mathcal G\,U^{(1)\dagger} \;.
+\label{eq:FLEX}
+\end{equation}
+Each pair term contains $\Sigma^{(2)}$ once, and $-2\,\Sigma^{(2)}$
+removes the excess. Faddeev-ADC(3) and FLEX 
+agree through first order in $\mathcal C$; both are exact
+through third order. FLEX however misses the sequences of different pairs in
+Eq.~\eqref{eq:R_oc_omega}, which enter at fourth order. Since the
+subtraction is outside the resolvent, $\Sigma_{\rm FLEX}$ has negative
+residues and no Hermitian effective Hamiltonian. In the Tamm--Dancoff
+limit,
+\begin{equation}
+R_{\rm FLEX}
+=
+\sum_\alpha\big(\omega-K-C_\alpha\big)^{-1}-2\big(\omega-K\big)^{-1} \;.
+\nonumber
+\end{equation}
+
+FLEX is usually motivated as a drastic approximation to the parquet 
+approximation,\cite{Bickers2004,MarieLoos2025} but closely related 
+approximations can also be motivated as a rather heuristic combination 
+of correlation channels. For instance, to place $\eh$ and $\pp$ on the 
+same footing, $GW$ and
+the $T$ matrix have been summed with a subtraction of the common second-order
+terms in $GW+T$.\cite{Springer1998,Zhukov2004}
+Starting from Hedin's equations, also \citet{Cunningham2024} has 
+rederived FLEX, but he suggested screening all pair channels statically in the TDA. 
+In the $\eh$ channel he suggested to use the kernel $v-W$, and in the $\pp$
+channel he screened all interactions ($W-W$, schematically). The 
+same has been done for instance also by \citet{romaniello2026direct}.
+Instead of being summed, the channels are coupled within one
+two-particle correlation function in the dynamically screened ladder
+approximation\cite{Joost2022,Bonitz2024} and in the parquet
+approximation.\cite{Bickers1991,Yang2009,MarieLoos2025}
+
+The static screening approximation is of course motivated by the 
+usual $GW$-BSE approximation for neutral excitations, and many authors
+have solved the $\eh$ channel RPA with a statically screened HF problem.
+\cite{Cunningham2018,Cunningham2023,Bruneval2024,Forster2025,Patterson2024,Pavlyukh2026} 
+This is well motivated for solids, where TDHF is problematic and will even diverge for metals.
+For molecules, this replacement is motivated by the superior performance of
+$GW$-BSE over TDHF. However, due to the fact that static screening effects are usually rather weak in molecules,
+the effects on ionization potentials are minor.\cite{Forster2024,Keizer2026}
 
 \section{\label{sec:numerics}Numerical results}
-Table~\ref{tab:supinf_ips} compares the IPs of the SupInf set of
-Ref.~\citenum{forster2026third} with sCI in the aug-cc-pVQZ basis, and
-Table~\ref{tab:supinf_stats} summarizes the errors. All calculations
-use RHF references, all electrons, density fitting with the
-aug-cc-pVQZ-RI basis, and, except $GW$, the MP2-relaxed static
-self-energy. Faddeev-ADC(3) and the ADC(3) variants are solved as Dyson
-supermatrices; FLEX, PSD and GF2 in the diagonal quasiparticle
-approximation, at the root of largest pole strength. T1 and T0 denote
-the triplet $\eh$ channel at first order and switched off. C$_2$, BN
-and F$_2$ are excluded, since their TDHF triplets are unstable.
-\alert{FLEX: calculations running.}
 
 \input{supinf_stats_table}
+
 \input{supinf_ip_table}
-\clearpage
+
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{figures/supinf_ccd_faddeev.pdf}
+\caption{\label{fig:supinf_ccd_violins}Errors of the IPs with respect to sCI
+(aug-cc-pVQZ) for ADC(3), CCD-ADC(3), EN-ADC(3), CCD-Faddeev-ADC(3) and
+CCSD, over the 48 states of the first block of
+Table~\ref{tab:supinf_stats}.}
+\end{figure}
+
+Most of these approximations have never been evaluated for the same set of 
+molecules in a reasonable basis set. Here, we therefore 
+calculate many of them for the set of 58 IPs of 23 small molecules for which
+\citet{Marie2024} have recently calculated reference values of near FCI quality 
+in the aug-cc-pVQZ basis.
+Table~\ref{tab:supinf_stats} summarizes the errors, and all raw numerical data 
+is shown in Table~\ref{tab:supinf_ips}. 
+All calculations 
+use RHF references, are performed in an all-electron framework,
+make use of density fitting with the
+aug-cc-pVQZ-RI basis, and, except $GW$, add the MP2-relaxed static
+self-energy. Faddeev-ADC(3) and the ADC(3) variants are solved as Dyson
+supermatrices; FLEX, PSD and GF2 in the diagonal quasiparticle
+approximation. T1 and T0 denote
+the triplet $\eh$ channel at first order and switched off, respectively.
+C$_2$ and BN are excluded, since their RHF references are unstable in the TDHF
+singlet channel, and F$_2$, since its TDHF triplet is unstable. The
+statistics run over the 48 states with a value for every method; FLEX
+finds no quasiparticle root for NH$_3$ (3) (RPA) and Ne (2) (T0), presumably
+also as a consequence of the TDHF triplets.
+CCD-Faddeev-ADC(3), introduced below, needs no stable TDHF channel and is
+defined for every state. The second block of Table~\ref{tab:supinf_stats}
+therefore compares it, over all states with an sCI value, with the methods
+that are defined there as well.
+
+From a formal perspective, Faddeev-ADC(3) has many desirable properties. 
+It is exact to third order, double-counting-free, PSD, Hermitian, and includes 
+renormalized amplitudes via the solution of the ring- and ladder-CCD equations.
+However, its numerical performance is abysmal, coming with a MAD of 2.05 eV. 
+FLEX performs nearly equally badly, and the only method that performs even worse 
+than Faddeev-ADC(3) is the PSDII approximation of Ref.~\citenum{Pavlyukh2026}. 
+What is the reason for this bad performance of these methods? All of them have in common
+that they include TDHF triplet amplitudes. The negative effect on performance has
+already been observed by \citet{Pavlyukh2026}, who then introduced the PSD1 approximation, 
+that omits triplet excitations altogether. This improves the MAD from more than 2.0 eV to about 0.5 eV, 
+which is not great, but somewhat reasonable, in the same ballpark as $G_0W_0$. 
+By making it double-counting-free, its MAD nearly halves, to 0.29 eV, on par with ADC(3).
+
+This motivates evaluating Faddeev-ADC(3) and FLEX without triplet excitations. 
+When the triplet channel is omitted altogether (T0), both methods significantly improve, 
+and the MADs become 0.51 and 0.49 eV. As a less drastic approximation, one can replace the 
+triplet $\eh$ amplitudes by their first-order doubles counterparts that are also used in 
+ADC(3). For Faddeev-ADC(3), this reduces the error further to 0.33 eV.
+For FLEX it does not help; the error increases again to more than 1.0 eV.
+
+The results clearly show that channel coupling is important. The
+same has been found for correlation energies in coupled-cluster theory,
+where each single channel of CCD, rings, ladders or crossed rings, individually,
+diverges for the electron gas. Only the terms that couple the channels (the mosaic terms)
+remove the divergence.\cite{Shepherd2014,Scuseria2013} The reason is that the 
+triplet $\eh$ channel resummed with the bare interaction is close to unstable, 
+and sometimes even completely unstable, as for instance seen for F$_2$.
+The observation that keeping it at first order (T1) or switching it off (T0) improves the
+results parallels the instabilities of RPA with exact exchange,
+which are removed by keeping exchange exact only at first
+order\cite{Colonna2014,Hesselmann2011} and the improved stability of
+singlet-paired coupled cluster.\cite{Bulik2015,Gomez2016}
+
+This motivates the replacement of the uncoupled doubles amplitudes in
+the Faddeev-ADC(3) self-energy by CCD ones, which contain the couplings
+between the channels. The resulting method, to which we refer
+as CCD-Faddeev-ADC(3), is the same substitution that turns
+ADC(3) into CCD-ADC(3).\cite{forster2026third} Since no RPA problem has to be
+solved, it is also defined in case of a triplet instability.
+The triplet problem disappears. For N$_2$ (3), RPA pair channels give
+24.95 eV and CCD amplitudes 18.44 eV, against 18.74 eV from sCI.
+The MAD over all 46 compared states is 0.28 eV, against 0.33 eV for ADC(3) and
+0.29 eV for CCD-ADC(3). The error distributions are shown in
+Fig.~\ref{fig:supinf_ccd_violins}.
+
+CCD-Faddeev-ADC(3) therefore performs only a bit better than ADC(3), comparable to
+CCD-ADC(3), and the accuracy does not come close to the one of CCSD.
+
+However, for the subset of 48 states for which Faddeev-ADC(3) is actually defined, 
+CCD-Faddeev-ADC(3) is a substantial improvement over CCD-ADC(3), with a MAD of 0.19 eV.
+This is very close to CCSD that comes with a MAD of 0.16 eV. Of course, in practive, 
+CCD-Faddeev-ADC(3) is not very useful, as it comes with essentially the same cost as solving 
+CCSD.
 
 \section{\label{sec:conclusions}Conclusions}
 Through the response function $R$, Eqs.~\eqref{eq:Sigma_3} and
@@ -2295,7 +2663,7 @@ the ladders of different pairs do not
 overlap in time (Sec.~\ref{sec:depth1}). 
 
 In the own-channel and no-overlap approximation, Hermitian effective Hamiltonians
-(for a positive-definite metric) are obtained that go beyond ADC by going beyond the TDA. 
+(for a positive definite metric) are obtained that go beyond ADC by going beyond the TDA. 
 At the ADC(3) level, this amounts to an effective Hamiltonian that
 replaces the first-order double amplitudes in the couplings with the 
 ring-CCD (for the $\eh$ channel) and the ladder-CCD amplitudes
@@ -2309,7 +2677,7 @@ Starting from the second-order Faddeev kernel, crossed channels
 already enter before any resummation, by Eq.~\eqref{eq:Phi2_explicit}
 and Eq.~\eqref{eq:ADC_Faddeev}. These crossed ladders, together with the overlapping orderings of two first-order kernels and the line dressing, lead to
 the presence of $\ppphh$ configurations. Obtaining 
-an effective Hamiltonian requires to include this configuration space,
+an effective Hamiltonian requires including this configuration space,
 in the same way as in the ADC(4) approximation.
 
 An advantage of our Faddeev construction is that 
@@ -2318,106 +2686,27 @@ self-energy through a Hermitian effective Hamiltonian
 formalism, in the same way as in ADC. Unlike ADC, it also 
 introduces a significantly larger amount of 
 ground-state correlation through an 
-infinite-order amplitude renormalization.
+infinite-order amplitude renormalization. 
+The derivations shown here allow us to make precise
+connections to recent PSD completions of 
+vertex-corrected self-energies.\cite{Pavlyukh2026,Bruneval2025,Marie2026}
 
-The derivations shown here allow us to make a 
-precise connection to a recent PSD completion of 
-a vertex-corrected self-energy,\cite{Pavlyukh2026}
-suggesting its interpretation as a single-channel 
-parquet-type approximation. It remains to be established 
-whether similar connections can be drawn for 
-other PSD-completion schemes.\cite{Bruneval2025,Marie2026}
+However, the numerical 
+results of Faddeev-ADC(3) are very poor, which can be linked to 
+the triplet channel. The same goes for the FLEX approximation
+and the PSDII approximation of \citet{Pavlyukh2026}. Switching 
+off the triplet channel entirely or leaving the triplet amplitudes 
+at first order, like in ADC(3), significantly improves performance.
+Nevertheless, these schemes are clearly not competitive with 
+methods based on the CC scheme, for instance diagonalization of the 
+CCSD Hamiltonian. Clearly, coupling of the different correlation 
+channels is mandatory whenever single-particle states are coupled to 
+triplets beyond the TDA. To support this point, the replacement of the 
+uncoupled amplitudes in Faddeev-ADC(3) with CCD ones results in improved 
+results, but ADC(3) is only outperformed slightly. The performance is 
+almost identical to CCD-ADC(3), and does not reach the performance of CCSD.
 
 \appendix
-
-\section{Content of the response function}
-\label{app:R_content}
-Here we show which parts of $G_3$ are contained in $R$, Eq.~\eqref{eq:response_function}.
-Following Ref.~\citenum{Kappl2025} [Eqs.~(20)--(25) and Fig.~5 there],
-$G_3$ decomposes into six fully disconnected terms, nine partially
-connected terms and one fully connected term,
-\begin{equation}
-\label{eq:G3_decomposition}
-\begin{aligned}
-G_3(123;1'2'3')
-= &
-\sum_{P}(-1)^P\,G(1P_1)\,G(2P_2)\,G(3P_3)
-\\
-& +
-\sum_{i,j=1}^{3}(-1)^{i+j}\,G(ij')\,G_2^{c}(\hat\imath;\hat\jmath')
-\\
-& +
-G_3^{c}(123;1'2'3') \;,
-\end{aligned}
-\end{equation}
-where $P=(P_1,P_2,P_3)$ runs over the permutations of $(1'2'3')$, and
-$\hat\imath$ ($\hat\jmath'$) denotes the two remaining unprimed (primed)
-indices in their original order. Here,
-\begin{equation}
-G_2^{c}(12;1'2')
-=
-G_2(12;1'2')-G(11')\,G(22')+G(12')\,G(21')
-\label{eq:G2_connected}
-\end{equation}
-is the connected part of $G_2$, which contains the full two-particle
-vertex [Eq.~(9) of Ref.~\citenum{Kappl2025}], and $G_3^{c}$ is the
-fully connected part, which contains the full three-particle vertex
-$F_3$ [Eq.~(25) there]. Inserting Eqs.~\eqref{eq:G3_decomposition} and
-\eqref{eq:G2_connected} into Eq.~\eqref{eq:response_function}, the
-subtracted term $G_2G^{-1}G_2$ cancels four of the six fully
-disconnected and four of the nine partially connected terms, and adds a
-one-particle reducible term. In the order of the arguments used in
-Eq.~\eqref{eq:D_pph},
-\begin{equation}
-\label{eq:R_decomposition}
-\begin{aligned}
-R(312;1'2'3')
-= &
-\mathcal G(312;1'2'3')
-\\
-& +
-G(33')\,G_2^{c}(12;1'2')
-\\
-& -
-G(11')\,G_2^{c}(32;2'3')
-+
-G(12')\,G_2^{c}(32;1'3')
-\\
-& +
-G(21')\,G_2^{c}(31;2'3')
--
-G(22')\,G_2^{c}(31;1'3')
-\\
-& +
-G_3^{c}(312;1'2'3')
-\\
-& -
-G_2^{c}(12;3'\bar4)\,G^{-1}(\bar4\bar4')\,G_2^{c}(\bar4'3;1'2') \;.
-\end{aligned}
-\end{equation}
-The terms retained from Fig.~5 of Ref.~\citenum{Kappl2025} are thus 
-only the two of $\mathcal G$ of the six fully disconnected terms, 
-five of the nine partially connected terms, and the fully connected term, 
-minus a one-particle reducible diagram. In
-each of the partially connected terms, 
-one pair of lines propagates through the connected two-particle
-Green's function $G_2^{c}$, while the third line is a free spectator,
-connected as in $\mathcal G$.
-
-The Dyson equation for $R$, Eq.~\eqref{eq:K_pairs}, has its kernel between
-the triples $(312)$ and $(1'2'3')$. All three lines pass through this
-cut in the same direction. In the classification of
-Ref.~\citenum{Kappl2025} (Table~III there), this is the ppp channel,
-which has no one-particle reducible diagrams and in which the
-approximate ladder of Ref.~\citenum{Kappl2025} contains only the
-$\pp$-irreducible two-particle vertex. The one-particle reducible
-term subtracted in the last line of Eq.~\eqref{eq:R_decomposition}
-belongs to a different channel, the one that separates $(12;3')$ from
-$(3;1'2')$. In contrast to that ladder,
-whose free propagator contains all six permutations of the lines, $\mathcal G$
-contains only two, since the subtraction in
-Eq.~\eqref{eq:response_function} removes the exchanges of line 3 with
-the lines 1 and 2.
 
 \section{Parquet vertices}
 \label{app:parquet_vertices}
@@ -2549,6 +2838,368 @@ Together with Eqs.~\eqref{eq:parquet_channels} and
 \end{equation}
 this gives $\Gamma^{\lambda,(2)}$ and $\Gamma^{\lambda,(3)}$.
 
+\section{Pair and three-particle propagators}
+\label{app:propagators}
+Here we derive the propagators stated in Sec.~\ref{sec:propagators}.
+
+\subsection{Notation}
+We use real canonical spin-orbitals and map numbers to orbitals
+with $1,2,1',2'\to p,q,r,s$.
+Since $\bar v$, Eq.~\eqref{eq:Gamma1_bare}, is instantaneous,
+\begin{equation}
+\bar v(12;1'2')
+\to
+\mel{pq}{}{rs}\,
+\delta(t_1-t_2)\,\delta(t_1-t_{1'})\,\delta(t_2-t_{2'}),
+\label{eq:vbar_orbital}
+\end{equation}
+with
+\begin{equation}
+\mel{pq}{}{rs} =
+\braket{pq}{rs}-\braket{pq}{sr} \;.
+\label{eq:mel_def}
+\end{equation}
+The antisymmetrizer of a pair of indices is
+\begin{equation}
+\hat P^-_{ab}=1-\hat P_{ab} \;,
+\label{eq:Pminus}
+\end{equation}
+where $\hat P_{ab}$ exchanges $a$ and $b$.
+In canonical spin-orbitals $p$ with energies $\eps_p$, occupations
+$n_p$ ($n_i=1$, $n_a=0$, $\bar n_p=1-n_p$), and
+$\sigma_p=\bar n_p-n_p$, the HF Green's function is
+\begin{equation}
+	\label{eq:GHF_omega}
+G_{{\rm HF},p}(\omega)
+=
+\frac{\bar n_p}{\omega-\eps_p+\ii0^+}
++
+\frac{n_p}{\omega-\eps_p-\ii0^+}.
+\end{equation}
+
+\subsection{Pair problems and reducible vertices}
+In the own-channel approximation, each pair scatters with the bare kernel.
+In the $\eh$ channel this is the TDHF problem, in the $\pp$ channel the ppRPA
+problem,
+\begin{equation}
+\eta^{\lambda}\mathbf H^{\lambda}Z_n
+=
+\Omega_n Z_n \;,
+\qquad
+\eta^{\lambda}={\rm diag}(\bI,-\bI) \;,
+\label{eq:pair_eigenproblem}
+\end{equation}
+with
+\begin{equation}
+\mathbf H^{\eh}
+=
+\begin{pmatrix}
+A^{\eh} & B^{\eh}\\ B^{\eh} & A^{\eh}
+\end{pmatrix} \;,
+\label{eq:TDHF}
+\end{equation}
+\begin{align}
+A^{\eh}_{ia,jb}
+= & 
+(\eps_a-\eps_i)\,\delta_{ab}\delta_{ij}+\mel{aj}{}{ib},
+\nonumber\\
+B^{\eh}_{ia,jb}
+= &
+\mel{ab}{}{ij} \;,
+\nonumber
+\end{align}
+and
+\begin{equation}
+\mathbf H^{\pp}
+= 
+\begin{pmatrix}
+A^{\pp} & B^{\pp}\\ B^{\pp\dagger} & D^{\pp}
+\end{pmatrix} \;,
+\nonumber
+\end{equation}
+\begin{align}
+A^{\pp}_{cd,ef}
+= &
+(\eps_c+\eps_d)\,\delta_{ce}\delta_{df}+\mel{cd}{}{ef},
+\nonumber\\
+B^{\pp}_{cd,kl}
+= &
+\mel{cd}{}{kl},
+\nonumber\\
+D^{\pp}_{kl,mn}
+= &
+-(\eps_k+\eps_l)\,\delta_{km}\delta_{ln}+\mel{kl}{}{mn} \;,
+\label{eq:ppRPA}
+\end{align}
+with $c<d$, $k<l$. The $\eh$ eigenvalues come in pairs $\pm\Omega_n$,
+with eigenvectors $Z_n=(X_n,Y_n)$ and $\tilde Z_n=(Y_n,X_n)$. The $\pp$
+spectrum is not symmetric: the positive-norm eigenvectors are the $N+2$
+states ($\Omega^+_n$), the negative-norm ones the $N-2$ states
+($\Omega^-_m$).
+
+The pair propagators give the reducible vertices of the own-channel
+approximation, the resummed counterparts of $\Phi^{\lambda,(2)}$ in
+Eq.~\eqref{eq:Phi2_explicit}, as sums over pair excitations with the
+two-body pair vertices $M^{\eh}$ and $M^{\pp}$,
+\begin{align}
+\ii\Phi^{\eh}_{pqrs}(\Omega)
+={}&
+\sum_{\Omega_n>0}
+\bigg[
+\frac{M^{\eh}_{pr,n}\,M^{\eh}_{qs,n}}{\Omega-\Omega_n+\ii0^+}
+-
+\frac{M^{\eh}_{rp,n}\,M^{\eh}_{sq,n}}{\Omega+\Omega_n-\ii0^+}
+\bigg],
+\nonumber\\
+M^{\eh}_{pr,n}
+={}&
+\sum_{ia}\Big[\mel{pa}{}{ri}\,X^n_{ia}+\mel{pi}{}{ra}\,Y^n_{ia}\Big] \;,
+\label{eq:Phi_eh_phonons}
+\end{align}
+and
+\begin{align}
+\ii\Phi^{\pp}_{pqrs}(\Omega)
+= & 
+\sum_{n\in N+2}
+\frac{M^{\pp}_{pq,n}\,M^{\pp}_{rs,n}}{\Omega-\Omega^{+}_n+\ii0^+}
+-
+\sum_{m\in N-2}
+\frac{M^{\pp}_{pq,m}\,M^{\pp}_{rs,m}}{\Omega-\Omega^{-}_m-\ii0^+},
+\nonumber\\
+M^{\pp}_{pq,n}
+= & 
+\sum_{c<d}\mel{pq}{}{cd}\,X^n_{cd}
++\sum_{k<l}\mel{pq}{}{kl}\,Y^n_{kl} \;.
+\label{eq:Phi_pp_phonons}
+\end{align}
+For real orbitals the backward $\eh$ vertex is the forward one with
+exchanged orbital indices, $M^{\eh}_{rp,n}$. The same first-order vertex
+appears in the vertex-corrected $GW$ self-energies of
+Refs.~\citenum{Maggio2017,Vacondio2024,Forster2024}. In the $\eh$
+variables, $\Phi^{\eh}$ depends only on the bosonic transfer frequency
+$\Omega$; the crossed channel, $\teh$, follows by crossing,
+Eq.~\eqref{eq:crossing}.
+
+
+\subsection{Pair propagators}
+The non-interacting particle--particle propagator is 
+\begin{equation}
+	\label{eq:L_pp}
+	L^{\pp}_0(12;1'2')=G(11')G(22')-G(12')G(21') \;,
+\end{equation}
+and performing the frequency integrations,
+\begin{equation}
+\label{eq:L0pp_omega}
+\begin{aligned}
+L^{\pp}_{0,xy}(\Omega)
+= &
+\int\frac{\dd\nu}{2\pi}\,
+G_x(\nu)\,G_y(\Omega-\nu)
+\\
+= &
+\frac{-\ii\sigma_x\,\delta_{\sigma_x\sigma_y}}
+{\Omega-(\eps_x+\eps_y)+\ii\sigma_x0^+} \;,
+\end{aligned}
+\end{equation}
+with its indices restricted to 
+$(xy)\in\big\{(cd),\,c<d\big\}\cup\big\{(kl),\,k<l\big\}$.
+The particle--hole propagator is
+\begin{equation}
+\label{eq:L_eh}
+L^{\eh}_0(31;1'3')=G(33')G(11') \;.
+\end{equation}
+After performing the frequency integrations, we obtain
+\begin{equation}
+\label{eq:L0eh_omega}
+\begin{aligned}
+L^{\eh}_{0,xr}(\Omega)
+= & 
+\int\frac{\dd\nu}{2\pi}\,
+G_x(\nu)\,G_r(\nu+\Omega)
+\\
+= &
+\frac{\ii\sigma_r\,\delta_{\sigma_x,-\sigma_r}}
+{\Omega-(\eps_r-\eps_x)+\ii\sigma_r0^+} \;,
+\end{aligned}
+\end{equation}
+with its indices restricted to 
+$(xr)\in\big\{(ia)\big\}\cup\big\{(ai)\big\}$.
+
+The interacting propagators follow from the own-channel BSEs,
+Eq.~\eqref{eq:BSE_oc}. Restricting the $\pp$ pairs to $c<d$, $k<l$
+absorbs the $\tfrac12$ of the $\pp$ BSE, and
+$\ii\Gamma^{(1)}_{pqrs}=\mel{pq}{}{rs}$ by Eqs.~\eqref{eq:Gamma1_bare}
+and \eqref{eq:vbar_orbital}. With the pair Hamiltonians of
+Eqs.~\eqref{eq:TDHF} and \eqref{eq:ppRPA},
+\begin{equation}
+\begin{aligned}
+L^{\eh}(\Omega)
+&= 
+\ii\big(\Omega\,\eta^{\eh}-\mathbf H^{\eh}\big)^{-1} \;,
+\\
+L^{\pp}(\Omega)
+&=  
+-\ii\big(\Omega\,\eta^{\pp}-\mathbf H^{\pp}\big)^{-1} \;,
+\end{aligned}
+\nonumber
+\end{equation}
+with the spectral representations
+\begin{equation}
+L^{\eh}(\Omega)
+=
+\ii\sum_{\Omega_n>0}
+\bigg[
+\frac{Z_nZ_n^\dagger}{\Omega-\Omega_n+\ii0^+}
+-
+\frac{\tilde Z_n\tilde Z_n^\dagger}{\Omega+\Omega_n-\ii0^+}
+\bigg]
+\label{eq:L_eh_phonons}
+\end{equation}
+and
+\begin{equation}
+\label{eq:L_pp_phonons}
+L^{\pp}(\Omega)
+= 
+-\ii\sum_{n\in N+2}
+\frac{Z_nZ_n^\dagger}{\Omega-\Omega^{+}_n+\ii0^+}
++
+\ii\sum_{m\in N-2}
+\frac{Z_mZ_m^\dagger}{\Omega-\Omega^{-}_m-\ii0^+} \;.
+\end{equation}
+Inserting them into the own-channel reducible vertices gives
+Eqs.~\eqref{eq:Phi_eh_phonons} and \eqref{eq:Phi_pp_phonons}.
+
+\subsection{Three-particle propagators}
+For the $\pp$ pair,
+Eqs.~\eqref{eq:D_pph}, \eqref{eq:pair_ops} and \eqref{eq:L_pp} 
+give
+\begin{equation}
+\begin{aligned}
+\mathcal G+\cK_{\pp}\big[F^{\pp}_{\rm oc}\big]\mathcal G
+={}&
+G(33')\Big[L^{\pp}_0
+-\tfrac14\,L^{\pp}_0F^{\pp}_{\rm oc}L^{\pp}_0\Big](12;1'2')
+\\
+={}&
+G(33')\,L^{\pp}(12;1'2') \;,
+\end{aligned}
+\label{eq:one_pair_pp}
+\end{equation}
+Working out the frequency integral with
+Eqs.~\eqref{eq:GHF_omega} and \eqref{eq:L_pp_phonons}, with $r$ the spectator,
+\begin{equation}
+\begin{aligned}
+Q_{\pp;xyr,uwr}(\omega)
+={}&
+\int\frac{\dd\Omega}{2\pi}\,
+L^{\pp}_{xy,uw}(\Omega)\,G_r(\Omega-\omega)
+\\
+={}&
+n_r\sum_{n\in N+2}
+\frac{Z^n_{xy}Z^{n}_{uw}}{\omega+\eps_r-\Omega^{+}_n+\ii0^+}
+\\
+&+
+\bar n_r\sum_{m\in N-2}
+\frac{Z^m_{xy}Z^{m}_{uw}}{\omega+\eps_r-\Omega^{-}_m-\ii0^+} \;.
+\end{aligned}
+\nonumber
+\end{equation}
+which is Eq.~\eqref{eq:Q12_full}.
+
+For the $\eh$ pair,
+Eqs.~\eqref{eq:D_pph}, \eqref{eq:pair_ops} and \eqref{eq:L_eh} give
+\begin{equation}
+\begin{aligned}
+\mathcal G+\cK_{\eh}\big[F^{\eh}_{\rm oc}\big]\mathcal G
+={}&
+G(22')\Big[L^{\eh}_0
++L^{\eh}_0F^{\eh}_{\rm oc}L^{\eh}_0\Big](31;1'3')
+\\
+&-
+G(21')\Big[L^{\eh}_0
++L^{\eh}_0F^{\eh}_{\rm oc}L^{\eh}_0\Big](31;2'3')
+\\
+={}&
+G(22')\,L^{\eh}(31;1'3')
+-
+G(21')\,L^{\eh}(31;2'3') \;,
+\end{aligned}
+\label{eq:one_pair_eh}
+\end{equation}
+The propagator of the $\teh$ pair follows with $1\leftrightarrow2$.
+Unlike the $\pp$ pair, the $\eh$ pair
+is not antisymmetrized in $\mathcal G$, so that
+the exchange of the lines 1 and 2 appears as the second term. 
+Working out the frequency integral with Eqs.~\eqref{eq:GHF_omega} and
+\eqref{eq:L_eh_phonons},
+\begin{equation}
+\begin{aligned}
+Q_{\eh;xrs,yus}(\omega)
+={}&
+\int\frac{\dd\Omega}{2\pi}\,
+L^{\eh}_{xr,yu}(\Omega)\,G_s(\omega-\Omega)
+\\
+={}&
+\bar n_s\sum_{\Omega_n>0}
+\frac{Z^n_{xr}Z^{n}_{yu}}{\omega-\eps_s-\Omega_n+\ii0^+}
+\\
+&+
+n_s\sum_{\Omega_n>0}
+\frac{\tilde Z^n_{xr}\tilde Z^{n}_{yu}}{\omega-\eps_s+\Omega_n-\ii0^+} \;.
+\end{aligned}
+\nonumber
+\end{equation}
+which is Eq.~\eqref{eq:Q31_full}.
+With $L^{\pp}_0$ in place of $L^{\pp}$, Eq.~\eqref{eq:Q12_full} gives
+the free propagation $\mathcal G$, Eq.~\eqref{eq:G_free}.
+
+% Material previously in the main text, kept for reference:
+% so that
+% \begin{equation}
+% \cK_\alpha[F_\alpha]\mathcal G\;\to\;Q_\alpha(\omega)-\mathcal G(\omega) \;.
+% \label{eq:KF_to_Q}
+% \end{equation}
+% In block I, the forward component of the $N-2$ solutions is $Y^{\pp}$,
+% and that of the backward phonons $\tilde Z_n=(Y_n,X_n)$ on $(ai)$ is
+% $X^{\eh}$. The backward blocks connect the forward configurations to the
+% backward configurations of the pair, $(kl;i)$, $(ai;b)$ in block II and
+% $(cd;a)$, $(ia;j)$ in block I. They enter only at the external
+% vertices, Sec.~\ref{sec:ext_vertices}.
+
+% The pair propagators act on labeled lines. In block II, $a$ is on
+% line 1, $b$ on line 2 and $i$ on line 3, with $a$ and $b$ unrestricted,
+% so that the configurations $(ia;b)$ of $Q_{\eh}$ and $(ib;a)$ of
+% $Q_{\teh}$ are distinct. In this labeled space, $\mathcal G$ and
+% $\sum_\alpha Q_\alpha$ are symmetric under $\hat P_{ab}$, but a single
+% pair is not,
+% \begin{equation}
+% \hat P_{ab}\,Q_{\eh}\,\hat P_{ab}
+% =
+% Q_{\teh} \;.
+% \nonumber
+% \end{equation}
+% The restricted space $a<b$ of Eq.~\eqref{eq:K_U1} is the antisymmetric
+% part of the labeled space. For $\hat P_{ab}$-symmetric $R$ and a
+% coupling $\mathcal U$ antisymmetric in $a$, $b$, the projection onto
+% $a<b$ and Eq.~\eqref{eq:pair_identities} give
+% \begin{equation}
+% \begin{aligned}
+% &\sum_{a<b,i}\sum_{c<d,j}
+% \mathcal U_{p;abi}\,R^{a<b}_{abi,cdj}\,\mathcal U^{*}_{q;cdj}
+% \\
+% &\qquad=
+% \frac12\sum_{abi}\sum_{cdj}
+% \mathcal U_{p;abi}\,R_{abi,cdj}\,\mathcal U^{*}_{q;cdj} \;,
+% \end{aligned}
+% \label{eq:labeled_space}
+% \end{equation}
+% with $R^{a<b}$ the matrix of $R$ between normalized antisymmetric
+% states, and block I in the same way. For approximations that keep only
+% some of the pairs, $R$ and $\mathcal U$ are no longer symmetric, and we
+% define the self-energy by the right-hand side of
+% Eq.~\eqref{eq:labeled_space}.
+
+
 \section{Riccati equations and decoupling conditions}
 \label{app:Riccati}
 Consider a space $\mathcal{P}\oplus\mathcal{Q}$, where $\mathcal{P}$ is
@@ -2642,7 +3293,6 @@ $H_{PP}=A_\alpha$, $H_{PQ}=B_\alpha$, $H_{QP}=-B_\alpha^\dagger$ and
 $H_{QQ}=-D_\alpha$, the lower-left block is minus the left-hand side of
 Eq.~\eqref{eq:Riccati}.
 
-\subsection{Generalized Bloch Equations}
 As an example, consider the wave operator
 \begin{equation}
 	\mathcal{W} = \Theta P = P + T \;,
@@ -2650,7 +3300,7 @@ As an example, consider the wave operator
 	P\mathcal{W} = P \;,
 \end{equation}
 which maps $\mathcal{P}$ onto $\mathcal{P}_T$. The invariance of
-$\mathcal{P}_T$ is then the Bloch equation
+$\mathcal{P}_T$ is then the Bloch equation\cite{Bloch1958,Brandow1967,ShavittBartlett2009}
 \begin{equation}
 	H\mathcal{W} = \mathcal{W}H\mathcal{W} \;,
 	\label{eq:Bloch}
@@ -2674,7 +3324,7 @@ normalization, $H_T=E$, and Eq.~\eqref{eq:Bloch} is the
 Schr\"odinger equation projected onto $\mathcal{Q}$.
 
 \subsection{Comparison to L\"owdin downfolding}
-The Bloch equation should be compared with L\"owdin downfolding, that 
+The Bloch equation should be compared with L\"owdin downfolding, which 
 generates the frequency-dependent effective Hamiltonian acting in 
 $\mathcal{P}$-space only,
 \begin{equation}
@@ -2705,121 +3355,6 @@ $E_0$: with $g_0=(E_0-H_{QQ})^{-1}$ and $\omega_kx_k=H_Tx_k$,
 \end{equation}
 \ie\ the energy dependence of $T(\omega)$ becomes the dependence on
 $H_T$, which is the same for all selected roots.
-
-\section{Singles and the static self-energy}
-\label{app:singles}
-By Thouless' theorem, $e^{T_1}\Phi$ is a determinant with occupied
-orbitals $\phi_i+\sum_at_i^a\phi_a$ (and biorthogonal bra orbitals). CCSD is
-therefore CCD for $\tilde H=e^{-T_1}He^{T_1}$, together with the singles
-equation
-\begin{equation}
-	\mel{\Phi_i^a}{e^{-T_2}\tilde He^{T_2}}{\Phi} = 0 \;.
-	\label{eq:singles}
-\end{equation}
-For a one-body operator $f$ and $T_2=0$, Eq.~\eqref{eq:singles} is the
-Riccati equation of Appendix~\ref{app:Riccati} in orbital space, with
-$\mathcal{P}$ the occupied and $\mathcal{Q}$ the virtual orbitals,
-\begin{equation}
-	f_{ai}+\sum_bf_{ab}t_i^b-\sum_jt_j^af_{ji}-\sum_{jb}t_j^af_{jb}t_i^b = 0 \;.
-	\label{eq:singles_Riccati}
-\end{equation}
-With $f$ the Fock operator of $e^{T_1}\Phi$, its solution is HF. With
-$T_2$, Eq.~\eqref{eq:singles} is linear in $T_2$,
-\begin{equation}
-	\tilde f_{ai}
-	+\sum_{kc}\tilde f_{kc}t_{ik}^{ac}
-	+\frac12\sum_{kcd}\widetilde{\mel{ak}{}{cd}}\,t_{ik}^{cd}
-	-\frac12\sum_{klc}\widetilde{\mel{kl}{}{ic}}\,t_{kl}^{ac}
-	= 0 \;,
-	\label{eq:singles_dressed}
-\end{equation}
-where $\tilde f$ and $\widetilde{\mel{pq}{}{rs}}$ are the Fock matrix and the
-antisymmetrized integrals of $\tilde H$. The singles decouple occupied and
-virtual orbitals for the one-body operator $\tilde f$ plus the $T_2$ terms.
-
-For a HF reference and the first-order doubles, Eq.~\eqref{eq:mp2_double},
-the $T_2$ terms are the second-order self-energy on shell. With
-\begin{equation}
-	\begin{aligned}
-	\Sigma^>_{pq}(\omega)
-	={}&
-	\frac12\sum_{kcd}
-	\frac{\mel{pk}{}{cd}\mel{cd}{}{qk}}{\omega+\eps_k-\eps_c-\eps_d} \;,
-	\\
-	\Sigma^<_{pq}(\omega)
-	={}&
-	\frac12\sum_{klc}
-	\frac{\mel{pc}{}{kl}\mel{kl}{}{qc}}{\omega+\eps_c-\eps_k-\eps_l} \;,
-	\end{aligned}
-	\label{eq:Sigma2_gl}
-	\end{equation}
-	the $\pph$ and $\hhp$ parts of $\Sigma^{(2)}$,
-\begin{equation}
-	\frac12\sum_{kcd}\mel{ak}{}{cd}\,t_{ik}^{cd}
-	-\frac12\sum_{klc}\mel{kl}{}{ic}\,t_{kl}^{ac}
-	=
-	\Sigma^>_{ai}(\eps_i)+\Sigma^<_{ai}(\eps_a) \;.
-	\label{eq:singles_Sigma}
-\end{equation}
-The same holds for the one-body quadratic (mosaic) terms of CCD,
-\begin{equation}
-	\begin{aligned}
-	f_{mj}+\frac12\sum_{nef}t_{jn}^{ef}\mel{mn}{}{ef}
-	={}&
-	f_{mj}+\Sigma^>_{mj}(\eps_j) \;,
-	\\
-	f_{be}-\frac12\sum_{mnf}t_{mn}^{bf}\mel{mn}{}{ef}
-	={}&
-	f_{be}+\Sigma^<_{be}(\eps_b) \;.
-	\end{aligned}
-	\label{eq:mosaic_Sigma}
-\end{equation}
-At this order, the static one-body operator of CCSD is thus
-\begin{equation}
-	\tilde\Sigma^{\rm CC}_{pq}
-	=
-	n_q\,\Sigma^>_{pq}(\eps_q)+\bar n_p\,\Sigma^<_{pq}(\eps_p) \;,
-	\label{eq:Sigma_CC_static}
-\end{equation}
-to be compared with the quasiparticle self-consistent choice
-\begin{equation}
-	\tilde\Sigma^{\rm qs}_{pq}
-	=
-	\frac12\big[\Sigma_{pq}(\eps_p)+\Sigma_{pq}(\eps_q)\big] \;.
-	\label{eq:Sigma_qs_static}
-\end{equation}
-Eq.~\eqref{eq:Sigma_CC_static} keeps only the non-resonant branches,
-evaluated at M{\o}ller--Plesset denominators, and is non-Hermitian. The
-resonant branches, $\Sigma^>$ in the virtual and $\Sigma^<$ in the
-occupied block, remain dynamical, as in EOM-CC and ADC.
-Closing the contour of $G_{\rm HF}\Sigma^{(2)}G_{\rm HF}$ in
-Eq.~\eqref{eq:Sigma3_static} gives
-\begin{equation}
-	\gamma^{(2)}_{ai}
-	=
-	\frac{\Sigma^>_{ai}(\eps_i)+\Sigma^<_{ai}(\eps_a)}{\eps_i-\eps_a}
-	=
-	t_i^{a(2)} \;,
-	\label{eq:gamma2_singles}
-\end{equation}
-so that one Jacobi step of Eq.~\eqref{eq:singles} is one step of the
-linearized Dyson equation for the occupied--virtual density.
-
-This distinguishes two self-consistency loops around a self-energy built on
-a reference $\Phi$. Updating $\Sigma_{\rm HF}[\gamma^{\rm lin}]$ with the
-density of the linearized Dyson equation and diagonalizing the new mean
-field rotates the orbitals with $\Sigma^{(3)}_{\infty,ai}=O(v^3)$, a
-relaxation with the TDHF Hessian that does not contain the singles.
-Rotating instead with the density itself,
-\begin{equation}
-	\phi_i\;\to\;\phi_i+\sum_a\gamma^{\rm lin}_{ai}\,\phi_a \;,
-	\label{eq:Dyson_Brueckner}
-\end{equation}
-until $\gamma^{\rm lin}_{ai}=0$ in the current frame, reproduces
-Eq.~\eqref{eq:singles} at leading order for biorthogonal orbitals, and the
-Brueckner condition $t_1=0$ of Brueckner CCD for orthonormal orbitals.
-Beyond leading order, the $T_2$ terms of Eq.~\eqref{eq:singles_dressed}
-are built from the converged CCD amplitudes.
 
 \section{The ADC hierarchy}
 \label{app:ADC}
@@ -3045,7 +3580,7 @@ equations.
 We perform the integrals over $\tau$ by regarding each space-time term
 as a circuit and using energy conservation at the intermediate vertices,
 which leaves contour integrals over the channel frequency.
-For the $\pp$-channel, one then gets
+For the $\pp$ channel, one then gets
 \begin{align}
 \Sigma^{\pp}_{\cK,pq}(\omega)
 = &
@@ -3080,7 +3615,7 @@ pair propagators in the channel transfer frequency $\Omega$; only the
 $\Omega$ integral couples them to the spectator line
 ($r$ in $\pp$, $y$ in $\eh$).
 What remains is to perform the contour integrals over $\Omega$. For
-the $\pp$-channel, this gives 
+the $\pp$ channel, this gives 
 \begin{align}
 \Sigma^{\pp}_{\cK,pq}(\omega)
 ={}&
@@ -3284,131 +3819,6 @@ With Eqs.~\eqref{eq:C_II}--\eqref{eq:U2_I} and $\Sigma(\infty)$, all
 third-order terms are reproduced by Eq.~\eqref{eq:ADC3}, which
 completes ADC(3).
 
-\section{Channel couplings}
-\subsection{Coupling channels in Hermitian form}
-\label{sec:coupling}
-
-\subsubsection{Coherent emission}
-The coupling $E_3$ of Eq.~\eqref{eq:ADC4_3p2h} is a sum over the three
-lines of the $\pph$ state,
-\begin{equation}
-E_3
-=
-\sum_{\ell=1}^{3}e_\ell \;.
-\label{eq:C3_lines}
-\end{equation}
-$e_1$ and $e_2$ are the first term of Eq.~\eqref{eq:ADC4_3p2h} with the
-particle $d$ or $e$ emitting, $e_3$ is its second term, the emission by
-the hole $k$. Each $e_\ell$ is a single bare interaction on the line
-$\ell$ that emits the pair $(c;j)$. With $\mathcal G_3=(\omega-K_3)^{-1}$,
-\begin{equation}
-E_3^\dagger\mathcal G_3E_3
-=
-\sum_{\ell\ell'}e_\ell^\dagger\mathcal G_3e_{\ell'}
-=
-\kappa^{\rm LD}+\sum_\alpha\kappa^{\times}_\alpha+\kappa^{\rm ov} \;.
-\label{eq:C3_decomposition}
-\end{equation}
-Each contraction of the antisymmetrized $\ppphh$ states is
-sorted by the lines of the $\pph$ state that its two vertices touch: one
-line ($\kappa^{\rm LD}$), the two lines of the pair $\alpha$
-($\kappa^\times_\alpha$), or all three lines ($\kappa^{\rm ov}$).
-$\kappa^{\rm LD}$ is the $\Sigma^{(2)}$ insertion into the lines of the
-$\pph$ state,
-\begin{align}
-\kappa^{\rm LD}_{abi,cdj}
-={}&
-\hat P^-_{ab}\hat P^-_{cd}\,\delta_{bd}\delta_{ij}\,
-\Sigma^{>}_{ac}(\omega-\eps_b+\eps_i)
-\nonumber\\
-&-\delta_{ac}\delta_{bd}\,
-\Sigma^{<}_{ij}(\eps_a+\eps_b-\omega) \;,
-\label{eq:kappa_LD}
-\end{align}
-with $\Sigma^>$ and $\Sigma^<$ of Eq.~\eqref{eq:Sigma2_gl}.
-$\kappa^{\rm ov}$ are the orderings of
-$\sum_{\alpha\neq\beta}\cK_\alpha[\Gamma^{(1)}]\cK_\beta[\Gamma^{(1)}]\mathcal G$
-with a five-line subinterval between the two rungs, and
-$\kappa^\times_\alpha$ are the crossed channels of the pair $\alpha$
-(Sec.~\ref{sec:overlap}).
-The channels are therefore not separate objects in the Hamiltonian form,
-but labels of the contractions in one configuration space. None of the
-three mechanisms is of the form $e^\dagger_\ell\mathcal G_3e_{\ell'}$ alone; their sum is.
-
-\subsubsection{Configuration hierarchy}
-We therefore couple the channels in common configuration spaces and
-dress each space with the own-channel approximation of
-Sec.~\ref{sec:depth1}. The five lines of a $\ppphh$ state form
-ten pairs $\pi$, and in analogy to Eqs.~\eqref{eq:Faddeev_inverse} and
-\eqref{eq:Rinv_phonons},
-\begin{equation}
-\begin{aligned}
-K_3+C_3
-={}&
-\sum_{\pi=1}^{10}\big(K_3+C_\pi\big)-9K_3 \;,
-\\
-\omega\mathcal N_3-\mathcal H_3
-={}&
-\sum_{\pi=1}^{10}Q_\pi^{-1}-9\,\mathcal G_3^{-1} \;,
-\end{aligned}
-\label{eq:3p2h_own_channel}
-\end{equation}
-with $C_\pi$ the bare interaction of the pair $\pi$ and $Q_\pi$ its RPA
-propagator with three spectators. As in Eq.~\eqref{eq:HN_explicit},
-$\mathcal N_3=\bI-\sum_\pi T_\pi^\dagger T_\pi$, with the same channel
-amplitudes: $T^{\eh}$ for the six $\eh$ pairs, $T^{\pp}$ for the three
-$\pp$ pairs and $T^{\pp\dagger}$ for the $\hh$ pair. Then
-\begin{equation}
-\begin{aligned}
-\Sigma^{c,{\rm II}}(\omega)
-={}&
-\mathbf U_{\rm hier}\big(\omega\mathbf N_{\rm hier}-\mathbf H_{\rm hier}\big)^{-1}\mathbf U_{\rm hier}^\dagger \;,
-\\
-\mathbf N_{\rm hier}
-={}&
-\begin{pmatrix}
-\mathcal N & 0
-\\
-0 & \mathcal N_3
-\end{pmatrix} ,
-\qquad
-\mathbf H_{\rm hier}
-=
-\begin{pmatrix}
-\mathcal H+\Delta C & E_3^\dagger
-\\
-E_3 & \mathcal H_3
-\end{pmatrix} ,
-\\
-\mathbf U_{\rm hier}
-={}&
-\big(\mathcal U+\Delta U,\;U_3\big)
-\end{aligned}
-\label{eq:hierarchy_3p2h}
-\end{equation}
-is Hermitian for positive definite $\mathbf N_{\rm hier}$. Since
-$\mathcal H_3-K_3=O(v)$ and $\mathcal N_3-\bI=O(v^2)$ enter the
-self-energy at fifth order, and $\Delta C$, $\Delta U$ in the metric form
-differ from those of Eq.~\eqref{eq:d1_ADC4} only at fourth order,
-Eq.~\eqref{eq:hierarchy_3p2h} is exact through fourth order.
-
-\subsubsection{What is resummed}
-The ten pairs are of three kinds. The ladders of the pairs $\alpha$ of
-the $\pph$ state continue through the $\ppphh$ intervals.
-The $\eh$ RPA of the emitted pair $(c;j)$ screens it: in
-$\kappa^{\rm LD}$, $\Sigma^{(2)}$ of the line becomes a TDHF-screened,
-$GW$-type self-energy; in $\kappa^\times_\alpha$, the second-order
-crossed vertex becomes the crossed-channel ladder, \eg\ $\Phi^{\eh}$
-resummed in the pair $(12)$; in $\kappa^{\rm ov}$, the overlaps are
-screened. The ladders of an emitted line with a line of the $\pph$
-state are vertex corrections of the emission $e_\ell$, \ie\ crossed
-channels inside the crossed channels.
-Overlaps of ladders at the $\ppphh$ level, and emission from
-it, require the $\pppphhh$ space, the next level of the
-hierarchy with $E_4=\sum_{\ell=1}^{5}e_\ell$.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{arno.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
