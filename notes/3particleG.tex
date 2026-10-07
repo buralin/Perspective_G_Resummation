@@ -88,27 +88,23 @@
 to ADC, and beyond}
 
 \begin{abstract}
-In three stages, these notes point out the connection between the parquet and the ADC
-constructions of the self-energy. First, we show that the
-single-particle Green's function is naturally
-expressed in terms of the three-particle Green's
-function through the Martin--Schwinger hierarchies of
-equations of motion for $n$th-order Green's functions.
-We then introduce the Faddeev decomposition of the 
-three-particle vertex and show that it naturally leads to 
-the parquet approximation of the self-energy. 
-In a next step, finite-order Faddeev kernels are introduced, 
-and it is shown that the formalism with the $n$th-order Faddeev kernel, before any resummation, is equivalent to GF($n+2$); this is worked out explicitly for $n=1$. Within the Tamm--Dancoff approximation (TDA) 
-to the $\eh$ and $\pp$ Bethe--Salpeter equations, 
-ADC(3)/ADC(4) are obtained. Beyond the TDA, 
-to first order in the Faddeev kernel we obtain a
-Hermitian version of the Faddeev random-phase approximation (FRPA), and at fourth order 
-we obtain a new partial parquet approximation. 
-Full parquet is significantly more involved, and includes 
-a) an internally resummed infinite-order Faddeev kernel, 
-b) cross-channel interactions, and c) self-consistency in the 
-single-particle propagator. 
+The Faddeev-decomposition of the three-particle vertex is used to derive a 
+Hermitian effective Hamiltonian of Faddeev-ADC(3) type. Besides the Parquet approximation and the use of
+a Hartree--Fock Green's function, the derivation is based on 
+two further approximations: couplings between different correlation channels as well as overlaps between different time-orderins
+are neglected. Faddeev-ADC(3) contains FLEX (first-order resolvent), ADC(2)-X (TDA limit) ADC(3) (TDA limit + first-order backward couplings)
+as limiting cases. Several self-energy schemes that are derived in Hedin's scheme 
+or in the $\pp$ channel as well as PSD-completions (double counting of second-order terms aside)
+are recovered as a limiting 
+case of Faddeev-ADC(3), and they are reviewed. Numerical results show that 
+Faddeev-ADC(3), as well as all other methods that explicitly include 
+triplet backward couplings to all orders come with very large errors. Switching off 
+the triplets largely overcomes these issues, but only the performance of $GW$ is recovered.
+Replacing the ring- and ladder-CCD amplitudes of Faddeev-ADC(3) with CCD ones,
+one recovers essentially the performance of 
+CCSD. Coupling correlation channels seems to be decisive for accurate charged excitations.
 \end{abstract}
+
 
 \maketitle
 \tableofcontents
@@ -2048,7 +2044,7 @@ since the TDHF vertex is the functional derivative of the HF self-energy with re
 
 Hedin's formalism operates with a self-energy with two vertices, 
 but one of them stays bare at first order. The resulting self-energies cannot be written 
-in resolvent form, which has been the motivation to introduce the PSD construction
+in a Hermitian (PSD) resolvent form, which has been the motivation to introduce the PSD construction
 from above\cite{Pavlyukh2026} in the first place. Of course, the idea of the 
 PSD completion of the self-energy is much older.\cite{stefanucci2014diagrammatic} 
 Either way, the $\Sigma^{\text{TDHF}}$ self-energy can be obtained by 
@@ -2564,9 +2560,15 @@ Table~\ref{tab:supinf_stats}.}
 
 Most of these approximations have never been evaluated for the same set of 
 molecules in a reasonable basis set. Here, we therefore 
-calculate many of them for the set of 58 IPs of 23 small molecules for which
+evaluate many of them for the set of 58 IPs of 23 small molecules for which
 \citet{Marie2024} have recently calculated reference values of near FCI quality 
-in the aug-cc-pVQZ basis.
+in the aug-cc-pVQZ basis. We do not consider statically screened interactions to calculate 
+the ph/pp RPA phonons. For once, these are heuristic adjustments, and, if not applied carefully,
+they can lead to double counting issues. Moreover, they 
+can only be expected to have a minor influence on the final results. A method that 
+does not perform well with bare interactions will not perform well with statically 
+screened interaction either. 
+
 Table~\ref{tab:supinf_stats} summarizes the errors, and all raw numerical data 
 is shown in Table~\ref{tab:supinf_ips}. 
 All calculations 
@@ -2577,15 +2579,10 @@ self-energy. Faddeev-ADC(3) and the ADC(3) variants are solved as Dyson
 supermatrices; FLEX, PSD and GF2 in the diagonal quasiparticle
 approximation. T1 and T0 denote
 the triplet $\eh$ channel at first order and switched off, respectively.
-C$_2$ and BN are excluded, since their RHF references are unstable in the TDHF
-singlet channel, and F$_2$, since its TDHF triplet is unstable. The
-statistics run over the 48 states with a value for every method; FLEX
-finds no quasiparticle root for NH$_3$ (3) (RPA) and Ne (2) (T0), presumably
-also as a consequence of the TDHF triplets.
-CCD-Faddeev-ADC(3), introduced below, needs no stable TDHF channel and is
-defined for every state. The second block of Table~\ref{tab:supinf_stats}
-therefore compares it, over all states with an sCI value, with the methods
-that are defined there as well.
+C$_2$, BN and F$_2$ are excluded, since their RHF references are unstable in the TDHF
+triplet channel. The
+statistics run over the 48 states with a value for every method. FLEX
+finds no quasiparticle root for NH$_3$ (3) (RPA) and Ne (2) (T0).
 
 From a formal perspective, Faddeev-ADC(3) has many desirable properties. 
 It is exact to third order, double-counting-free, PSD, Hermitian, and includes 
@@ -2614,6 +2611,18 @@ diverges for the electron gas. Only the terms that couple the channels (the mosa
 remove the divergence.\cite{Shepherd2014,Scuseria2013} The reason is that the 
 triplet $\eh$ channel resummed with the bare interaction is close to unstable, 
 and sometimes even completely unstable, as for instance seen for F$_2$.
+As shown in Fig.~\ref{fig:triplet_proximity},
+the error of Faddeev-ADC(3) grows as the lowest TDHF triplet approaches zero.
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{figures/triplet_proximity.pdf}
+\caption{\label{fig:triplet_proximity}Mean absolute error per molecule of
+Faddeev-ADC(3) (RPA pair channels) against sCI, versus the lowest TDHF
+triplet excitation energy of the RHF reference (aug-cc-pVDZ),
+$\mathrm{sgn}(\Omega^2)|\Omega|$. Negative values mark a triplet
+instability, where Faddeev-ADC(3) has no solution (open circles).}
+\end{figure}
+
 The observation that keeping it at first order (T1) or switching it off (T0) improves the
 results parallels the instabilities of RPA with exact exchange,
 which are removed by keeping exchange exact only at first
@@ -2628,17 +2637,15 @@ ADC(3) into CCD-ADC(3).\cite{forster2026third} Since no RPA problem has to be
 solved, it is also defined in case of a triplet instability.
 The triplet problem disappears. For N$_2$ (3), RPA pair channels give
 24.95 eV and CCD amplitudes 18.44 eV, against 18.74 eV from sCI.
-The MAD over all 46 compared states is 0.28 eV, against 0.33 eV for ADC(3) and
-0.29 eV for CCD-ADC(3). The error distributions are shown in
+The MAD over all 56 states with an sCI value is 0.23 eV, against 0.33 eV for ADC(3),
+0.29 eV for CCD-ADC(3) and 0.17 eV for CCSD. The error distributions are shown in
 Fig.~\ref{fig:supinf_ccd_violins}.
 
-CCD-Faddeev-ADC(3) therefore performs only a bit better than ADC(3), comparable to
-CCD-ADC(3), and the accuracy does not come close to the one of CCSD.
-
-However, for the subset of 48 states for which Faddeev-ADC(3) is actually defined, 
+Over all states, CCD-Faddeev-ADC(3) therefore improves on ADC(3) and somewhat on
+CCD-ADC(3), but the accuracy does not reach the one of CCSD. However, for the subset of 48 states for which Faddeev-ADC(3) is actually defined, 
 CCD-Faddeev-ADC(3) is a substantial improvement over CCD-ADC(3), with a MAD of 0.19 eV.
-This is very close to CCSD that comes with a MAD of 0.16 eV. Of course, in practive, 
-CCD-Faddeev-ADC(3) is not very useful, as it comes with essentially the same cost as solving 
+This is very close to CCSD that comes with a MAD of 0.16 eV. Of course, in practice,
+CCD-Faddeev-ADC(3) is not very useful, as it comes with essentially the same cost as solving
 CCSD.
 
 \section{\label{sec:conclusions}Conclusions}
@@ -2692,8 +2699,40 @@ infinite-order amplitude renormalization.
 The derivations shown here allow us to make precise
 connections to recent PSD completions of 
 vertex-corrected self-energies.\cite{Pavlyukh2026,Bruneval2025,Marie2026}
+The formal properties of the self-energies discussed here are
+summarized in Table~\ref{tab:properties}.
 
-However, the numerical 
+\begin{table}[hbt!]
+\caption{Formal properties of self-energy approximations.
+DC free: no diagram counted twice.
+2nd, 3rd: exact through second and third order in $v$.
+Hermitian: $\Sigma(\omega)=\Sigma^\dagger(\omega)$ for real $\omega$.
+Resolvent: $\Sigma(\omega)=\Sigma^{\infty}+\mathcal U(\omega-\mathcal H)^{-1}\mathcal V$
+with $\omega$-independent matrices of finite dimension.
+Coupled: the amplitudes of different channels are coupled.}
+\label{tab:properties}
+\footnotesize
+\begin{tabular}{lcccccc}
+\toprule
+ & \makecell{DC\\free} & 2nd & 3rd & Hermitian & Resolvent & Coupled \\
+\midrule
+Faddeev-ADC(3) & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\times$ \\
+CCD-Faddeev-ADC(3) & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+CCSD & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\times$ & $\checkmark$ & $\checkmark$ \\
+$GW$ & $\checkmark$ & $\times$ & $\times$ & $\checkmark$ & $\checkmark$ & $\times$ \\
+PSDII & $\times$ & $\times$ & $\times$ & $\checkmark$ & $\checkmark$ & $\times$ \\
+$\Sigma^{\rm TDHF}$ & $\checkmark$ & $\checkmark$ & $\times$ & $\times$ & $\checkmark^{a}$ & $\times$ \\
+Hedin, general & $\checkmark$ & $\checkmark^{b}$ & $\checkmark^{b}$ & $\times$ & $\times^{c}$ & $\checkmark^{b}$ \\
+\bottomrule
+\end{tabular}
+\par\smallskip
+{\raggedright\footnotesize
+$^{a}$Eq.~\eqref{eq:GWGamma}, with $\mathcal V\neq\mathcal U$.\\
+$^{b}$If the vertex is iterated to the corresponding order.\\
+$^{c}$Not for a dynamical vertex in general.\par}
+\end{table}
+
+However, the numerical
 results of Faddeev-ADC(3) are very poor, which can be linked to 
 the triplet channel. The same goes for the FLEX approximation
 and the PSDII approximation of \citet{Pavlyukh2026}. Switching 

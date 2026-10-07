@@ -34,14 +34,13 @@
 
 \begin{document}
 
-\title{Convergence of different ADC($n$) variants through $n=15$}
+\title{Convergence of ADC($n$)$}
 
 \maketitle
 
 These notes builds on the Dyson vs non-Dyson
-controversy, and assesses how and if the different ways, 
-known to the literature, to generate a systematic 
-ADC converge to the FCI limit. 
+controversy, and assesses how and if the different ways to generate a systematic ADC, 
+known to the literature converge to the FCI limit. 
 
 \section{The \texorpdfstring{$\la$}{lambda}-scaled problem}
 
@@ -295,6 +294,51 @@ and solves
 with $e_p$ the eigenvalue of $\bm\eps+\bm\Sigma^{[n]}(\omega)$ of largest weight on $p$, taking the root of
 largest residue. The pole Taylor series of union, diagrammatic and non-Dyson ADC($n$) equal the exact one
 through $\la^n$ to $10^{-17}$ ($n\le15$); the two-sector pole deviates from $\la^4$ on.
+
+\section{Ne and Ar beyond ADC(5)}
+\label{sec:neon}
+
+Fig.~\ref{fig:neon} follows the non-Dyson ADC($n$) series of the Ne and Ar valence ionizations in
+correlation-consistent bases to high order, against the FCI IP of the same block. The series are the
+exact symmetry-adapted ones of the $\la$-scaled problem of the previous sections, so no
+approximation enters beyond the basis: Ne/cc-pVDZ ($1s$ frozen) through $n=9$, Ne/aug-cc-pVDZ ($1s$ frozen) and
+Ar/aug-cc-pVDZ ($1s2s2p$ frozen) through $n=7$. ADC(1) is Koopmans' theorem. The lower row zooms on
+$n\ge5$. The error of the Ne/aug-cc-pVDZ series is still $+0.09$ and $+0.13$\,eV at $n=7$ for
+$2p$ and $2s$: in a diffuse basis the series itself converges slowly, and this is what the
+ADC(5) errors of Figs.~\ref{fig:fcadz1}--\ref{fig:fcadz3} contain.
+
+\begin{figure*}[hbt!]
+\includegraphics[width=\textwidth]{oracle_ne_ar_convergence.pdf}
+\caption{Non-Dyson ADC($n$) IP minus the FCI IP of Ne/cc-pVDZ, Ne/aug-cc-pVDZ and Ar/aug-cc-pVDZ
+(frozen core as stated in the text). Top: $n=1$ (Koopmans) to the last order; bottom: $n\ge5$.}
+\label{fig:neon}
+\end{figure*}
+
+\section{Dyson ADC(2)--(5) for molecules}
+\label{sec:molecules}
+
+Figs.~\ref{fig:fcadz1}--\ref{fig:fcadz3} show the errors of Dyson diagrammatic ADC($n$) IP for $n=2$--5 
+(frozen core; aug-cc-pVDZ) against selected CI (sCI) value of the same basis, and the convergence of CC is shown for comparison.
+The mean absolute ADC(5) error of the 24 states shown at the time of writing is 0.34\,eV, against 0.04\,eV for CCSDT.
+For most states the error alternates in sign with $n$ and does not decrease monotonically.
+
+\begin{figure*}[hbt!]
+\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part1.pdf}
+\caption{Dyson diagrammatic ADC($n$) IP and coupled cluster minus the sCI IP, frozen core, aug-cc-pVDZ (1/3).}
+\label{fig:fcadz1}
+\end{figure*}
+
+\begin{figure*}[hbt!]
+\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part2.pdf}
+\caption{As Fig.~\ref{fig:fcadz1} (2/3).}
+\label{fig:fcadz2}
+\end{figure*}
+
+\begin{figure*}[hbt!]
+\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part3.pdf}
+\caption{As Fig.~\ref{fig:fcadz1} (3/3).}
+\label{fig:fcadz3}
+\end{figure*}
 
 \bibliography{isr_adc_numerics}
 
