@@ -2579,8 +2579,8 @@ self-energy. Faddeev-ADC(3) and the ADC(3) variants are solved as Dyson
 supermatrices; FLEX, PSD and GF2 in the diagonal quasiparticle
 approximation. T1 and T0 denote
 the triplet $\eh$ channel at first order and switched off, respectively.
-C$_2$, BN and F$_2$ are excluded, since their RHF references are unstable in the TDHF
-triplet channel. The
+C$_2$ and BN are excluded, since their RHF references are unstable in the TDHF
+singlet (and triplet) channel, and F$_2$, since its TDHF triplet is unstable. The
 statistics run over the 48 states with a value for every method. FLEX
 finds no quasiparticle root for NH$_3$ (3) (RPA) and Ne (2) (T0).
 
@@ -2618,9 +2618,10 @@ the error of Faddeev-ADC(3) grows as the lowest TDHF triplet approaches zero.
 \includegraphics[width=\columnwidth]{figures/triplet_proximity.pdf}
 \caption{\label{fig:triplet_proximity}Mean absolute error per molecule of
 Faddeev-ADC(3) (RPA pair channels) against sCI, versus the lowest TDHF
-triplet excitation energy of the RHF reference (aug-cc-pVDZ),
-$\mathrm{sgn}(\Omega^2)|\Omega|$. Negative values mark a triplet
-instability, where Faddeev-ADC(3) has no solution (open circles).}
+triplet excitation energy of the RHF reference (aug-cc-pVDZ).
+For unstable references, where Faddeev-ADC(3) has no solution (open
+circles), the most negative eigenvalue of $A\pm B$ is shown; (S): also
+unstable in the singlet channel.}
 \end{figure}
 
 The observation that keeping it at first order (T1) or switching it off (T0) improves the
