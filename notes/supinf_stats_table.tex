@@ -1,6 +1,6 @@
 \begin{table}[hbt!]
 \centering
-\caption{Errors (eV) with respect to sCI over the 48 states of Table~\ref{tab:supinf_ips} with a value for every method, and MAD over their 20 first IPs.}
+\caption{Errors (eV) with respect to sCI over the 48 states of Table~\ref{tab:supinf_ips} with a value for every method, and MAD over their 20 first IPs. FLEX CCD: running, 44 states so far.}
 \label{tab:supinf_stats}
 \footnotesize
 \begin{tabular}{lccccc}
@@ -14,15 +14,18 @@ Faddeev-ADC(3) RPA$^{a}$ & 48 & 2.05 & $+2.03$ & 21.03 & 1.54 \\
 Faddeev-ADC(3) T1 & 48 & 0.33 & $+0.31$ & 1.39 & 0.29 \\
 Faddeev-ADC(3) T0 & 48 & 0.51 & $+0.45$ & 3.47 & 0.28 \\
 CCD-Faddeev-ADC(3) & 48 & 0.19 & $+0.11$ & 1.08 & 0.14 \\
+Faddeev-ADC(3) dRPA & 48 & 0.67 & $+0.60$ & 3.86 & 0.40 \\
 FLEX RPA & 48 & 1.42 & $-0.33$ & 5.87 & 1.24 \\
 FLEX T1 & 48 & 1.09 & $-1.01$ & 3.96 & 0.85 \\
 FLEX T0 & 48 & 0.49 & $+0.44$ & 3.24 & 0.27 \\
+FLEX CCD & 44 & 1.24 & $-1.16$ & 4.09 & 1.07 \\
 PSD1 & 48 & 0.51 & $-0.17$ & 2.88 & 0.35 \\
 PSD1 $-D/4-X$ & 48 & 0.29 & $-0.08$ & 1.64 & 0.19 \\
 PSD2 & 48 & 2.16 & $-1.45$ & 5.84 & 1.83 \\
 PSD2 $-$GF2 & 48 & 1.60 & $-0.59$ & 5.39 & 1.40 \\
 PSD2 T1 $-$GF2 & 48 & 1.38 & $-1.29$ & 4.44 & 1.14 \\
-CCSD & 48 & 0.16 & $+0.09$ & 0.86 & 0.08 \\
+CCSD & 48 & 0.16 & $+0.10$ & 0.92 & 0.08 \\
+EOM-CCD & 48 & 0.24 & $+0.12$ & 1.02 & 0.19 \\
 $GW$ & 48 & 0.52 & $+0.50$ & 2.14 & 0.44 \\
 GF2 & 48 & 0.78 & $-0.66$ & 1.94 & 0.78 \\
 \midrule
@@ -32,7 +35,10 @@ ADC(3) & 56 & 0.33 & $+0.31$ & 1.12 & 0.28 \\
 CCD-ADC(3) & 56 & 0.29 & $+0.29$ & 0.77 & 0.24 \\
 EN-ADC(3) & 56 & 0.09 & $-0.01$ & 0.64 & 0.06 \\
 CCD-Faddeev-ADC(3) & 56 & 0.23 & $+0.14$ & 1.08 & 0.20 \\
-CCSD & 56 & 0.17 & $+0.11$ & 1.08 & 0.10 \\
+Faddeev-ADC(3) dRPA & 56 & 0.76 & $+0.63$ & 3.86 & 0.45 \\
+FLEX CCD (51 so far) & 51 & 1.38 & $-1.12$ & 4.57 & 1.25 \\
+CCSD & 56 & 0.18 & $+0.12$ & 1.08 & 0.10 \\
+EOM-CCD & 56 & 0.25 & $+0.13$ & 1.15 & 0.21 \\
 $GW$ & 56 & 0.53 & $+0.49$ & 2.14 & 0.45 \\
 \bottomrule
 \end{tabular}

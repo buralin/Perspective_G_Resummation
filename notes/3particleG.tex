@@ -2603,6 +2603,10 @@ and the MADs become 0.51 and 0.49 eV. As a less drastic approximation, one can r
 triplet $\eh$ amplitudes by their first-order doubles counterparts that are also used in 
 ADC(3). For Faddeev-ADC(3), this reduces the error further to 0.33 eV.
 For FLEX it does not help; the error increases again to more than 1.0 eV.
+Another way to avoid triplet instabilities is to use direct RPA instead of TDHF in the $\eh$ channel. 
+This can be done both for Faddeev-ADC(3) and FLEX, but we have only numerically evaluated it for Faddeev-ADC(3).
+For the subset of 48 states for which Faddeev-ADC(3) is defined this gives a MAD of 0.67 eV, 
+which is somewhat more reasonable than the 2.05 eV of Faddeev-ADC(3) with the RPA channels, but still far from good. 
 
 The results clearly show that channel coupling is important. The
 same has been found for correlation energies in coupled-cluster theory,
@@ -2636,18 +2640,22 @@ between the channels. The resulting method, to which we refer
 as CCD-Faddeev-ADC(3), is the same substitution that turns
 ADC(3) into CCD-ADC(3).\cite{forster2026third} Since no RPA problem has to be
 solved, it is also defined in case of a triplet instability.
-The triplet problem disappears. For N$_2$ (3), RPA pair channels give
-24.95 eV and CCD amplitudes 18.44 eV, against 18.74 eV from sCI.
-The MAD over all 56 states with an sCI value is 0.23 eV, against 0.33 eV for ADC(3),
-0.29 eV for CCD-ADC(3) and 0.17 eV for CCSD. The error distributions are shown in
+The triplet problem disappears.
+The MAD over all 56 states with an sCI reference value is 0.23 eV, against 0.33 eV for ADC(3),
+0.29 eV for CCD-ADC(3) and 0.18 eV for CCSD. The error distributions are shown in
 Fig.~\ref{fig:supinf_ccd_violins}.
-
-Over all states, CCD-Faddeev-ADC(3) therefore improves on ADC(3) and somewhat on
-CCD-ADC(3), but the accuracy does not reach the one of CCSD. However, for the subset of 48 states for which Faddeev-ADC(3) is actually defined, 
+For the subset of 48 states
+for which Faddeev-ADC(3) is actually defined, 
 CCD-Faddeev-ADC(3) is a substantial improvement over CCD-ADC(3), with a MAD of 0.19 eV.
-This is very close to CCSD that comes with a MAD of 0.16 eV. Of course, in practice,
-CCD-Faddeev-ADC(3) is not very useful, as it comes with essentially the same cost as solving
-CCSD.
+This is very close to CCSD that comes with a MAD of 0.16 eV. 
+
+Maybe a bit surprisingly, the CCD amplitudes do not rescue FLEX. With a
+MAD of 1.24 eV, it is almost as bad as FLEX with RPA
+channels (MAD of 1.42 eV).
+The CCD channels lower the IPs, which FLEX already underestimates. The
+deficiency of FLEX is not the quality of its pair channels but the way it
+combines them.
+
 
 \section{\label{sec:conclusions}Conclusions}
 Through the response function $R$, Eqs.~\eqref{eq:Sigma_3} and
