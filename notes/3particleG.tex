@@ -2439,13 +2439,11 @@ correlates the 5-particle block, terms that would otherwise only show up in
 ADC(5). Of course, since they solve the RPA problem, their scheme goes beyond 
 ADC, but it is reasoanble to assume that their self-energy is obtained in 
 Faddeev-ADC(5).
-In the bare interaction PSD-$G3W2$ contains PSD-2SOSEX.
-A doubly resonant term of $U^{(3)}$ adds a
-further first-order exchange vertex, so that ADC-$G3W2$ gives
-$\frac{17}{16}\Sigma^{(2)}_{\rm D}+\Sigma^{(2)}_{\rm X}$ in total.
 
-All constructions
-that make self-energies derived in Hedins method PSD seem to share this shortcoming, 
+Also PSD-$G3W2$ does double counts a small fraction of the second-order contribution.
+It contains $\frac{17}{16}\Sigma^{(2)}_{\rm D}+\Sigma^{(2)}_{\rm X}$ in total.
+All of the recently introduced approaches\cite{Bruneval2025,Pavlyukh2026,Marie2026} to 
+make self-energies derived in Hedins method PSD seem to share this shortcoming, 
 and it is unclear how it can be overcome. It is also reasonable to assume that the PSD
 completions of higher-order self-energie derived in Hedins equations would 
 also double count contriburions at higher orders. As already pointed out, 
@@ -2646,11 +2644,11 @@ The MAD over all 56 states with an sCI reference value is 0.23 eV, against 0.33 
 Fig.~\ref{fig:supinf_ccd_violins}.
 For the subset of 48 states
 for which Faddeev-ADC(3) is actually defined, 
-CCD-Faddeev-ADC(3) is a substantial improvement over CCD-ADC(3), with a MAD of 0.19 eV.
+CCD-Faddeev-ADC(3) is a substantial improvement over Faddeev-ADC(3), with a MAD of 0.19 eV.
 This is very close to CCSD that comes with a MAD of 0.16 eV. 
 
 Maybe a bit surprisingly, the CCD amplitudes do not rescue FLEX. With a
-MAD of 1.24 eV, it is almost as bad as FLEX with RPA
+MAD of 1.20 eV, it is almost as bad as FLEX with RPA
 channels (MAD of 1.42 eV).
 The CCD channels lower the IPs, which FLEX already underestimates. The
 deficiency of FLEX is not the quality of its pair channels but the way it
