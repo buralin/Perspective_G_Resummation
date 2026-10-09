@@ -271,7 +271,7 @@ Although electronic structure theory has made significant progress in the last d
 For example, strongly correlated materials with different competing electronic phases require a sufficient accuracy in order to correctly disentangle them.
 At the same time, finite size effects have to be critically assessed, requiring computationally tractable yet accurate methods.
 Similarly, metal clusters in biological systems, or the description of certain type of excitations, e.g., double excitations, are not routinely captured with sufficient accuracy.
-Although progress has been made in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency. One promising direction is the development of novel diagrammatic methods based on the one-particle Green's ($\bG$)function, which are currently being explored by several groups through interdisciplinary efforts.
+Although progress has been made in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency. One promising direction is the development of novel diagrammatic methods based on the one-particle Green's function ($\bG$), which are currently being explored by several groups through interdisciplinary efforts.
 
 The one-particle Green's function offers a particularly insightful bottom-up perspective on electronic structure theory.
 By nature, electrons are indistinguishable and obey the Pauli exclusion principle, which fundamentally shapes their collective behavior in multi-electronic systems.
@@ -303,6 +303,7 @@ Alternatively, $\bG$ can be constructed directly from the many-body wavefunction
 \end{align}
 Formally, both approaches are exact and constitute a different philosophy. 
 While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground-state of the system through, the wavefunction-based construction requires explicit knowledge of the ground-state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
+The latter procedure is often denoted as non-Dyson Green's function construction.
 
 Either way, it becomes clear that $\bG$ provides direct access to the ionization potentials and electron affinities of the system, which allow for direct comparison with (inverse) angle-resolved photoemission spectroscopy [AR(I)PES] experiments through the spectral function $A(\omega)$, defined as
 \begin{align}
@@ -318,7 +319,22 @@ where $\mathbf{h}$ is the one-electron Hamiltonian, $\boldsymbol{\gamma}$ is the
 With this background, we aim to highlight recent advances in constructing approximations to the one-particle Green's function and their implications for electronic structure theory. 
 Along the way, we identify open research questions that must be addressed to advance our understanding of the challenges outlined at the outset.
 
+\textbf{Maybe provide overview figure of the different techniques.}
 
+As its origin in quantum field theory suggests, common strategies for finding self-energy approximations rely on diagrammatic expansions and perturbative techniques.
+The central problem lies in the inclusion of many-body effects in the self-energy, which describe the adjustment of the electronic structure due to the additional electron or hole, i.e.,the dressing through interactions with the surrounding electrons.
+The most famous example of such a procedure is the $GW$ approximation.
+Here the electron/hole is dynamically dressed by a polarization cloud of (collective) electron-hole pairs.
+The $GW$ approximation constitutes the simplest approximation to a more general complicated self-consistent many-body procedure introduced by Lars Hedin.
+Following this, the recipe would allow for the construction of the exact self-energy. 
+Such an approach is overly complex and computationally demanding for practical applications.
+Finding practical ways to go beyond $GW$ while not solving the full set of Hedin's equations is a significant challenge.
+
+Alternative theoretical strategies rely on putting a particular emphasis on effective two- (or higher-order) particle interactions that are then used to construct approximations to the self-energy.
+A famous example is the Parquet approximation. Here different two particle scattering channels are treated on an equal footing, and their effect is incorporated in the self-energy through the Dyson-Schwinger equation.
+While offering an attractive route also to understand microscopic effects that give rise to electronic phases in correlated condensed matter, the Parquet approximation suffer from similar problems as Hedin's equation when going beyond the lowest order, and a systematically improvable route remains challenging.
+
+Alternatively, one can make use of the 
 
 
 \clearpage 
