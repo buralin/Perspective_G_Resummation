@@ -1,0 +1,191 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+
+% statement-status markers used throughout the notes
+\newcommand{\Exact}{\textbf{Exact identity.}\ }
+\newcommand{\Established}{\textbf{Established result.}\ }
+\newcommand{\Proposed}{\textbf{Proposed approximation.}\ }
+
+\begin{document}
+
+\title{Frequency dependence in EOM theories and its relation to the BSE}
+
+%\author{Pierre-Fran\c{c}ois \surname{Loos}}
+%	\email{loos@irsamc.ups-tlse.fr}
+%	\affiliation{\LCPQ}
+\iffalse
+\begin{abstract}
+bla bla bla
+\end{abstract}
+\fi
+
+\maketitle
+
+
+\section{Equation-of-Motion Theories}
+
+We start by analyzing the frequency dependence in Equation-of-Motion (EOM) theories.
+Neutral excited-states within a EOM approach are determined from 
+\begin{align}
+ \langle \Psi_0 | \hat{C}^\dagger_\mu [\hat{H}, \hat{R}_n] | \Psi_0 \rangle = \omega_n \langle \Psi_0 | \hat{C}^\dagger_\mu \hat{R}_n | \Psi_0 \rangle,
+ \label{eq:EOM}
+\end{align}
+with $\hat{R}_n$ denoting the excitation operator for the $n$-th excited state 
+\begin{align}
+  \hat{R}_n = \sum_\mu r_\mu^{(n)} \hat{C}_\mu.
+\end{align}
+Eq.~\eqref{eq:EOM} can be written in matrix form as
+\begin{align}
+ \mathbf{H} \mathbf{r}_n = \omega_n  \mathbf{r}_n.
+\end{align}
+Assuming the excitation operator to be restricted to single and double excitations, i.e.,
+\begin{align}
+  \hat{R}_n = \sum_{ia} r_i^{a,(n)} \hat{a}^\dagger_a \hat{a}_i + \frac{1}{4} \sum_{ijab} r_{ij}^{ab,(n)} \hat{a}^\dagger_a \hat{a}^\dagger_b \hat{a}_j \hat{a}_i,
+\end{align}
+where $i,j$ ($a,b$) label occupied (virtual) orbitals.
+The block-structure of the Hamiltonian matrix $\mathbf{H}$ in the basis of single and double excitations is then given by
+\begin{align}
+\mathbf{H} = \begin{pmatrix}
+ \mathbf{H}_{\text{ss}} & \mathbf{H}_{\text{sd}} \\
+ \mathbf{H}_{\text{ds}} & \mathbf{H}_{\text{dd}}
+\end{pmatrix},
+\end{align}
+where the subscripts `s' and `d' refer to single and double excitations, respectively.
+Downfolding the Hamiltonian in the space of single excitations leads to the frequency-dependent effective Hamiltonian
+\begin{align}
+\mathbf{H}_{\text{eff}}(\omega) = \mathbf{H}_{\text{ss}} + \mathbf{H}_{\text{sd}} (\omega - \mathbf{H}_{\text{dd}})^{-1} \mathbf{H}_{\text{ds}}.
+\end{align}
+
+For the following analysis we assume a diagonal doubles block, i.e.,
+\begin{align}
+\mathbf{H}_{\text{dd}} = \langle \Phi_{ij}^{ab} | \hat{H} | \Phi_{kl}^{cd} \rangle = \delta_{ik} \delta_{jl} \delta_{ac} \delta_{bd} (\epsilon_a + \epsilon_b - \epsilon_i - \epsilon_j)
+\end{align}
+where $\epsilon_p$ denote the canonical Hartree--Fock orbital energies.
+The coupling block read
+\begin{align}
+  \mathbf{H}_{\text{sd}} &= \langle \Phi_i^a | \hat{H} | \Phi_{jk}^{bc} \rangle  \nonumber \\
+  &= \delta_{ik} \langle ab||jc \rangle - \delta_{ij} \langle ab||kc \rangle\nonumber \\
+  &+ \delta_{ab} \langle jk||ic \rangle - \delta_{ac} \langle jk||ib \rangle .
+\end{align}
+This illustrates that we can distinguish between to fundamental building blocks in the frequency-dependent part of the effective Hamiltonian.
+
+These can be categorized into two types:
+Genuine two-particle interaction terms
+\begin{align}
+   \Gamma_{iajb}(\omega) = \sum_{kc} \frac{\langle ab||kc \rangle \langle kc||ij \rangle}{\omega - (\epsilon_c + \epsilon_b - \epsilon_k - \epsilon_i)},
+\end{align}
+or terms with a spectator particle 
+\begin{align}
+  \delta_{ab} \Sigma_{jl}(\omega') \nonumber \\
+  &= \delta_{ab} \sum_{klc} \frac{\langle jk||ic \rangle \langle ic||kl \rangle}{\omega - (\epsilon_c + \epsilon_b - \epsilon_i - \epsilon_k)} \nonumber \\
+  &= \delta_{ab} \Sigma_{jl}(\omega - \epsilon_b).
+\end{align}
+The latter can be directly identified as self-energy-like term dressing the single-particle propagator.
+
+With this, we can rewrite the frequency-dependent effective Hamiltonian as a sum of genuine two-particle interaction terms and disconnected one-particle contributions
+\begin{align}
+\mathbf{H}_{\text{eff}}(\omega)_{ijab} &= \delta_{ij} \left( \delta_{ab} \epsilon_a + \Sigma_{ab}(\omega + \epsilon_j) \right) \nonumber \\
+&- \delta_{ab} \left(\delta_{ij} \epsilon_i +  \Sigma_{ij}(\omega - \epsilon_b) \right) + V_{iajb} + \Gamma_{iajb}(\omega).
+\end{align}
+\textcolor{red}{This is just for illustration purposes. The signs might be wrong.}
+
+Summarizing the frequency dependence as $\nu = \omega - \epsilon_b$ and $\nu' = \omega - \epsilon_j$, we can rewrite the effective Hamiltonian in terms of these shifted frequencies
+\begin{align}
+\mathbf{H}_{\text{eff}}(\omega, \nu, \nu')_{ijab} &= \delta_{ij} \left( \delta_{ab} \epsilon_a + \Sigma_{ab}(\nu') \right) \nonumber \\
+&- \delta_{ab} \left(\delta_{ij} \epsilon_i +  \Sigma_{ij}(\nu) \right) + V_{iajb} + \Gamma_{iajb}(\omega).
+\end{align}
+
+
+\textbf{Interpretation:}
+The diagrammatic rules for constructing the BSE, i.e., via the Parquet approximation, do not allow for the inclusion of the self-energy insertions directly, due to two-particle reducible and irreducible contributions being separated from one-particle contributions to avoid double counting from the usage of a interacting one-particle Green's function.
+The fermionic frequencies therefore reflect the fact that the evaluation of the self-energy has to be shifted by the corresponding bosonic frequency compared to the single-particle treatment via the Dyson equation. 
+
+\textbf{Next:}
+Comparison with the multifrequency kernels derived by Titou.
+Furthermore, the derivation above decouples excitations from deexcitations. 
+I conjecture that this is the reason why the particle/hole self-energy insertions appear only for 2h1p/2p1h intermediate states.
+In the CC case, one would have additional static 2p1h/2h1p contributions arising from the contraction with the $T_2$ amplitudes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
