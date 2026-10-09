@@ -267,20 +267,62 @@
 \maketitle
 
 \section{Introduction}
+Although electronic structure theory has made significant progress in the last decades, there are still phenomena that can not routinely be described with sufficient accuracy using the available methods.
+For example, strongly correlated materials with different competing electronic phases require a sufficient accuracy in order to correctly disentangle them.
+At the same time, finite size effects have to be critically assessed, requiring computationally tractable yet accurate methods.
+Similarly, metal clusters in biological systems, or the description of certain type of excitations, e.g., double excitations, are not routinely captured with sufficient accuracy.
+Although progress has been made in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency. One promising direction is the development of novel diagrammatic methods based on the one-particle Green's ($\bG$)function, which are currently being explored by several groups through interdisciplinary efforts.
 
-Taking a bottom-up perspective on electronic structure theory, the electron represents the fundamental building block whose behavior one aims to understand. 
+The one-particle Green's function offers a particularly insightful bottom-up perspective on electronic structure theory.
 By nature, electrons are indistinguishable and obey the Pauli exclusion principle, which fundamentally shapes their collective behavior in multi-electronic systems.
 Nevertheless, understanding the collective behavior of a system through its changes in the presence of an additional electron or hole is useful conceptually.
-Precisely, from this behavior, information about the ground and excited states of a system can be inferred. 
-
-Imagine injecting a hole in a system; depending on how strongly the electrons interact with this hole, one can deduce information of the electronic correlations present in the system.
+From this behavior, information about the ground and excited states of a system can be inferred, and this is what is captured in the one-particle Green's function.
+Imagine injecting a hole in a system; depending on how strongly the electrons interact with this hole, one can deduce information about the electronic correlations present in the system.
 If the response is weak, the hole moves relatively freely through the system, essentially behaving as an independent particle.
 Conversely, if the response is strong, the hole becomes entangled with the surrounding electrons, which ultimately could result in a loss of its single-particle character.
+The dressed electron/hole is often referred to as a quasiparticle.
 
-The natural language that enables the description of this behavior is provided by the one-particle Green's function.
+From a theoretical point of view, the central ingredient one needs to include for a quasiparticle description is the effective interactions of the electron/hole with its environment.
+The self-energy, often denoted as $\Sigma(\br,\br';\omega)$, encapsulates these effective non-local and generally energy-dependent interactions.
+Interestingly, the simplest approximation to $\Sigma(\br,\br';\omega)$ is the Hartree--Fock (HF)approximation in which the self-energy is energy-independent and corresponds to the Coulomb and exchange Fock matrix contributions.
+In this case, one describes a particle interacting with the averaged field, as in regular HF theory.
+The central equation that connects the single-particle and the quasiparticle picture is the Dyson equation
+\begin{align}
+    \bG(\omega) = \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega),
+    \label{eq:Dyson}
+\end{align}
+with $\bG_0(\omega)$ denoting some initial independent-particle Green's function that becomes transformed into an interacting Green's function by the interactions described by the self-energy ($\pmb{\Sigma}$).
+From this, the importance of infinite resummation becomes evident. 
+Only when the infinite series is summed to all orders does the Green's function fully capture the effects of interactions and provide an accurate description of the quasiparticle properties.
+
+Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
+\begin{align}
+    G_{pq}(\omega) &= \sum_{m}^{N+1} \frac{\langle \Psi_0 | a_p | \Psi_m^{N+1} \rangle \langle \Psi_m^{N+1} | a_q^\dagger | \Psi_0 \rangle}{\omega - (E_m^{N+1} - E_0) + i\eta} \nonumber \\
+    &+ \sum_{m}^{N-1} \frac{\langle \Psi_0 | a_q^\dagger | \Psi_m^{N-1} \rangle \langle \Psi_m^{N-1} | a_p | \Psi_0 \rangle}{\omega - (E_0 - E_m^{N-1}) - i\eta}.
+    \label{eq:Lehmann}
+\end{align}
+Formally, both approaches are exact and constitute a different philosophy. 
+While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground-state of the system through, the wavefunction-based construction requires explicit knowledge of the ground-state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
+
+Either way, it becomes clear that $\bG$ provides direct access to the ionization potentials and electron affinities of the system, which allow for direct comparison with (inverse) angle-resolved photoemission spectroscopy [AR(I)PES] experiments through the spectral function $A(\omega)$, defined as
+\begin{align}
+    A(\omega) = -\frac{1}{\pi} \mathrm{Im} \, \mathrm{Tr} \, \bG(\omega).
+\end{align}
+Furthermore, the ground-state energy and denstity matrix can be deduced from the Green's function as
+\begin{align}
+    E_0 &= \frac{1}{4 \pi \mathrm{i}} \sum_{pq} \oint_\mathrm{IP} d\omega \left(h_{pq} + \omega \delta_{pq} \right) G_{qp}(\omega) \\
+    \gamma_{pq} &= \frac{1}{2 \pi \mathrm{i}} \oint_\mathrm{IP} d\omega \, G_{qp}(\omega),
+\end{align}
+where $\mathbf{h}$ is the one-electron Hamiltonian, $\boldsymbol{\gamma}$ is the one-particle density matrix, and $\oint_\mathrm{IP}$ denotes a contour integral in the upper half of the complex plane.
+
+With this background, we aim to highlight recent advances in constructing approximations to the one-particle Green's function and their implications for electronic structure theory. 
+Along the way, we identify open research questions that must be addressed to advance our understanding of the challenges outlined at the outset.
 
 
 
+
+\clearpage 
+\newpage
 \section{One-particle Green's function}
 \label{sec:OnepartGreen}
 As a sum-over-state expression for the interacting one-particle Green's function reads 
