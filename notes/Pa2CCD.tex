@@ -39,9 +39,9 @@
 \newcommand{\bXi}{\boldsymbol{\Xi}}
 \newcommand{\bchi}{\boldsymbol{\chi}}
 \newcommand{\bEta}{\boldsymbol{\eta}}
-\newcommand{\bcalH}{\boldsymbol{\mathcal H}}
-\newcommand{\bcalT}{\boldsymbol{\mathcal T}}
-\newcommand{\bcalQ}{\boldsymbol{\mathcal Q}}
+\newcommand{\bcalH}{\boldsymbol{\mathcal{H}}}
+\newcommand{\bcalT}{\boldsymbol{\mathcal{T}}}
+\newcommand{\bcalQ}{\boldsymbol{\mathcal{Q}}}
 \newcommand{\LCPQ}{Univ Toulouse, CNRS, Laboratoire de Chimie et Physique Quantiques, Toulouse, France}
 \newcommand{\UnHam}{Department of Chemistry, University of Hamburg, 22761 Hamburg, Germany; The Hamburg Centre for Ultrafast Imaging (CUI), Hamburg 22761, Germany}
 \newcommand{\UWarsaw}{Institute of Theoretical Physics, Faculty of Physics, University of Warsaw, Warsaw, Poland}
@@ -65,7 +65,7 @@ For a canonical Hartree--Fock reference, the individual static channel
 blocks yield Bethe--Salpeter matrices and associated Riccati equations.
 We evaluate the residuals of these equations using three matrix
 arrangements of one antisymmetric doubles tensor, retain the common source
-and free term once, and sum the antisymmetrized scattering contributions.
+and free term once, and sum the antisymmetrized correlation contributions.
 Their explicit orbital expansion reproduces the ring, crossed-ring, and
 ladder terms with the CCD signs and coefficients. This equality holds for
 an arbitrary antisymmetric doubles tensor under the stated assumptions.
@@ -82,10 +82,11 @@ vertex equations.
 
 Parquet theory and coupled-cluster doubles (CCD) organize two-body correlation
 through different quantities. The former decomposes a four-point vertex into
-three correlation channels, whereas the latter determines a single
-antisymmetric doubles amplitude. The parquet formulation and its static
+three correlation channels, direct electron-hole ($\eh$), transverse electron-hole
+($\teh$), or particle-particle ($\pp$), whereas the latter determines a single set of
+antisymmetric doubles amplitudes. The parquet formulation and its static
 kernel approximation have recently been developed for molecular
-systems.\cite{Marie2025} Relating its channel blocks to CCD requires specifying
+systems.\cite{Marie2025} Relating its channels to CCD requires specifying
 both their matrix representation and their combination in a common
 fermionic amplitude space.
 
@@ -95,10 +96,10 @@ between particle-hole random-phase approximation (RPA) and ring
 CCD.\cite{Scuseria2008} The corresponding connection between particle-particle
 RPA and ladder CCD was established by Scuseria, Henderson, and Bulik and
 independently by Peng \textit{et al.}\cite{Scuseria2013,Peng2013}
-In Secs.~III.C and III.D of Ref.~\onlinecite{Scuseria2013}, the ring,
+In Ref.~\onlinecite{Scuseria2013}, the ring,
 ladder, and crossed-ring contributions are combined through common
-fermionic amplitudes. That analysis explicitly addresses the different
-composite-index arrangements and repeated driving terms, with mosaic
+fermionic amplitudes. This analysis explicitly addresses the different
+composite-index arrangements and repeated driver terms, with mosaic
 contributions incorporated into an effective one-body Hamiltonian.
 The interpretation of CCD through these three channels therefore provides
 the starting point for the present comparison. Related work connects RPA
@@ -135,9 +136,8 @@ the static BSE matrices and the Riccati decoupling condition.
 Section~\ref{sec:common_t} constructs the common-amplitude residual, whose
 orbital expansion is compared with non-mosaic CCD in
 Sec.~\ref{sec:ccd_recovery}. Conclusions are drawn in Sec.~\ref{sec:scope}.
-Appendices~\ref{app:nonlinear_parquet} and \ref{app:weighted_projection}
-collect the direct-sum block forms of the channel equations and the
-weighted-projection representation, respectively.
+Appendix~\ref{app:weighted_projection} gives the weighted-projection
+representation of the doubles residual.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Fixed-kernel channel equations}
@@ -161,8 +161,8 @@ and direct-sum operators are blackboard bold. Four-point vertices and
 abstract index-arrangement maps retain plain symbols. We use $\cdot$ for
 matrix multiplication or map application, $\dagger$ for an adjoint, and
 $\mathsf T$ for a transpose. Identity matrices are denoted by
-$\bI$; $1$ denotes a vertex-space identity and $\mathbb I_{\oplus}$ a
-direct-sum identity. We write $\ii^2=-1$ and use $\delta_{pq}$ for the
+$\bI$; $1$ denotes a vertex-space identity. We write $\ii^2=-1$ and use
+$\delta_{pq}$ for the
 Kronecker delta. The inner products defining adjoints of the
 index-arrangement maps are specified in Appendix~\ref{app:weighted_projection}.
 
@@ -185,12 +185,12 @@ parquet decomposition reads\cite{Marie2025}
     \label{eq:parquet_decomposition}
 \end{equation}
 where $\Lambda$ is fully two-particle irreducible and $\Phi^{\alpha}$ contains all
-diagrams reducible in channel $\alpha$. At fixed external labels and frequencies,
+diagrams reducible in channel $\alpha$. At fixed external labels (i.e., orbital labels and time or frequency variables),
 these reducibility classes are disjoint. Crossing relates the two
 electron-hole classes by permuting external arguments; it does not count
 the same labelled diagram twice in Eq.~\eqref{eq:parquet_decomposition}.
 This distinction holds also when the interaction is
-antisymmetrized.\cite{Marie2025} The corresponding channel-irreducible vertices are
+antisymmetrized.\cite{Marie2025} The corresponding BSE kernels are
 \begin{align}
     \Gamma^{\eh}
     &=\Lambda+\Phi^{\teh}+\Phi^{\pp}
@@ -202,10 +202,10 @@ antisymmetrized.\cite{Marie2025} The corresponding channel-irreducible vertices 
     &=\Lambda+\Phi^{\eh}+\Phi^{\teh}
     \label{eq:parquet_kernels}
 \end{align}
-Let $L_0^{\alpha}$ denote the product of two one-particle Green's functions in
-channel $\alpha$, before repeated two-particle scattering is included. In the exact
-parquet equations these one-particle propagators are dressed; the subscript
-$0$ does not here imply an HF approximation. Their HF specialization is
+
+Let $L_0^{\alpha}$ denotes the product of two one-particle Green's functions in
+channel $\alpha$, before repeated two-particle scattering is included. 
+Their HF specialization is
 introduced in Sec.~\ref{sec:multifrequency_static}. The reducible component
 is generated by its BSE,
 \begin{equation}
@@ -232,7 +232,7 @@ relations. Here we additionally replace those relations by
     \label{eq:bare_channel_kernels}
 \end{equation}
 This defines a fixed bare-kernel three-channel model obtained from the
-parquet channel equations. It replaces the channel-irreducible vertex
+parquet channel equations. It replaces the kernel
 relations above; it is not the self-consistent parquet approximation.
 The exact parquet classification alone therefore does not establish the
 diagrammatic completeness or multiplicities of this modified model.
@@ -248,8 +248,7 @@ The reconstruction and component BSEs give
 The three components share the reconstructed vertex $F$, so
 Eq.~\eqref{eq:bare_kernel_components} remains a coupled problem and retains
 repeated scattering to all orders. It differs from solving three independent
-equations $F_{\alpha}=v+v\circ L_0^{\alpha}\circ F_{\alpha}$. The direct-sum block notation is
-collected in Appendix~\ref{app:nonlinear_parquet}.
+equations $F_{\alpha}=v+v\circ L_0^{\alpha}\circ F_{\alpha}$.
 
 \subsection{Same-channel resummation}
 \label{sec:faddeev_rearrangement}
@@ -298,8 +297,7 @@ fixed-kernel component BSE, subject to the stated invertibility condition.
 Repeated scattering in channel $\alpha$ is contained in $\mathcal R_{\alpha}$, while
 $\Lambda+\sum_{\beta\ne\alpha}\Phi^{\beta}$ supplies its source and coupling to the other
 channels. This separation has the algebraic structure of a Faddeev
-rearrangement; the corresponding direct-sum form is given in
-Appendix~\ref{app:nonlinear_parquet}.
+rearrangement.
 
 For the bare-kernel problem,
 \begin{equation}
@@ -1372,186 +1370,6 @@ channel kernels, the full frequency dependence, and the additional terms
 of full CCD remain outside the scope of this work.
 
 \appendix
-\section{Block forms of the channel equations}
-\label{app:nonlinear_parquet}
-
-We collect the direct-sum notation for the component equations of
-Sec.~\ref{sec:parquet}, including the nonlinear kernel closure and the
-fixed-kernel rearrangement.
-
-\subsection{Channel representation}
-
-Let $\mathscr F_4$ denote the vector space of four-point vertex functions.
-For each channel $\alpha\in\{\eh,\teh,\pp\}$, let $\mathscr F_{\alpha}$ denote a
-channel-labelled copy of $\mathscr F_4$ in which the external legs and
-frequency variables are arranged naturally for channel $\alpha$. The three copies are isomorphic,
-\begin{equation*}
-    \mathscr F_{\eh}
-    \simeq
-    \mathscr F_{\teh}
-    \simeq
-    \mathscr F_{\pp}
-    \simeq
-    \mathscr F_4
-\end{equation*}
-and retain their channel labels to specify the corresponding convolutions
-and frequency variables. Their direct sum is
-\begin{equation}
-    \mathscr F_{\oplus}
-    =
-    \mathscr F_{\eh}
-    \oplus
-    \mathscr F_{\teh}
-    \oplus
-    \mathscr F_{\pp}
-    \label{eq:channel_direct_sum}
-\end{equation}
-whose elements are triples of channel representations of four-point vertex
-objects. The reducible and channel-irreducible vertices are collected into the
-column vectors
-\begin{equation}
-    \boldsymbol{\Phi}
-    =
-    \begin{pmatrix}
-        \Phi^{\eh}\\
-        \Phi^{\teh}\\
-        \Phi^{\pp}
-    \end{pmatrix}
-    \qquad
-    \boldsymbol{\Gamma}
-    =
-    \begin{pmatrix}
-        \Gamma^{\eh}\\
-        \Gamma^{\teh}\\
-        \Gamma^{\pp}
-    \end{pmatrix}
-    \label{eq:channel_supervectors}
-\end{equation}
-In the following block formulas, the channel copies are identified by
-expressing their vertices in a common external-leg and frequency convention.
-An entry $1$ denotes this identification, including the change of variables
-when natural channel coordinates are used; it is not an instruction to equate
-different transfer frequencies. The signs and pair factors remain in the
-channel convolutions. We define
-\begin{equation}
-    \mathbf e
-    =
-    \begin{pmatrix}1\\1\\1\end{pmatrix}
-    \qquad
-    \mathbf s^{\mathsf T}
-    =
-    \begin{pmatrix}1&1&1\end{pmatrix}
-    \qquad
-    \mathbb A
-    =
-    \begin{pmatrix}
-        0&1&1\\
-        1&0&1\\
-        1&1&0
-    \end{pmatrix}
-    \label{eq:channel_incidence}
-\end{equation}
-The vertex reconstruction and kernel relations become
-\begin{equation}
-    F
-    =
-    \Lambda
-    +
-    \mathbf s^{\mathsf T}\cdot\boldsymbol{\Phi}
-    \label{eq:super_reconstruction}
-\end{equation}
-and
-\begin{equation}
-    \boldsymbol{\Gamma}
-    =
-    \mathbf e\Lambda
-    +
-    \mathbb A\cdot\boldsymbol{\Phi}
-    \label{eq:super_Gamma}
-\end{equation}
-The zero diagonal of $\mathbb A$ is the parquet irreducibility condition in
-matrix form: $\Gamma^{\alpha}$ contains the reducible contributions from the other
-two channels but not from channel $\alpha$ itself.
-
-\subsection{Nonlinear kernel closure}
-
-For a given full vertex $F$, define the block-diagonal BSE operator
-\begin{equation}
-    \mathbb B[F]
-    =
-    \operatorname{diag}
-    \qty(
-        \mathcal B_{\eh}[F],
-        \mathcal B_{\teh}[F],
-        \mathcal B_{\pp}[F]
-    )
-    \label{eq:B_operator}
-\end{equation}
-with a generic four-point test vertex $X$,
-\begin{equation}
-    \mathcal B_{\alpha}[F]\cdot X
-    =
-    X\circ L_0^{\alpha}\circ F
-    \label{eq:B_channel_map}
-\end{equation}
-The three BSEs become the single direct-sum equation
-\begin{equation}
-    \boldsymbol{\Phi}
-    =
-    \mathbb B[F]\cdot\boldsymbol{\Gamma}
-    \label{eq:super_BSE}
-\end{equation}
-Equations~\eqref{eq:super_reconstruction}, \eqref{eq:super_Gamma}, and
-\eqref{eq:super_BSE} are exactly equivalent to the parquet vertex equations
-at specified $\Lambda$ and one-particle propagators. Eliminating $F$ and
-$\boldsymbol{\Gamma}$ gives a single
-nonlinear equation in the direct-sum channel space,
-\begin{equation}
-    \boldsymbol{\Phi}
-    =
-    \mathbb B
-    \qty[
-        \Lambda+\mathbf s^{\mathsf T}\cdot\boldsymbol{\Phi}
-    ]
-    \cdot\qty(
-        \mathbf e\Lambda+\mathbb A\cdot\boldsymbol{\Phi}
-    )
-    \label{eq:parquet_super_nonlinear}
-\end{equation}
-This form makes explicit that parquet is naturally a coupled problem on the
-direct sum of the three correlation-channel spaces.
-
-
-\subsection{Fixed-kernel rearrangement}
-
-For fixed channel kernels and propagators, define
-\begin{equation*}
-    \mathbb R
-    =
-    \operatorname{diag}
-    (\mathcal R_{\eh},\mathcal R_{\teh},\mathcal R_{\pp})
-\end{equation*}
-Eq.~\eqref{eq:faddeev_component} is
-\begin{equation}
-    \boldsymbol{\Phi}
-    =
-    \mathbb R
-    \cdot\qty(
-        \mathbf e\Lambda+\mathbb A\cdot\boldsymbol{\Phi}
-    )
-    \label{eq:faddeev_supervector}
-\end{equation}
-Equivalently,
-\begin{equation}
-    (\mathbb I_{\oplus}-\mathbb R\cdot\mathbb A)\cdot\boldsymbol{\Phi}
-    =
-    \mathbb R\cdot\mathbf e\Lambda
-    \label{eq:faddeev_supermatrix}
-\end{equation}
-These equations express Eq.~\eqref{eq:faddeev_component} in direct-sum
-notation. The resummed map is diagonal in channel space, and $\mathbb A$
-couples each component to the other two.
-
 \section{Weighted representation of the doubles residual}
 \label{app:weighted_projection}
 
