@@ -1,0 +1,137 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+\newcommand{\Hx}{\text{Hx}}
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+\begin{document}
+
+\title{From the 3-particle Green's function to the Parquet equations}
+
+\begin{abstract}
+In three stages, these notes point out the connection between the Parquet and the ADC constructions of the elf-energy. First, we show that the single-particle Green's function is naturally expressed in terms of the three-particle Green's function through the Martin--Schwinger hierarchies of EOMs for $n$-order Green' functions. We then show that the channel decomposition of the three-particle vertex naturally arises from the Faddeev decomposition of the three-particle vertex. Finally, we show how the ADC of the self-energy can be derived in this way. 
+\end{abstract}
+
+\maketitle
+
+The first two EOMs of the Schwinger--Dyson hierarchy for the single-particle Green's function are
+\begin{align}
+G(11')
+&=
+G_0(11')
+-\ii \,
+G_0(1\alpha)\,
+v(\alpha\beta;\gamma\delta)\,
+G_2(\gamma\delta;1'\beta^+),
+\tag{3}
+\\[0.5em]
+G_2(12;1'2')
+&=
+G_0(11')G(22')
+-
+G_0(12')G(21')
+\nonumber\\
+&\quad+
+\ii \,
+G_0(1\alpha)\,
+v(\alpha\beta;\gamma\delta)\,
+G_3(2\gamma\delta;1'2'\beta^+).
+\tag{4}
+\end{align}
+Through Eq. 1, we can define a self-energy according to 
+\begin{equation}
+	\Sigma(11')
+	=
+	-\ii
+	v(12;3'2')
+	G_2(3'2';32)
+	G^{-1}(31')
+	\label{eq:SDE_G2}
+\end{equation}
+We then introduce the 6-point response function
+\begin{equation}
+    R(123;1'2'3')
+\end{equation}
+so that the EOM for $G_2$ becomes
+\begin{equation}
+    
+\end{equation}
+
+
+
+%\tableofcontents
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
