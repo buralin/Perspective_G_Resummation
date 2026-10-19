@@ -268,16 +268,20 @@
 
 \section{Introduction}
 Although electronic structure theory has made significant progress in the last decades, there are still phenomena that can not routinely be described with sufficient accuracy using the available methods.
-For example, strongly correlated materials with different competing electronic phases require a sufficient accuracy in order to correctly disentangle them.
+For example, strongly correlated materials with different competing electronic phases require a sufficient accuracy in order to correctly disentangle them \JT{I will add something here}.
 At the same time, finite size effects have to be critically assessed, requiring computationally tractable yet accurate methods.
-Similarly, metal clusters in biological systems, or the description of certain type of excitations, e.g., double excitations, are not routinely captured with sufficient accuracy.
-Although progress has been made in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency. One promising direction is the development of novel diagrammatic methods based on the one-particle Green's function ($\bG$), which are currently being explored by several groups through interdisciplinary efforts.
+Similarly, metal clusters in biological systems \JT{@Arno can you add something here}, or the description of certain type of excitations, e.g., double excitations \JT{@Titou can you add something here? Also mention satellites}, are not routinely captured with sufficient accuracy.
+A common challenge in these scenarios is the need to account for higher-order configurations, either to describe the ground state or to capture excited states from a configuration-interaction point of view.
+Inclusion of those comes with a steep increase in computational cost, making it challenging to apply these methods to the situations described above.
+
+Although progress has been made using alternative strategies in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency.
+One promising direction is the development of novel diagrammatic methods based on the one-particle Green's function ($\bG$), which are currently being explored by several groups through interdisciplinary efforts.
 
 The one-particle Green's function offers a particularly insightful bottom-up perspective on electronic structure theory.
 By nature, electrons are indistinguishable and obey the Pauli exclusion principle, which fundamentally shapes their collective behavior in multi-electronic systems.
 Nevertheless, understanding the collective behavior of a system through its changes in the presence of an additional electron or hole is useful conceptually.
 From this behavior, information about the ground and excited states of a system can be inferred, and this is what is captured in the one-particle Green's function.
-Imagine injecting a hole in a system; depending on how strongly the electrons interact with this hole, one can deduce information about the electronic correlations present in the system.
+Imagine removing an electron from a system; depending on how strongly the electrons interact with this hole, one can deduce information about the electronic correlations present in the system.
 If the response is weak, the hole moves relatively freely through the system, essentially behaving as an independent particle.
 Conversely, if the response is strong, the hole becomes entangled with the surrounding electrons, which ultimately could result in a loss of its single-particle character.
 The dressed electron/hole is often referred to as a quasiparticle.
@@ -288,7 +292,9 @@ Interestingly, the simplest approximation to $\Sigma(\br,\br';\omega)$ is the Ha
 In this case, one describes a particle interacting with the averaged field, as in regular HF theory.
 The central equation that connects the single-particle and the quasiparticle picture is the Dyson equation
 \begin{align}
-    \bG(\omega) = \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega),
+    \bG(\omega) =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
+    =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \nonumber \\
+    &+ \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) + \dots.
     \label{eq:Dyson}
 \end{align}
 with $\bG_0(\omega)$ denoting some initial independent-particle Green's function that becomes transformed into an interacting Green's function by the interactions described by the self-energy ($\pmb{\Sigma}$).
@@ -323,9 +329,34 @@ Along the way, we identify open research questions that must be addressed to adv
 
 As its origin in quantum field theory suggests, common strategies for finding self-energy approximations rely on diagrammatic expansions and perturbative techniques.
 The central problem lies in the inclusion of many-body effects in the self-energy, which describe the adjustment of the electronic structure due to the additional electron or hole, i.e.,the dressing through interactions with the surrounding electrons.
-The most famous example of such a procedure is the $GW$ approximation.
-Here the electron/hole is dynamically dressed by a polarization cloud of (collective) electron-hole pairs.
-The $GW$ approximation constitutes the simplest approximation to a more general complicated self-consistent many-body procedure introduced by Lars Hedin.
+Most easily the physical origin of this dressing can be illustrated through the screened Coulomb interaction $W$. 
+
+Imagine the classical potential felt by an electron/hole in the presence of all other electrons (atomic units used throughout)
+\begin{align}
+    V_\mathrm{eff}(\mathbf{r}) = \int d\mathbf{r}' \frac{1}{|\mathbf{r} - \mathbf{r}'|}  \rho(\mathbf{r}'),
+\end{align}
+since the system as zero-point fluctuations, the Coulomb interaction is modified (screened) by these fluctuations.
+Within the framework of linear-response theory, these dynamical fluctuations are governed by the response function of the electron density to an external perturbation
+\begin{align}
+    \delta \rho(\mathbf{r}, t) = \int d\mathbf{r}' \, \chi(\mathbf{r}, \mathbf{r}', t , t') \, \delta V_\mathrm{ext}(\mathbf{r}', t'),
+\end{align}
+which is justified through the fluctuation-dissipation theorem.
+Due to the density fluctuations, the effective interaction is modified, leading to the screened Coulomb interaction given by
+\begin{align}
+    &W(\mathbf{r}, \mathbf{r}'; t, t') = \int d\mathbf{r}'' \epsilon^{-1}(\mathbf{r}, \mathbf{r}''; t, t') \frac{1}{|\mathbf{r}'' - \mathbf{r}'|},
+\end{align}
+with $\epsilon$ denoting the dielectric function of the system
+\begin{align}
+    \epsilon^{-1}(\mathbf{r}, \mathbf{r}''; t, t')  &= \frac{1}{|\mathbf{r}-\mathbf{r}''|} \nonumber \\
+    &+ \int d\mathbf{r}' \frac{1}{|\mathbf{r}-\mathbf{r}''|}\chi(\mathbf{r}'',\mathbf{r}',t,t') \frac{1}{|\mathbf{r}' - \mathbf{r}''|}.
+\end{align}
+It becomes evident that the inclusion of correlation effects present in the system results in a modification of the effective interaction between electrons, and their description can be achieved through (interacting) response functions $\chi$.
+In the simplest case this gives rise to the screened Coulomb by electron-hole polarization effects.
+    
+Making use of $W$ the effective non-local and energy-dependent potential, i.e., the self-energy is obtained within the so-called $GW$ approximation.
+Here the electron/hole is dynamically dressed by a polarization cloud of (collective) electron-hole pairs through $W$.
+To go beyond the $GW$ approximation requires a more sophisticated of the treatment of electron screening effects.
+Such a procedure has been formulated by Lars Hedin in terms of a set of coupled integro-differential equations, now known as Hedin's equations.
 Following this, the recipe would allow for the construction of the exact self-energy. 
 Such an approach is overly complex and computationally demanding for practical applications.
 Finding practical ways to go beyond $GW$ while not solving the full set of Hedin's equations is a significant challenge.
@@ -333,9 +364,6 @@ Finding practical ways to go beyond $GW$ while not solving the full set of Hedin
 Alternative theoretical strategies rely on putting a particular emphasis on effective two- (or higher-order) particle interactions that are then used to construct approximations to the self-energy.
 A famous example is the Parquet approximation. Here different two particle scattering channels are treated on an equal footing, and their effect is incorporated in the self-energy through the Dyson-Schwinger equation.
 While offering an attractive route also to understand microscopic effects that give rise to electronic phases in correlated condensed matter, the Parquet approximation suffer from similar problems as Hedin's equation when going beyond the lowest order, and a systematically improvable route remains challenging.
-
-Alternatively, one can make use of the 
-
 
 \clearpage 
 \newpage
