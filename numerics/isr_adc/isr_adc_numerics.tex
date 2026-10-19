@@ -38,14 +38,14 @@
 
 \maketitle
 
-These notes builds on the Dyson vs non-Dyson
-controversy, and assesses how and if the different ways to generate a systematic ADC, 
-known to the literature converge to the FCI limit. 
+These notes build on the Dyson vs.\ non-Dyson
+controversy, and assess how and whether the different ways to generate a systematic ADC
+known in the literature converge to the FCI limit. 
 
 \section{The \texorpdfstring{$\la$}{lambda}-scaled problem}
 
 Sector I are the $(N-1)$ configurations ($\hhp$, \ldots), sector II the $(N+1)$
-ones ($\pph$, \ldots). All results are properties of the hamiltonian
+ones ($\pph$, \ldots). All results are properties of the Hamiltonian
 \begin{equation}
 \hat H(\la) = \hat F + \la(\hat H - \hat F) ,
 \end{equation}
@@ -220,6 +220,15 @@ so under the rule the block $\mathbf X_{11}$ enters at $n=4$, $\mathbf X_{12}$ a
 and $\mathbf X_{13}$ at $n=7$, $\mathbf X_{23}$ at $n=8$ and $\mathbf X_{33}$ at $n=10$. With these blocks
 the fold is exact through $\la^n$ at every $n$ tested ($n=4$--9, to $10^{-12}$).
 
+\begin{figure*}[hbt!]
+\includegraphics[width=\textwidth]{oracle_ne_ar_convergence.pdf}
+\caption{Non-Dyson ADC($n$) against FCI. (a) Ne/cc-pVDZ, $1s$ frozen;
+(b) Ne/aug-cc-pVDZ, $1s$ frozen; (c) Ar/aug-cc-pVDZ, Ne core ($1s2s2p$) frozen.
+Top: $n=1$ (Koopmans) to the last order; bottom: $n\ge5$, each with its own vertical range.}
+\label{fig:neon}
+\end{figure*}
+
+
 \subsection{Two-sector ISR-ADC(\texorpdfstring{$n$}{n}) and the cross block}
 \label{sec:twosector}
 Two-sector ISR-ADC($n$) orthonormalizes and folds each sector on its own,
@@ -246,14 +255,16 @@ Expanding the union fold in $\mathbf X$, the leading term the two-sector constru
 which matches the $\la^4$ difference of the two folds to $5\times10^{-18}$. Two-sector ISR-ADC($n$) is
 therefore exact only through $\la^3$, for every $n$.
 
-The defect is fundamental, its complete-manifold limit is not FCI.
+As identified by Tarantelli and Cederbaum,\cite{tarantelli1992configuration}
+the defect is fundamental. The complete-manifold limit of the Dyson-ISR construction is not FCI
 as can be seen clearly in Fig.~\ref{fig:ip}.
-This obstacle has been identified by Tarantelli and Cederbaum.\cite{tarantelli1992configuration} They write the
-Dyson equation as a configuration-interaction problem in $\mathcal H_{N+1}\oplus\mathcal H_{N-1}$, with a
-composite Hamiltonian that is $\bbM$ of Eq.~\eqref{eq:M}. The block that couples the $(N+1)$ and $(N-1)$
-configurations vanishes in zeroth and first order but not in second, and they conclude that this coupling
-``prevents the possibility of reproducing analytically the fourth-order ADC scheme'', since ADC assumes that
-the self-energy splits into independent $(N+1)$ and $(N-1)$ parts. They remove the coupling by a further
+Tarantelli and Cederbaum write the Dyson equation as a configuration-interaction problem in
+$\mathcal H_{N+1}\oplus\mathcal H_{N-1}$, with a composite Hamiltonian that is $\bbM$ of Eq.~\eqref{eq:M}.
+The block that couples the $(N+1)$ and $(N-1)$ configurations vanishes in zeroth and first order but not
+in second, and they conclude that this coupling ``prevents the possibility of
+reproducing analytically the fourth-order ADC scheme'', since ADC assumes that
+the self-energy splits into independent $(N+1)$ and $(N-1)$ parts.
+They remove the coupling by a further
 unitary transformation that block-diagonalizes the configuration space. This transformation can only be
 built order by order, and with an exactly solvable two-electron example they show that no transformation
 built from the ground state alone achieves the decoupling. The two-sector ISR is built from the ground state
@@ -277,11 +288,24 @@ $\mathbf X^{(2)}$ into the couplings,
 where $K_\nu-K_\mu$ is a 3p3h energy; these rows reproduce the diagrammatic ADC(4)
 rows\cite{Schirmer_1983} to $10^{-18}$.
 
+It is a remarkable connection that the usual diagrammatic construction of ADC (hence the name) by \citet{Schirmer_1983}
+that takes diagrams up to order $n$ and enforces the correct analytical form of the exact self-energy 
+is equivalent to the blockwise decoupling of \citet{tarantelli1992configuration}.
+
 \subsection{Non-Dyson ADC(\texorpdfstring{$n$}{n})}
 
 Non-Dyson ADC($n$)\cite{Schirmer_1998,Trofimov_2005}
 builds the ISR from $\hat r^{-}_\nu\Psi_0$ in $\mathcal H_{N-1}$ (or $\hat r^{+}_\nu\Psi_0$ in
 $\mathcal H_{N+1}$) with the ordinary overlap and the same rule; its eigenvalues are the IPs (EAs).
+
+\subsection{Static self-energy}
+Dyson ADC($n$) evaluates $\bm\Sigma(\infty)$ with the static MP($n-1$) density matrix.
+In the non-Dyson case, IP-ADC($n$) is, for a given orthonormalization of the intermediate states, the unique
+Hermitian, order-$n$-consistent way to embed the EA sector statically into the $(N-1)$-electron space. At $n=2$
+this is equivalent to folding the EA sector statically, at the orbital energies, into the 1-particle sector;
+at $n=3$ the two give the same IPs through $\la^3$.
+Starting from ADC(4), the consistent ISR construction and the static fold of the EA sector into the 1-particle
+sector differ: the naive static fold introduces an error at order $\la^4$.
 
 \subsection{Perturbative references}
 
@@ -299,45 +323,123 @@ through $\la^n$ to $10^{-17}$ ($n\le15$); the two-sector pole deviates from $\la
 \label{sec:neon}
 
 Fig.~\ref{fig:neon} follows the non-Dyson ADC($n$) series of the Ne and Ar valence ionizations in
-correlation-consistent bases to high order and compares against the FCI IP of the same block. The series are the
-exact symmetry-adapted ones of the $\la$-scaled problem of the previous sections. No
-approximation enters beyond the basis: Ne/cc-pVDZ ($1s$ frozen) through $n=9$, Ne/aug-cc-pVDZ ($1s$ frozen) and
-Ar/aug-cc-pVDZ ($1s2s2p$ frozen) through $n=7$. The lower row zooms on
-$n\ge5$. The error of the Ne/aug-cc-pVDZ series is still $+0.09$ and $+0.13$\,eV at $n=7$ for
-$2p$ and $2s$. In a diffuse basis the series itself converges slowly.
+correlation-consistent bases to high order and compares against the FCI IP of the same block. 
+Fig.~\ref{fig:neon}(a) shows the result for Ne in the cc-pVDZ basis set,
+and a clear oscillatory convergence can be observed. In line with the observation of \citet{Olsen1996}, 
+using an augmented basis set as in Fig.~\ref{fig:neon}(b) amplifies the oscillations. The pattern is similar for 
+Ar, but the oscillations are milder.
 
-\begin{figure*}[hbt!]
-\includegraphics[width=\textwidth]{oracle_ne_ar_convergence.pdf}
-\caption{Non-Dyson ADC($n$) IP minus the FCI IP of Ne/cc-pVDZ, Ne/aug-cc-pVDZ and Ar/aug-cc-pVDZ
-(frozen core as stated in the text). Top: $n=1$ (Koopmans) to the last order; bottom: $n\ge5$.}
-\label{fig:neon}
-\end{figure*}
-
-\section{Dyson ADC(2)--(5) for molecules}
+\section{Accuracy benchmark of ADC(2)--(5)}
 \label{sec:molecules}
+We compare Dyson diagrammatic, Dyson two-sector and non-Dyson ADC(2)--(5) against the reference results 
+from the benchmark set of \citet{Marie2024} against their TBEs at the sCI level of theory, as well as 
+against their CC values, from CC2 to CCSDT.
+All calculations use the same frozen-core approximation as \citet{Marie2024}.
+The high computational cost and storage requirements of ADC(5) prevented us from solving for all states
+of \ce{CH2O} and \ce{CO2}. 
 
-Figs.~\ref{fig:fcadz1}--\ref{fig:fcadz3} show the errors of Dyson diagrammatic ADC($n$) IP for $n=2$--5 
-(frozen core; aug-cc-pVDZ) against selected CI (sCI) value of the same basis, and the convergence of CC is shown for comparison.
-The mean absolute ADC(5) error of the 24 states shown at the time of writing is 0.34\,eV, against 0.04\,eV for CCSDT.
-For most states the error alternates in sign with $n$ and does not decrease monotonically.
+\subsection{Basis-set dependence}
+\label{sec:basis}
+Fig.~\ref{fig:basis} gives the change of the MAD from aug-cc-pVDZ to aug-cc-pVTZ,
+whereby the result in each basis is compared against its own
+sCI reference. The comparison is performed on
+the 19 states of 15 molecules for which the two-sector ADC(5) is available in both
+bases. Up to ADC(4) the larger basis lowers the MAD by 15 to 45\,meV,
+but the choice of basis matters less and less with increasing order.
+At ADC(5) the two-sector MAD rises by only 5\,meV. The basis therefore does not change
+the convergence pattern. The rest of this section uses aug-cc-pVDZ.
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{supinf_basis_shift.pdf}
+\caption{MAD(aug-cc-pVTZ) $-$ MAD(aug-cc-pVDZ) against $n$, each basis against its own sCI, for the 19 states
+of 15 molecules with two-sector ADC(5) in both bases, frozen core. Dyson two-sector ADC($n$) equals the
+diagrammatic one at $n=2$, 3.}
+\label{fig:basis}
+\end{figure}
+
+\subsection{Convergence with the order}
+\label{sec:supinf}
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{supinf_fc_adz_mse.pdf}
+\caption{Mean signed error IP $-$ sCI against $n$ over the 50 IPs of 21 molecules
+in the set by \citet{Marie2024} that have every
+column of Table~\ref{tab:supinf_adcn_fc_adz}.}
+\label{fig:supinf_mse}
+\end{figure}
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{supinf_fc_adz_mad.pdf}
+\caption{Mean absolute error, as Fig.~\ref{fig:supinf_mse}.}
+\label{fig:supinf_mad}
+\end{figure}
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{supinf_fc_adz_max.pdf}
+\caption{Maximum absolute error, as Fig.~\ref{fig:supinf_mse}.}
+\label{fig:supinf_max}
+\end{figure}
+
+\begin{figure}[hbt!]
+\includegraphics[width=\columnwidth]{supinf_fc_adz_violin.pdf}
+\caption{Distribution of the IP errors against sCI of Dyson diagrammatic ADC(2)--(5) and of CC2, CCSD, CC3, CCSDT
+over the 52 states of 22 molecules (Table~\ref{tab:supinf_adcn_fc_adz}) for which diagrammatic ADC(5) values exist.
+All values are in eV.}
+\label{fig:supinf_violin}
+\end{figure}
+
+Figs.~\ref{fig:supinf_mse}--\ref{fig:supinf_max} show the mean signed, mean absolute and maximum absolute error
+of the 50 states against $n$ at aug-cc-pVDZ. As a consequence of the oscillating convergence pattern also observed for 
+Neon, the ADC error alternates in sign. It should be noted that this pattern is observed on average also for 
+the molecules in the set of \citet{Marie2024}, but it does not always follow the oscillating trend we observed for Neon.
+The MAD halves from ADC(2) to ADC(3), but hardly changes from ADC(3) to ADC(4). At ADC(5), it
+reaches values of 0.27 (diagrammatic), 0.30 (two-sector) and 0.24\,eV (non-Dyson). This is to be 
+contrasted with CCSDT, which comes with a MAD of only 40\,meV. This much better performance also comes at a lower 
+practical computational cost, as ADC(5) requires constructing 8-index tensors.
+The maximum error is observed for BeO, whose two IPs are off by about 2 to 3\,eV at every order.
+In contrast, CCSDT is within 0.14\,eV for both states of BeO. 
+
+It should be remarked that for many, typically weakly correlated systems, ADC(5) performs very well
+(see Figs.~\ref{fig:states1}--\ref{fig:states4} for all individual cases). But even in these cases, 
+no advantage over CC can be observed. However, 
+as seen in Fig.~\ref{fig:supinf_violin}, after ADC(3),
+the spread of errors does not noticeably reduce further.
+
+
+\clearpage
+\subsection{Individual states}
+\label{sec:states}
+
+Figs.~\ref{fig:states1}--\ref{fig:states4} show the error of every one of the 58 states against $n$ for all
+three constructions and CC, and Table~\ref{tab:supinf_adcn_fc_adz} lists the numbers. For most states the
+ADC error alternates in sign with $n$ and does not decrease monotonically.
 
 \begin{figure*}[hbt!]
-\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part1.pdf}
-\caption{Dyson diagrammatic ADC($n$) IP and coupled cluster minus the sCI IP, frozen core, aug-cc-pVDZ (1/3).}
-\label{fig:fcadz1}
+\includegraphics[width=\textwidth]{fc_adz_states_part1.pdf}
+\caption{Error IP $-$ sCI against order $n$ for all molecules in the set by \citet{Marie2024}.
+All calculations are frozen core and in the aug-cc-pVDZ basis set (1/4).}
+\label{fig:states1}
 \end{figure*}
 
 \begin{figure*}[hbt!]
-\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part2.pdf}
-\caption{As Fig.~\ref{fig:fcadz1} (2/3).}
-\label{fig:fcadz2}
+\includegraphics[width=\textwidth]{fc_adz_states_part2.pdf}
+\caption{As Fig.~\ref{fig:states1} (2/4).}
+\label{fig:states2}
 \end{figure*}
 
 \begin{figure*}[hbt!]
-\includegraphics[width=0.8\textwidth]{fc_adz_diagcc_part3.pdf}
-\caption{As Fig.~\ref{fig:fcadz1} (3/3).}
-\label{fig:fcadz3}
+\includegraphics[width=\textwidth]{fc_adz_states_part3.pdf}
+\caption{As Fig.~\ref{fig:states1} (3/4).}
+\label{fig:states3}
 \end{figure*}
+
+\begin{figure*}[hbt!]
+\includegraphics[width=\textwidth]{fc_adz_states_part4.pdf}
+\caption{As Fig.~\ref{fig:states1} (4/4).}
+\label{fig:states4}
+\end{figure*}
+
+\input{supinf_adcn_fc_adz}
 
 \bibliography{isr_adc_numerics}
 
