@@ -1,0 +1,827 @@
+\documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-1}
+\usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,longtable,wrapfig}
+\usepackage[version=4]{mhchem}
+\allowdisplaybreaks[1]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}
+
+\usepackage[
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!70!black},
+    urlcolor={red!80!black}
+	]{hyperref}
+\urlstyle{same}
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\alert}[1]{\textcolor{red}{#1}}
+\usepackage[normalem]{ulem}
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
+\newcommand{\cre}[1]{\Hat{a}_{#1}^{\dag}}
+\newcommand{\ani}[1]{\Hat{a}_{#1}}
+\newcommand{\ca}[2]{\Hat{a}^{#1}_{#2}}
+
+\newcommand{\mc}{\multicolumn}
+\newcommand{\fnm}{\footnotemark}
+\newcommand{\fnt}{\footnotetext}
+\newcommand{\tabc}[1]{\multicolumn{1}{c}{#1}}
+\newcommand{\QP}{\textsc{quantum package}}
+\newcommand{\T}[1]{#1^{\intercal}}
+
+% coordinates
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\bI}{\boldsymbol{1}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\bG}{\boldsymbol{G}}
+\newcommand{\bH}{\boldsymbol{H}}
+\newcommand{\bM}{\boldsymbol{M}}
+\newcommand{\bE}{\boldsymbol{E}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\bB}{\boldsymbol{B}}
+\newcommand{\bC}{\boldsymbol{C}}
+\newcommand{\bD}{\boldsymbol{D}}
+\newcommand{\bS}{\boldsymbol{S}}
+\newcommand{\bN}{\boldsymbol{N}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bY}{\boldsymbol{Y}}
+\newcommand{\bZ}{\boldsymbol{Z}}
+\newcommand{\bPi}{\boldsymbol{\Pi}}
+\newcommand{\bcalM}{\boldsymbol{\mathcal M}}
+\newcommand{\bcalS}{\boldsymbol{\mathcal S}}
+
+% orbital energies
+\newcommand{\eps}{\epsilon}
+\newcommand{\irr}{\text{irr}}
+
+% shortcuts for greek letters
+\newcommand{\si}{\sigma}
+\newcommand{\la}{\lambda}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\up}{\uparrow}
+\newcommand{\dw}{\downarrow}
+\newcommand{\upup}{\up\up}
+\newcommand{\updw}{\up\dw}
+\newcommand{\dwup}{\dw\up}
+\newcommand{\dwdw}{\dw\downarrow}
+
+\newcommand{\h}{\text{1h}}
+\newcommand{\p}{\text{1p}}
+\newcommand{\hp}{\text{1h+1p}}
+\newcommand{\hhp}{\text{2h1p}}
+\newcommand{\pph}{\text{2p1h}}
+\newcommand{\ph}{\text{ph}}
+\newcommand{\eh}{\text{eh}}
+\newcommand{\he}{\text{he}}
+\newcommand{\ee}{\text{ee}}
+\newcommand{\teh}{\overline{\text{eh}}}
+\newcommand{\pp}{\text{pp}}
+\newcommand{\hh}{\text{hh}}
+\newcommand{\xc}{\text{xc}}
+
+% this note
+\newcommand{\Lag}{\mathcal{L}}
+\newcommand{\sLag}{\bar{\mathcal L}}
+\newcommand{\act}{\mathrm{act}}
+\newcommand{\scv}{\text{cv}}
+\newcommand{\sca}{\text{ca}}
+\newcommand{\sav}{\text{av}}
+\newcommand{\saa}{\text{aa}}
+\newcommand{\svv}{\text{vv}}
+\newcommand{\scc}{\text{cc}}
+
+% addresses
+\newcommand{\LCPQ}{Laboratoire de Chimie et Physique Quantiques (UMR 5626), Universit\'e de Toulouse, CNRS, UPS, France}
+
+% statement-status markers used throughout the notes
+\newcommand{\Exact}{\textbf{Exact identity.}\ }
+\newcommand{\Established}{\textbf{Established result.}\ }
+\newcommand{\Proposed}{\textbf{Proposed approximation.}\ }
+
+\begin{document}
+
+\title{Extended RPA in the particle--hole, particle--particle and crossed particle--hole channels for an arbitrary vacuum:\\ reduced-density-matrix form and active/inactive block structure}
+
+\begin{abstract}
+The three single-channel random-phase problems of the fixed-kernel channel model of
+\texttt{Pa2CCD.tex} (direct electron--hole, transverse or crossed-ring electron--hole,
+and particle--particle) are written in their extended form, \ie\ as Rowe
+equations of motion on an arbitrary correlated vacuum $|\Psi_0\rangle$.  All matrix
+elements are exact functionals of the one- and two-particle reduced density
+matrices of the vacuum only.  Compact closed forms are given in terms of the
+generalized Fock matrix, the energy-weighted density (Lagrangian) matrix, the
+antisymmetrized integrals and the 2-RDM or its cumulant.  For a CAS-type vacuum
+(closed core $\otimes$ correlated active space $\otimes$ empty virtuals) every
+matrix is then resolved into the blocks that carry inactive indices only,
+active indices only, and mixed indices.  All formulas have been verified
+numerically against brute-force Fock-space double commutators.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scope and conventions}
+\label{sec:conventions}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\texttt{Pa2CCD.tex} reduces the parquet channel equations with fixed bare
+kernels to three static random-phase problems, one per correlation channel
+(direct electron--hole $\eh$, transverse electron--hole $\teh$, particle--particle
+$\pp$), all built on a Hartree--Fock determinant.  These notes give the
+corresponding equations for an arbitrary vacuum $|\Psi_0\rangle$ in the
+``extended'' form of Rowe's equation-of-motion method
+\cite{Rowe1968,ChatterjeePernal2012}: the pair operators of each channel act on
+the correlated vacuum, the double commutator with $\hat H$ replaces the bare
+kernel, and the commutator metric replaces the Hartree--Fock pair norm.  Every
+matrix element is then an exact functional of the one- and two-particle reduced
+density matrices (RDMs) of $|\Psi_0\rangle$.  The second part
+(Sec.~\ref{sec:blocks}) resolves these matrices into inactive, active and mixed
+blocks for the CAS-type vacuum used throughout \texttt{mr-hedin.tex}.
+
+\paragraph*{Hamiltonian and integrals.}
+All quantities are real (real spin orbitals, real vacuum).  With
+$\langle pq|rs\rangle=(pr|qs)=v_{pr,qs}$ the notation of \texttt{mr-hedin.tex},
+\begin{align}
+  \hat H&=\sum_{pq}h_{pq}\,\cre{p}\ani{q}
+  +\frac12\sum_{pqrs}\langle pq|rs\rangle\,\cre{p}\cre{q}\ani{s}\ani{r},
+  \nonumber\\
+  \langle pq||rs\rangle&=\langle pq|rs\rangle-\langle pq|sr\rangle
+  =v_{pr,qs}-v_{ps,qr}.
+  \label{eq:H}
+\end{align}
+General spin orbitals are $p,q,r,s$ and general summation indices $t,u$;
+in Sec.~\ref{sec:blocks} $i,j,k,l$ denote core, $a,b,c,d$ virtual and
+$x,y,z,w$ active spin orbitals, and the summation indices $u,v$ run over
+active spin orbitals only.
+
+\paragraph*{Reduced density matrices.}
+\begin{align}
+  \gamma_{pq}&=\langle\Psi_0|\cre{p}\ani{q}|\Psi_0\rangle,
+  \qquad
+  \Gamma_{pq,rs}=\langle\Psi_0|\cre{p}\cre{q}\ani{s}\ani{r}|\Psi_0\rangle,
+  \label{eq:rdm}\\
+  \lambda_{pq,rs}&=\Gamma_{pq,rs}-\gamma_{pr}\gamma_{qs}+\gamma_{ps}\gamma_{qr},
+  \label{eq:cumulant}
+\end{align}
+so that $E_0=\sum_{pq}h_{pq}\gamma_{pq}+\tfrac12\sum v_{pr,qs}\Gamma_{pq,rs}$,
+$\Gamma_{pq,rs}=-\Gamma_{qp,rs}=-\Gamma_{pq,sr}=\Gamma_{rs,pq}$ and
+$\lambda$ has the same symmetries.  $\Gamma$ coincides with $D^{(2)}$ of
+\texttt{numerics/equations.tex} [its Eq.~(rdm-def)] and with
+$\Gamma_{pq,sr}$ in the notation of the EKT section of \texttt{mr-hedin.tex}.
+Nothing is assumed about $|\Psi_0\rangle$ except that it is a normalized
+$N$-electron state; in particular it need not be an eigenstate of $\hat H$.
+
+\paragraph*{Two one-body matrices.}
+All closed forms below are expressed with the generalized Fock matrix $f$ and
+the energy-weighted density (Lagrangian) matrix $\Lag$,
+\begin{align}
+  f_{pq}&=h_{pq}+\sum_{tu}\gamma_{tu}\,\langle pt||qu\rangle ,
+  \label{eq:genfock}\\
+  \Lag_{pq}&=\sum_{t}h_{pt}\gamma_{tq}+\frac12\sum_{tuv}\langle pu||tv\rangle\,\Gamma_{qu,tv}
+  \nonumber\\
+  &=\sum_t f_{pt}\gamma_{tq}+\frac12\sum_{tuv}\langle pu||tv\rangle\,\lambda_{qu,tv},
+  \label{eq:lagrangian}\\
+  \sLag_{pq}&=\tfrac12\bigl(\Lag_{pq}+\Lag_{qp}\bigr).
+  \label{eq:symlag}
+\end{align}
+$f$ is symmetric; $\Lag$ is symmetric only if $|\Psi_0\rangle$ is stationary
+with respect to orbital rotations, because
+\begin{equation}
+  \langle\Psi_0|[\hat H,\cre{p}\ani{q}]|\Psi_0\rangle=\Lag_{pq}-\Lag_{qp}
+  \label{eq:brillouin}
+\end{equation}
+(generalized Brillouin condition).  $\mathrm{Tr}\,\Lag=E_1+2E_2$.
+
+\paragraph*{Status markers.}
+As in \texttt{mr-hedin.tex}: \Exact exact identities; \Established results
+available in the literature or in the other notes; \Proposed definitions made
+here.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Equation of motion in an operator manifold}
+\label{sec:eom}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Established For a set of (even) operators $\{\hat Q_\mu^\dagger\}$ define
+\begin{align}
+  \mathcal M_{\mu\nu}&=\langle\Psi_0|[\hat Q_\mu,[\hat H,\hat Q_\nu^\dagger]]|\Psi_0\rangle ,
+  \qquad
+  \mathcal S_{\mu\nu}=\langle\Psi_0|[\hat Q_\mu,\hat Q_\nu^\dagger]|\Psi_0\rangle ,
+  \label{eq:MS-def}\\
+  \bcalM\,c_\nu&=\omega_\nu\,\bcalS\,c_\nu ,\qquad
+  c_\nu^{T}\bcalS c_{\nu'}=\pm\delta_{\nu\nu'} .
+  \label{eq:eom}
+\end{align}
+If $|\Psi_0\rangle$ is the exact ground state and the manifold contains the
+exact excitation operators $|n\rangle\langle 0|$, the solutions of
+Eq.~\eqref{eq:eom} are the exact excitation energies and the
+positive-norm (negative-norm) eigenvectors give the exact transition amplitudes
+$\langle n|\hat Q^\dagger_\nu|0\rangle$ (de-excitation amplitudes); for a
+truncated manifold Eq.~\eqref{eq:eom} is the inner projection of the
+superoperator resolvent onto the manifold, and the corresponding pair
+propagator is
+\begin{equation}
+  \bPi(\Omega)=\bcalS\,(\Omega\bcalS-\bcalM)^{-1}\bcalS
+  =\sum_{\nu}\frac{(\bcalS c_\nu)(\bcalS c_\nu)^{T}}{c_\nu^{T}\bcalS c_\nu\,(\Omega-\omega_\nu)} .
+  \label{eq:propagator}
+\end{equation}
+Equation~\eqref{eq:propagator} is the extended-vacuum counterpart of the static
+channel propagators
+$\boldsymbol L^{\alpha}(\Omega)=\ii\sigma_\alpha(\Omega\boldsymbol\eta^{\alpha}-\boldsymbol{\mathcal H}^{\alpha})^{-1}$
+of \texttt{Pa2CCD.tex}: $\bcalS$ plays the role of the sector metric
+$\boldsymbol\eta^\alpha$ (it is no longer $\pm\bI$) and $\bcalM$ that of
+$\boldsymbol{\mathcal H}^\alpha=\boldsymbol{\mathcal H}^\alpha_0+\boldsymbol V^\alpha$.
+
+\Exact For a vacuum that is not an eigenstate of $\hat H$, the double
+commutator \eqref{eq:MS-def} is not symmetric; by the Jacobi identity
+$\mathcal M_{\mu\nu}-\mathcal M_{\nu\mu}=\langle[\hat H,[\hat Q_\mu,\hat Q^\dagger_\nu]]\rangle$,
+which for the pair manifolds below reduces to Kronecker deltas times
+$\Lag-\Lag^{T}$ [see Eq.~\eqref{eq:ph-asym}].  Throughout, $\bcalM$ denotes the
+symmetric part $\tfrac12(\bcalM+\bcalM^{T})$, which is what the implementation
+in \texttt{numerics/mrgw\_hermitian/ekt\_erpa.py} uses; in all closed forms this
+amounts to replacing $\Lag$ by $\sLag$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Particle--hole channel (\texorpdfstring{$\eh$}{eh}, ring)}
+\label{sec:ph}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Established The manifold consists of all single replacements
+$\hat E_{rs}=\cre{r}\ani{s}$, $r\ne s$, on the correlated vacuum; the
+composite index $(pq)$ labels the bra operator $\hat E_{pq}$, whose adjoint
+$\hat E_{qp}$ appears in the commutators, \ie\
+\begin{equation}
+  \mathcal M_{(pq),(rs)}=\langle[\hat E_{qp},[\hat H,\hat E_{rs}]]\rangle ,
+  \qquad
+  \mathcal S_{(pq),(rs)}=\langle[\hat E_{qp},\hat E_{rs}]\rangle .
+  \label{eq:ph-def}
+\end{equation}
+This is the ERPA of Chatterjee and Pernal \cite{ChatterjeePernal2012} and the
+active-space ERPA of \texttt{mr-hedin.tex} [its Eq.~(erpa-eom)], here written
+in the full orbital space.
+
+\Exact The metric and the (symmetrized) double commutator are
+\begin{widetext}
+\begin{align}
+  \mathcal S_{(pq),(rs)}&=\delta_{pr}\gamma_{qs}-\delta_{qs}\gamma_{pr},
+  \label{eq:ph-S}\\
+  \mathcal M_{(pq),(rs)}&=
+  h_{pr}\gamma_{qs}+h_{qs}\gamma_{pr}-\delta_{pr}\sLag_{qs}-\delta_{qs}\sLag_{pr}
+  +\sum_{tu}\Bigl[\langle pt||ur\rangle\,\Gamma_{qt,us}+\langle qt||us\rangle\,\Gamma_{pt,ur}\Bigr]
+  -\frac12\sum_{tu}\Bigl[\langle ps||tu\rangle\,\Gamma_{qr,tu}+\langle qr||tu\rangle\,\Gamma_{ps,tu}\Bigr]
+  \label{eq:ph-M}\\
+  &=\gamma_{qs}f_{pr}+\gamma_{pr}f_{qs}-\delta_{pr}\sLag_{qs}-\delta_{qs}\sLag_{pr}
+  +\sum_{tu}\Bigl[\langle pt||ur\rangle\gamma_{qu}\gamma_{ts}+\langle qt||us\rangle\gamma_{pu}\gamma_{tr}
+  -\langle ps||tu\rangle\gamma_{qt}\gamma_{ru}-\langle qr||tu\rangle\gamma_{pt}\gamma_{su}\Bigr]
+  \nonumber\\
+  &\quad
+  +\sum_{tu}\Bigl[\langle pt||ur\rangle\lambda_{qt,us}+\langle qt||us\rangle\lambda_{pt,ur}\Bigr]
+  -\frac12\sum_{tu}\Bigl[\langle ps||tu\rangle\lambda_{qr,tu}+\langle qr||tu\rangle\lambda_{ps,tu}\Bigr].
+  \label{eq:ph-M-cum}
+\end{align}
+\end{widetext}
+Equation~\eqref{eq:ph-M} is the 20-term list of \texttt{numerics/rdm\_terms.tex}
+(generated by \texttt{wick.py}) after collecting the direct and exchange
+integrals; the unsymmetrized double commutator is obtained by replacing
+$\sLag_{qs}\to\Lag_{sq}$ and $\sLag_{pr}\to\Lag_{rp}$, so that
+\begin{equation}
+  \mathcal M_{(pq),(rs)}-\mathcal M_{(rs),(pq)}
+  =-\delta_{pr}(\Lag_{sq}-\Lag_{qs})-\delta_{qs}(\Lag_{rp}-\Lag_{pr})
+  \label{eq:ph-asym}
+\end{equation}
+before symmetrization.  The cumulant form \eqref{eq:ph-M-cum} makes the
+mean-field content explicit: for a single determinant ($\lambda=0$,
+$\gamma^2=\gamma$) it collapses to the usual RPA matrices, see below.
+Two further exact properties, both used in the next paragraph, are
+$\mathcal M_{(qp),(sr)}=\mathcal M_{(pq),(rs)}$ (adjoint of the double
+commutator with real quantities) and the block-diagonality of $\bcalS$ in the
+natural-orbital basis.
+
+\Established \emph{RPA form.}  In the natural spin-orbital basis
+$\gamma=\mathrm{diag}(n_p)$ the metric is diagonal,
+$\mathcal S_{(pq),(rs)}=\delta_{pr}\delta_{qs}(n_q-n_p)$.  Let
+$\mathcal E=\{(pq):n_q>n_p\}$ be the excitation pairs (particle-like index
+first), $\bar{\mathcal E}=\{(qp)\}$ their de-excitation partners, and
+$N_{(pq)}=n_q-n_p>0$.  With
+\begin{equation}
+  A_{(pq),(rs)}=\mathcal M_{(pq),(rs)},\;\;
+  B_{(pq),(rs)}=-\mathcal M_{(pq),(sr)},\;\; (pq),(rs)\in\mathcal E,
+  \label{eq:ph-AB}
+\end{equation}
+both symmetric, Eq.~\eqref{eq:eom} with
+$\hat Q^\dagger_\nu=\sum_{\mathcal E}\bigl(X_{\nu,pq}\hat E_{pq}-Y_{\nu,pq}\hat E_{qp}\bigr)$
+becomes
+\begin{equation}
+  \begin{pmatrix}\bA&\bB\\ \bB&\bA\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix}
+  =\omega_\nu
+  \begin{pmatrix}\bN&0\\0&-\bN\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix},
+  \label{eq:ph-rpa}
+\end{equation}
+\ie\ the standard RPA structure with the metric $\bN$; the transition
+densities are $\rho^{\nu}_{pq}=N_{(pq)}X_{\nu,pq}$ and
+$\rho^{\nu}_{qp}=-N_{(pq)}Y_{\nu,pq}$ [Eq.~(erpa-rho) of
+\texttt{mr-hedin.tex}, whose $\tilde B$ equals $-\bB$ because its
+de-excitation coefficients are $-\bY$].  Pairs with $n_p=n_q$ have zero norm and
+are removed from the manifold.  For a Hartree--Fock vacuum $\mathcal E=\{(ai)\}$
+and Eqs.~\eqref{eq:ph-M-cum} and \eqref{eq:ph-AB} give
+$A_{(ai),(bj)}=\delta_{ij}f_{ab}-\delta_{ab}f_{ij}+\langle aj||ib\rangle$,
+$B_{(ai),(bj)}=\langle ab||ij\rangle$, the matrices of the direct
+electron--hole channel of \texttt{Pa2CCD.tex} [its $\bA^{\eh}$, $\bB^{\eh}$].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Particle--particle channel (\texorpdfstring{$\pp$}{pp}, ladder)}
+\label{sec:pp}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Established The manifold consists of all pair-creation operators
+$\cre{r}\cre{s}$, $r<s$, on the correlated vacuum (no distinction between
+particle and hole pairs is made at this stage):
+\begin{equation}
+  \mathcal M^{\pp}_{(pq),(rs)}=\langle[\ani{q}\ani{p},[\hat H,\cre{r}\cre{s}]]\rangle,
+  \qquad
+  \mathcal S^{\pp}_{(pq),(rs)}=\langle[\ani{q}\ani{p},\cre{r}\cre{s}]\rangle .
+  \label{eq:pp-def}
+\end{equation}
+Both are antisymmetric under $p\leftrightarrow q$ and under
+$r\leftrightarrow s$.  With $P(pq)X_{pq}=X_{pq}-X_{qp}$,
+
+\Exact
+\begin{widetext}
+\begin{align}
+  \mathcal S^{\pp}_{(pq),(rs)}&=\delta_{pr}\delta_{qs}-\delta_{ps}\delta_{qr}
+  -\delta_{pr}\gamma_{qs}+\delta_{ps}\gamma_{qr}+\delta_{qr}\gamma_{ps}-\delta_{qs}\gamma_{pr},
+  \label{eq:pp-S}\\
+  \mathcal M^{\pp}_{(pq),(rs)}&=
+  P(pq)P(rs)\Bigl[\delta_{qs}\bigl(f_{pr}-\sLag_{pr}\bigr)-h_{pr}\gamma_{qs}
+  +\sum_{tu}\langle pt||ru\rangle\,\Gamma_{ts,qu}\Bigr]
+  \nonumber\\
+  &\quad+\langle pq||rs\rangle
+  -\sum_t\Bigl[\gamma_{pt}\langle tq||rs\rangle+\gamma_{qt}\langle pt||rs\rangle
+  +\gamma_{rt}\langle pq||ts\rangle+\gamma_{st}\langle pq||rt\rangle\Bigr]
+  \label{eq:pp-M}\\
+  &=P(pq)P(rs)\Bigl[\delta_{qs}\bigl(f_{pr}-\sLag_{pr}\bigr)-\gamma_{qs}f_{pr}
+  +\sum_{tu}\langle pt||ru\rangle\gamma_{qt}\gamma_{su}
+  +\sum_{tu}\langle pt||ru\rangle\lambda_{ts,qu}\Bigr]
+  \nonumber\\
+  &\quad+\langle pq||rs\rangle
+  -\sum_t\Bigl[\gamma_{pt}\langle tq||rs\rangle+\gamma_{qt}\langle pt||rs\rangle
+  +\gamma_{rt}\langle pq||ts\rangle+\gamma_{st}\langle pq||rt\rangle\Bigr].
+  \label{eq:pp-M-cum}
+\end{align}
+\end{widetext}
+Equation~\eqref{eq:pp-M} collects the 72 terms produced by \texttt{wick.py} for
+the pair manifold; the unsymmetrized double commutator has $\Lag_{rp}$ in place
+of $\sLag_{pr}$.  Note that the 2-RDM enters only through particle--hole-type
+contractions $\sum_{tu}\langle pt||ru\rangle\Gamma_{ts,qu}$ and through $\Lag$;
+the ladder-type integral $\langle pq||rs\rangle$ is dressed by the 1-RDM only
+(one factor $-\gamma$ on each of the four legs).
+
+\Established \emph{RPA form.}  In the natural spin-orbital basis, for $p<q$
+and $r<s$, $\mathcal S^{\pp}_{(pq),(rs)}=\delta_{pr}\delta_{qs}(1-n_p-n_q)$.
+Pairs with $1-n_p-n_q>0$ form the particle-like sector $\mathcal P$, pairs with
+$1-n_p-n_q<0$ the hole-like sector $\mathcal H$, and pairs with $n_p+n_q=1$
+(\eg\ one fully occupied and one empty orbital) have zero norm and are removed.
+With $N^{\pp}_{(pq)}=|1-n_p-n_q|$ and
+\begin{equation}
+  \bA^{\pp}=\bcalM^{\pp}_{\mathcal P\mathcal P},\qquad
+  \bC^{\pp}=\bcalM^{\pp}_{\mathcal H\mathcal H},\qquad
+  \bB^{\pp}=-\bcalM^{\pp}_{\mathcal P\mathcal H},
+  \label{eq:pp-ABC}
+\end{equation}
+Eq.~\eqref{eq:eom} with
+$\hat Q^\dagger_\nu=\sum_{\mathcal P}X_{\nu,pq}\cre{p}\cre{q}-\sum_{\mathcal H}Y_{\nu,pq}\cre{p}\cre{q}$
+reads
+\begin{equation}
+  \begin{pmatrix}\bA^{\pp}&\bB^{\pp}\\ \bB^{\pp T}&\bC^{\pp}\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix}
+  =\omega_\nu
+  \begin{pmatrix}\bN^{\pp}_{\mathcal P}&0\\0&-\bN^{\pp}_{\mathcal H}\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix}.
+  \label{eq:pp-rpa}
+\end{equation}
+Positive-norm solutions are the $N{+}2$ states, $\omega_\nu=E^{N+2}_\nu-E_0$;
+negative-norm solutions are the $N{-}2$ states with
+$\omega_\nu=-(E^{N-2}_\nu-E_0)$ \cite{SchuckBook,Scuseria2013}.  The sign in
+the definition of $\bB^{\pp}$ compensates the sign of the commutator metric in
+$\mathcal H$ and makes the Hartree--Fock limit coincide with the
+particle--particle channel of \texttt{Pa2CCD.tex}: $\mathcal P=\{(ab)\}$,
+$\mathcal H=\{(ij)\}$ and Eq.~\eqref{eq:pp-M-cum} gives, in canonical orbitals,
+$A^{\pp}_{ab,cd}=(\eps_a+\eps_b)\delta^{\rm A}_{ab,cd}+\langle ab||cd\rangle$,
+$C^{\pp}_{ij,kl}=-(\eps_i+\eps_j)\delta^{\rm A}_{ij,kl}+\langle ij||kl\rangle$,
+$B^{\pp}_{ab,ij}=\langle ab||ij\rangle$ [its $\bC^{\pp}$, $\bD^{\pp}$, $\bB^{\pp}$
+with ordered pairs].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Crossed-ring particle--hole channel (\texorpdfstring{$\teh$}{eh-bar})}
+\label{sec:teh}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Established The transverse channel is the electron--hole channel with
+crossed external labels: the composite pair joins the hole label of one
+external vertex with the particle label of the other, and the fermionic
+crossing sign
+$\hat E_{bi}\hat E_{aj}|\Phi_0\rangle=-\hat E_{ai}\hat E_{bj}|\Phi_0\rangle$
+[Eq.~(crossed\_operator\_sign) of \texttt{Pa2CCD.tex}] is carried by the
+forward--backward blocks.  In the Hartree--Fock static channel reduction of
+\texttt{Pa2CCD.tex} the generator in the crossed composite ordering
+$(ib),(ja)$ is
+\begin{align}
+  \bH^{\teh}&=\begin{pmatrix}\bA^{\teh}&-\bB^{\teh}\\ \bB^{\teh\dagger}&-\bA^{\teh\dagger}\end{pmatrix},
+  \nonumber\\
+  \bA^{\teh}_{ib,kc}&=(\eps_b-\eps_i)\delta_{ik}\delta_{bc}+\langle bk||ic\rangle,
+  \qquad
+  \bB^{\teh}_{ib,ja}=\langle ba||ij\rangle .
+  \label{eq:H-teh-HF}
+\end{align}
+Read as arrays over (hole, particle) pairs, $\bA^{\teh}$ and $\bB^{\teh}$ are
+identical to the direct-channel matrices $\bA^{\eh}_{ia,jb}=(\eps_a-\eps_i)\delta_{ij}\delta_{ab}+\langle aj||ib\rangle$
+and $\bB^{\eh}_{ia,jb}=\langle ab||ij\rangle$; the crossing is carried entirely
+by the sign of the forward--backward block and by the crossed attachment of
+the composite indices to the external legs (the map $J_{\teh}$ of
+\texttt{Pa2CCD.tex}).  With $\bZ=\mathrm{diag}(\bI,-\bI)$ on the
+forward/backward sectors,
+$\bH^{\teh}=\bZ\bH^{\eh}\bZ$ and $\boldsymbol L^{\teh}(\Omega)=\bZ\boldsymbol L^{\eh}(\Omega)\bZ$:
+the crossed channel has the same poles as the direct one, the eigenvectors
+$(\bX_\nu,-\bY_\nu)$, and its static propagator differs from the direct one by
+the sign of the forward--backward blocks.  The channels differ once they are
+attached to external legs; in the common-amplitude construction this is what
+turns the ring terms of the $\eh$ channel into the crossed-ring terms of the
+$\teh$ channel [Eqs.~(ring\_linear\_audit) and (ring\_quadratic\_audit) of
+\texttt{Pa2CCD.tex}].
+
+\Proposed \emph{Extended form.}  The same construction defines the crossed-ring
+channel on an arbitrary vacuum.  Let $\bZ=\bcalS\,(\bcalS^{2})^{-1/2}$ be the
+sign of the particle--hole metric on its nonzero-norm subspace
+($\bZ=\mathrm{diag}(\bI,-\bI)$ on $\mathcal E\oplus\bar{\mathcal E}$ in the
+natural-orbital basis).  The crossed-ring ERPA is
+\begin{align}
+  \bcalM^{\teh}&=\bZ\,\bcalM\,\bZ,\qquad \bcalS^{\teh}=\bZ\bcalS\bZ=\bcalS,
+  \nonumber\\
+  \begin{pmatrix}\bA&-\bB\\ -\bB&\bA\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix}
+  &=\omega_\nu
+  \begin{pmatrix}\bN&0\\0&-\bN\end{pmatrix}
+  \begin{pmatrix}\bX_\nu\\ \bY_\nu\end{pmatrix},
+  \label{eq:teh-erpa}
+\end{align}
+with $\bA$, $\bB$, $\bN$ of Eqs.~\eqref{eq:ph-AB}--\eqref{eq:ph-rpa}, and its
+propagator is $\bPi^{\teh}(\Omega)=\bZ\bPi(\Omega)\bZ$.  No matrix elements
+beyond those of Sec.~\ref{sec:ph} are needed: the 1-/2-RDM content of the
+crossed channel is that of Eqs.~\eqref{eq:ph-S}--\eqref{eq:ph-M-cum}, with the
+sign of $\bB$ reversed.  Equation~\eqref{eq:teh-erpa} reduces to
+Eq.~\eqref{eq:H-teh-HF} for a Hartree--Fock vacuum and is the unique
+extension for which the exact crossing relation
+$L(12;1'2')=-L(12;2'1')$ of \texttt{parquet.tex} acts on the static
+channel propagator in the same way as in the Hartree--Fock case, namely on
+the forward/backward structure only.  (With the antisymmetrized kernel both
+the direct and the exchange integrals are present in every channel; ``ring''
+and ``crossed ring'' refer to the pairing of the external legs, not to a
+direct/exchange split of the kernel.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Block structure for a CAS-type vacuum}
+\label{sec:blocks}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Structure of the vacuum and of \texorpdfstring{$f$, $\Lag$}{f, L}}
+\label{sec:cas-structure}
+
+\Exact Let $|\Psi_0\rangle=|\Phi_{\rm core}\rangle\otimes|\Xi\rangle$ with all
+core spin orbitals $i,j,\ldots$ occupied, all virtual spin orbitals
+$a,b,\ldots$ empty, and $|\Xi\rangle$ an \emph{arbitrary} $N_{\rm act}$-electron
+state in the active spin orbitals $x,y,\ldots$ (CASCI or CASSCF, but no
+stationarity is assumed).  Then
+\begin{align}
+  \gamma_{ij}&=\delta_{ij},\quad \gamma_{ab}=0,\quad \gamma_{xy}=\gamma^{\act}_{xy},\quad
+  \gamma_{Px}=\gamma_{ia}=0,
+  \nonumber\\
+  \lambda_{pq,rs}&\ne0\quad\text{only for }p,q,r,s\in\text{active},
+  \label{eq:cas-rdm}
+\end{align}
+and $\Gamma$ follows from Eq.~\eqref{eq:cumulant}.  Inserting
+Eq.~\eqref{eq:cas-rdm} into Eqs.~\eqref{eq:genfock}--\eqref{eq:symlag},
+with $u,v,z$ active,
+\begin{align}
+  f_{pq}&=h_{pq}+\sum_{k}\langle pk||qk\rangle+\sum_{uv}\gamma_{uv}\langle pu||qv\rangle ,
+  \label{eq:cas-fock}\\
+  \Lag_{pj}&=f_{pj},\qquad \Lag_{pb}=0,\qquad
+  \Lag_{py}=\sum_{u}f_{pu}\gamma_{uy}+\Lambda_{py},
+  \nonumber\\
+  \Lambda_{py}&=\frac12\sum_{uvz}\langle pu||vz\rangle\,\lambda_{yu,vz},
+  \label{eq:cas-lag}
+\end{align}
+so that
+\begin{align}
+  \sLag_{ij}&=f_{ij},\qquad \sLag_{ab}=0,\qquad \sLag_{ia}=\tfrac12 f_{ia},
+  \nonumber\\
+  \sLag_{ix}&=\tfrac12\Bigl[f_{xi}+\sum_u f_{iu}\gamma_{ux}+\Lambda_{ix}\Bigr],
+  \nonumber\\
+  \sLag_{ax}&=\tfrac12\Bigl[\sum_u f_{au}\gamma_{ux}+\Lambda_{ax}\Bigr],
+  \nonumber\\
+  \sLag_{xy}&=\tfrac12\Bigl[\sum_u\bigl(f_{xu}\gamma_{uy}+f_{yu}\gamma_{ux}\bigr)+\Lambda_{xy}+\Lambda_{yx}\Bigr].
+  \label{eq:cas-symlag}
+\end{align}
+$f$ is the generalized (Dyall) Fock matrix that also defines the inactive
+orbital energies $\kappa_P=\eps_P$ in \texttt{mr-hedin.tex}, and its active
+block is $f_{xy}=h^{\rm eff}_{xy}+\sum_{uv}\gamma_{uv}\langle xu||yv\rangle$ with
+$h^{\rm eff}_{xy}=h_{xy}+\sum_k\langle xk||yk\rangle$ the one-body part of the
+active Dyall Hamiltonian; $\Lag_{xy}$ is therefore the Lagrangian of the
+active-space problem.  For a CASSCF vacuum $\Lag$ is symmetric
+[Eq.~\eqref{eq:brillouin}]: $f_{ia}=0$, $f_{xi}=\sum_u f_{iu}\gamma_{ux}+\Lambda_{ix}$,
+$\sum_u f_{au}\gamma_{ux}+\Lambda_{ax}=0$, and the bars in
+Eq.~\eqref{eq:cas-symlag} can be dropped; for CASCI orbitals the
+symmetrization is part of the definition of $\bcalM$.
+
+In the block formulas below every summation index $u,v$ runs over the
+\emph{active} spin orbitals only: the core contractions have been absorbed
+into $f$ and the Kronecker deltas, and the virtual ones vanish because
+$\gamma_{ab}=0$.  The blocks are exact consequences of
+Eqs.~\eqref{eq:ph-M-cum}, \eqref{eq:pp-M-cum} and \eqref{eq:cas-rdm}; each of
+them was generated by substituting the index types into the general formulas
+and verified numerically (Sec.~\ref{sec:verification}).  Every block depends
+on the vacuum only through $\gamma^{\act}$, $\lambda^{\act}$ (equivalently
+$\Gamma^{\act}$), $f$ and $\sLag$.
+
+\subsection{Particle--hole channel}
+\label{sec:ph-blocks}
+
+\Exact The pairs with nonzero norm fall into four sectors, which are the four
+channels of the MR-RPA of Ref.~\cite{WangFangLi2026},
+\begin{equation}
+  \scv:\ (ai),\qquad \sca:\ (xi),\qquad \sav:\ (ax),\qquad \saa:\ (xy),\ x\ne y ,
+  \label{eq:ph-sectors}
+\end{equation}
+with their de-excitation partners $(ia)$, $(ix)$, $(xa)$; the pairs $(ij)$ and
+$(ab)$ have zero norm.  The metric is block diagonal in the sectors,
+\begin{align}
+  \mathcal S_{(ai),(bj)}&=\delta_{ab}\delta_{ij},\qquad
+  \mathcal S_{(xi),(yj)}=\delta_{ij}\bigl(\delta_{xy}-\gamma_{xy}\bigr),
+  \nonumber\\
+  \mathcal S_{(ax),(by)}&=\delta_{ab}\gamma_{xy},\qquad
+  \mathcal S_{(xy),(zw)}=\delta_{xz}\gamma_{yw}-\delta_{yw}\gamma_{xz},
+  \label{eq:ph-S-blocks}
+\end{align}
+(in active natural orbitals: $1$, $1-n_x$, $n_x$ and $n_y-n_x$), whereas
+$\bcalM$ couples all sectors.  For $\scv$, $\sca$ and $\sav$ the
+excitation/de-excitation assignment is fixed, and we list $A$ and $B$ of
+Eq.~\eqref{eq:ph-AB}; for the $\saa$ sector it requires the active natural
+orbitals, so for all blocks involving $\saa$ the full
+$\mathcal M_{(pq),(zw)}$ is given for all ordered pairs $(zw)$, from which
+$A$ and $B$ follow by Eq.~\eqref{eq:ph-AB} after the transformation.
+
+\onecolumngrid
+\paragraph*{Inactive indices only ($\scv$--$\scv$).}
+The RPA matrices of the core$\to$virtual excitations with the generalized Fock
+operator; no explicit dependence on the active-space correlation beyond
+$\gamma^{\act}$ in $f$:
+\begin{align}
+  A_{(ai),(bj)} &= \delta_{ij}f_{ab} -\delta_{ab}f_{ij} +\langle aj||ib\rangle
+  \label{eq:ph-A-cv-cv}\\
+  B_{(ai),(bj)} &= \langle ab||ij\rangle
+  \label{eq:ph-B-cv-cv}
+\end{align}
+
+\paragraph*{Active indices only ($\saa$--$\saa$).}
+Equation~\eqref{eq:ph-M-cum} restricted to active indices with $h\to h^{\rm eff}$,
+\ie\ the active-space ERPA of \texttt{mr-hedin.tex} [its Eq.~(erpa-eom)] and of
+\texttt{ekt\_erpa.py}:
+\begin{align}
+  M_{(xy),(zw)} &= -\delta_{yw}\bar{\mathcal L}_{xz} -\delta_{xz}\bar{\mathcal L}_{yw} +f_{xz}\gamma_{yw} \nonumber\\
+  &\quad +f_{yw}\gamma_{xz} -\sum_{uv}\langle uw||vy\rangle\gamma_{ux}\gamma_{vz} -\sum_{uv}\langle uv||yz\rangle\gamma_{ux}\gamma_{vw} \nonumber\\
+  &\quad -\sum_{uv}\langle uv||xw\rangle\gamma_{uy}\gamma_{vz} -\sum_{uv}\langle uz||vx\rangle\gamma_{uy}\gamma_{vw} -\tfrac{1}{2}\sum_{uv}\langle uv||yz\rangle\lambda_{uv,xw} \nonumber\\
+  &\quad -\tfrac{1}{2}\sum_{uv}\langle uv||xw\rangle\lambda_{uv,yz} +\sum_{uv}\langle uy||vw\rangle\lambda_{ux,vz} +\sum_{uv}\langle ux||vz\rangle\lambda_{uy,vw}
+  \label{eq:ph-A-aa-aa}
+\end{align}
+
+\paragraph*{Mixed blocks.}
+Diagonal blocks of the sectors with one active index and all inter-sector
+couplings:
+\begin{align}
+  A_{(xi),(yj)} &= \delta_{ij}f_{xy} -\delta_{xy}f_{ij} -\delta_{ij}\bar{\mathcal L}_{xy} \nonumber\\
+  &\quad +f_{ij}\gamma_{xy} +\langle xj||iy\rangle -\sum_{u}\langle uj||iy\rangle\gamma_{ux} \nonumber\\
+  &\quad +\sum_{u}\langle ui||xj\rangle\gamma_{uy} -\sum_{uv}\langle uj||vi\rangle\gamma_{ux}\gamma_{vy} +\sum_{uv}\langle ui||vj\rangle\lambda_{ux,vy}
+  \label{eq:ph-A-ca-ca}\\
+  B_{(xi),(yj)} &= \langle xy||ij\rangle -\sum_{u}\langle uy||ij\rangle\gamma_{ux} +\sum_{u}\langle ux||ij\rangle\gamma_{uy} \nonumber\\
+  &\quad +\sum_{uv}\langle uv||ij\rangle\gamma_{ux}\gamma_{vy} +\tfrac{1}{2}\sum_{uv}\langle uv||ij\rangle\lambda_{uv,xy}
+  \label{eq:ph-B-ca-ca}\\
+  A_{(ax),(by)} &= -\delta_{ab}\bar{\mathcal L}_{xy} +f_{ab}\gamma_{xy} -\sum_{uv}\langle ub||va\rangle\gamma_{ux}\gamma_{vy} \nonumber\\
+  &\quad +\sum_{uv}\langle ua||vb\rangle\lambda_{ux,vy}
+  \label{eq:ph-A-av-av}\\
+  B_{(ax),(by)} &= \sum_{uv}\langle uv||ab\rangle\gamma_{ux}\gamma_{vy} +\tfrac{1}{2}\sum_{uv}\langle uv||ab\rangle\lambda_{uv,xy}
+  \label{eq:ph-B-av-av}\\
+  A_{(ai),(xj)} &= \delta_{ij}f_{ax} -\delta_{ij}\bar{\mathcal L}_{ax} +\langle aj||ix\rangle \nonumber\\
+  &\quad +\sum_{u}\langle ui||aj\rangle\gamma_{ux}
+  \label{eq:ph-A-cv-ca}\\
+  B_{(ai),(xj)} &= \langle ax||ij\rangle +\sum_{u}\langle ua||ij\rangle\gamma_{ux}
+  \label{eq:ph-B-cv-ca}\\
+  A_{(ai),(bx)} &= -\delta_{ab}\bar{\mathcal L}_{ix} -\sum_{u}\langle ua||ib\rangle\gamma_{ux}
+  \label{eq:ph-A-cv-av}\\
+  B_{(ai),(bx)} &= -\sum_{u}\langle ui||ab\rangle\gamma_{ux}
+  \label{eq:ph-B-cv-av}\\
+  A_{(xi),(ay)} &= -\sum_{u}\langle ux||ia\rangle\gamma_{uy} -\sum_{uv}\langle uv||ia\rangle\gamma_{ux}\gamma_{vy} -\tfrac{1}{2}\sum_{uv}\langle uv||ia\rangle\lambda_{uv,xy}
+  \label{eq:ph-A-ca-av}\\
+  B_{(xi),(ay)} &= \tfrac{1}{2}\delta_{xy}f_{ia} -f_{ia}\gamma_{xy} -\sum_{u}\langle ui||xa\rangle\gamma_{uy} \nonumber\\
+  &\quad +\sum_{uv}\langle ua||vi\rangle\gamma_{ux}\gamma_{vy} -\sum_{uv}\langle ui||va\rangle\lambda_{ux,vy}
+  \label{eq:ph-B-ca-av}\\
+  M_{(ai),(xy)} &= \sum_{u}\langle ui||ay\rangle\gamma_{ux} -\sum_{u}\langle ua||ix\rangle\gamma_{uy}
+  \label{eq:ph-A-cv-aa}\\
+  M_{(xi),(yz)} &= -\delta_{xy}\bar{\mathcal L}_{iz} +f_{iz}\gamma_{xy} +\sum_{u}\langle ui||xz\rangle\gamma_{uy} \nonumber\\
+  &\quad -\sum_{u}\langle ux||iy\rangle\gamma_{uz} -\sum_{uv}\langle uz||vi\rangle\gamma_{ux}\gamma_{vy} -\sum_{uv}\langle uv||iy\rangle\gamma_{ux}\gamma_{vz} \nonumber\\
+  &\quad -\tfrac{1}{2}\sum_{uv}\langle uv||iy\rangle\lambda_{uv,xz} +\sum_{uv}\langle ui||vz\rangle\lambda_{ux,vy}
+  \label{eq:ph-A-ca-aa}\\
+  M_{(ax),(yz)} &= -\delta_{xz}\bar{\mathcal L}_{ay} +f_{ay}\gamma_{xz} -\sum_{uv}\langle uv||az\rangle\gamma_{ux}\gamma_{vy} \nonumber\\
+  &\quad -\sum_{uv}\langle uy||va\rangle\gamma_{ux}\gamma_{vz} -\tfrac{1}{2}\sum_{uv}\langle uv||az\rangle\lambda_{uv,xy} +\sum_{uv}\langle ua||vy\rangle\lambda_{ux,vz}
+  \label{eq:ph-A-av-aa}
+\end{align}
+Remarks.  (i) In $\sca$--$\sca$ and $\sav$--$\sav$ the bare integral is dressed
+by the active hole density $\delta_{xy}-\gamma_{xy}$ and by $\gamma$,
+respectively, and the cumulant enters through
+$\langle ui||vj\rangle\lambda_{ux,vy}$, $\tfrac12\langle uv||ij\rangle\lambda_{uv,xy}$
+and $\sLag_{xy}$ (analogously with $a,b$).  The combinations
+$\gamma_{ux}\gamma_{vy}+\tfrac12\lambda_{uv,xy}$ contracted with an integral
+antisymmetric in $u,v$ equal $\tfrac12\Gamma_{uv,xy}$, so the $B$-type and
+$\sca$--$\sav$ blocks can equally be written with the active 2-RDM.
+(ii) The couplings between the inactive sector $\scv$ and the active-containing
+sectors contain no cumulant: $\scv$--$\sca$ and $\scv$--$\sav$ involve only
+$\gamma^{\act}$ and $\sLag$, $\scv$--$\saa$ only $\gamma^{\act}$.  The cumulant
+first appears in couplings with at least two active indices in the ket pair or
+two active indices across the two pairs.  (iii) For an empty active space only
+Eqs.~\eqref{eq:ph-A-cv-cv}--\eqref{eq:ph-B-cv-cv} survive.  For a
+determinantal $|\Xi\rangle$ ($\lambda=0$, $\gamma^{\act}$ idempotent) every
+block reduces to the corresponding Hartree--Fock RPA block or vanishes together
+with its metric.  (iv) The MR-RPA of Ref.~\cite{WangFangLi2026} screens with
+the direct residual kernel $v^R$ contracted with the exact channel transition
+densities and keeps the exact active response in $\saa$; the blocks above are
+instead the single-excitation-manifold double commutator with the
+antisymmetrized bare kernel in all four sectors, \ie\ the extended form of the
+fixed-kernel model of \texttt{Pa2CCD.tex}.  The two coincide in
+$\scv$--$\scv$ (up to direct versus antisymmetrized kernel) and differ elsewhere.
+
+\subsection{Particle--particle channel}
+\label{sec:pp-blocks}
+
+\Exact The pairs with nonzero norm fall into five sectors,
+\begin{align}
+  \svv:\ (ab),\qquad \sav:\ (ax),\qquad \saa:\ (xy),\ x<y,
+  \nonumber\\
+  \sca:\ (ix),\qquad \scc:\ (ij),
+  \label{eq:pp-sectors}
+\end{align}
+while the core--virtual pairs $(ai)$ have zero norm and drop out.  The metric
+is block diagonal,
+\begin{align}
+  \mathcal S^{\pp}_{(ab),(cd)}&=\delta_{ac}\delta_{bd}-\delta_{ad}\delta_{bc},\qquad
+  \mathcal S^{\pp}_{(ax),(by)}=\delta_{ab}\bigl(\delta_{xy}-\gamma_{xy}\bigr),
+  \nonumber\\
+  \mathcal S^{\pp}_{(ix),(jy)}&=-\delta_{ij}\gamma_{xy},\qquad
+  \mathcal S^{\pp}_{(ij),(kl)}=-\bigl(\delta_{ik}\delta_{jl}-\delta_{il}\delta_{jk}\bigr),
+  \nonumber\\
+  \mathcal S^{\pp}_{(xy),(zw)}&=\delta_{xz}\delta_{yw}-\delta_{xw}\delta_{yz}
+  -\delta_{xz}\gamma_{yw}+\delta_{xw}\gamma_{yz}
+  \nonumber\\
+  &\quad+\delta_{yz}\gamma_{xw}-\delta_{yw}\gamma_{xz},
+  \label{eq:pp-S-blocks}
+\end{align}
+(in active natural orbitals: $1$, $1-n_x$, $1-n_x-n_y$, $-n_x$, $-1$), so that
+$\svv$ and $\sav$ belong to the particle-like sector $\mathcal P$, $\scc$ and
+$\sca$ to the hole-like sector $\mathcal H$, and $\saa$ splits according to the
+sign of $1-n_x-n_y$.  The fifteen blocks of $\bcalM^{\pp}$ are
+($P(ab)$ etc.\ are written out):
+
+\paragraph*{Inactive indices only ($\svv$--$\svv$, $\scc$--$\scc$, $\svv$--$\scc$).}
+The Hartree--Fock particle--particle, hole--hole and coupling matrices with the
+generalized Fock operator [$B^{\pp}_{ab,ij}=-\mathcal M^{\pp}_{(ab),(ij)}=\langle ab||ij\rangle$]:
+\begin{align}
+  M^{\pp}_{(ab),(cd)} &= \delta_{bd}f_{ac} -\delta_{bc}f_{ad} -\delta_{ad}f_{bc} \nonumber\\
+  &\quad +\delta_{ac}f_{bd} +\langle ab||cd\rangle
+  \label{eq:pp-vv-vv}\\
+  M^{\pp}_{(ij),(kl)} &= -\delta_{jl}f_{ik} +\delta_{jk}f_{il} +\delta_{il}f_{jk} \nonumber\\
+  &\quad -\delta_{ik}f_{jl} +\langle ij||kl\rangle
+  \label{eq:pp-cc-cc}\\
+  M^{\pp}_{(ab),(ij)} &= -\langle ab||ij\rangle
+  \label{eq:pp-vv-cc}
+\end{align}
+
+\paragraph*{Active indices only ($\saa$--$\saa$).}
+Equation~\eqref{eq:pp-M-cum} restricted to active indices with $h\to h^{\rm eff}$,
+\ie\ the particle--particle ERPA of the active-space problem:
+\begin{align}
+  M^{\pp}_{(xy),(zw)} &= \delta_{yw}f_{xz} -\delta_{yz}f_{xw} -\delta_{xw}f_{yz} \nonumber\\
+  &\quad +\delta_{xz}f_{yw} -\delta_{yw}\bar{\mathcal L}_{xz} +\delta_{yz}\bar{\mathcal L}_{xw} \nonumber\\
+  &\quad +\delta_{xw}\bar{\mathcal L}_{yz} -\delta_{xz}\bar{\mathcal L}_{yw} -f_{xz}\gamma_{yw} \nonumber\\
+  &\quad +f_{xw}\gamma_{yz} +f_{yz}\gamma_{xw} -f_{yw}\gamma_{xz} \nonumber\\
+  &\quad +\langle xy||zw\rangle -\sum_{u}\langle uy||zw\rangle\gamma_{ux} +\sum_{u}\langle ux||zw\rangle\gamma_{uy} \nonumber\\
+  &\quad -\sum_{u}\langle uw||xy\rangle\gamma_{uz} +\sum_{u}\langle uz||xy\rangle\gamma_{uw} +\sum_{uv}\langle uy||vw\rangle\gamma_{ux}\gamma_{vz} \nonumber\\
+  &\quad -\sum_{uv}\langle uy||vz\rangle\gamma_{ux}\gamma_{vw} -\sum_{uv}\langle ux||vw\rangle\gamma_{uy}\gamma_{vz} +\sum_{uv}\langle ux||vz\rangle\gamma_{uy}\gamma_{vw} \nonumber\\
+  &\quad -\sum_{uv}\langle uw||vy\rangle\lambda_{ux,vz} +\sum_{uv}\langle uz||vy\rangle\lambda_{ux,vw} +\sum_{uv}\langle uw||vx\rangle\lambda_{uy,vz} \nonumber\\
+  &\quad -\sum_{uv}\langle uz||vx\rangle\lambda_{uy,vw}
+  \label{eq:pp-aa-aa}
+\end{align}
+
+\paragraph*{Mixed blocks.}
+\begin{align}
+  M^{\pp}_{(ax),(by)} &= \delta_{xy}f_{ab} +\delta_{ab}f_{xy} -\delta_{ab}\bar{\mathcal L}_{xy} \nonumber\\
+  &\quad -f_{ab}\gamma_{xy} +\langle ax||by\rangle +\sum_{u}\langle ua||by\rangle\gamma_{ux} \nonumber\\
+  &\quad +\sum_{u}\langle ub||ax\rangle\gamma_{uy} +\sum_{uv}\langle ua||vb\rangle\gamma_{ux}\gamma_{vy} -\sum_{uv}\langle ub||va\rangle\lambda_{ux,vy}
+  \label{eq:pp-av-av}\\
+  M^{\pp}_{(ix),(jy)} &= -\delta_{ij}\bar{\mathcal L}_{xy} -f_{ij}\gamma_{xy} +\sum_{uv}\langle ui||vj\rangle\gamma_{ux}\gamma_{vy} \nonumber\\
+  &\quad -\sum_{uv}\langle uj||vi\rangle\lambda_{ux,vy}
+  \label{eq:pp-ca-ca}\\
+  M^{\pp}_{(ab),(cx)} &= -\delta_{bc}f_{ax} +\delta_{ac}f_{bx} +\delta_{bc}\bar{\mathcal L}_{ax} \nonumber\\
+  &\quad -\delta_{ac}\bar{\mathcal L}_{bx} +\langle ab||cx\rangle +\sum_{u}\langle uc||ab\rangle\gamma_{ux}
+  \label{eq:pp-vv-av}\\
+  M^{\pp}_{(ab),(xy)} &= \langle ab||xy\rangle -\sum_{u}\langle uy||ab\rangle\gamma_{ux} +\sum_{u}\langle ux||ab\rangle\gamma_{uy}
+  \label{eq:pp-vv-aa}\\
+  M^{\pp}_{(ab),(ix)} &= \sum_{u}\langle ui||ab\rangle\gamma_{ux}
+  \label{eq:pp-vv-ca}\\
+  M^{\pp}_{(ax),(yz)} &= \delta_{xz}f_{ay} -\delta_{xy}f_{az} -\delta_{xz}\bar{\mathcal L}_{ay} \nonumber\\
+  &\quad +\delta_{xy}\bar{\mathcal L}_{az} -f_{ay}\gamma_{xz} +f_{az}\gamma_{xy} \nonumber\\
+  &\quad +\langle ax||yz\rangle +\sum_{u}\langle ua||yz\rangle\gamma_{ux} -\sum_{u}\langle uz||ax\rangle\gamma_{uy} \nonumber\\
+  &\quad +\sum_{u}\langle uy||ax\rangle\gamma_{uz} -\sum_{uv}\langle ua||vz\rangle\gamma_{ux}\gamma_{vy} +\sum_{uv}\langle ua||vy\rangle\gamma_{ux}\gamma_{vz} \nonumber\\
+  &\quad +\sum_{uv}\langle uz||va\rangle\lambda_{ux,vy} -\sum_{uv}\langle uy||va\rangle\lambda_{ux,vz}
+  \label{eq:pp-av-aa}\\
+  M^{\pp}_{(ax),(iy)} &= \tfrac{1}{2}\delta_{xy}f_{ai} -f_{ai}\gamma_{xy} +\sum_{u}\langle ui||ax\rangle\gamma_{uy} \nonumber\\
+  &\quad +\sum_{uv}\langle ua||vi\rangle\gamma_{ux}\gamma_{vy} -\sum_{uv}\langle ui||va\rangle\lambda_{ux,vy}
+  \label{eq:pp-av-ca}\\
+  M^{\pp}_{(ax),(ij)} &= -\langle ax||ij\rangle -\sum_{u}\langle ua||ij\rangle\gamma_{ux}
+  \label{eq:pp-av-cc}\\
+  M^{\pp}_{(xy),(iz)} &= \delta_{yz}f_{xi} -\delta_{xz}f_{yi} -\delta_{yz}\bar{\mathcal L}_{xi} \nonumber\\
+  &\quad +\delta_{xz}\bar{\mathcal L}_{yi} -f_{xi}\gamma_{yz} +f_{yi}\gamma_{xz} \nonumber\\
+  &\quad +\sum_{u}\langle ui||xy\rangle\gamma_{uz} -\sum_{uv}\langle uy||vi\rangle\gamma_{ux}\gamma_{vz} +\sum_{uv}\langle ux||vi\rangle\gamma_{uy}\gamma_{vz} \nonumber\\
+  &\quad +\sum_{uv}\langle ui||vy\rangle\lambda_{ux,vz} -\sum_{uv}\langle ui||vx\rangle\lambda_{uy,vz}
+  \label{eq:pp-aa-ca}\\
+  M^{\pp}_{(xy),(ij)} &= -\langle xy||ij\rangle +\sum_{u}\langle uy||ij\rangle\gamma_{ux} -\sum_{u}\langle ux||ij\rangle\gamma_{uy}
+  \label{eq:pp-aa-cc}\\
+  M^{\pp}_{(ix),(jk)} &= \delta_{ik}\bar{\mathcal L}_{xj} -\delta_{ij}\bar{\mathcal L}_{xk} -\sum_{u}\langle ui||jk\rangle\gamma_{ux}
+  \label{eq:pp-ca-cc}
+\end{align}
+Remarks.  (i) The ladder integral is dressed on each leg by $-\gamma$
+[Eq.~\eqref{eq:pp-M}]; a core leg therefore subtracts one copy of the bare
+integral, so that two core legs in a pair give
+$\mathcal M^{\pp}_{(ab),(ij)}=-\langle ab||ij\rangle$ and one core leg gives the
+$-\langle\cdot\cdot||i\cdot\rangle$ combinations, while virtual legs are
+undressed.  (ii) The cumulant enters
+only through the particle--hole-type contractions
+$\langle u\cdot||v\cdot\rangle\lambda_{u\cdot,v\cdot}$ and through $\sLag$; it is
+absent from all blocks whose ket or bra pair is purely inactive.  (iii)
+The $\scv$ pairs are absent from the manifold but the $\sav$ and $\sca$
+sectors couple the particle-like and hole-like spaces through the active
+density: $\mathcal M^{\pp}_{(ax),(iy)}$ is the extended-vacuum analogue of a
+$\bB^{\pp}$ block with one active index on each side.
+\twocolumngrid
+
+\subsection{Crossed-ring channel}
+\label{sec:teh-blocks}
+
+\Proposed By Eq.~\eqref{eq:teh-erpa} the crossed-ring channel has the same
+sectors, the same metric blocks \eqref{eq:ph-S-blocks} and the same $A$ blocks
+as the particle--hole channel, while every $B$ block changes sign,
+$B^{\teh}=-B$, including the $B$ blocks of the $\saa$ sector obtained from
+$\mathcal M_{(pq),(zw)}$ in the active natural-orbital basis.  Equivalently,
+$\bcalM^{\teh}=\bZ\bcalM\bZ$ with $\bZ=+1$ on $(ai),(xi),(ax)$ and on the
+active pairs with $n_y>n_x$, and $\bZ=-1$ on their partners; $\bZ$ acts within
+each sector, so the sector structure is preserved.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Numerical verification}
+\label{sec:verification}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+All equations of Secs.~\ref{sec:ph}--\ref{sec:blocks} were checked against
+brute-force double commutators evaluated with explicit second-quantized
+operators in the full Fock space (\texttt{numerics/erpa\_blocks/}):
+\begin{enumerate}
+\item[(a)] Eqs.~\eqref{eq:ph-S}--\eqref{eq:ph-asym} and
+  \eqref{eq:pp-S}--\eqref{eq:pp-M-cum}, including the unsymmetrized forms,
+  Eq.~\eqref{eq:brillouin}, the identity $\mathcal M_{(qp),(sr)}=\mathcal M_{(pq),(rs)}$
+  and the cumulant form of $\Lag$, for random real $h$, $(pr|qs)$ with the
+  eightfold symmetry and a random (non-eigenstate) three-electron vector in
+  seven spin orbitals: maximum deviations $\le 2\times10^{-15}$
+  (\texttt{verify\_general.py}).
+\item[(b)] Eqs.~\eqref{eq:cas-rdm}--\eqref{eq:cas-lag}, \eqref{eq:ph-S-blocks},
+  \eqref{eq:pp-S-blocks} and all 35 blocks of
+  Secs.~\ref{sec:ph-blocks}--\ref{sec:pp-blocks}, for a product state with
+  two core, four active (two electrons, random CI vector) and two virtual spin
+  orbitals and random integrals, so that $\Lag$ is not symmetric: maximum
+  deviations $\le 3\times10^{-15}$ (\texttt{blocks.py}, which also generates
+  the \LaTeX{} of the blocks from Eqs.~\eqref{eq:ph-M-cum} and
+  \eqref{eq:pp-M-cum} by substituting the index types).
+\end{enumerate}
+The Hartree--Fock limits quoted in Secs.~\ref{sec:ph}--\ref{sec:teh} are the
+$\scv$--$\scv$, $\svv$--$\svv$, $\scc$--$\scc$ and $\svv$--$\scc$ blocks with
+$\gamma^{\act}=0$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{parquet-mr-hedin}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
