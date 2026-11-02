@@ -1,8 +1,10 @@
 # Outline 
 
-The one-body Green's function provides a common framework for electronic screening, quasiparticles, satellites, and charged excitations. GW and ADC are two successful but complementary ways of approximating it. GW is particularly effective for principal quasiparticle ionizations, while ADC provides a perturbative hierarchy and a useful spectral representation. However, neither approach guarantees reliable improvement when more correlation effects are included. The Perspective will examine these limitations, the connections to coupled-cluster theory, and possible directions beyond GW and low-order ADC.
+The one-body Green's function provides a common framework for electronic screening, quasiparticles, satellites, and charged excitations **and** ground-state properties.
+GW and ADC are two successful but complementary ways of approximating it. GW is particularly effective for principal quasiparticle ionizations, while ADC provides a perturbative hierarchy and a useful spectral representation. However, neither approach guarantees reliable improvement when more correlation effects are included (refer to Arno's results).
+The Perspective will examine these limitations, the connections to coupled-cluster theory, and possible directions beyond GW and low-order ADC.
 
-**Central question:** Why do comparatively simple resummations sometimes outperform formally more complete approximations? A central possibility is that selecting and *consistently coupling* the relevant correlation contributions matters more than independently resumming increasingly large classes of diagrams. The article will distinguish three qualities that do not necessarily go together: perturbative correctness, formal consistency, and predictive accuracy.
+**Central question:** Why do comparatively simple resummations sometimes outperform formally more complete approximations? A central possibility is that selecting and *consistently coupling* (?) the relevant correlation contributions matters more than independently resumming increasingly large classes of diagrams. The article will distinguish three qualities that do not necessarily go together: perturbative correctness, formal consistency, and predictive accuracy.
 
 ## 1. Introduction — One Green's function, two communities
 
@@ -150,6 +152,8 @@ The one-body Green's function provides a common framework for electronic screeni
 
 **Suggested table:** Selected beyond-GW self-energy approximations, their correlation channels, second-order exactness, and spectral positivity (inspired by Table III of `3particleG.pdf`).
 
+I agree with the content of this table.
+
 ### 5.3. Combining scattering channels
 
 - Introduce the direct electron-hole, transverse electron-hole, and particle-particle channels.
@@ -171,6 +175,7 @@ The one-body Green's function provides a common framework for electronic screeni
 - Use the Faddeev-ADC(3) numerical example from `3particleG.pdf`: a formally attractive resolvent can give poor ionization energies when backward amplitudes and triplet channels are treated without sufficient balance.
 - Discuss the improvements obtained by limiting the triplet contributions or replacing separate ring/ladder amplitudes by CCD amplitudes.
 - Make the point that **coupling correlation channels** can matter more for accuracy than merely resumming each channel to all orders.
+- Mention that neglecting **channel coupling** can lead to error accumulation due to the fact that, e.g., self-screening is now present in each channel and the coupling to remove it is ignored
 
 ### 5.6. Self-consistency, conservation laws, and spectral positivity
 
