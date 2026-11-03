@@ -12,6 +12,10 @@
 ]{hyperref}
 \urlstyle{same}
 
+\newcommand{\titou}[1]{\textcolor{red}{#1}}
+\newcommand{\trashPFL}[1]{\textcolor{\red}{\sout{#1}}}
+\newcommand{\PFL}[1]{\titou{(\underline{\bf PFL}: #1)}}
+
 \newcommand{\cre}[1]{\hat{a}_{#1}^{\dagger}}
 \newcommand{\ani}[1]{\hat{a}_{#1}}
 \newcommand{\eh}{\text{eh}}
@@ -59,8 +63,8 @@
 Starting from the correlation-channel organization of parquet theory, we
 construct a static bare-kernel representation whose prescribed
 common-amplitude combination reproduces the non-mosaic coupled-cluster
-doubles (CCD) residual. We first isolate the fixed-kernel vertex problem
-and resum repeated scattering within each channel.
+doubles (CCD) residual. \titou{We first isolate the fixed-kernel vertex problem
+and resum repeated scattering within each channel.}
 For a canonical Hartree--Fock reference, the individual static channel
 blocks yield Bethe--Salpeter matrices and associated Riccati equations.
 We evaluate the residuals of these equations using three matrix
@@ -69,9 +73,9 @@ and free term once, and sum the antisymmetrized correlation contributions.
 Their explicit orbital expansion reproduces the ring, crossed-ring, and
 ladder terms with the CCD signs and coefficients. This equality holds for
 an arbitrary antisymmetric doubles tensor under the stated assumptions.
-The result establishes a residual identity for the specified construction;
+\titou{The result establishes a residual identity for the specified construction;
 it does not derive the common-amplitude prescription from the coupled
-vertex equations.
+vertex equations.}
 \end{abstract}
 
 \maketitle
@@ -83,7 +87,7 @@ vertex equations.
 Parquet theory and coupled-cluster doubles (CCD) organize two-body correlation
 through different quantities. The former decomposes a four-point vertex into
 three correlation channels, direct electron-hole ($\eh$), transverse electron-hole
-($\teh$), or particle-particle ($\pp$), whereas the latter determines a single set of
+($\teh$), and particle-particle ($\pp$), whereas the latter determines a single set of
 antisymmetric doubles amplitudes. The parquet formulation and its static
 kernel approximation have recently been developed for molecular
 systems.\cite{Marie2025} Relating its channels to CCD requires specifying
@@ -105,28 +109,26 @@ The interpretation of CCD through these three channels therefore provides
 the starting point for the present comparison. Related work connects RPA
 excitation energies to approximate equation-of-motion ring
 CCD,\cite{Berkelbach2018} and recasts the $GW$ and Bethe--Salpeter equations
-as nonlinear coupled-cluster-like equations.\cite{Quintero2022} These
-connections provide context for the matrix and residual representations
-used here; our comparison concerns the combined non-mosaic doubles residual.
+as nonlinear coupled-cluster-like equations.\cite{Quintero2022}
 
 Here, we organize this correspondence from the fixed bare-kernel channel
 blocks of the parquet vertex equations, using a canonical Hartree--Fock (HF)
 reference. We isolate repeated scattering within each channel and construct
-its static Bethe--Salpeter equation (BSE) matrix and Riccati equation. The
+its static Bethe--Salpeter equation (BSE) matrix and Riccati equation. \titou{The
 specific contribution is to formulate and verify the maps and counting
 conventions that express the established three-channel interpretation of
-CCD in a common doubles space. Index-arrangement maps specify the channel amplitudes,
-antisymmetrization maps enforce the doubles symmetries, and a
-common/scattering split identifies the source and free term retained once.
-This formulation separates the pair-contraction factors, the normalization
-of the antisymmetrization maps, and the counting of the common residual.
+CCD in a common doubles space.} Index-arrangement maps specify the channel amplitudes,
+antisymmetrization maps enforce the doubles symmetries, \titou{and a
+common/scattering split identifies the source and free term retained once}.
+\titou{This formulation separates the pair-contraction factors, the normalization
+of the antisymmetrization maps, and the counting of the common residual.}
 The comparison uses HF orbital energies and excludes mosaic terms.
 
 An explicit orbital expansion establishes that this prescribed combination
 reproduces the non-mosaic CCD residual for an arbitrary antisymmetric doubles
-tensor. The result connects the static channel blocks to the CCD signs and
+tensor. \titou{The result connects the static channel blocks to the CCD signs and
 coefficients while distinguishing the exact fixed-kernel rearrangement from
-the subsequent amplitude-level prescription. Equivalence of the coupled
+the subsequent amplitude-level prescription.} Equivalence of the coupled
 vertex and amplitude solution sets is not established.
 
 The remainder of this work is organized as follows.
@@ -234,8 +236,8 @@ relations. Here we additionally replace those relations by
 This defines a fixed bare-kernel three-channel model obtained from the
 parquet channel equations. It replaces the kernel
 relations above; it is not the self-consistent parquet approximation.
-The exact parquet classification alone therefore does not establish the
-diagrammatic completeness or multiplicities of this modified model.
+\titou{The exact parquet classification alone therefore does not establish the
+diagrammatic completeness or multiplicities of this modified model.}
 The reconstruction and component BSEs give
 \begin{equation}
  \begin{aligned}
