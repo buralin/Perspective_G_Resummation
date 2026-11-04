@@ -283,9 +283,9 @@ The self-energy, often denoted as $\Sigma(\br,\br';\omega)$, encapsulates these 
 It therefore corrects the non-interacting description of the particle, described by the non-interacting Green's function ($\bG_0$), to the fully interacting Green's function ($\bG$).
 The central equation that expresses this connection mathematically is the Dyson equation
 \begin{align}
-    \bG(\omega) =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
-    =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \nonumber \\
-    &+ \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) + \dots.
+    \bG(\omega) =& \bG^0(\omega) + \bG^0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
+    =& \bG^0(\omega) + \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) \nonumber \\
+    &+ \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) + \dots.
     \label{eq:Dyson}
 \end{align}
 From this, the importance of infinite resummation becomes evident. 
@@ -301,6 +301,70 @@ Ideally, one would therefore establish a systematic hierarchy of approximations 
 However, neither $GW$ nor ADC guarantees a reliable improvement as additional correlation effects are included (see below).
 In this Perspective, we examine these limitations, their connections to coupled-cluster theory, and possible directions beyond $GW$ and low-order ADC, with the aim of shedding light on a central question:
 why do comparatively simple resummations sometimes outperform formally more complete approximations?
+
+This perspective is structure as follows: 
+.....
+
+\section{One Green's function, two communities}
+\subsection{The one-particle Green's function}
+Formally the exact one-particle Green's function is defined as 
+\begin{align}
+    G_{pq}(t-t') = -\mathrm{i} \langle \Psi_0 | \mathcal{T} \left[ a_p(t) a_q^\dagger(t') \right] | \Psi_0 \rangle,
+\end{align}
+with $\Psi_0$ denoting the exact ground-state wavefunction of the $N$-electron system, $\mathcal{T}$ the time-ordering operator, and $a_q^\dagger(t')/a_p(t)$ the creation/annihilation operator in the Heisenberg picture.
+Physically, the Green's function (or sometimes called the propagator) describes the propagation of an added electron or hole in the many-body system at time $t$, and its removal at time $t'$.
+The dressed particle, due to the many-body interactions, is then commonly referred to as quasiparticle.
+
+After, Fourier transforming to the frequency domain, the Green's function can be expressed as a sum-over state expression (Lehmann representation)
+\begin{align}
+    G_{pq}(\omega) &= \sum_{m}^{N+1} \frac{\langle \Psi_0 | a_p | \Psi_m^{N+1} \rangle \langle \Psi_m^{N+1} | a_q^\dagger | \Psi_0 \rangle}{\omega - (E_m^{N+1} - E_0) + i\eta} \nonumber \\
+    &+ \sum_{m}^{N-1} \frac{\langle \Psi_0 | a_q^\dagger | \Psi_m^{N-1} \rangle \langle \Psi_m^{N-1} | a_p | \Psi_0 \rangle}{\omega - (E_0 - E_m^{N-1}) - i\eta}
+    \label{eq:Lehmann},
+\end{align}
+with $E_m^{N\pm1}$ denoting the energies of the $(N\pm1)$-electron excited states and $E_0$ the ground-state energy of the $N$-electron system.
+Eq.~\eqref{eq:Dyson} and Eq.~\eqref{eq:Lehmann} represent two complementary ways to construct the exact one-particle Green's function.
+While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground-state of the system through the self-energy, the wavefunction-based construction requires explicit knowledge of the ground-state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
+In this perspective, we also aim to illustrate advantages and disadvantages of both approaches for determining the one-particle Green's function.
+
+To gain ingsights into the physical content of the Green's function, it is instructive to consider its spectral representation [Eq.~\eqref{eq:Lehmann}], provides direct access to the ionization potentials and electron affinities (quasiparticle energies).
+The imaginary part of the Green's function allows for direct comparison with (inverse) angle-resolved photoemission spectroscopy [AR(I)PES] experiments through the spectral function $A(\omega)$, defined as
+\begin{align}
+    A(\omega) = \mathrm{sgn}(\epsilon_F - \omega) \frac{1}{\pi} \mathrm{Im} \, \mathrm{Tr} \, \bG(\omega),
+\end{align}
+with $\epsilon_F$ denoting the Fermi-level.
+Furthermore, the ground-state energy and denstity matrix can be deduced from the Green's function as
+\begin{align}
+    E_0 &= \frac{1}{4 \pi \mathrm{i}} \sum_{pq} \oint_\mathrm{IP} d\omega \left(h_{pq} + \omega \delta_{pq} \right) G_{qp}(\omega) \\
+    \gamma_{pq} &= \frac{1}{2 \pi \mathrm{i}} \oint_\mathrm{IP} d\omega \, G_{qp}(\omega),
+\end{align}
+where $\mathbf{h}$ is the one-electron Hamiltonian, $\boldsymbol{\gamma}$ is the one-particle density matrix, and $\oint_\mathrm{IP}$ denotes a contour integral in the upper half of the complex plane.
+
+In summary, the Green's function thus serves as central quantity to describe the electronic structure of molecules and materials.
+An added electron or hole interacts with the surrounding electrons. Its response reveals electronic correlation and may generate quasiparticles higher-order excitation processes (satellites).
+The one-body Green's function describes both the main charged excitations and the redistribution of spectral weight among more complicated states.
+
+
+\subsection{Perturbative expansions}
+
+Throughout the years a wide range of approaches have emerged to determine approximations to the one-particle Green's function, commonly within the realm of many-body perturbation theory.
+To motivate these developments it is instructive to consider the essential ingredients that need to be captured. 
+Starting from the non-interacting one-particle Green's function
+\begin{align}
+    G^0_{pq}(\omega) = \frac{\delta_{pq}}{\omega - \epsilon_p + i\eta \, \mathrm{sgn}(\epsilon_F - \epsilon_p)}.
+\end{align}
+$\bG^0$ has poles at the non-interacting one-particle energies $\epsilon_p$, which can be determined within the Hartree--Fock approximation.
+In this case, the ionization potentials and electron affinities correspond to the negative of the occupied and unoccupied one-particle energies, respectively.
+This is precisely what (generalized) Koopmans' theorem states.
+
+Going beyond this approximation thus requires the inclusion of relaxation (reorganization) and correlation effects (in the ground and the electron attached/removed states) among the electrons, c.f. Ref.~\citenum{Cederbaum_1977a}.
+The overall strategy to incorporate these effects can be separated into procedures that
+\begin{itemize}
+    \item[i)] Make use of perturbation theory based on the bare Coulomb interaction 
+    \item[ii)] based on the screened Coulomb interaction.
+\end{itemize}
+
+
+\subsection{Main questions?}
 
 \clearpage
 \newpage
