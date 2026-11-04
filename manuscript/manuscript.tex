@@ -346,30 +346,38 @@ The one-body Green's function describes both the main charged excitations and th
 
 \subsection{Perturbative expansions}
 
-Throughout the years a wide range of approaches have emerged to determine approximations to the one-particle Green's function, commonly within the realm of many-body perturbation theory.
-To motivate these developments it is instructive to consider the essential ingredients that need to be captured. 
-Starting from the non-interacting one-particle Green's function
+A wide range of approaches has been developed to approximate the one-particle Green's function, most of them within the framework of many-body perturbation theory.
+To motivate these developments, it is instructive to consider the essential physical effects that such approximations must capture.
+The starting point is the non-interacting one-particle Green's function,
 \begin{align}
-    G^0_{pq}(\omega) = \frac{\delta_{pq}}{\omega - \epsilon_p + i\eta \, \mathrm{sgn}(\epsilon_F - \epsilon_p)}.
+    G^0_{pq}(\omega) = \frac{\delta_{pq}}{\omega - \epsilon_p + i\eta \, \mathrm{sgn}(\epsilon_F - \epsilon_p)},
 \end{align}
-$\bG^0$ has poles at the non-interacting one-particle energies $\epsilon_p$, which can be determined within the Hartree--Fock approximation.
-In this case, the ionization potentials and electron affinities correspond to the negative of the occupied and unoccupied one-particle energies, respectively.
-This is precisely what (generalized) Koopmans' theorem states.
-
-Going beyond this approximation thus requires the inclusion of relaxation (reorganization) and correlation effects (in the ground and the electron attached/removed states) among the electrons, c.f. Ref.~\citenum{Cederbaum_1977a}.
-The overall strategy to incorporate these effects can be separated into procedures that
-\begin{itemize}
-    \item[i)] Make use of perturbation theory based on the bare Coulomb interaction 
-    \item[ii)] based on the screened Coulomb interaction.
-\end{itemize}
+whose poles lie at the non-interacting one-particle energies $\epsilon_p$, which can be obtained, for instance, within the Hartree--Fock approximation.
+At this level of theory, the ionization potentials and electron affinities are given by the negatives of the occupied and unoccupied one-particle energies, respectively, which is precisely the statement of (generalized) Koopmans' theorem.
 
 
-\subsection{Main questions?}
+Going beyond this approximation therefore requires the inclusion of orbital relaxation (reorganization) and electron correlation effects, both in the ground state and in the states with an electron added or removed; cf.\ Ref.~\citenum{Cederbaum_1977a}.
+Historically, strategies to incorporate these effects have fallen into two broad classes: perturbation expansions in terms of i) the bare Coulomb interaction and ii) the screened Coulomb interaction.
 
-\clearpage
-\newpage
+The former has traditionally been pursued in molecular physics and quantum chemistry, where ordinary perturbation theory has proven quite successful in capturing the dominant electron correlation effects.
+A prominent method originating in this community is the algebraic diagrammatic construction (ADC) scheme, which provides a consistent and flexible framework for constructing the one-particle Green's function, either via the Dyson equation [Eq.~\eqref{eq:Dyson}] or directly from its Lehmann representation [Eq.~\eqref{eq:Lehmann}].
 
+For solids, and metals in particular, it has long been known that perturbation theory in the bare Coulomb interaction gives rise to divergences unless screening effects are taken into account.
+Resummation techniques that avoid these divergences, such as those developed by Macke~\cite{Macke_1950}, Bohm and Pines~\cite{Bohm_1953}, and Gell-Mann and Brueckner~\cite{GellMann_1957}, are therefore essential.
+Building on these ideas, Hedin formulated a many-body perturbation theory in which the screened Coulomb interaction, itself a resummed quantity, plays the central role, making the theory applicable to metals and other systems where screening is important.
+The simplest realization of this framework is the $GW$ approximation.
 
+Having emerged from different communities, these two paradigms have largely developed independently of one another: ADC has become a mainstay of molecular quantum chemistry, whereas $GW$ is widely used in condensed matter physics.
+
+\subsection{The algebraic diagrammatic construction (ADC) scheme}
+
+\subsection{The $GW$ approximation}
+
+\subsection{Why are GW and ADC so difficult to improve?}
+
+\subsection{What lessons do we learn?}
+
+\iffalse
 Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
 \begin{align}
     G_{pq}(\omega) &= \sum_{m}^{N+1} \frac{\langle \Psi_0 | a_p | \Psi_m^{N+1} \rangle \langle \Psi_m^{N+1} | a_q^\dagger | \Psi_0 \rangle}{\omega - (E_m^{N+1} - E_0) + i\eta} \nonumber \\
@@ -692,7 +700,7 @@ Instead, the different components of $\mathbf{G}$ have to determined separately.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hedin vs Parquet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{References}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
