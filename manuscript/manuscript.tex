@@ -275,31 +275,36 @@ A common challenge in these scenarios is the need to account for higher-order co
 Inclusion of those comes with a steep increase in computational cost, making it challenging to apply these methods to the situations described above.
 
 Although progress has been made using alternative strategies in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency.
-One promising direction is the development of novel diagrammatic methods based on the one-particle Green's function ($\bG$), which are currently being explored by several groups through interdisciplinary efforts.
+The one-body Green's ($\bG$) function provides a common framework to approach these challenges in electronic structure theory.
+Due to its description of the collective behavior of a system through its changes in the presence of an additional particle (electron or hole), useful concepts such as electronic screening, quasiparticles, satellites, and charged excitations and ground-state properties can be deduced.
 
-The one-particle Green's function offers a particularly insightful bottom-up perspective on electronic structure theory.
-By nature, electrons are indistinguishable and obey the Pauli exclusion principle, which fundamentally shapes their collective behavior in multi-electronic systems.
-Nevertheless, understanding the collective behavior of a system through its changes in the presence of an additional electron or hole is useful conceptually.
-From this behavior, information about the ground and excited states of a system can be inferred, and this is what is captured in the one-particle Green's function.
-Imagine removing an electron from a system; depending on how strongly the electrons interact with this hole, one can deduce information about the electronic correlations present in the system.
-If the response is weak, the hole moves relatively freely through the system, essentially behaving as an independent particle.
-Conversely, if the response is strong, the hole becomes entangled with the surrounding electrons, which ultimately could result in a loss of its single-particle character.
-The dressed electron/hole is often referred to as a quasiparticle.
-
-From a theoretical point of view, the central ingredient one needs to include for a quasiparticle description is the effective interactions of the electron/hole with its environment.
+From a theoretical point of view, the central ingredient needed for determining the Green's function is the description of the additional particle and its effective interactions with the remaining systems.
 The self-energy, often denoted as $\Sigma(\br,\br';\omega)$, encapsulates these effective non-local and generally energy-dependent interactions.
-Interestingly, the simplest approximation to $\Sigma(\br,\br';\omega)$ is the Hartree--Fock (HF) approximation in which the self-energy is energy-independent and corresponds to the Coulomb and exchange Fock matrix contributions (see below).
-In this case, one describes a particle interacting with the averaged field, as in regular HF theory.
-The central equation that connects the single-particle and the quasiparticle picture is the Dyson equation
+It therefore corrects the non-interacting description of the particle, described by the non-interacting Green's function ($\bG_0$), to the fully interacting Green's function ($\bG$).
+The central equation that expresses this connection mathematically is the Dyson equation
 \begin{align}
     \bG(\omega) =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
     =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \nonumber \\
     &+ \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) + \dots.
     \label{eq:Dyson}
 \end{align}
-with $\bG_0(\omega)$ denoting some initial independent-particle Green's function that becomes transformed into an interacting Green's function by the interactions described by the self-energy ($\pmb{\Sigma}$).
 From this, the importance of infinite resummation becomes evident. 
-Only when the infinite series is summed to all orders does the Green's function fully capture the effects of interactions and provide an accurate description of the quasiparticle properties.
+Only when the infinite series is summed to all orders does the Green's function fully capture the effects of interactions.
+
+The central challenge thus reduces to finding practical approximations to $\Sigma$.
+Here, \emph{practical} refers to a problem-dependent accuracy threshold that must be reached to answer the underlying physical or chemical question with sufficient confidence.
+Two successful yet complementary approaches to approximating $\Sigma$ are $GW$ and the algebraic diagrammatic construction (ADC).
+$GW$ is particularly effective for principal quasiparticle ionizations, whereas ADC offers a perturbative hierarchy and a convenient spectral representation.
+
+A key difficulty is determining what constitutes sufficient accuracy, especially when reference data are scarce (see the scenarios above).
+Ideally, one would therefore establish a systematic hierarchy of approximations to $\Sigma$ and the corresponding Green's function.
+However, neither $GW$ nor ADC guarantees a reliable improvement as additional correlation effects are included (see below).
+In this Perspective, we examine these limitations, their connections to coupled-cluster theory, and possible directions beyond $GW$ and low-order ADC, with the aim of shedding light on a central question:
+why do comparatively simple resummations sometimes outperform formally more complete approximations?
+
+\clearpage
+\newpage
+
 
 Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
 \begin{align}
