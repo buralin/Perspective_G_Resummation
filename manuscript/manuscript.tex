@@ -275,32 +275,109 @@ A common challenge in these scenarios is the need to account for higher-order co
 Inclusion of those comes with a steep increase in computational cost, making it challenging to apply these methods to the situations described above.
 
 Although progress has been made using alternative strategies in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency.
-One promising direction is the development of novel diagrammatic methods based on the one-particle Green's function ($\bG$), which are currently being explored by several groups through interdisciplinary efforts.
+The one-body Green's ($\bG$) function provides a common framework to approach these challenges in electronic structure theory.
+Due to its description of the collective behavior of a system through its changes in the presence of an additional particle (electron or hole), useful concepts such as electronic screening, quasiparticles, satellites, and charged excitations and ground-state properties can be deduced.
 
-The one-particle Green's function offers a particularly insightful bottom-up perspective on electronic structure theory.
-By nature, electrons are indistinguishable and obey the Pauli exclusion principle, which fundamentally shapes their collective behavior in multi-electronic systems.
-Nevertheless, understanding the collective behavior of a system through its changes in the presence of an additional electron or hole is useful conceptually.
-From this behavior, information about the ground and excited states of a system can be inferred, and this is what is captured in the one-particle Green's function.
-Imagine removing an electron from a system; depending on how strongly the electrons interact with this hole, one can deduce information about the electronic correlations present in the system.
-If the response is weak, the hole moves relatively freely through the system, essentially behaving as an independent particle.
-Conversely, if the response is strong, the hole becomes entangled with the surrounding electrons, which ultimately could result in a loss of its single-particle character.
-The dressed electron/hole is often referred to as a quasiparticle.
-
-From a theoretical point of view, the central ingredient one needs to include for a quasiparticle description is the effective interactions of the electron/hole with its environment.
+From a theoretical point of view, the central ingredient needed for determining the Green's function is the description of the additional particle and its effective interactions with the remaining systems.
 The self-energy, often denoted as $\Sigma(\br,\br';\omega)$, encapsulates these effective non-local and generally energy-dependent interactions.
-Interestingly, the simplest approximation to $\Sigma(\br,\br';\omega)$ is the Hartree--Fock (HF) approximation in which the self-energy is energy-independent and corresponds to the Coulomb and exchange Fock matrix contributions (see below).
-In this case, one describes a particle interacting with the averaged field, as in regular HF theory.
-The central equation that connects the single-particle and the quasiparticle picture is the Dyson equation
+It therefore corrects the non-interacting description of the particle, described by the non-interacting Green's function ($\bG_0$), to the fully interacting Green's function ($\bG$).
+The central equation that expresses this connection mathematically is the Dyson equation
 \begin{align}
-    \bG(\omega) =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
-    =& \bG_0(\omega) + \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \nonumber \\
-    &+ \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) \pmb{\Sigma}(\omega) \bG_0(\omega) + \dots.
+    \bG(\omega) =& \bG^0(\omega) + \bG^0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
+    =& \bG^0(\omega) + \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) \nonumber \\
+    &+ \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) \pmb{\Sigma}(\omega) \bG^0(\omega) + \dots.
     \label{eq:Dyson}
 \end{align}
-with $\bG_0(\omega)$ denoting some initial independent-particle Green's function that becomes transformed into an interacting Green's function by the interactions described by the self-energy ($\pmb{\Sigma}$).
 From this, the importance of infinite resummation becomes evident. 
-Only when the infinite series is summed to all orders does the Green's function fully capture the effects of interactions and provide an accurate description of the quasiparticle properties.
+Only when the infinite series is summed to all orders does the Green's function fully capture the effects of interactions.
 
+The central challenge thus reduces to finding practical approximations to $\Sigma$.
+Here, \emph{practical} refers to a problem-dependent accuracy threshold that must be reached to answer the underlying physical or chemical question with sufficient confidence.
+Two successful yet complementary approaches to approximating $\Sigma$ are $GW$ and the algebraic diagrammatic construction (ADC).
+$GW$ is particularly effective for principal quasiparticle ionizations, whereas ADC offers a perturbative hierarchy and a convenient spectral representation.
+
+A key difficulty is determining what constitutes sufficient accuracy, especially when reference data are scarce (see the scenarios above).
+Ideally, one would therefore establish a systematic hierarchy of approximations to $\Sigma$ and the corresponding Green's function.
+However, neither $GW$ nor ADC guarantees a reliable improvement as additional correlation effects are included (see below).
+In this Perspective, we examine these limitations, their connections to coupled-cluster theory, and possible directions beyond $GW$ and low-order ADC, with the aim of shedding light on a central question:
+why do comparatively simple resummations sometimes outperform formally more complete approximations?
+
+This perspective is structure as follows: 
+.....
+
+\section{One Green's function, two communities}
+\subsection{The one-particle Green's function}
+Formally the exact one-particle Green's function is defined as 
+\begin{align}
+    G_{pq}(t-t') = -\mathrm{i} \langle \Psi_0 | \mathcal{T} \left[ a_p(t) a_q^\dagger(t') \right] | \Psi_0 \rangle,
+\end{align}
+with $\Psi_0$ denoting the exact ground-state wavefunction of the $N$-electron system, $\mathcal{T}$ the time-ordering operator, and $a_q^\dagger(t')/a_p(t)$ the creation/annihilation operator in the Heisenberg picture.
+Physically, the Green's function (or sometimes called the propagator) describes the propagation of an added electron or hole in the many-body system at time $t$, and its removal at time $t'$.
+The dressed particle, due to the many-body interactions, is then commonly referred to as quasiparticle.
+
+After, Fourier transforming to the frequency domain, the Green's function can be expressed as a sum-over state expression (Lehmann representation)
+\begin{align}
+    G_{pq}(\omega) &= \sum_{m}^{N+1} \frac{\langle \Psi_0 | a_p | \Psi_m^{N+1} \rangle \langle \Psi_m^{N+1} | a_q^\dagger | \Psi_0 \rangle}{\omega - (E_m^{N+1} - E_0) + i\eta} \nonumber \\
+    &+ \sum_{m}^{N-1} \frac{\langle \Psi_0 | a_q^\dagger | \Psi_m^{N-1} \rangle \langle \Psi_m^{N-1} | a_p | \Psi_0 \rangle}{\omega - (E_0 - E_m^{N-1}) - i\eta}
+    \label{eq:Lehmann},
+\end{align}
+with $E_m^{N\pm1}$ denoting the energies of the $(N\pm1)$-electron excited states and $E_0$ the ground-state energy of the $N$-electron system.
+Eq.~\eqref{eq:Dyson} and Eq.~\eqref{eq:Lehmann} represent two complementary ways to construct the exact one-particle Green's function.
+While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground-state of the system through the self-energy, the wavefunction-based construction requires explicit knowledge of the ground-state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
+In this perspective, we also aim to illustrate advantages and disadvantages of both approaches for determining the one-particle Green's function.
+
+To gain ingsights into the physical content of the Green's function, it is instructive to consider its spectral representation [Eq.~\eqref{eq:Lehmann}], provides direct access to the ionization potentials and electron affinities (quasiparticle energies).
+The imaginary part of the Green's function allows for direct comparison with (inverse) angle-resolved photoemission spectroscopy [AR(I)PES] experiments through the spectral function $A(\omega)$, defined as
+\begin{align}
+    A(\omega) = \mathrm{sgn}(\epsilon_F - \omega) \frac{1}{\pi} \mathrm{Im} \, \mathrm{Tr} \, \bG(\omega),
+\end{align}
+with $\epsilon_F$ denoting the Fermi-level.
+Furthermore, the ground-state energy and denstity matrix can be deduced from the Green's function as
+\begin{align}
+    E_0 &= \frac{1}{4 \pi \mathrm{i}} \sum_{pq} \oint_\mathrm{IP} d\omega \left(h_{pq} + \omega \delta_{pq} \right) G_{qp}(\omega) \\
+    \gamma_{pq} &= \frac{1}{2 \pi \mathrm{i}} \oint_\mathrm{IP} d\omega \, G_{qp}(\omega),
+\end{align}
+where $\mathbf{h}$ is the one-electron Hamiltonian, $\boldsymbol{\gamma}$ is the one-particle density matrix, and $\oint_\mathrm{IP}$ denotes a contour integral in the upper half of the complex plane.
+
+In summary, the Green's function thus serves as central quantity to describe the electronic structure of molecules and materials.
+An added electron or hole interacts with the surrounding electrons. Its response reveals electronic correlation and may generate quasiparticles higher-order excitation processes (satellites).
+The one-body Green's function describes both the main charged excitations and the redistribution of spectral weight among more complicated states.
+
+
+\subsection{Perturbative expansions}
+
+A wide range of approaches has been developed to approximate the one-particle Green's function, most of them within the framework of many-body perturbation theory.
+To motivate these developments, it is instructive to consider the essential physical effects that such approximations must capture.
+The starting point is the non-interacting one-particle Green's function,
+\begin{align}
+    G^0_{pq}(\omega) = \frac{\delta_{pq}}{\omega - \epsilon_p + i\eta \, \mathrm{sgn}(\epsilon_F - \epsilon_p)},
+\end{align}
+whose poles lie at the non-interacting one-particle energies $\epsilon_p$, which can be obtained, for instance, within the Hartree--Fock approximation.
+At this level of theory, the ionization potentials and electron affinities are given by the negatives of the occupied and unoccupied one-particle energies, respectively, which is precisely the statement of (generalized) Koopmans' theorem.
+
+
+Going beyond this approximation therefore requires the inclusion of orbital relaxation (reorganization) and electron correlation effects, both in the ground state and in the states with an electron added or removed; cf.\ Ref.~\citenum{Cederbaum_1977a}.
+Historically, strategies to incorporate these effects have fallen into two broad classes: perturbation expansions in terms of i) the bare Coulomb interaction and ii) the screened Coulomb interaction.
+
+The former has traditionally been pursued in molecular physics and quantum chemistry, where ordinary perturbation theory has proven quite successful in capturing the dominant electron correlation effects.
+A prominent method originating in this community is the algebraic diagrammatic construction (ADC) scheme, which provides a consistent and flexible framework for constructing the one-particle Green's function, either via the Dyson equation [Eq.~\eqref{eq:Dyson}] or directly from its Lehmann representation [Eq.~\eqref{eq:Lehmann}].
+
+For solids, and metals in particular, it has long been known that perturbation theory in the bare Coulomb interaction gives rise to divergences unless screening effects are taken into account.
+Resummation techniques that avoid these divergences, such as those developed by Macke~\cite{Macke_1950}, Bohm and Pines~\cite{Bohm_1953}, and Gell-Mann and Brueckner~\cite{GellMann_1957}, are therefore essential.
+Building on these ideas, Hedin formulated a many-body perturbation theory in which the screened Coulomb interaction, itself a resummed quantity, plays the central role, making the theory applicable to metals and other systems where screening is important.
+The simplest realization of this framework is the $GW$ approximation.
+
+Having emerged from different communities, these two paradigms have largely developed independently of one another: ADC has become a mainstay of molecular quantum chemistry, whereas $GW$ is widely used in condensed matter physics.
+
+\subsection{The algebraic diagrammatic construction (ADC) scheme}
+
+\subsection{The $GW$ approximation}
+
+\subsection{Why are GW and ADC so difficult to improve?}
+
+\subsection{What lessons do we learn?}
+
+\iffalse
 Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
 \begin{align}
     G_{pq}(\omega) &= \sum_{m}^{N+1} \frac{\langle \Psi_0 | a_p | \Psi_m^{N+1} \rangle \langle \Psi_m^{N+1} | a_q^\dagger | \Psi_0 \rangle}{\omega - (E_m^{N+1} - E_0) + i\eta} \nonumber \\
@@ -623,7 +700,7 @@ Instead, the different components of $\mathbf{G}$ have to determined separately.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hedin vs Parquet}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{References}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
