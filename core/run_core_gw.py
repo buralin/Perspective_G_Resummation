@@ -11,6 +11,7 @@ Usage:
     python3 run_core_gw.py --test
     python3 run_core_gw.py --test --collect
     python3 run_core_gw.py --clean-integrals  # remove old int/ folders only
+    python3 run_core_gw.py --all --collect --refresh-references --out /path/to/benchmark
 """
 from __future__ import annotations
 
@@ -28,6 +29,7 @@ import subprocess
 import sys
 import time
 from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
 
 BASIS = "aug-cc-pCVTZ"
 BASIS_FILE = "aug-cc-pcvtz"
@@ -150,25 +152,37 @@ def download(url, destination):
     return raw
 
 
-def find_source(path, local_root, cache, remote_rel, required=True):
+def find_source(path, local_root, cache, remote_rel, required=True, refresh=False):
+    """Read local QUESTDB data, or download a reference with explicit refresh.
+
+    Refreshing never falls back to a stale cached JSON. A missing optional
+    JSON (HTTP 404) is distinct from a network failure, which is fatal.
+    """
     if local_root:
         local_root = Path(local_root)
         variants = [local_root / 'charged' / 'core_IPs' / path,
                     local_root / path, local_root / 'core_IPs' / path]
-        for p in variants:
-            if p.is_file():
-                return p
+        for candidate in variants:
+            if candidate.is_file():
+                return candidate
         if required:
             raise FileNotFoundError(f"Not found in supplied QUESTDB: {path}")
         return None
     dest = cache / path
-    if dest.is_file() and dest.stat().st_size:
+    if not refresh and dest.is_file() and dest.stat().st_size:
         return dest
     try:
         download(BASE_URL + '/' + remote_rel, dest)
-    except Exception as exc:
-        if required:
-            raise RuntimeError(f"Cannot download {remote_rel}: {exc}") from exc
+    except HTTPError as exc:
+        if exc.code == 404 and not required:
+            # A stale JSON from a previous checkout must not survive a 404.
+            dest.unlink(missing_ok=True)
+            return None
+        raise RuntimeError(f"Cannot fetch {remote_rel} from QUESTDB: HTTP {exc.code}") from exc
+    except (OSError, URLError) as exc:
+        # In a strict refresh, never silently use old data (or a paper value).
+        if refresh or required:
+            raise RuntimeError(f"Cannot refresh QUESTDB reference {remote_rel}: {exc}") from exc
         return None
     return dest
 
@@ -187,30 +201,71 @@ def parse_xyz(path):
     return atoms
 
 
-def load_reference(row, local_root, cache):
+def load_reference(row, local_root, cache, refresh=False):
+    """Build one reference record, keeping a full provenance audit.
+
+    Missing/null JSON values remain missing, except the CVS-FCI target for
+    which a *clearly labeled* paper fallback is available. The published GW
+    number in QUESTDB is G0W0@PBEh, not our current G0W0@HF calculation.
+    """
     out = dict(row)
-    out['cvs_fci_eV'] = row['fci_paper_eV']
-    out['reference_source'] = 'paper_Table2_or_3'
-    out['g0w0_pbeh_eV'] = None
+    out.update(cvs_fci_eV=row['fci_paper_eV'],
+               reference_source='paper_Table2_or_3',
+               questdb_json_present=False,
+               questdb_json_sha256=None,
+               questdb_cvs_fci_eV=None,
+               questdb_minus_paper_eV=None,
+               g0w0_pbeh_eV=None)
     for key in CC_METHODS:
         out[key] = None
-    src = find_source(row['key']+'.json', local_root, cache, row['key']+'.json', required=False)
-    if src and src.stat().st_size:
-        try:
-            j = json.loads(src.read_text())
-            fci = j.get('sCI', {}).get('Energy', {}).get(BASIS)
-            if isinstance(fci, (int,float)):
-                out['cvs_fci_eV'] = float(fci)
+    src = find_source(row['key']+'.json', local_root, cache,
+                      row['key']+'.json', required=False, refresh=refresh)
+    if src is None:
+        out['reference_note'] = 'QUESTDB JSON missing; paper CVS-FCI fallback only'
+        return out
+    if not src.stat().st_size:
+        raise ValueError(f"Empty QUESTDB JSON: {src}")
+    raw = src.read_bytes()
+    try:
+        j = json.loads(raw)
+    except (ValueError, UnicodeDecodeError) as exc:
+        raise ValueError(f"Invalid QUESTDB JSON: {src}: {exc}") from exc
+    if not isinstance(j, dict):
+        raise ValueError(f"QUESTDB JSON is not an object: {src}")
+    out['questdb_json_present'] = True
+    out['questdb_json_sha256'] = hashlib.sha256(raw).hexdigest()
+    out['reference_note'] = ''
+
+    def read_number(container, field):
+        section = j.get(container)
+        if not isinstance(section, dict):
+            return None
+        value = section.get(field)
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            value = float(value)
+            if not math.isfinite(value):
+                raise ValueError(f"Nonfinite {container}/{field} in {src}")
+            return value
+        return None
+
+    sci = j.get('sCI')
+    if isinstance(sci, dict):
+        sci_energy = sci.get('Energy')
+        if isinstance(sci_energy, dict):
+            val = sci_energy.get(BASIS)
+            if isinstance(val, (int, float)) and not isinstance(val, bool):
+                val = float(val)
+                if not math.isfinite(val):
+                    raise ValueError(f"Nonfinite sCI/Energy/{BASIS} in {src}")
+                out['cvs_fci_eV'] = val
+                out['questdb_cvs_fci_eV'] = val
+                out['questdb_minus_paper_eV'] = val-row['fci_paper_eV']
                 out['reference_source'] = 'QUESTDB_sCI'
-            for k in CC_METHODS:
-                value = j.get(k,{}).get(BASIS)
-                if isinstance(value,(int,float)):
-                    out[k] = float(value)
-            v = j.get('GW',{}).get(BASIS)
-            if isinstance(v,(int,float)):
-                out['g0w0_pbeh_eV'] = float(v)
-        except (ValueError,TypeError):
-            out['reference_source'] += '_JSON_invalid'
+    if out['questdb_cvs_fci_eV'] is None:
+        out['reference_note'] = 'sCI/Energy/aug-cc-pCVTZ missing; paper CVS-FCI fallback'
+    for key in CC_METHODS:
+        out[key] = read_number(key, BASIS)
+    out['g0w0_pbeh_eV'] = read_number('GW', BASIS)
     return out
 
 
@@ -604,10 +659,10 @@ def assign_orbitals(geometry, atoms, basis_path, out):
     return result
 
 
-def extract_results(rows, out, local_root, cache, orbital_maps):
+def extract_results(rows, out, orbital_maps, reference_by_key):
     results, all_orbitals = [], []
     for row in rows:
-        ref = load_reference(row, local_root, cache)
+        ref = reference_by_key[row['key']]
         mapped = orbital_maps.get(row['geometry'])
         selected = None
         if mapped:
@@ -621,6 +676,8 @@ def extract_results(rows, out, local_root, cache, orbital_maps):
                       site=row['site'], orbital=selected,
                       assignment_ambiguous=bool(mapped and mapped['ambiguous']),
                       CVS_FCI_eV=ref['cvs_fci_eV'], reference_source=ref['reference_source'],
+                      questdb_json_present=ref['questdb_json_present'],
+                      reference_note=ref['reference_note'],
                       G0W0_PBEh_eV=ref['g0w0_pbeh_eV'])
         for name in CC_METHODS:
             record[name+'_eV'] = ref[name]
@@ -701,13 +758,15 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
     which=p.add_mutually_exclusive_group()
     which.add_argument('--test',action='store_true',help='Six small molecules; seven core IPs (default)')
-    which.add_argument('--all',action='store_true',help='All 84 core IPs, including incomplete QUESTDB JSONs')
+    which.add_argument('--all',action='store_true',help='All 84 benchmark core IPs; missing QUESTDB data are reported explicitly')
     p.add_argument('--quack',type=Path,default=Path(os.environ.get('QUACK_ROOT','')) if os.environ.get('QUACK_ROOT') else None,
                    help='Path to compiled QuAcK repository (or QUACK_ROOT env variable)')
     p.add_argument('--questdb',type=Path,help='Local QUESTDB checkout or charged/core_IPs folder (otherwise download & cache)')
     p.add_argument('--out',type=Path,default=Path('core_gw_results'),help='Output directory')
     p.add_argument('--prepare',action='store_true',help='Generate input files, do not run')
-    p.add_argument('--collect',action='store_true',help='Parse existing logs without running jobs')
+    p.add_argument('--collect',action='store_true',help='Rebuild tables from existing logs without running jobs')
+    p.add_argument('--refresh-references',action='store_true',
+                   help='Refetch all QUESTDB target JSON files (or read --questdb checkout); never reuse stale cached JSON')
     p.add_argument('--dry-run',action='store_true',help='Prepare and print QuAcK commands, do not run')
     p.add_argument('--force',action='store_true',help='Re-run even successful jobs')
     p.add_argument('--keep-integrals',action='store_true',help='Keep each job int/ directory (default: delete after QuAcK exits)')
@@ -771,6 +830,12 @@ def main(argv=None):
         print(f'Removed {count} integral directories; freed '
               f'{freed/(1024**3):.2f} GiB. Logs and CSVs retained.')
         return 0
+    if args.collect:
+        # Avoid silently writing empty tables into the wrong --out folder.
+        logs = list(out.glob('jobs/*/*/quack.log'))
+        if not logs:
+            p.error(f'--collect found no jobs/*/*/quack.log in {out}; check --out')
+        print(f'Collecting from {len(logs)} existing QuAcK logs in {out}', flush=True)
     out.mkdir(parents=True,exist_ok=True)
     (out/'.core_gw_benchmark').write_text('QuAcK core-IP benchmark output directory\n')
     cache=out/'questdb_cache' 
@@ -811,14 +876,45 @@ def main(argv=None):
                 if not args.prepare:
                     run_job(quack,job,row,method,force=args.force,dry_run=args.dry_run,
                             keep_integrals=args.keep_integrals)
-    results,orbital_rows=extract_results(rows,out,args.questdb,cache,orbital_maps)
+    print(f'Reading {len(rows)} QUESTDB reference records'
+          + (' (forced refresh)' if args.refresh_references else ''), flush=True)
+    manifest=[load_reference(r,args.questdb,cache,
+                             refresh=args.refresh_references) for r in rows]
+    reference_by_key={r['key']:r for r in manifest}
+    missing_json=[r['key'] for r in manifest if not r['questdb_json_present']]
+    fallback_fci=[r['key'] for r in manifest if r['reference_source'] != 'QUESTDB_sCI']
+    print(f'QUESTDB JSON present: {len(rows)-len(missing_json)}/{len(rows)}')
+    if missing_json:
+        print('WARNING: Missing QUESTDB JSON (paper CVS-FCI fallback): '
+              + ', '.join(missing_json), file=sys.stderr)
+    if fallback_fci:
+        print('WARNING: CVS-FCI values not provided by JSON: '
+              + ', '.join(fallback_fci), file=sys.stderr)
+    discrepancies=[r for r in manifest if r['questdb_minus_paper_eV'] is not None
+                   and abs(r['questdb_minus_paper_eV']) > 0.5]
+    if discrepancies:
+        print('WARNING: QUESTDB and paper CVS-FCI differ by >0.5 eV: '
+              + ', '.join(f"{r['key']} ({r['questdb_minus_paper_eV']:+.3f})"
+                          for r in discrepancies), file=sys.stderr)
+    results,orbital_rows=extract_results(rows,out,orbital_maps,reference_by_key)
     write_csv(out/'results.csv',results)
     write_csv(out/'orbitals.csv',orbital_rows)
     write_csv(out/'statistics.csv',summarize(results))
-    write_csv(out/'reference_manifest.csv',[load_reference(r,args.questdb,cache) for r in rows])
+    write_csv(out/'reference_manifest.csv',manifest)
+    write_csv(out/'reference_audit.csv', [
+        dict(key=r['key'], reference_source=r['reference_source'],
+             questdb_json_present=r['questdb_json_present'],
+             reference_note=r['reference_note'],
+             questdb_json_sha256=r['questdb_json_sha256'],
+             cvs_fci_eV=r['cvs_fci_eV'],
+             questdb_minus_paper_eV=r['questdb_minus_paper_eV'],
+             n_available_methods=sum(r[m] is not None for m in CC_METHODS)
+                                 + int(r['g0w0_pbeh_eV'] is not None))
+        for r in manifest])
     print(f'\nSaved {len(results)} core-IP targets in {out}/results.csv')
     print(f'Saved GW orbital tables in {out}/orbitals.csv')
     print(f'Saved method errors in {out}/statistics.csv')
+    print(f'Saved reference provenance in {out}/reference_audit.csv')
     print('Note: missing QUESTDB GW/CC data stay blank; these are not zero-valued reference results.')
     if args.all:
         print('IMPORTANT: review orbital_maps/*.json for nearly degenerate or symmetry-equivalent cores.')
