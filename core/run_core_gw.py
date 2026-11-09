@@ -41,6 +41,19 @@ RESULT_LABELS = {"g0w0": "G0W0_HF", "evgw": "evgw", "qsgw": "qsGW_SRG"}
 CC_METHODS = ("CC2", "CCSD", "CC3", "CCSDT", "CC4", "CCSDTQ")
 VALIDATION = {"ch4", "nh3", "h2o", "hf", "co_c", "co_o", "hcl"}
 
+# QUESTDB c1/c2 labels and XYZ carbon-atom ordering do not always match.
+# The values are 1-based occurrences of the element in the XYZ file (NOT
+# QuAcK orbital indices). These four entries are verified against the
+# current QUESTDB aug-cc-pCVTZ sCI references and the molecule geometries.
+# H2CCO: XYZ C1 = CH2 carbon, XYZ C2 = carbonyl carbon.
+# CH2CHF: XYZ C1 = CH2 carbon, XYZ C2 = F-substituted carbon.
+SITE_OVERRIDES = {
+    'h2cco_c1': 2,
+    'h2cco_c2': 1,
+    'c2h3f_c1': 2,
+    'c2h3f_c2': 1,
+}
+
 # CVS-FCI/ACVTZ, Tables 2 and 3 of Marie, Burth, Loos, JCTC (2026),
 # https://doi.org/10.1021/acs.jctc.6c00713 . Site suffixes are by
 # occurrence of the named element in the QUESTDB XYZ file, NOT QP energy.
@@ -664,16 +677,23 @@ def extract_results(rows, out, orbital_maps, reference_by_key):
     for row in rows:
         ref = reference_by_key[row['key']]
         mapped = orbital_maps.get(row['geometry'])
+        # ``site`` in each orbital map follows XYZ atom order. For two
+        # molecules, the updated QUESTDB reference keys use the opposite
+        # C1/C2 convention; only adjust the lookup, never the cached map.
+        matched_xyz_site = SITE_OVERRIDES.get(row['key'], row['site'])
         selected = None
         if mapped:
             matches = [a for a in mapped['assignment']
-                       if a['element'].lower()==row['element'].lower() and a['site']==row['site']]
+                       if a['element'].lower()==row['element'].lower()
+                       and a['site']==matched_xyz_site]
             if len(matches)==1:
                 selected = matches[0]['orbital']
         if selected is None and row['key'] in VALIDATION:
             selected = 2 if row['key']=='co_c' else 1
         record = dict(key=row['key'], geometry=row['geometry'], element=row['element'],
-                      site=row['site'], orbital=selected,
+                      site=row['site'], matched_xyz_site=matched_xyz_site,
+                      site_override_applied=(matched_xyz_site != row['site']),
+                      orbital=selected,
                       assignment_ambiguous=bool(mapped and mapped['ambiguous']),
                       CVS_FCI_eV=ref['cvs_fci_eV'], reference_source=ref['reference_source'],
                       questdb_json_present=ref['questdb_json_present'],
@@ -918,6 +938,8 @@ def main(argv=None):
     print('Note: missing QUESTDB GW/CC data stay blank; these are not zero-valued reference results.')
     if args.all:
         print('IMPORTANT: review orbital_maps/*.json for nearly degenerate or symmetry-equivalent cores.')
+        print('Site-label overrides applied for H2CCO and CH2CHF C1/C2; see '
+              'matched_xyz_site and site_override_applied in results.csv.')
     if args.prepare or args.dry_run:
         print('No quantum-chemistry calculations were executed.' if args.prepare else 'Dry-run complete.')
 
