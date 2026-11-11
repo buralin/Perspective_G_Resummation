@@ -1,0 +1,212 @@
+{
+ "system": "Ne_augccpvdz_fc1",
+ "basis": "aug-cc-pvdz",
+ "ncore": 1,
+ "norb": 22,
+ "nocc": 4,
+ "nmax": 11,
+ "ngrid": 61,
+ "n_block_dim": 6693283,
+ "code_sha1": "5117ccae27330a90e622696ee2ecdb8cbfa9f1e6",
+ "code_files": [
+  "sector_gf.py",
+  "sector_oracle.py",
+  "cross_block_test.py"
+ ],
+ "farm": "sector_gf_mpi.py",
+ "ranks": 8,
+ "method": "MBGF(n) of Hirata et al. PRA 109, 052220 (2024): eps + sum_{k<=n} Sigma^(k)(omega), exact lambda-Taylor coefficients (H_0 = sum of HF orbital energies) of the beta, irrep-Gamma block; principal root (largest Z) of omega = e_p(omega) in the zeroth-order bracket of that block",
+ "blocks": [
+  {
+   "level": 3,
+   "degenerate": [
+    3,
+    2,
+    1
+   ],
+   "irrep": 7,
+   "block_orbitals": [
+    3,
+    7,
+    15
+   ],
+   "ion_dim": 1408157,
+   "add_dim": 24081192,
+   "bracket_ha": [
+    -1.9305548094445755,
+    1.3592136741025087
+   ],
+   "eps_ha": -0.8530401421196051,
+   "fci_ip_ev": 21.425219302926603,
+   "fci_z": 0.9265750669650487,
+   "orders": {
+    "2": {
+     "ip_ev": 19.90406779351802,
+     "z": 0.9165956675011725,
+     "nroots": 1,
+     "minus_fci_ev": -1.5211515094085841
+    },
+    "3": {
+     "ip_ev": 22.608631162635955,
+     "z": 0.9690389013018457,
+     "nroots": 2,
+     "minus_fci_ev": 1.1834118597093506
+    },
+    "4": {
+     "ip_ev": 20.49687875011582,
+     "z": 0.8918586422094502,
+     "nroots": 1,
+     "minus_fci_ev": -0.9283405528107852
+    },
+    "5": {
+     "ip_ev": 22.43071156488126,
+     "z": 0.9968581035480578,
+     "nroots": 2,
+     "minus_fci_ev": 1.0054922619546551
+    },
+    "6": {
+     "ip_ev": 20.497589844725244,
+     "z": 0.8636125786914218,
+     "nroots": 1,
+     "minus_fci_ev": -0.9276294582013607
+    },
+    "7": {
+     "ip_ev": 22.752857097509402,
+     "z": 1.0800124291369917,
+     "nroots": 2,
+     "minus_fci_ev": 1.327637794582798
+    },
+    "8": {
+     "ip_ev": 20.22003101014554,
+     "z": 0.8189642252783604,
+     "nroots": 1,
+     "minus_fci_ev": -1.2051882927810653
+    },
+    "9": {
+     "ip_ev": 23.860095933693334,
+     "z": 1.4354364240698392,
+     "nroots": 2,
+     "minus_fci_ev": 2.4348766307667313
+    },
+    "10": {
+     "ip_ev": 19.700337809787925,
+     "z": 0.7529316794423258,
+     "nroots": 1,
+     "minus_fci_ev": -1.7248814931386802
+    },
+    "11": {
+     "ip_ev": null,
+     "z": null,
+     "nroots": 0,
+     "minus_fci_ev": null,
+     "no_real_root": true
+    }
+   },
+   "n_omega": 395,
+   "n_omega_computed": 395,
+   "g0_dev": 5.562217353372034e-13,
+   "s1_max": 3.830506447013154e-12
+  },
+  {
+   "level": 0,
+   "degenerate": [
+    0
+   ],
+   "irrep": 0,
+   "block_orbitals": [
+    0,
+    4,
+    8,
+    9,
+    16,
+    17,
+    18
+   ],
+   "ion_dim": 1407943,
+   "add_dim": 24086718,
+   "bracket_ha": [
+    -1.9248986285342264,
+    1.364869855023301
+   ],
+   "eps_ha": -1.9404208834264134,
+   "fci_ip_ev": 48.41527327444277,
+   "fci_z": 0.8759920312790762,
+   "orders": {
+    "2": {
+     "ip_ev": 47.13139517472981,
+     "z": 0.8880300238014973,
+     "nroots": 1,
+     "minus_fci_ev": -1.283878099712959
+    },
+    "3": {
+     "ip_ev": 50.36845680114363,
+     "z": 1.162175205367893,
+     "nroots": 1,
+     "minus_fci_ev": 1.9531835267008608
+    },
+    "4": {
+     "ip_ev": 47.172572629548974,
+     "z": 0.795288084419274,
+     "nroots": 1,
+     "minus_fci_ev": -1.2427006448937994
+    },
+    "5": {
+     "ip_ev": null,
+     "z": null,
+     "nroots": 0,
+     "minus_fci_ev": null,
+     "no_real_root": true
+    },
+    "6": {
+     "ip_ev": 46.62345930739169,
+     "z": 0.609989019805841,
+     "nroots": 1,
+     "minus_fci_ev": -1.7918139670510824
+    },
+    "7": {
+     "ip_ev": null,
+     "z": null,
+     "nroots": 0,
+     "minus_fci_ev": null,
+     "no_real_root": true
+    },
+    "8": {
+     "ip_ev": 45.50211648019769,
+     "z": 0.43222619047822824,
+     "nroots": 1,
+     "minus_fci_ev": -2.9131567942450776
+    },
+    "9": {
+     "ip_ev": null,
+     "z": null,
+     "nroots": 0,
+     "minus_fci_ev": null,
+     "no_real_root": true
+    },
+    "10": {
+     "ip_ev": 44.141075694498745,
+     "z": 0.3322076691286437,
+     "nroots": 1,
+     "minus_fci_ev": -4.274197579944029
+    },
+    "11": {
+     "ip_ev": null,
+     "z": null,
+     "nroots": 0,
+     "minus_fci_ev": null,
+     "no_real_root": true
+    }
+   },
+   "n_omega": 219,
+   "n_omega_computed": 219,
+   "g0_dev": 5.728750807065808e-14,
+   "s1_max": 6.263718059854039e-12
+  }
+ ],
+ "time_s": 31530.0,
+ "peak_rss_gb": 19.49,
+ "merged_from": [
+  "sector_gf_Ne_augccpvdz_fc1_n11_level3.json",
+  "sector_gf_Ne_augccpvdz_fc1_n11_level0.json"
+ ]
+}

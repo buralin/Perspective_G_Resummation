@@ -91,8 +91,8 @@ to ADC, and beyond}
 The Faddeev-decomposition of the three-particle vertex is used to derive a 
 Hermitian effective Hamiltonian of Faddeev-ADC(3) type. Besides the Parquet approximation and the use of
 a Hartree--Fock Green's function, the derivation is based on 
-two further approximations: couplings between different correlation channels as well as overlaps between different time-orderins
-are neglected. Faddeev-ADC(3) contains FLEX (first-order resolvent), ADC(2)-X (TDA limit) ADC(3) (TDA limit + first-order backward couplings)
+two further approximations: couplings between different correlation channels as well as overlaps between different time-orderings
+are neglected. Faddeev-ADC(3) contains FLEX (first-order resolvent), ADC(2)-X (TDA limit), ADC(3) (TDA limit + first-order backward couplings)
 as limiting cases. Several self-energy schemes that are derived in Hedin's scheme 
 or in the $\pp$ channel as well as PSD-completions (double counting of second-order terms aside)
 are recovered as a limiting 
@@ -396,7 +396,14 @@ G^{-1}(\bar3 1').
 \label{eq:Sigma_3}
 \end{align}
 The response function $R$ obeys a Dyson equation with the
-$\pph$-irreducible three-particle kernel $\Xi$, whose free propagator is
+$\pph$-irreducible three-particle kernel $\Xi$,
+\begin{equation}
+R=\mathcal G+\mathcal G\,\Xi\,R \;,
+\qquad
+R^{-1}=\mathcal G^{-1}-\Xi \;,
+\label{eq:R_dyson}
+\end{equation}
+whose free propagator is
 the $\pph$ propagator of three independent (dressed) lines,
 \begin{equation}
 	\label{eq:D_pph}
@@ -464,99 +471,7 @@ Fig.~\ref{fig:Faddeev_pairs}.
 
 \begin{figure*}
 \centering
-\begin{tikzpicture}[scale=0.9,every node/.style={font=\footnotesize},
-  ln/.style={thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=4pt]}}}},
-  sp/.style={thick,gray!60,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=4pt]}}}},
-  br/.style={preaction={draw,white,line width=7pt}},
-  vx/.style={line width=2.2pt},
-  blob/.style={draw,fill=gray!25,rounded corners=3pt}]
-% y positions: line 3 top, 1 middle, 2 bottom
-\def\yt{1.0}\def\ym{0.5}\def\yb{0.0}
-%------------- row (a): Faddeev kernel, Eq. (Faddeev)
-\begin{scope}[yshift=2.9cm]
-\node at (-0.9,1.3) {(a)};
-\node at (-0.2,0.5) {$\cK$}; \node at (0.45,0.5) {$=$};
-\node at (1.10,0.5) {$-\tfrac14$};
-\draw[sp] (3.30,\yt) -- (2.10,\yt);
-\draw[ln] (3.30,\ym) -- (2.10,\ym);
-\draw[ln] (3.30,\yb) -- (2.10,\yb);
-\draw[vx] (2.70,\ym) -- (2.70,\yb);
-\node[left] at (2.10,\yt) {3}; \node[left] at (2.10,\ym) {1}; \node[left] at (2.10,\yb) {2};
-\node[right] at (3.30,\yt) {$3'$}; \node[right] at (3.30,\ym) {$1'$}; \node[right] at (3.30,\yb) {$2'$};
-\node at (2.70,-0.6) {pair (12)};
-\node[gray] at (2.70,-1.0) {3 spectator};
-\node at (5.45,0.5) {$+$};
-\draw[ln] (7.20,\yt) -- (6.00,\yt);
-\draw[ln] (7.20,\ym) -- (6.00,\ym);
-\draw[sp] (7.20,\yb) -- (6.00,\yb);
-\draw[vx] (6.60,\yt) -- (6.60,\ym);
-\node at (6.60,-0.6) {pair (31)};
-\node[gray] at (6.60,-1.0) {2 spectator};
-\node at (8.85,0.5) {$+$};
-\draw[ln] (10.60,\yt) -- (9.40,\yt);
-\draw[ln] (10.60,\yb) -- (9.40,\yb);
-\draw[vx] (10.00,\yt) -- (10.00,\yb);
-\draw[sp,br] (10.60,\ym) -- (9.40,\ym);
-\node at (10.00,-0.6) {pair (32)};
-\node[gray] at (10.00,-1.0) {1 spectator};
-\end{scope}
-%------------- row (b): Dyson equation
-\node at (-0.9,1.3) {(b)};
-
-%------------- R
-\begin{scope}[xshift=0cm]
-\draw[ln] (1.2,\yt) -- (-0.4,\yt); \draw[ln] (1.2,\ym) -- (-0.4,\ym); \draw[ln] (1.2,\yb) -- (-0.4,\yb);
-\draw[blob] (0.1,-0.2) rectangle (0.7,1.2); \node at (0.4,0.5) {$R$};
-\node[left] at (-0.4,\yt) {3}; \node[left] at (-0.4,\ym) {1}; \node[left] at (-0.4,\yb) {2};
-\node[right] at (1.2,\yt) {$3'$}; \node[right] at (1.2,\ym) {$1'$}; \node[right] at (1.2,\yb) {$2'$};
-\end{scope}
-\node at (2.0,0.5) {$=$};
-%------------- \mathcal G
-\begin{scope}[xshift=2.8cm]
-\draw[ln] (1.2,\yt) -- (0,\yt); \draw[ln] (1.2,\ym) -- (0,\ym); \draw[ln] (1.2,\yb) -- (0,\yb);
-\node at (0.6,-0.6) {$\mathcal G$};
-\end{scope}
-\node at (4.4,0.5) {$+$};
-%------------- V_alpha R
-\begin{scope}[xshift=5.0cm]
-\draw[sp] (1.0,\yt) -- (0,\yt);
-\draw[thick] (2.0,\yt) -- (1.6,\yt);
-\draw[ln] (1.0,\ym) -- (0,\ym);
-\draw[thick] (2.0,\ym) -- (1.6,\ym);
-\draw[ln] (1.0,\yb) -- (0,\yb);
-\draw[thick] (2.0,\yb) -- (1.6,\yb);
-\draw[vx] (0.45,\ym) -- (0.45,\yb);
-\draw[blob] (1.0,-0.2) rectangle (1.6,1.2); \node at (1.3,0.5) {$R$};
-\node at (0.8,-0.6) {pair (12)};
-\node[gray] at (0.8,-1.0) {3 spectator};
-\end{scope}
-\node at (7.4,0.5) {$+$};
-\begin{scope}[xshift=8.0cm]
-\draw[ln] (1.0,\yt) -- (0,\yt);
-\draw[thick] (2.0,\yt) -- (1.6,\yt);
-\draw[ln] (1.0,\ym) -- (0,\ym);
-\draw[thick] (2.0,\ym) -- (1.6,\ym);
-\draw[sp] (1.0,\yb) -- (0,\yb);
-\draw[thick] (2.0,\yb) -- (1.6,\yb);
-\draw[vx] (0.45,\yt) -- (0.45,\ym);
-\draw[blob] (1.0,-0.2) rectangle (1.6,1.2); \node at (1.3,0.5) {$R$};
-\node at (0.8,-0.6) {pair (31)};
-\node[gray] at (0.8,-1.0) {2 spectator};
-\end{scope}
-\node at (10.4,0.5) {$+$};
-\begin{scope}[xshift=11.0cm]
-\draw[ln] (1.0,\yt) -- (0,\yt);
-\draw[thick] (2.0,\yt) -- (1.6,\yt);
-\draw[thick] (2.0,\ym) -- (1.6,\ym);
-\draw[ln] (1.0,\yb) -- (0,\yb);
-\draw[thick] (2.0,\yb) -- (1.6,\yb);
-\draw[vx] (0.45,\yt) -- (0.45,\yb);
-\draw[sp,br] (1.0,\ym) -- (0,\ym);
-\draw[blob] (1.0,-0.2) rectangle (1.6,1.2); \node at (1.3,0.5) {$R$};
-\node at (0.8,-0.6) {pair (32)};
-\node[gray] at (0.8,-1.0) {1 spectator};
-\end{scope}
-\end{tikzpicture}
+\includegraphics{figures/faddeev_pairs.pdf}
 \caption{(a) The Faddeev kernel, Eqs.~\eqref{eq:K_pairs} and
 \eqref{eq:pair_ops}. Lines run
 from the second triple on the right to the first triple on the left.
@@ -632,25 +547,25 @@ R_\alpha
 \Big(\mathcal G+\sum_{\beta\neq\alpha}R_\beta\Big) \;,
 \end{aligned}
 \end{equation}
-where $(\bI-\cK_\alpha\big[\Gamma_\alpha\big])^{-1}\cK_\alpha\big[\Gamma_\alpha\big]$ sums all
-consecutive interactions in the pair $\alpha$.
-
-Acting on $\mathcal G$, it gives all
+where 
+\begin{equation}
+	\label{eq:V_to_F}
+	\begin{aligned}
+\cK_\alpha[F] = &
+\big(\bI-\cK_\alpha\big[\Gamma_\alpha\big]\big)^{-1}\cK_\alpha\big[\Gamma_\alpha\big]
+\\ 
+= & 
+\cK_\alpha\big[\Gamma_\alpha\big]+\cK_\alpha\big[\Gamma_\alpha\big]\cK_\alpha[F]
+	\end{aligned}
+\end{equation}
+sums all consecutive interactions in the pair $\alpha$. Acting on $\mathcal G$,
+it gives all
 diagrams of $R$ in which only the pair $\alpha$ interacts, while the
 third line remains a free spectator. By the definition of $\Gamma_\alpha$,
-this is the full two-body scattering of the pair,
-$\cK_\alpha[F]=\cK_\alpha\big[\Gamma_\alpha\big]+\cK_\alpha\big[\Gamma_\alpha\big]\cK_\alpha[F]$,
-so that
-\begin{equation}
-\big(\bI-\cK_\alpha\big[\Gamma_\alpha\big]\big)^{-1}\cK_\alpha\big[\Gamma_\alpha\big]
-=
-\cK_\alpha[F] \;.
-\label{eq:V_to_F}
-\end{equation}
-Inserting
-Eq.~\eqref{eq:V_to_F} into
-Eq.~\eqref{eq:Faddeev_rearr} gives the Faddeev
-equations\cite{Barbieri2001,Degroote2011}
+this is the full two-body scattering of the pair.
+Eq.~\eqref{eq:Faddeev_rearr} are the Faddeev
+equations,\cite{Barbieri2001,Degroote2011}
+that, with Eq.~\eqref{eq:V_to_F} can be written compactly as
 \begin{equation}
 \label{eq:Faddeev_F}
 R_\alpha
@@ -658,8 +573,9 @@ R_\alpha
 \cK_\alpha[F]\Big(\mathcal G+\sum_{\beta\neq\alpha}R_\beta\Big) \;.
 \end{equation}
 Iterating Eq.~\eqref{eq:Faddeev_F}, \ie\ inserting the $R_\beta$ on
-the right-hand side again and again, gives the Faddeev series
-\cite{watson1953multiple,Faddeev1961,Barbieri2001}
+the right-hand side again and again for each channel $\alpha$ and 
+inserting the result into the first line of Eq.~\eqref{eq:Faddeev_rearr}
+gives the Faddeev series in the form\cite{watson1953multiple,Faddeev1961,Barbieri2001}
 \begin{equation}
 \label{eq:Faddeev_series}
 \begin{aligned}
@@ -681,47 +597,7 @@ derived in Sec.~\ref{sec:parquet_Heff}.
 
 \begin{figure*}
 \centering
-\begin{tikzpicture}[scale=0.9,every node/.style={font=\footnotesize},
-  ln/.style={thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=4pt]}}}},
-  pl/.style={thick},
-  br/.style={preaction={draw,white,line width=7pt}},
-  vx/.style={line width=2.2pt},
-  Fb/.style={draw,fill=red!15,rounded corners=4pt}]
-\def\yt{1.0}\def\ym{0.5}\def\yb{0.0}
-%------------- row: V12 V12 V31 V32 V32 \mathcal G
-\begin{scope}
-\draw[ln] (6.6,\yt) -- (-0.3,\yt); \draw[ln] (6.6,\yb) -- (-0.3,\yb);
-% vertices at x = 0.4 (12), 1.4 (12), 2.6 (31), 3.8 (32), 4.8 (32)
-\draw[vx] (0.4,\yb) -- (0.4,\ym);
-\draw[vx] (1.4,\yb) -- (1.4,\ym);
-\draw[vx] (2.6,\ym) -- (2.6,\yt);
-\draw[vx] (3.8,\yb) -- (3.8,\yt);
-\draw[vx] (4.8,\yb) -- (4.8,\yt);
-\draw[ln,br] (6.6,\ym) -- (-0.3,\ym);
-\draw[vx] (2.6,\ym) -- (2.6,\yt);
-\node[left] at (-0.3,\yt) {3}; \node[left] at (-0.3,\ym) {1}; \node[left] at (-0.3,\yb) {2};
-\node at (0.4,-0.4) {$\Gamma_{\pp}$}; \node at (1.4,-0.4) {$\Gamma_{\pp}$};
-\node at (2.6,-0.4) {$\Gamma_{\eh}$}; \node at (3.8,-0.4) {$\Gamma_{\teh}$};
-\node at (4.8,-0.4) {$\Gamma_{\teh}$}; \node at (5.9,-0.4) {$\mathcal G$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (0.1,-0.7) -- (1.7,-0.7) node[midway,below=4pt] {$\subset\cK_{\pp}[F]$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (2.3,-0.7) -- (2.9,-0.7) node[midway,below=4pt] {$\subset\cK_{\eh}[F]$};
-\draw[decorate,decoration={brace,mirror,amplitude=4pt}] (3.5,-0.7) -- (5.1,-0.7) node[midway,below=4pt] {$\subset\cK_{\teh}[F]$};
-\end{scope}
-\node at (7.4,0.5) {$\subset$};
-%------------- row: K12[F] K31[F] K32[F] \mathcal G
-\begin{scope}[xshift=8.4cm]
-\draw[ln] (5.2,\yt) -- (-0.3,\yt); \draw[ln] (5.2,\yb) -- (-0.3,\yb);
-\draw[Fb] (0.2,-0.12) rectangle (1.0,0.62); \node at (0.6,0.25) {$F$};
-\draw[Fb] (1.8,0.38) rectangle (2.6,1.12); \node at (2.2,0.75) {$F$};
-\draw[Fb] (3.4,-0.12) rectangle (4.2,1.12);
-\draw[ln,br] (5.2,\ym) -- (-0.3,\ym);
-\draw[Fb] (1.8,0.38) rectangle (2.6,1.12); \node at (2.2,0.75) {$F$};
-\draw[Fb] (0.2,-0.12) rectangle (1.0,0.62); \node at (0.6,0.25) {$F$};
-\node at (3.8,0.25) {$F$};
-\node at (0.6,-0.4) {$\cK_{\pp}[F]$}; \node at (2.2,-0.4) {$\cK_{\eh}[F]$};
-\node at (3.8,-0.4) {$\cK_{\teh}[F]$}; \node at (4.8,-0.4) {$\mathcal G$};
-\end{scope}
-\end{tikzpicture}
+\includegraphics{figures/faddeev_runs.pdf}
 \caption{Regrouping of the iterated Eq.~\eqref{eq:Dyson_pairs} into
 the Faddeev series. Left: one term of the iteration, a sequence of
 pair vertices $\cK_\alpha\big[\Gamma_\alpha\big]$ (thick bars). Right: each sequence of
@@ -1165,51 +1041,7 @@ $\pph$ cut, the factor $\mathcal G^{-1}$ in Eq.~\eqref{eq:R_oc_omega}.
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[scale=0.7,every node/.style={font=\footnotesize},
-  ln/.style={thick,postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Stealth[length=5pt]}}}},
-  ia/.style={dashed,thick},
-  dot/.style={circle,fill,inner sep=1.1pt}]
-%=================== (a) rung between the vertices
-\begin{scope}
-\node at (-1.3,3.3) {(a)};
-\coordinate (A) at (0,0); \coordinate (B) at (1.4,0);
-\coordinate (E) at (0,1.3); \coordinate (F) at (1.4,1.3);
-\coordinate (C) at (0,2.6); \coordinate (D) at (1.4,2.6);
-\draw[ia] (A) -- (B); \draw[ia] (E) -- (F); \draw[ia] (C) -- (D);
-\draw[ln] (-0.6,0) -- (A) node[pos=0.0,left] {$q$};
-\draw[ln] (A) -- (E) node[pos=0.25,left] {$a$};
-\draw[ln] (B) -- (F) node[midway,left] {$b$};
-\draw[ln] (E) -- (C) node[midway,left] {$c$};
-\draw[ln] (F) -- (D) node[midway,left] {$d$};
-\draw[ln] (D) to[bend left=50] node[midway,right] {$i$} (B);
-\draw[ln] (C) -- (-0.6,2.6) node[pos=1.0,left] {$p$};
-\foreach \P in {A,B,C,D,E,F} \node[dot] at (\P) {};
-\node[right] at (2.3,0) {$t_{1'}$};
-\node[right] at (2.3,1.3) {$\tau$};
-\node[right] at (2.3,2.6) {$t_1$};
-\node[align=center] at (0.7,-1.2) {$U^{(1)}\mathcal G\,C\,\mathcal G\,U^{(1)\dagger}$};
-\end{scope}
-%=================== (b) rung after t1: reversed pair at t1
-\begin{scope}[xshift=4.6cm]
-\node at (-0.9,3.3) {(b)};
-\coordinate (A) at (0,0); \coordinate (B) at (3,0);
-\coordinate (C) at (1.35,1.3); \coordinate (D) at (2.15,1.3);
-\coordinate (E) at (0,2.6); \coordinate (F) at (3,2.6);
-\draw[ia] (A) -- (B); \draw[ia] (C) -- (D); \draw[ia] (E) -- (F);
-\draw[ln] (-0.6,0) -- (A) node[pos=0.0,left] {$q$};
-\draw[ln] (A) -- (E) node[pos=0.25,left] {$a$};
-\draw[ln] (B) -- (F) node[midway,right] {$b$};
-\draw[ln] (E) -- (C) node[midway,above right] {$k$};
-\draw[ln] (F) -- (D) node[midway,above left] {$l$};
-\draw[ln] (D) -- (B) node[midway,right] {$i$};
-\draw[ln] (C) -- (0.8,1.3) node[left] {$p$};
-\foreach \P in {A,B,C,D,E,F} \node[dot] at (\P) {};
-\node[right] at (3.5,0) {$t_{1'}$};
-\node[right] at (3.5,1.3) {$t_1$};
-\node[right] at (3.5,2.6) {$\tau$};
-\node[align=center] at (1.5,-1.2) {$U^{(2)}\mathcal G\,U^{(1)\dagger}$};
-\end{scope}
-\end{tikzpicture}
+\includegraphics{figures/reversed_pair.pdf}
 \caption{Time-ordered third-order self-energy diagrams with one $\pp$
 rung (block II, time upward, dashed lines: bare interactions, external
 legs drawn horizontally, so that each horizontal cut between two
@@ -2437,19 +2269,62 @@ goes beyond the Faddeev-ADC(3) configuration space and adds
 3p2h configurations that would show up in ADC(4) and ADC(5). It also 
 correlates the 5-particle block, terms that would otherwise only show up in 
 ADC(5). Of course, since they solve the RPA problem, their scheme goes beyond 
-ADC, but it is reasoanble to assume that their self-energy is obtained in 
+ADC, but it is reasonable to assume that their self-energy is obtained in 
 Faddeev-ADC(5).
 
-Also PSD-$G3W2$ does double counts a small fraction of the second-order contribution.
+Also PSD-$G3W2$ double counts a small fraction of the second-order contribution.
 It contains $\frac{17}{16}\Sigma^{(2)}_{\rm D}+\Sigma^{(2)}_{\rm X}$ in total.
 All of the recently introduced approaches\cite{Bruneval2025,Pavlyukh2026,Marie2026} to 
-make self-energies derived in Hedins method PSD seem to share this shortcoming, 
+make self-energies derived in Hedin's method PSD seem to share this shortcoming, 
 and it is unclear how it can be overcome. It is also reasonable to assume that the PSD
-completions of higher-order self-energie derived in Hedins equations would 
-also double count contriburions at higher orders. As already pointed out, 
-the double cunted contributions can of course be subtracted, but this would make the 
+completions of higher-order self-energies derived in Hedin's equations would 
+also double count contributions at higher orders. As already pointed out, 
+the double counted contributions can of course be subtracted, but this would make the 
 self-energies non-PSD. For this reason, the current PSD-completions do not seem 
-to consitute a path toward systemarically improvable self-energy approximations 
+to constitute a path toward systematically improvable self-energy approximations.
+
+\paragraph{Why PSD completions overcount.}
+For real $\omega$ below all poles of a Hermitian self-energy, the resolvent
+\begin{equation}
+R(\omega)=(\omega-M)^{-1}
+\end{equation}
+is negative definite (above all poles, positive definite), so that the
+self-energy is a Gram form,
+\begin{equation}
+\Sigma_{pp}(\omega)=\langle U_p,R\,U_p\rangle .
+\end{equation}
+A PSD completion represents a term $T$ of a non-PSD target self-energy as a
+cross term, by splitting a coupling into two parts,
+\begin{equation}
+U_p=a+b ,
+\end{equation}
+such that
+\begin{equation}
+T=2\,\mathrm{Re}\,\langle a,R\,b\rangle .
+\end{equation}
+The Hermitian form then delivers the two squares as well, and by the
+Cauchy--Schwarz inequality
+\begin{equation}
+\big|\langle a,R\,a\rangle+\langle b,R\,b\rangle\big|\geq|T| .
+\end{equation}
+The square $\langle a,R\,a\rangle$ is usually a term of the target. The square
+$\langle b,R\,b\rangle$ is not. It cannot vanish, since $T$ needs $b\neq0$,
+and it cannot cancel against the cross terms, since it is itself of one sign.
+Completing the square to represent $2ab$ always adds $b^2$. This is harmless
+only if $b^2$ is of higher order than the truncation. In ADC it is: the
+partners of the cross terms are $U^{(2)}$, whose squares are of fourth order,
+while the squares within the truncation, $U^{(1)\dagger}g\,U^{(1)}$ including
+its first-order energy shift, are target terms with weight one. In the
+completions of self-energies derived from Hedin's equations, $b$ is of lower
+order than its explicit power of $v$, because it contains a resummed
+propagator or a small denominator. In PSD-2SOSEX, $\widetilde M$ carries
+$\eps_a-\eps_j-\Omega_n=O(v)$ and is effectively of zeroth order, so that
+$b^2$ appears already at second order: $b$ is the exchange part of the
+first-order vertex, and its square is the surplus
+$\tfrac14\Sigma^{(2)}_{\rm D}$ found above.
+Subtracting the surplus destroys positive semidefiniteness. Absorbing it
+instead requires rematching every square that falls within the truncation,
+order by order, which is the ADC construction itself.
 
 \subsection{The $\pp$ channel}
 Very similar to working in the $\eh$ channel only, it is 
@@ -2541,19 +2416,339 @@ For molecules, this replacement is motivated by the superior performance of
 $GW$-BSE over TDHF. However, due to the fact that static screening effects are usually rather weak in molecules,
 the effects on ionization potentials are minor.\cite{Forster2024,Keizer2026}
 
+\section{\label{sec:second_order}Faddeev-ADC with the second-order parquet kernel}
+Faddeev-ADC(3) resums, in every pair, the own-channel ladder of the
+first-order vertex $\Gamma^{(1)}$, Eq.~\eqref{eq:BSE_oc}. It is exact
+through third order in $v$. In this section, we include
+the second-order parquet kernel in the pairs and repeat the steps of
+Sec.~\ref{sec:parquet_Heff}. The main difference is that the second-order 
+Faddeev kernel is frequency-dependent, which affects the expressions 
+of the three-particle propagators. The frequency-dependence opens five-line 
+cuts, and the resulting effective Hamiltonian of Faddeev-ADC(4) must be extended
+by 3p2h/3h2p manifolds, in the same way as ADC(4). We will also see that recombining the
+three pairs as in Faddeev-ADC(3) leads to an effective
+Hamiltonian with a non-positive metric, which leads to spurious poles. 
+We then show that, upon addition of certain terms,
+a Hermitian effective Hamiltonian with a positive metric is again obtained. 
+The cost of the method is very similar to the one of ADC(4).
+
+\subsection{Second-order pair vertices}
+Inserting
+Eqs.~\eqref{eq:crossing_Lambda} and \eqref{eq:Phi2_explicit} into
+Eq.~\eqref{eq:parquet_channels}, we obtain
+\begin{equation}
+\begin{aligned}
+\Gamma_{\pp}
+={}&
+\Gamma^{(1)}+\Phi^{\eh,(2)}+\Phi^{\teh,(2)} \;,
+\\
+\Gamma_{\eh}
+={}&
+\Gamma^{(1)}+\Phi^{\pp,(2)}+\Phi^{\teh,(2)} \;,
+\end{aligned}
+\label{eq:Gamma_alpha_2}
+\end{equation}
+and $\Gamma_{\teh}$ follows from $\Gamma_{\eh}$ by crossing.
+Each pair thus receives the second-order vertices
+of the two other channels. The own-channel BSEs,
+Eq.~\eqref{eq:BSE_oc}, become
+\begin{equation}
+\begin{aligned}
+F^{\pp}_{\rm oc}
+={}&
+\Gamma_{\pp}-\frac12\,\Gamma_{\pp}\circ_{\pp}F^{\pp}_{\rm oc} \;,
+\\
+F^{\eh}_{\rm oc}
+={}&
+\Gamma_{\eh}+\Gamma_{\eh}\circ_{\eh}F^{\eh}_{\rm oc} \;,
+\end{aligned}
+\label{eq:BSE_oc_2}
+\end{equation}
+which define, through Eq.~\eqref{eq:F_alpha}, the series
+Eq.~\eqref{eq:Faddeev_series_oc} with a second-order kernel. The
+second-order vertices of Eq.~\eqref{eq:Gamma_alpha_2} are the functional
+derivative of the second-order self-energy,\cite{MarieLoos2025} and we use
+them together with lines that contain $\Sigma^{(2)}$ in $\mathcal G$,
+Eq.~\eqref{eq:D_pph}.
+Fig.~\ref{fig:pair_vertices_2} shows both equations.
+
+\begin{figure}[hbt!]
+\centering
+\includegraphics{figures/pair_vertices_2.pdf}
+\caption{The second-order pair vertices, Eq.~\eqref{eq:Gamma_alpha_2}, and
+the own-channel BSEs, Eq.~\eqref{eq:BSE_oc_2}. 
+In the $\pp$ BSE, consecutive vertices are joined by two lines in the same
+direction, in the $\eh$ BSE by an $\eh$ pair.}
+\label{fig:pair_vertices_2}
+\end{figure}
+
+In contrast to $\Gamma^{(1)}$, the vertices in Eq.~\eqref{eq:Gamma_alpha_2}
+are frequency dependent. As shown in Figure~\ref{fig:pair_vertices_2},
+$\Phi^{\eh,(2)}$ contains one $\eh$ bubble
+between two bare interactions, and $\Phi^{\pp,(2)}$ one $\pp$ or $\hh$ pair.
+When both interactions lie between $t_{1'}$ and $t_1$, the horizontal
+cut between them cuts through five lines in a self-energy diagram.
+In block II, these are $\ppphh$ configurations
+$J=(cde;kl)$, $c<d<e$, $k<l$, with the free energies
+\begin{equation}
+K_{3,J}
+=
+\eps_c+\eps_d+\eps_e-\eps_k-\eps_l \;.
+\label{eq:K3}
+\end{equation}
+Block I has the corresponding $\hhhpp$ configurations.
+
+A five-line configuration between two interactions is not a $\pph$ cut.
+It therefore belongs to the $\pph$-irreducible kernel $\Xi$ of the Dyson
+equation $R^{-1}=\mathcal G^{-1}-\Xi$, Eq.~\eqref{eq:R_dyson}, and not to
+the pair propagators $Q_\alpha$ of Eq.~\eqref{eq:Q_alpha_inverse}, which
+stay as they are. As a consequence, $R^{-1}$ is no longer linear in
+$\omega$, as in Eq.~\eqref{eq:depth1_amplitudes}, but has poles at the
+five-line energies.
+In the same way as the $R_{\rm oc}$ of Eq.~\eqref{eq:depth1_amplitudes}
+can be written as the inverse of an
+effective 3-particle Hamiltonian, $R$ can be written as the inverse of an
+effective, dynamical 3-particle Hamiltonian
+\begin{equation}
+	\label{eq:Q_alpha_Schur}
+R^{-1}
+= A-W D^{-1}W^\dagger \;,
+\end{equation}
+that is the fold of the
+effective, static 5-particle Hamiltonian,
+\begin{equation}
+\begin{pmatrix}A&W\\W^\dagger&D\end{pmatrix}
+=
+\omega\mathbf N-\mathbf H \;.
+\label{eq:pencil_F4}
+\end{equation}
+Here, $A=\omega\mathcal N-\mathcal H-\Delta C$ is the Faddeev-ADC(3) result,
+Eq.~\eqref{eq:depth1_amplitudes}, together with the part $\Delta C$ of the
+line dressing without a five-line pole.
+It is obtained as
+\begin{equation}
+	\label{eq:Delta_C}
+\Delta C^{\rm II}_{abi,cdj}
+=
+\delta_{ij}\,\hat P^-_{ab}\hat P^-_{cd}\,\delta_{bd}\,\sigma^<_{ac}
+-\delta_{ac}\delta_{bd}\,\sigma^>_{ij} \;,
+\end{equation}
+where 
+\begin{equation}
+\sigma^\lessgtr_{pq}=
+\frac12[\Sigma^\lessgtr_{pq}(\eps_p)+\Sigma^\lessgtr_{pq}(\eps_q)]
+\end{equation}
+Is the quasiparticelized GF2 self-energy.
+\begin{equation}
+\begin{aligned}
+\Sigma^{<}_{pq}(z)
+={}&
+\frac12\sum_{klc}\frac{\mel{pc}{}{kl}\mel{kl}{}{qc}}{z+\eps_c-\eps_k-\eps_l} \;,
+\\
+\Sigma^{>}_{pq}(z)
+={}&
+\frac12\sum_{kcd}\frac{\mel{pk}{}{cd}\mel{cd}{}{qk}}{z+\eps_k-\eps_c-\eps_d} \;.
+\end{aligned}
+\nonumber
+\end{equation}
+the analogous expression is valid for block I.
+
+
+
+It remains to specify the structure of the 5-particle block and its couplings
+to the three-particle states.
+$D$ is the diagonal matrix of the 5-line states,
+\begin{equation}
+	D = \omega-K_3 \;,
+	\qquad
+	\big(K_3\big)_{JJ'}=\delta_{JJ'}\,K_{3,J} \;.
+\end{equation}
+The couplings specify the possible ways how a 3-line state can be turned into a
+5-line state. This is only possible if a line emits a particle-hole pair by action
+of a Coulomb interaction. Denote a 3-line state by $P$, and a 5-line state by $J$,
+we can write the couplings as
+\begin{equation}
+	W_{PJ} = \mel{P}{\hat V}{J} \;.
+\end{equation}
+Their numerical values can be worked out by the Slater condon rules.
+With $\ket{P}=\cre{a}\cre{b}\ani{i}\ket{\Phi_0}$, $a<b$, and
+$\ket{J}=\cre{c}\cre{d}\cre{e}\ani{l}\ani{k}\ket{\Phi_0}$, $c<d<e$, $k<l$,
+the Slater--Condon rules give
+\begin{equation}
+\begin{aligned}
+\mel{P}{\hat V}{J}
+={}&
+\tfrac12\mathcal P^-_{cde}\hat P^-_{kl}
+\Big[
+\underbrace{\delta_{be}\delta_{il}\mel{ak}{}{cd}}_{e_a}
+\underbrace{-\,\delta_{ae}\delta_{il}\mel{bk}{}{cd}}_{e_b}
+\\
+&\hphantom{\tfrac12\mathcal P^-_{cde}\hat P^-_{kl}\Big[}
++\underbrace{\delta_{ad}\delta_{be}\mel{kl}{}{ci}}_{e_i}
+\Big] \;,
+\end{aligned}
+\label{eq:E3}
+\end{equation}
+where
+\begin{equation}
+\begin{aligned}
+\hat P^-_{pq} = & 1-\hat P_{pq} \;, \\
+\mathcal P^-_{pqr}
+= &
+\big(1-\hat P_{pr}-\hat P_{qr}\big)\hat P^-_{pq} \;,
+\end{aligned}
+\label{eq:antisymmetrizers}
+\end{equation}
+are the usual anti-permutation operators.
+In $e_u$, the line $u$ emits an $\eh$ pair and the two other lines of $P$
+reappear in $J$.
+
+\subsection{Positive-norm effective Hamiltonian}
+
+(block I with the line energies reversed). With Eq.~\eqref{eq:pencil_F4},
+\begin{equation}
+\Sigma^{c,{\rm II}}(\omega)
+=
+\mathbf U\big(\omega\mathbf N-\mathbf H\big)^{-1}\mathbf U^\dagger \;,
+\label{eq:Sigma_F4}
+\end{equation}
+with
+\begin{equation}
+\begin{aligned}
+\mathbf N
+={}&
+\begin{pmatrix}\mathcal N&0\\0&\bI\end{pmatrix} ,
+\qquad
+\mathbf H
+=
+\begin{pmatrix}\mathcal H+\Delta C&-W\\-W^\dagger&K_3\end{pmatrix} ,
+\\
+\mathbf U
+={}&
+\big(\mathcal U+\Delta U,\;U_3\big) \;,
+\end{aligned}
+\label{eq:HNU_F4}
+\end{equation}
+$U_3$ and $\Delta U$ are the remaining couplings of ADC(4).\cite{Schirmer1983}
+$\mathbf N>0$ whenever $\mathcal N>0$, and
+\begin{equation}
+\begin{aligned}
+\Sigma^{c,{\rm II}}(\omega)
+={}&
+\big(\mathbf U\mathbf N^{-1/2}\big)\big(\omega-\mathbf H_{\rm eff}\big)^{-1}
+\big(\mathbf U\mathbf N^{-1/2}\big)^\dagger \;,
+\\
+\mathbf H_{\rm eff}
+={}&
+\mathbf N^{-1/2}\mathbf H\,\mathbf N^{-1/2}
+=
+\begin{pmatrix}
+H_{\rm eff}+\mathcal N^{-1/2}\Delta C\,\mathcal N^{-1/2} & -\mathcal N^{-1/2}W\\
+-W^\dagger\mathcal N^{-1/2} & K_3
+\end{pmatrix} ,
+\end{aligned}
+\label{eq:Heff_F4}
+\end{equation}
+with $H_{\rm eff}$ of Eq.~\eqref{eq:Heff_depth1}. We call this
+Faddeev-ADC(4).
+
+Faddeev-ADC(4) lifts the no-overlap approximation at the five-line cuts.
+The Faddeev recombination of the three pairs, Eq.~\eqref{eq:Faddeev_inverse},
+with the second-order kernel and $\Sigma^{(2)}$ in the lines, contains the
+line dressing and the crossed vertices of Eq.~\eqref{eq:Gamma_alpha_2}, but
+not the time orderings in which the rungs of two different pairs overlap
+across a five-line cut. Without them, its residues at the $\ppphh$ energies
+have negative eigenvalues (in a model with random antisymmetrized
+integrals, down to $-0.54$ times the largest), and, as for FLEX,
+Eq.~\eqref{eq:FLEX}, it has no Hermitian effective Hamiltonian.
+
 \section{\label{sec:numerics}Numerical results}
 
 \input{supinf_stats_table}
 
 \input{supinf_ip_table}
 
+\begin{table}[hbt!]
+\centering
+\caption{\label{tab:supinf_atz_adc4}IPs (eV) of the set of \citet{Marie2024a} in the aug-cc-pVTZ basis with the frozen core of the sCI references: sCI reference, Faddeev-ADC(4) with CCD pair amplitudes and its pole strength $Z$, and the errors with respect to sCI/aug-cc-pVTZ of Faddeev-ADC(4), diagrammatic ADC(4), ADC(3) and CCD-Faddeev-ADC(3) (all aug-cc-pVTZ, frozen core). Static self-energy (row below the header): MP3u, MP3 density, unrelaxed; MP2u, MP2 density, unrelaxed; MP2u/CCD, the MP2-unrelaxed functional on the density of the CCD amplitudes. --: no value. Statistics in Table~\ref{tab:supinf_stats_atz}.}
+\scriptsize
+\begin{tabular}{lccccccc}
+\toprule
+ & & \multicolumn{2}{c}{Faddeev-ADC(4)} & \multicolumn{4}{c}{error} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-8}
+ IP & sCI & IP & $Z$ & \makecell{Faddeev-\\ADC(4)} & ADC(4) & ADC(3) & \makecell{CCD-Faddeev-\\ADC(3)} \\
+\midrule
+static & & \multicolumn{2}{c}{MP3u} & MP3u & MP3u & MP2u & MP2u/CCD \\
+\midrule
+Ar (1) & 15.61 & 15.58 & 0.92 & $-$0.03 & $-$0.03 & +0.08 & +0.06 \\
+Ar (2) & 29.19 & 29.12 & 0.64 & $-$0.07 & +0.03 & +0.54 & +0.04 \\
+BF (1) & 11.15 & 11.42 & 0.88 & +0.27 & +0.03 & $-$0.05 & +0.17 \\
+BF (2) & 18.61 & 18.35 & 0.49 & $-$0.27 & $-$0.40 & +0.79 & +0.38 \\
+BF (3) & 20.91 & 20.10 & 0.66 & $-$0.81 & $-$0.80 & +1.77 & +1.18 \\
+BH$_3$ (1) & 13.31 & 13.34 & 0.92 & +0.03 & +0.01 & +0.00 & +0.02 \\
+BH$_3$ (2) & 18.31 & 18.35 & 0.87 & +0.04 & +0.02 & +0.01 & +0.01 \\
+BN (1) & 11.98 & 11.35 & 0.82 & $-$0.63 & $-$0.83 & +0.34 & +0.83 \\
+BN (2) & 13.73 & 13.73 & 0.57 & +0.00 & $-$0.71 & +0.19 & $-$0.24 \\
+BeO (1) & 9.97 & 8.25 & 0.74 & $-$1.72 & $-$1.95 & +1.04 & +0.41 \\
+BeO (2) & 11.06 & 8.63 & 0.74 & $-$2.42 & $-$2.73 & +1.69 & +0.82 \\
+C$_2$ (1) & 12.46 & 13.13 & 0.87 & +0.66 & +0.55 & $-$0.47 & +0.57 \\
+CH$_2$O (1) & 10.90 & 10.55 & 0.87 & $-$0.35 & $-$0.43 & +0.41 & +0.08 \\
+CH$_2$O (2) & 14.58 & 14.45 & 0.86 & $-$0.13 & $-$0.17 & +0.06 & +0.01 \\
+CH$_2$O (3) & 16.11 & 15.56 & 0.85 & $-$0.54 & $-$0.62 & +0.59 & +0.20 \\
+CH$_2$O (4) & 17.11 & 16.98 & 0.78 & $-$0.12 & $-$0.16 & +0.20 & +0.36 \\
+CH$_4$ (1) & 14.38 & 14.39 & 0.91 & +0.01 & $-$0.01 & +0.02 & $-$0.02 \\
+CH$_4$ (2) & 23.15 & 23.13 & 0.79 & $-$0.02 & $-$0.01 & +0.17 & +0.01 \\
+CO (1) & 13.93 & 14.08 & 0.87 & +0.15 & +0.10 & $-$0.03 & $-$0.17 \\
+CO (2) & 16.97 & 16.81 & 0.88 & $-$0.15 & $-$0.17 & +0.24 & +0.07 \\
+CO (3) & 19.64 & 18.92 & 0.79 & $-$0.71 & $-$0.83 & +0.85 & +0.07 \\
+CO$_2$ (1) & 13.73 & 13.61 & 0.87 & $-$0.13 & $-$0.18 & +0.23 & $-$0.06 \\
+CO$_2$ (2) & 17.51 & 17.29 & 0.79 & $-$0.22 & $-$0.29 & +0.44 & $-$0.09 \\
+CO$_2$ (3) & 18.00 & 17.43 & 0.84 & $-$0.56 & $-$0.69 & +0.73 & +0.21 \\
+CO$_2$ (4) & 19.25 & 18.56 & 0.81 & $-$0.69 & $-$0.83 & +0.90 & +0.28 \\
+CS (1) & 11.30 & 11.56 & 0.80 & +0.26 & +0.18 & +0.01 & $-$0.44 \\
+CS (2) & 12.88 & 13.03 & 0.88 & +0.15 & +0.17 & $-$0.15 & +0.03 \\
+CS (3) & 17.92 & 17.83 & 0.46 & $-$0.09 & +0.04 & +0.20 & $-$0.39 \\
+F$_2$ (1) & 15.73 & 15.46 & 0.87 & $-$0.27 & $-$0.36 & +0.44 & $-$0.14 \\
+F$_2$ (2) & 18.87 & 18.54 & 0.81 & $-$0.33 & $-$0.42 & +0.50 & $-$0.76 \\
+F$_2$ (3) & 21.10 & 21.11 & 0.86 & +0.01 & $-$0.13 & +0.11 & +0.76 \\
+H$_2$O (1) & 12.68 & 12.42 & 0.89 & $-$0.26 & $-$0.32 & +0.42 & +0.09 \\
+H$_2$O (2) & 14.91 & 14.64 & 0.89 & $-$0.28 & $-$0.34 & +0.42 & +0.12 \\
+H$_2$O (3) & 19.02 & 18.80 & 0.90 & $-$0.23 & $-$0.29 & +0.30 & +0.15 \\
+H$_2$S (1) & 10.39 & 10.40 & 0.91 & +0.01 & $-$0.01 & +0.01 & +0.02 \\
+H$_2$S (2) & 13.41 & 13.42 & 0.89 & +0.00 & $-$0.01 & +0.03 & +0.04 \\
+H$_2$S (3) & 15.63 & 15.63 & 0.89 & +0.01 & $-$0.00 & +0.04 & +0.04 \\
+HCl (1) & 12.68 & 12.65 & 0.91 & $-$0.03 & $-$0.03 & +0.05 & +0.04 \\
+HCl (2) & 16.66 & 16.64 & 0.90 & $-$0.01 & $-$0.02 & +0.07 & +0.07 \\
+HF (1) & 16.15 & 15.67 & 0.90 & $-$0.48 & $-$0.55 & +0.67 & +0.29 \\
+HF (2) & 20.05 & 19.66 & 0.90 & $-$0.39 & $-$0.46 & +0.52 & +0.26 \\
+LiCl (1) & 9.90 & 9.80 & 0.89 & $-$0.10 & $-$0.10 & +0.13 & +0.08 \\
+LiCl (2) & 10.58 & 10.46 & 0.89 & $-$0.12 & $-$0.12 & +0.15 & +0.09 \\
+LiF (1) & 11.47 & 10.48 & 0.86 & $-$0.99 & $-$1.11 & +1.01 & +0.53 \\
+LiF (2) & 11.93 & 10.75 & 0.85 & $-$1.18 & $-$1.32 & +1.14 & +0.63 \\
+N$_2$ (1) & 15.49 & 15.59 & 0.89 & +0.10 & +0.03 & +0.17 & $-$0.23 \\
+N$_2$ (2) & 16.93 & 17.06 & 0.90 & +0.13 & +0.14 & $-$0.23 & +0.17 \\
+N$_2$ (3) & 18.69 & 18.79 & 0.80 & +0.10 & +0.01 & +0.36 & $-$0.39 \\
+NH$_3$ (1) & 10.90 & 10.85 & 0.90 & $-$0.05 & $-$0.08 & +0.16 & $-$0.06 \\
+NH$_3$ (2) & 16.60 & 16.53 & 0.90 & $-$0.07 & $-$0.11 & +0.13 & +0.04 \\
+NH$_3$ (3) & 26.78 & 27.14 & 0.27 & +0.36 & +0.31 & +0.72 & +0.11 \\
+Ne (1) & 21.46 & 21.05 & 0.92 & $-$0.41 & $-$0.45 & +0.63 & +0.34 \\
+Ne (2) & 48.31 & 47.68 & 0.85 & $-$0.62 & $-$0.67 & +1.02 & +0.63 \\
+PH$_3$ (1) & 10.60 & 10.65 & 0.90 & +0.05 & +0.01 & $-$0.01 & +0.04 \\
+PH$_3$ (2) & 13.74 & 13.76 & 0.89 & +0.02 & +0.00 & +0.01 & +0.01 \\
+PH$_3$ (3) & 19.51 & 19.48 & 0.41 & $-$0.03 & +0.10 & +0.02 & $-$0.59 \\
+SiH$_4$ (1) & 12.79 & 12.83 & 0.90 & +0.04 & +0.02 & +0.02 & +0.02 \\
+SiH$_4$ (2) & 18.24 & 18.30 & 0.76 & +0.06 & +0.06 & +0.04 & $-$0.03 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{figures/supinf_ccd_faddeev.pdf}
 \caption{\label{fig:supinf_ccd_violins}Errors of the IPs with respect to sCI
-(aug-cc-pVQZ) for ADC(3), CCD-ADC(3), EN-ADC(3), CCD-Faddeev-ADC(3) and
-CCSD, over the 48 states of the first block of
-Table~\ref{tab:supinf_stats}.}
+(aug-cc-pVTZ, frozen core) for ADC(3), CCD-ADC(3), EN-ADC(3), CCD-Faddeev-ADC(3) and
+CCSD, over all 58 states with an sCI value
+(second block of Table~\ref{tab:supinf_stats}).}
 \end{figure}
 
 Most of these approximations have never been evaluated for the same set of 
@@ -3866,6 +4061,143 @@ U^{{\rm I},(2)}_{p;ija}
 With Eqs.~\eqref{eq:C_II}--\eqref{eq:U2_I} and $\Sigma(\infty)$, all
 third-order terms are reproduced by Eq.~\eqref{eq:ADC3}, which
 completes ADC(3).
+
+\section{\label{sec:eom_ip_ccsd}The EOM-IP-CCSD effective Hamiltonian}
+For the comparison with the effective Hamiltonian of
+Eqs.~\eqref{eq:Heff_depth1}--\eqref{eq:h_pair}, we collect the
+similarity-transformed Hamiltonian of EOM-IP-CCSD in the $\h\oplus\hhp$
+space.\cite{Stanton1994,Nooijen1995} We use spin orbitals, the antisymmetrized
+integrals $\mel{pq}{}{rs}$, the Fock matrix $f_{pq}$ with its off-diagonal
+elements (so that the expressions also hold for non-canonical and Brueckner
+references), the converged amplitudes $t_i^a$ and $t_{ij}^{ab}$, and sum over
+repeated indices. The indices $i,j,m,n$ are occupied, $a,b,e,f$ virtual.
+
+With $T=T_1+T_2$, the effective Hamiltonian is
+\begin{equation}
+\bar H=e^{-T}\hat H\,e^{T}-E_{\rm CC} \;,
+\nonumber
+\end{equation}
+which is diagonalized in the space of the ionization operators
+\begin{equation}
+\hat R=\sum_k r_k\,\ani{k}+\sum_{k<l}\sum_{b} r_{klb}\,\cre{b}\ani{l}\ani{k} \;.
+\nonumber
+\end{equation}
+Projected onto $i<j$ and $k<l$, the eigenvalue problem reads
+\begin{equation}
+\begin{pmatrix}
+\bar H^{\h,\h} & \bar H^{\h,\hhp}
+\\
+\bar H^{\hhp,\h} & \bar H^{\hhp,\hhp}
+\end{pmatrix}
+\begin{pmatrix} r_{\h} \\ r_{\hhp} \end{pmatrix}
+=\omega
+\begin{pmatrix} r_{\h} \\ r_{\hhp} \end{pmatrix} ,
+\label{eq:eom_Hbar}
+\end{equation}
+with $\omega=E^{N-1}_k-E^{N}_{\rm CC}$. In contrast to
+Eq.~\eqref{eq:Heff_depth1}, $\bar H$ is not Hermitian, and its left and
+right eigenvectors differ. The matrix elements of the four blocks are
+\begin{align}
+\bar H_{i,k}
+={}&
+-F_{ki} \;,
+\nonumber\\
+\bar H_{i,klb}
+={}&
+W_{klib}
++\hat P^-_{kl}\,\delta_{il}\,F_{kb} \;,
+\nonumber\\
+\bar H_{ija,k}
+={}&
+W_{kaij} \;,
+\nonumber\\
+\bar H_{ija,klb}
+={}&
+\delta_{ik}\delta_{jl}\,F_{ab}
+-\delta_{ab}\,\hat P^-_{ij}\hat P^-_{kl}\,\delta_{jl}\,F_{ki}
++\delta_{ab}\,W_{klij}
+\nonumber\\
+&+\hat P^-_{ij}\hat P^-_{kl}\,\delta_{jl}\,W_{kabi}
++\sum_e t_{ij}^{ae}\,\mel{kl}{}{eb} \;,
+\label{eq:eom_blocks}
+\end{align}
+with $\hat P^-_{kl}=1-\hat P_{kl}$ as in Eq.~\eqref{eq:HN_explicit}.
+In the $\hhp$--$\hhp$ block, $F_{ab}$ and $F_{ki}$ dress the three lines,
+$W_{klij}$ and $W_{kabi}$ are the dressed hole--hole and electron--hole
+interactions, and the last term is a separable three-body term, which
+annihilates the pair $kl$ with the particle $b$ and recreates $ij$ and $a$
+through one $T_2$. For $T=0$ and canonical orbitals, $\bar H_{i,k}=-\eps_i\delta_{ik}$,
+the couplings are the bare $\mel{kl}{}{ib}$ and $\mel{ka}{}{ij}$, and the
+$\hhp$--$\hhp$ block is $K^{\rm I}+C^{\rm I}$ of Eq.~\eqref{eq:C_I};
+its eigenvalues are the poles of Eq.~\eqref{eq:ADC3} at
+$\omega=-(K^{\rm I}+C^{\rm I})$, since $\omega$ is an ionization energy
+here.
+
+The intermediates are
+\begin{align}
+\tau_{ij}^{ab}={}&t_{ij}^{ab}+t_i^a t_j^b-t_i^b t_j^a \;,
+\nonumber\\
+\tilde\tau_{ij}^{ab}={}&t_{ij}^{ab}+\frac12\big(t_i^a t_j^b-t_i^b t_j^a\big) \;,
+\nonumber\\
+F_{me}={}&f_{me}+t_n^f\,\mel{mn}{}{ef} \;,
+\nonumber\\
+F_{mi}={}&f_{mi}+\frac12 f_{me}t_i^e+t_n^e\,\mel{mn}{}{ie}
+\nonumber\\
+&+\frac12\,\tilde\tau_{in}^{ef}\,\mel{mn}{}{ef}
++\frac12\,t_i^e\,F_{me} \;,
+\nonumber\\
+F_{ae}={}&f_{ae}-\frac12 f_{me}t_m^a+t_m^f\,\mel{am}{}{ef}
+\nonumber\\
+&-\frac12\,\tilde\tau_{mn}^{af}\,\mel{mn}{}{ef}
+-\frac12\,t_m^a\,F_{me} \;,
+\nonumber\\
+W_{mnij}={}&\mel{mn}{}{ij}+\hat P^-_{ij}\,t_j^e\,\mel{mn}{}{ie}
++\frac12\,\tau_{ij}^{ef}\,\mel{mn}{}{ef} \;,
+\nonumber\\
+W_{mbej}={}&\mel{mb}{}{ej}+t_j^f\,\mel{mb}{}{ef}-t_n^b\,\mel{mn}{}{ej}
+\nonumber\\
+&-\big(t_{jn}^{fb}+t_j^f t_n^b\big)\mel{mn}{}{ef} \;,
+\nonumber\\
+W_{mnie}={}&\mel{mn}{}{ie}+t_i^f\,\mel{mn}{}{fe} \;,
+\nonumber\\
+W_{mbij}={}&\mel{mb}{}{ij}-F_{me}\,t_{ij}^{be}-t_n^b\,W_{mnij}
+\nonumber\\
+&+\frac12\,\mel{mb}{}{ef}\,\tau_{ij}^{ef}
++\hat P^-_{ij}\,\mel{mn}{}{ie}\,t_{jn}^{be}
+\nonumber\\
+&+\hat P^-_{ij}\,t_i^e\,\mel{mb}{}{ej}
+\nonumber\\
+&-\hat P^-_{ij}\,t_i^e\,t_{nj}^{bf}\,\mel{mn}{}{ef} \;,
+\label{eq:eom_intermediates}
+\end{align}
+
+In the CCD limit, $t_i^a=0$, they reduce to
+\begin{align}
+F_{mi}={}&f_{mi}+\frac12\,t_{in}^{ef}\,\mel{mn}{}{ef} \;,
+\nonumber\\
+F_{ae}={}&f_{ae}-\frac12\,t_{mn}^{af}\,\mel{mn}{}{ef} \;,
+\nonumber\\
+F_{me}={}&f_{me} \;,
+\nonumber\\
+W_{mnij}={}&\mel{mn}{}{ij}+\frac12\,t_{ij}^{ef}\,\mel{mn}{}{ef} \;,
+\nonumber\\
+W_{mbej}={}&\mel{mb}{}{ej}-t_{jn}^{fb}\,\mel{mn}{}{ef} \;,
+\nonumber\\
+W_{mnie}={}&\mel{mn}{}{ie} \;,
+\nonumber\\
+W_{mbij}={}&\mel{mb}{}{ij}-f_{me}\,t_{ij}^{be}
++\frac12\,\mel{mb}{}{ef}\,t_{ij}^{ef}
+\nonumber\\
+&+\hat P^-_{ij}\,\mel{mn}{}{ie}\,t_{jn}^{be} \;.
+\label{eq:eom_ccd}
+\end{align}
+The terms of $W_{mnij}$ and $W_{mbej}$ linear in $T_2$ are those of the
+pair dressings of Eq.~\eqref{eq:h_pair} with the CCD amplitudes, in their
+block-I form ($\hh$ in place of $\pp$). The line dressings $F_{mi}-f_{mi}$ and $F_{ae}-f_{ae}$ have no
+counterpart of this kind: a line $i$ (or $a$) fluctuates there with a
+partner $n$ (or $m$) summed over all orbitals, while in the three-particle
+space of Eq.~\eqref{eq:Heff_depth1} the partner is one of the other two
+lines of the configuration.
 
 \bibliography{arno.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%
