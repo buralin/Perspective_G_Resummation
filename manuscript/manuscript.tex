@@ -5,7 +5,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
-\babelprovide[import=en]{en} % bib entries carry language = {en}
 \usepackage{feynmp-auto}
 \usepackage{longtable}
 \usepackage{rotating}
@@ -358,18 +357,18 @@ whose poles lie at the non-interacting one-particle energies $\epsilon_p$, which
 At this level of theory, the ionization potentials and electron affinities are given by the negatives of the occupied and unoccupied one-particle energies, respectively, which is precisely the statement of (generalized) Koopmans' theorem.
 
 
-Going beyond this approximation therefore requires the inclusion of orbital relaxation (reorganization) and electron correlation effects, both in the ground state and in the states with an electron added or removed; cf.\ Ref.~\citenum{Cederbaum_1977a}.
+Going beyond this approximation requires the inclusion of orbital relaxation (reorganization) and electron correlation effects, both in the ground state and in the states with an electron added or removed; cf.\ Ref.~\citenum{Cederbaum_1977a}.
 Historically, strategies to incorporate these effects have fallen into two broad classes: perturbation expansions in terms of i) the bare Coulomb interaction and ii) the screened Coulomb interaction.
 
 The former has traditionally been pursued in molecular physics and quantum chemistry, where ordinary perturbation theory has proven quite successful in capturing the dominant electron correlation effects.
-A prominent method originating in this community is the algebraic diagrammatic construction (ADC) scheme, which provides a consistent and flexible framework for constructing the one-particle Green's function, either via the Dyson equation [Eq.~\eqref{eq:Dyson}] or directly from its Lehmann representation [Eq.~\eqref{eq:Lehmann}].
+A prominent method originating in this community is the algebraic diagrammatic construction (ADC) scheme, which provides a consistent and flexible framework for constructing the one-particle Green's function, either via the Dyson equation [Eq.~\eqref{eq:Dyson}] or directly from its Lehmann representation [non-Dyson, Eq.~\eqref{eq:Lehmann}].
 
 For solids, and metals in particular, it has long been known that perturbation theory in the bare Coulomb interaction gives rise to divergences unless screening effects are taken into account.
 Resummation techniques that avoid these divergences, such as those developed by Macke~\cite{Macke_1950}, Bohm and Pines~\cite{Bohm_1953}, and Gell-Mann and Brueckner~\cite{GellMann_1957}, are therefore essential.
 Building on these ideas, Hedin formulated a many-body perturbation theory in which the screened Coulomb interaction, itself a resummed quantity, plays the central role, making the theory applicable to metals and other systems where screening is important.
 The simplest realization of this framework is the $GW$ approximation.
 
-Having emerged from different communities, these two paradigms have largely developed independently of one another: ADC has become a mainstay of molecular quantum chemistry, whereas $GW$ is widely used in condensed matter physics.
+Having emerged from different communities, these two paradigms have largely developed independently of one another: ADC has become popular in molecular quantum chemistry, whereas $GW$ is widely used in condensed matter physics.
 
 \subsection{Expansions in the Coulomb interaction}
 The exact self-energy may be expressed as 
