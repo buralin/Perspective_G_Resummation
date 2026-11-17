@@ -528,6 +528,84 @@ Since we here compare aug-cc-pVDZ numbers, this is within numerical noise (see s
 
 \section{\label{sec:beyond}Beyond GW and ADC: vertex corrections, Faddeev, and parquet}
 
+
+%%% tentative draft for parquet and Faddeev %%%
+
+Much like the coupled-cluster hierarchy organizes electronic
+correlations according to excitation rank, Green's function theory
+offers a complementary perspective through the hierarchy of many-body
+propagators. The Martin--Schwinger hierarchy connects successive many-body
+Green's functions through their equations of motion,
+\begin{equation}
+  G_1 \longrightarrow G_2 \longrightarrow G_3
+  \longrightarrow \cdots.
+\end{equation}
+Closing this hierarchy requires suitable approximations, motivating 
+different strategies for organizing higher-order correlations, 
+including parquet theory and the Faddeev construction.
+
+At the two-particle level, the four-point Green's function $G_2$
+is related to the full two-particle vertex $F$ through
+\begin{equation}
+  G_2 \sim GG + GGFGG.
+\end{equation}
+%where the disconnected contributions, including exchange, are implicit. 
+Parquet theory organizes $F$ according to its reducibility
+in the particle--hole ($\ph$), transverse particle--hole
+($\overline{\ph}$), and particle--particle ($\pp$) channels:
+\begin{equation}
+  F = \Lambda + \sum_r \Phi_r,
+  \qquad
+  \Xi_r = F - \Phi_r,
+\end{equation}
+where $\Lambda$ is fully irreducible, $\Phi_r$ contains diagrams
+reducible in channel $r$, and $\Xi_r$ is the corresponding irreducible
+kernel. The three channels are coupled through Bethe--Salpeter
+equations, while the Schwinger--Dyson equation connects the vertex
+to the one-body self-energy,
+\begin{equation}
+  \Sigma \sim v\,GGG\,F.
+\end{equation}
+
+At the three-particle level, $G_3$ contains independent propagation,
+correlated pairs accompanied by a spectator fermion, and fully
+connected three-body contributions:
+\begin{equation}
+  G_3 \sim GGG + G\,G_2^c + G_3^c.
+\end{equation}
+The Faddeev construction reorganizes the corresponding six-point
+propagator $R$, relevant to the 2p1h and 2h1p sectors, into
+three components:
+\begin{equation}
+  R = R_0 + R^{(1)} + R^{(2)} + R^{(3)}.
+\end{equation}
+For a 2p1h configuration $(a,b,i)$, these components describe
+scattering between $(a,b)$, $(a,i)$, and $(b,i)$, with $i$, $b$,
+and $a$ acting as spectators, respectively. The effective pairwise
+scattering amplitudes are obtained from Bethe--Salpeter equations,
+\begin{equation}
+  \mathcal{T}_r \sim \Xi_r + \Xi_r\,GG\,\mathcal{T}_r,
+\end{equation}
+establishing a natural connection with the parquet kernels.
+These amplitudes are then coupled through the Faddeev equations
+to construct the six-point propagator $R$, whose coupling to
+the one-particle sector generates the dynamical part of the
+self-energy.
+
+In conventional FRPA, these amplitudes are approximated at the RPA level, 
+while the corresponding Tamm–Dancoff construction recovers ADC(3) when 
+supplemented by the appropriate coupling and static terms.
+Parquet and Faddeev thus provide complementary
+organizations of two- and three-particle correlations, offering
+promising routes beyond conventional $GW$ and ADC, particularly
+for describing satellite states and spectral-weight redistribution.
+Combining them consistently requires careful treatment of
+diagrammatic double counting and genuinely three-body-irreducible
+contributions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \iffalse
 Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
 \begin{align}
