@@ -269,7 +269,7 @@
 \maketitle
 
 \section{Introduction}
-Although electronic structure theory has made significant progress in the last decades, there are still phenomena that can not routinely be described with sufficient accuracy using the available methods.
+Although electronic structure theory has made significant progress in the last decades, there are still phenomena that cannot routinely be described with sufficient accuracy using the available methods.
 For example, strongly correlated materials with different competing electronic phases require a sufficient accuracy in order to correctly disentangle them \JT{I will add something here}.
 At the same time, finite size effects have to be critically assessed, requiring computationally tractable yet accurate methods.
 Similarly, metal clusters in biological systems, such as the iron--sulfur clusters of nitrogenase\cite{Hoffman_2014,VanStappen_2020,Sharma_2014} and photosystem~I\cite{Jordan_2001} or the Mn$_4$CaO$_5$ cluster of photosystem~II,\cite{Kurashige_2013} or the description of certain types of excitations, e.g., double excitations \JT{@Titou can you add something here? Also mention satellites}, are not routinely captured with sufficient accuracy.
@@ -277,12 +277,12 @@ A common challenge in these scenarios is the need to account for higher-order co
 Inclusion of those comes with a steep increase in computational cost, making it challenging to apply these methods to the situations described above.
 
 Although progress has been made using alternative strategies in these areas, significant limitations remain, highlighting the need for new theoretical and computational approaches that combine accuracy with computational efficiency.
-The one-body Green's ($\bG$) function provides a common framework to approach these challenges in electronic structure theory.
+The one-body Green's function ($\bG$) provides a common framework to approach these challenges in electronic structure theory.
 Due to its description of the collective behavior of a system through its changes in the presence of an additional particle (electron or hole), useful concepts such as electronic screening, quasiparticles, satellites, and charged excitations and ground-state properties can be deduced.
 
 From a theoretical point of view, the central ingredient needed for determining the Green's function is the description of the additional particle and its effective interactions with the remaining system.
 The self-energy, often denoted as $\Sigma(\br,\br';\omega)$, encapsulates these effective non-local and generally energy-dependent interactions.
-It therefore corrects the non-interacting description of the particle, described by the non-interacting Green's function ($\bG_0$), to the fully interacting Green's function ($\bG$).
+It therefore corrects the non-interacting description of the particle, described by the non-interacting Green's function ($\bG^0$), to the fully interacting Green's function ($\bG$).
 The central equation that expresses this connection mathematically is the Dyson equation
 \begin{align}
     \bG(\omega) =& \bG^0(\omega) + \bG^0(\omega) \pmb{\Sigma}(\omega) \bG(\omega) \nonumber \\
@@ -309,13 +309,13 @@ This perspective is structured as follows:
 
 \section{One Green's function, two communities}
 \subsection{The one-particle Green's function}
-Formally the exact one-particle Green's function is defined as 
+Formally, the exact one-particle Green's function is defined as 
 \begin{align}
     G_{pq}(t-t') = -\mathrm{i} \langle \Psi_0 | \mathcal{T} \left[ a_p(t) a_q^\dagger(t') \right] | \Psi_0 \rangle,
 \end{align}
 with $\Psi_0$ denoting the exact ground-state wavefunction of the $N$-electron system, $\mathcal{T}$ the time-ordering operator, and $a_q^\dagger(t')/a_p(t)$ the creation/annihilation operator in the Heisenberg picture.
 Physically, the Green's function (or sometimes called the propagator) describes the propagation of an added electron or hole in the many-body system at time $t$, and its removal at time $t'$.
-The dressed particle, due to the many-body interactions, is then commonly referred to as quasiparticle.
+The dressed particle, due to the many-body interactions, is then commonly referred to as a quasiparticle.
 
 After Fourier transforming to the frequency domain, the Green's function can be expressed as a sum-over-state expression (Lehmann representation)
 \begin{align}
@@ -325,7 +325,7 @@ After Fourier transforming to the frequency domain, the Green's function can be 
 \end{align}
 with $E_m^{N\pm1}$ denoting the energies of the $(N\pm1)$-electron excited states and $E_0$ the ground-state energy of the $N$-electron system.
 Eq.~\eqref{eq:Dyson} and Eq.~\eqref{eq:Lehmann} represent two complementary ways to construct the exact one-particle Green's function.
-While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground-state of the system through the self-energy, the wavefunction-based construction requires explicit knowledge of the ground-state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
+While the Dyson equation [Eq.~\eqref{eq:Dyson}] builds $\bG$ without knowledge of the explicit ground state of the system through the self-energy, the wavefunction-based construction requires explicit knowledge of the ground state and excited states of the system [Eq.~\eqref{eq:Lehmann}].
 In this perspective, we also aim to illustrate advantages and disadvantages of both approaches for determining the one-particle Green's function.
 
 To gain insights into the physical content of the Green's function, it is instructive to consider its spectral representation [Eq.~\eqref{eq:Lehmann}], which provides direct access to the ionization potentials and electron affinities (quasiparticle energies).
@@ -333,7 +333,7 @@ The imaginary part of the Green's function allows for direct comparison with (in
 \begin{align}
     A(\omega) = \mathrm{sgn}(\epsilon_F - \omega) \frac{1}{\pi} \mathrm{Im} \, \mathrm{Tr} \, \bG(\omega),
 \end{align}
-with $\epsilon_F$ denoting the Fermi-level.
+with $\epsilon_F$ denoting the Fermi level.
 Furthermore, the ground-state energy and density matrix can be deduced from the Green's function as
 \begin{align}
     E_0 &= \frac{1}{4 \pi \mathrm{i}} \sum_{pq} \oint_\mathrm{IP} d\omega \left(h_{pq} + \omega \delta_{pq} \right) G_{qp}(\omega) \\
@@ -341,7 +341,7 @@ Furthermore, the ground-state energy and density matrix can be deduced from the 
 \end{align}
 where $\mathbf{h}$ is the one-electron Hamiltonian, $\boldsymbol{\gamma}$ is the one-particle density matrix, and $\oint_\mathrm{IP}$ denotes a contour integral in the upper half of the complex plane.
 
-In summary, the Green's function thus serves as central quantity to describe the electronic structure of molecules and materials.
+In summary, the Green's function thus serves as a central quantity to describe the electronic structure of molecules and materials.
 An added electron or hole interacts with the surrounding electrons. Its response reveals electronic correlation and may generate quasiparticles and higher-order excitation processes (satellites).
 The one-body Green's function describes both the main charged excitations and the redistribution of spectral weight among more complicated states.
 
@@ -393,7 +393,7 @@ This is the GF($n$) self-energy. The superscripts denote the order in the intera
 
 The result is no longer a resolvent. Instead, it has poles of increasing multiplicity at the zeroth-order energies $\mathbf{K}^{\pm}$. As such, it loses two important properties that the resolvent structure of the self-energy guarantees: real quasiparticle solutions and positive spectral weights. This loss appears from third order on.\cite{Winter_1972,Cederbaum_1973}
 
-The self-energy of Eq.~\eqref{eq:GFn} directly inherits the ground state correlation energies of the $N$-~and $(N \pm 1)$-particle systems to $n$th order. Of course, this can already be inferred from the definition of the exact Green's function Eq.~\eqref{eq:Lehmann}, together with Eq.~\eqref{eq:Dyson}. To illustrate this point we write the second-order self-energy in a basis of Hartree--Fock spin orbitals, with $i,j$ occupied, $a,b$ virtual, and $p,q$ arbitrary,
+The self-energy of Eq.~\eqref{eq:GFn} directly inherits the ground-state correlation energies of the $N$-~and $(N \pm 1)$-particle systems to $n$th order. Of course, this can already be inferred from the definition of the exact Green's function Eq.~\eqref{eq:Lehmann}, together with Eq.~\eqref{eq:Dyson}. To illustrate this point we write the second-order self-energy in a basis of Hartree--Fock spin orbitals, with $i,j$ occupied, $a,b$ virtual, and $p,q$ arbitrary,
 \begin{align}
     \Sigma^{(2)}_{pq}(\omega) =& \frac{1}{2}\sum_{iab} \frac{\langle pi||ab\rangle \langle ab||qi\rangle}{\omega + \epsilon_i - \epsilon_a - \epsilon_b} + \frac{1}{2}\sum_{ija} \frac{\langle pa||ij\rangle \langle ij||qa\rangle}{\omega + \epsilon_a - \epsilon_i - \epsilon_j} \;.
     \label{eq:Sigma2}
@@ -409,9 +409,9 @@ Almost as a by-product of this construction, it resums certain diagram classes t
 \sum_{r \geq 0} \left[\left(\omega - \mathbf{K}^{+} \right)^{-1}\mathbf{C}^{+} \right]^r
 \left(\omega - \mathbf{K}^{+} \right)^{-1} \;,
 \end{equation}
-and analogous for the $(N-1)$-branch. 
+and analogously for the $(N-1)$ branch. 
 
-Historically, ADC emerged from a broader effort to construct propagators with a consistent treatment of the ground state that includes the diagrammatic methods of \citet{Cederbaum_1977a},  equation-of-motion and superoperator methods,\cite{Rowe_1968a,Simons_1973,Linderberg_2004} self-consistent propagators built on correlated references such as antisymmetrized geminal powers,\cite{Born_1980,Weiner_1980,Weiner_1983} as well as a propagator based on the unitary coupled-cluster (UCC) ansatz.\cite{prasad1985some,Kutzelnigg_1982,mukherjee1989effective} Much of this work was eventually absorbed into ADC and its intermediate-state representation (see below),\cite{Schirmer_1982,Schirmer_1983,Schirmer_1991} and into coupled-cluster Green's-function\cite{Nooijen_1992,Nooijen_1993} and equation-of-motion methods.\cite{Stanton_1993a,Krylov_2008}
+Historically, ADC emerged from a broader effort to construct propagators with a consistent treatment of the ground state that includes the diagrammatic methods of \citet{Cederbaum_1977a}, equation-of-motion and superoperator methods,\cite{Rowe_1968a,Simons_1973,Linderberg_2004} self-consistent propagators built on correlated references such as antisymmetrized geminal powers,\cite{Born_1980,Weiner_1980,Weiner_1983} as well as a propagator based on the unitary coupled-cluster (UCC) ansatz.\cite{prasad1985some,Kutzelnigg_1982,mukherjee1989effective} Much of this work was eventually absorbed into ADC and its intermediate-state representation (see below),\cite{Schirmer_1982,Schirmer_1983,Schirmer_1991} and into coupled-cluster Green's-function\cite{Nooijen_1992,Nooijen_1993} and equation-of-motion methods.\cite{Stanton_1993a,Krylov_2008}
 
 There are several ways to build an ADC of the self-energy. In the original formulation of Dyson-ADC,\cite{Schirmer_1983} the matrices in Eq.~\eqref{eq:SigmaADC} are fixed by comparison with the diagrammatic expansion of $\pmb{\Sigma}$ through order $n$, and the static part $\pmb{\Sigma}(\infty)$ is obtained from the ground-state density matrix.\cite{Schirmer_1983}
 Ionization and attachment are coupled through the Dyson equation [Eq.~\eqref{eq:Dyson}], so that both sectors enter every pole of $\bG$.
@@ -419,8 +419,8 @@ Ionization and attachment are coupled through the Dyson equation [Eq.~\eqref{eq:
 In non-Dyson ADC,\cite{Schirmer_1998,Trofimov_2005} the IP and EA parts of $\bG$ [Eq.~\eqref{eq:Lehmann}] are built separately, which leads to separate IP- and EA-ADC eigenvalue problems.
 For the IPs, only $(N-1)$ configurations (1h, 2h1p, \dots) are needed. The eigenvalues are directly the IPs, and the spectral weights follow from the transition moments.
 This does, however, not mean that the IP part neglects the EA part.
-As we have just seen, this term includes the ground state correlation energy that is lost upon ionization
-and can not be neglected. It is folded statically into the ionization sector and becomes part of the static self-energy.
+As we have just seen, this term includes the ground-state correlation energy that is lost upon ionization
+and cannot be neglected. It is folded statically into the ionization sector and becomes part of the static self-energy.
 
 From fourth order on, a naive static fold is no longer correct, and the consistent form follows from the intermediate-state representation,\cite{Schirmer_1991,Schirmer_2018} nowadays, the most popular way to formulate ADCs.\cite{Dreuw_2023,Dempwolff2020IntermediateImplementation,Dempwolff2021IntermediateBenchmarking,Leitner2022ThePropagator,Leitner2024Fourth-OrderMethods,Banerjee_2019,Banerjee2022Non-DysonSolids,Banerjee_2023}
 The intermediate states $\ket{\tilde{\Psi}_J}$ are obtained by applying excitation operators of increasing excitation class ($a_i$, $a^\dagger_a a_j a_i$, \dots) to the perturbatively expanded (MP) ground state, followed by orthonormalization of each class against all lower classes.
@@ -451,7 +451,7 @@ If the sectors are not decoupled, i.e., the $(N+1)$ and $(N-1)$ intermediate sta
 This amounts to dropping $\mathbf{X}$.
 As shown by Tarantelli and Cederbaum,\cite{tarantelli1992configuration} $\mathbf{X}$ vanishes in zeroth and first order (the orders that enter ADC(2) and ADC(3)), but not in second order.
 Therefore, the two-sector ISR is identical to diagrammatic ADC through third order, but differs from fourth order on.
-At second order $\mathbf{X}$ contains information on the ionization-induced change in ground state correlation due to connected triples that enter the wave 
+At second order $\mathbf{X}$ contains information on the ionization-induced change in ground-state correlation due to connected triples that enter the wave 
 function for the first time at second order and the energy at fourth order in perturbation theory. 
 Generally, this contribution is small. In practice, all variants differ much less from one another than from the exact result (see below).
 
@@ -485,32 +485,19 @@ Fig.~\ref{fig:NeConvergence} shows this for the 2s and 2p IPs of Ne,
 where the full series can be followed to high order (up to ADC(11)/GF(11) and IP-EOM-CCSDTQPH)
 and compared against FCI in the same basis.
 Neon in an augmented basis set is a well-known case of a divergent MP perturbation series for the ground state (Fig.~\ref{fig:NeMP})\cite{Olsen1996} due to a back-door intruder state, a singularity inside the unit circle, at $\lambda \approx -0.8$ for Ne/aug-cc-pVDZ.\cite{Olsen_2000}
-From the discussion in Section~\ref{sec:GFn}, it is clear that the GF$(n)$ self-energy will inherit this intruder due to the ground state correlation. Indeed, while in the cc-pVDZ basis set GF($n$) shows an oscillatory but slow convergence pattern, the series diverges in the aug-cc-pVDZ basis set. The 2p error grows with increasing perturbation order, and for the 2s state, no solution is found for odd orders starting from $n=5$. The discussion of Section~\ref{sec:GFn} also shows that 
-GF$(n)$ also directly inherits the perturbative expansion of the $(N-1)$-electron ground state. This amplifies the divergence even more, since Fig.~\ref{fig:NeMP} shows that the $(N-1)$-electron state diverges more strongly than the ground state (the ratios in Fig.~\ref{fig:NeMP}(c) correspond to singularities at $|\lambda| \approx 0.7$ for 2p and $0.15$ for 2s).
+From the discussion in Section~\ref{sec:GFn}, it is clear that the GF$(n)$ self-energy will inherit this intruder due to the ground-state correlation. Indeed, while in the cc-pVDZ basis set GF($n$) shows an oscillatory but slow convergence pattern, the series diverges in the aug-cc-pVDZ basis set. The 2p error grows with increasing perturbation order, and for the 2s state, no solution is found for odd orders starting from $n=5$. This reflects the fact that the inner-valence hole lies close in energy to many 2h1p satellite configurations in the augmented basis. The same mechanism underlies the breakdown of the quasiparticle picture for inner-valence ionizations in molecules.\cite{Cederbaum_1977,Schirmer_1978b} 
 
-ADC($n$) yields modest improvements. In the cc-pVDZ basis set the convergence is also oscillatory but both the 2p and 2s IPs approach their FCI reference value rather quickly.
-In the aug-cc-pVDZ basis set, the situation is however not much better than for GF($n$).
-While at least a solution is found at all orders for both states, the series is not even close to converged even at ADC($11$).
-
-Since ADC($n$) relies on the same MP expansion of the ground state as GF($n$), this divergence is not surprising. It is however less pronounced than for GF$(n)$. The reason is that ADC($n$) does 
-not expand the $(N-1)$-electron states perturbatively. Instead, ADC($n$) keeps the resolvent and diagonalizes the configuration block at the physical coupling strength. Therefore, ADC($n$) inherits the much weaker divergence of the ground-state MP series. This can also be seen in Fig.~\ref{fig:NeMP}(c), that illustrates that the ADC($n$) error closely tracks the ratio $|E^{(k)}/E^{(k-1)}|$ of the $N$-electron ground state energies.
-
-The particularly strong divergence for the 2s state reflects that the inner-valence hole lies close in energy to many 2h1p satellite configurations in the augmented basis. The same mechanism underlies the breakdown of the quasiparticle picture for inner-valence ionizations in molecules.\cite{Cederbaum_1977,Schirmer_1978b}
+In addition to the ones of the ground state, GF$(n)$ also inherits the even stronger divergence (Fig.~\ref{fig:NeMP}) in the perturbative expansion of the 2s and 2p $(N-1)$-electron ground states. This is in contrast to ADC($n$) that does not expand the $(N-1)$-electron states perturbatively but instead keeps the resolvent and diagonalizes the configuration block at the physical coupling strength. Therefore, ADC($n$) only inherits the divergence of the ground-state MP series. The consequence is a somewhat weaker divergence than in the case of GF$(n)$, but the series is not even close to converged even at ADC($11$) and the divergence of the ground-state correlation energy at perturbation orders around $k=15$ shows that it will actually diverge. However, at least a solution is found at all orders for all states, the existence of which is mathematically guaranteed by the resolvent structure of ADC($n$).
 
 Finally, we turn to IP-EOM-CC, where each excitation class can be identified with an odd-order GF($n$) or ADC($n$), as they share the same diagrammatic completeness. 
 For all states and all basis sets, IP-EOM-CC converges to FCI quickly from below without changing sign, and at CCSDTQ it is already within 10\,meV of the reference. CC avoids the divergences of MP($n$), since it does not perturbatively expand the ground state. Instead, it truncates the excitation rank and solves the resulting equations at the physical interaction strength.
 
-These results illustrate two things.
-The convergence of a hierarchy primarily depends on the treatment of ground state correlation and not on how many diagrams it includes at a given order.
-Furthermore, resummations can only cure the convergence difficulties 
-of GF($n$) if the ground state is well-behaved. 
-This points at the treatment of ground state correlation at the primary lever for improved 
-approximations to the self-energy. This perspective will explore this point in 
-section~\ref{sec:beyond}.
+These results illustrate that the convergence of a hierarchy primarily depends on the treatment of ground-state correlation, and the resummations in ADC($n$) can only overcome the shortcomings of GF($n$) if the ground-state energy does not diverge. This points at the treatment of ground-state correlation as the primary lever for improved 
+approximations to the self-energy. Another point of view is possible as well. In ADC($n$), ground-state correlation is captured by MP amplitudes that are part of the couplings between the one-particle and satellite and higher configurations. An infinite-order treatment of the ground state will therefore show up in resummations of the amplitudes. In other words, a resummation of the couplings and an all-order treatment of ground-state correlation are equivalent. This Perspective will explore both points in Section~\ref{sec:beyond}.
 
 Before doing so, we compare the performance of ADC and CC for a broader set of IPs of realistic molecules.
 Fig.~\ref{fig:ADCviolin} shows the errors of 52 IPs of 22 small molecules against the sCI reference values of \citet{Marie_2024b} for ADC($n$), $n=2,3,4,5$ in the aug-cc-pVDZ basis set. We exclude three IPs of CO$_2$ and CH$_2$O from the comparison as ADC(5) calculations for these states were beyond our computational capabilities.
-Here, we also compare Dyson- and non-Dyson ADC that are diagrammatically complete at each order and the two-sector ISR-ADC that is equivalent to Dyson-ADC until $n=3$ but deviates from it starting from 4th order as discussed above. 
+Here, we also compare Dyson- and non-Dyson ADC that are diagrammatically complete at each order and the two-sector ISR-ADC that is equivalent to Dyson-ADC until $n=3$ but deviates from it starting from fourth order as discussed above. 
 
 \begin{figure}[htb]
 \includegraphics[width=\columnwidth]{figures/adc_cc_violin}
@@ -518,10 +505,10 @@ Here, we also compare Dyson- and non-Dyson ADC that are diagrammatically complet
 \label{fig:ADCviolin}
 \end{figure}
 
-No matter the ADC of the self-energy, the same behavior as previously for Neon is observed. The mean signed error of ADC($n$) alternates in sign ($-0.58$, $+0.39$, $-0.34$, $+0.22$\,eV for Dyson-ADC(2)--(5)). Fig.~\ref{fig:ADCviolin} shows Dyson-ADC; on the 50 states for which all three constructions are available, ADC(5) reaches a mean absolute error of 0.27\,eV (Dyson), 0.24\,eV (non-Dyson), and 0.30\,eV (two-sector ISR). As it is well known, ADC(3) is a major improvement over ADC(2), but ADC(4) and ADC(5) yield only modest further improvements. This becomes especially apparent when comparing the results to the CC series (CC2, CCSD, CC3, CCSDT), that share the configuration spaces of ADC(2)-ADC(5). While CC2 is no improvement over ADC(2), CCSD, CC3, and CCSDT reach rapidly decreasing mean absolute errors of 0.17, 0.07, and 0.04\,eV, with a largest error of 0.18\,eV for CCSDT. It is to be emphasized that CCSDT does not only come with the same formal scaling of $\mathcal{O}\left(N^8\right)$ with system size as ADC(5). CCSDT is much cheaper and more memory efficient than ADC(5) since the latter requires 8-index quantities.
+No matter the ADC of the self-energy, the same behavior as previously for Neon is observed. The mean signed error of ADC($n$) alternates in sign ($-0.58$, $+0.39$, $-0.34$, $+0.22$\,eV for Dyson-ADC(2)--(5)). Fig.~\ref{fig:ADCviolin} shows Dyson-ADC; on the 50 states for which all three constructions are available, ADC(5) reaches a mean absolute error of 0.27\,eV (Dyson), 0.24\,eV (non-Dyson), and 0.30\,eV (two-sector ISR). As is well known, ADC(3) is a major improvement over ADC(2), but ADC(4) and ADC(5) yield only modest further improvements. This becomes especially apparent when comparing the results to the CC series (CC2, CCSD, CC3, CCSDT), that share the configuration spaces of ADC(2)--ADC(5). While CC2 is no improvement over ADC(2), CCSD, CC3, and CCSDT reach rapidly decreasing mean absolute errors of 0.17, 0.07, and 0.04\,eV, with a largest error of 0.18\,eV for CCSDT. It is to be emphasized that CCSDT does not only come with the same formal scaling of $\mathcal{O}\left(N^8\right)$ with system size as ADC(5). CCSDT is much cheaper and more memory efficient than ADC(5) since the latter requires 8-index quantities.
 
-For 32 out of the 52 considered states the absolute value of ADC($n$) error shrinks monotonically, indicating a converging series. Even in these cases, it outperforms CCSDT for only 8 states, and at most by 19 meV. These are weakly correlated cases for which CCSDT is already within 10--20\,meV from the sCI reference.
-Since we here compare aug-cc-pVDZ numbers, this is within numerical noise (see supplemental material). Our results do not render low-order ADC($n$) useless. ADC(3) captures dominant correlation effects at modest computational cost compared to CCSD. However, our results strongly suggest that there is no single good reason to perform ADC calculations beyond third order.    
+For 32 out of the 52 considered states the absolute value of the ADC($n$) error shrinks monotonically, indicating a converging series. Even in these cases, it outperforms CCSDT for only 8 states, and at most by 19\,meV. These are weakly correlated cases for which CCSDT is already within 10--20\,meV from the sCI reference.
+Since we here compare aug-cc-pVDZ numbers, this is within numerical noise (see supplementary material). Our results do not render low-order ADC($n$) useless. ADC(3) captures dominant correlation effects at modest computational cost compared to CCSD. However, our results strongly suggest that there is no single good reason to perform ADC calculations beyond third order.    
 
 \subsection{What lessons do we learn?}
 
@@ -622,7 +609,7 @@ Either way, it becomes clear that $\bG$ provides direct access to the ionization
     A(\omega) = \mathrm{sgn}(\epsilon_F - \omega) \frac{1}{\pi} \mathrm{Im} \, \mathrm{Tr} \, \bG(\omega),
 \end{align}
 with $\epsilon_F$ denoting the Fermi-level.
-Furthermore, the ground-state energy and denstity matrix can be deduced from the Green's function as
+Furthermore, the ground-state energy and density matrix can be deduced from the Green's function as
 \begin{align}
     E_0 &= \frac{1}{4 \pi \mathrm{i}} \sum_{pq} \oint_\mathrm{IP} d\omega \left(h_{pq} + \omega \delta_{pq} \right) G_{qp}(\omega) \\
     \gamma_{pq} &= \frac{1}{2 \pi \mathrm{i}} \oint_\mathrm{IP} d\omega \, G_{qp}(\omega),
@@ -634,7 +621,7 @@ Along the way, we identify open research questions that must be addressed to adv
 
 As its origin in quantum field theory suggests, common strategies for finding self-energy approximations rely on diagrammatic expansions and perturbative techniques.
 The central problem lies in the inclusion of many-body effects in the self-energy, which describe the effect of the surrounding electronic structure on the added electron or hole.
-An simplest way to include these effects would be through the effective classical Coulombic potential or self-energy generated by the electronic density $\rho$
+The simplest way to include these effects would be through the effective classical Coulombic potential or self-energy generated by the electronic density $\rho$
 \begin{align}
     \Sigma_\mathrm{C}[\rho](\mathbf{r}) = \int d\mathbf{r}' \frac{\rho(\mathbf{r}')}{|\mathbf{r} - \mathbf{r}'|}  ,
 \end{align}
@@ -680,7 +667,7 @@ Together with Eq.~\eqref{eq:ExtPot} we identify the changes in the Coulomb inter
     \label{eq:W}
 \end{align}
 where $W$ denotes the so-called dynamically screened Coulomb interaction, which can be interpreted as the modification of the direct interaction between two particles at $\br$ and $\br'$ by the intrinsic fluctuations present in the system described by $\chi$.
-Note that the fluctuation dissipation theorem enables such an interpretation by linking the the response due to external perturbations described by $\chi$ to intrinsic fluctuations of the system.
+Note that the fluctuation dissipation theorem enables such an interpretation by linking the response due to external perturbations described by $\chi$ to intrinsic fluctuations of the system.
 Eq.~\eqref{eq:W} thus provides a direct route for adjusting the Coulomb interaction.
 Note, however, that the above modification only accounts for density fluctuations through the (interacting) response functions $\chi$.
 
@@ -692,7 +679,7 @@ Making use of $W$ directly enables for an alternative route for determining the 
 \JT{Somewhere must be a $t^+$}
 referred to as the $GW$ self-energy.
 Here the electron/hole (described through $G$) is dynamically dressed by a polarization cloud of (collective) electron-hole pairs through $W$.
-While being a highly successful approximations in electronic structure theory, some approximations become evident:
+While being a highly successful approximation in electronic structure theory, some approximations become evident:
 The screened Coulomb interaction in Eq.~\eqref{eq:W} only includes changes from the classical Coulomb potential. 
 Exchange effects are therefore absent in the screening, resulting in the so-called self-screening error, where an electron incorrectly screens itself, in $GW$.
 
@@ -704,7 +691,7 @@ Finding practical ways to go beyond $GW$ while not solving the full set of Hedin
 
 Alternative theoretical strategies rely on putting a particular emphasis on effective two- (or higher-order) particle interactions that are then used to construct approximations to the self-energy.
 A famous example is the Parquet approximation. Here different two particle scattering channels are treated on an equal footing, and their effect is incorporated in the self-energy through the Dyson-Schwinger equation.
-While offering an attractive route also to understand microscopic effects that give rise to electronic phases in correlated condensed matter, the Parquet approximation suffer from similar problems as Hedin's equation when going beyond the lowest order, and a systematically improvable route remains challenging.
+While offering an attractive route also to understand microscopic effects that give rise to electronic phases in correlated condensed matter, the Parquet approximation suffers from similar problems as Hedin's equation when going beyond the lowest order, and a systematically improvable route remains challenging.
 
 \begin{figure*}[h]
 \centering
@@ -758,7 +745,7 @@ with
     \label{eq:ClusterExpansion}
 \end{align}
 $\bar{\tau}_\nu$ represents an arbitrary particle-hole excitation operator ($\bar{a}^\dagger_a \bar{a}_i + \dots$).
-Note that the amplitudes $t_\nu$ [Eq.~(\ref{eq:ClusterExpansion})] are determined by projection and satisfy the general Brioullin conditions
+Note that the amplitudes $t_\nu$ [Eq.~(\ref{eq:ClusterExpansion})] are determined by projection and satisfy the general Brillouin conditions
 \begin{align}
     \bra{\Psi_0} [\hat{H},\bar{\tau}_\nu - \bar{\tau}^\dagger_\nu] \ket{\Psi_0} = 0.
     \label{eq:Brioullin}
@@ -893,8 +880,8 @@ Next, we write Eq.~(\ref{eq:OneParticleGreensFunction3}) compactly as
 \end{align}
 (note that in the blocks the N$+1$ and N$-1$ are still decoupled).
 $\mathbf{M}_{11}$ denotes contributions from $\bra{\Phi_\mu} e^{-\sigma} a^\dagger_q e^{\sigma} \ket{\Psi_0}$ and $\bra{\Phi_\mu} e^{-\sigma} a_p e^{\sigma} \ket{\Psi_0}$ in the 1h-1p sector and $\mathbf{M}_{12}$ in all higher excitation sectors.
-It becomes clear that the terms such as  $\bra{0} e^{-\sigma} a_p e^{\sigma} \ket{\Phi_\nu}$ in Eq.~(\ref{eq:OneParticleGreensFunction3}) prohibit a simple projetion of the decoupled EOM Hamiltonians $\mathbf{H}^{+}$/$\mathbf{H}^{-}$  in the 1-h/1-p space as in Eq.~(\ref{eq:ExpressionG}).
-Consequently the precise connection to the Dyson equation can be only made approximately by separating $e^{-\sigma} a^\dagger_q e^{\sigma}$ into zeros order term $a_q$ and higher order terms of the BCH. Consequently, Eq.~(\ref{eq:Gcompact}) is rearranged to
+It becomes clear that the terms such as  $\bra{0} e^{-\sigma} a_p e^{\sigma} \ket{\Phi_\nu}$ in Eq.~(\ref{eq:OneParticleGreensFunction3}) prohibit a simple projection of the decoupled EOM Hamiltonians $\mathbf{H}^{+}$/$\mathbf{H}^{-}$  in the 1-h/1-p space as in Eq.~(\ref{eq:ExpressionG}).
+Consequently the precise connection to the Dyson equation can be only made approximately by separating $e^{-\sigma} a^\dagger_q e^{\sigma}$ into the zeroth-order term $a_q$ and higher order terms of the BCH. Consequently, Eq.~(\ref{eq:Gcompact}) is rearranged to
 \begin{align}
     &\mathbf{G}_{11}(\omega) = \nonumber
     \\
@@ -924,7 +911,7 @@ Consequently the precise connection to the Dyson equation can be only made appro
     \label{eq:Gcompact2}
 \end{align}
 From the above considerations for the one-particle Green's function it becomes apparent that a ground-state p/h transformation of the Hamiltonian $\hat{H}$ prohibits the determination of $\mathbf{G}$ through the Dyson equation [Eq.~(\ref{eq:Dyson1})] exactly.
-Instead, the different components of $\mathbf{G}$ have to determined separately. (See also the work by Tarantelli and Cederbaum \cite{tarantelli1992configuration}).
+Instead, the different components of $\mathbf{G}$ have to be determined separately. (See also the work by Tarantelli and Cederbaum \cite{tarantelli1992configuration}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hedin vs Parquet}
