@@ -1644,19 +1644,24 @@ and the dynamic self-energy
 \pmb{\Sigma}_{\mathrm{dyn}}(\omega)=\tilde{\mathbf{M}}_{0\mathrm{R}}\big(\omega-\tilde{\mathbf{M}}_{\mathrm{RR}}\big)^{-1}\tilde{\mathbf{M}}_{\mathrm{R}0} \;.
 \label{eq:si:ucc:sigma}
 \end{equation}
-the unitary matrix
+With the sector blocks $\tilde{\mathbf{M}}_{\pm\pm}$ of $\tilde{\mathbf{M}}_{\mathrm{RR}}$ and the solution of the Riccati equation
 \begin{equation}
-\mathbf{W}=\begin{pmatrix}(\mathbf{1}+\mathbf{T}^\dagger\mathbf{T})^{-1/2} & -\mathbf{T}^\dagger(\mathbf{1}+\mathbf{T}\mathbf{T}^\dagger)^{-1/2}\\ \mathbf{T}(\mathbf{1}+\mathbf{T}^\dagger\mathbf{T})^{-1/2} & (\mathbf{1}+\mathbf{T}\mathbf{T}^\dagger)^{-1/2}\end{pmatrix}
+\mathbf{Z}\tilde{\mathbf{M}}_{--}-\tilde{\mathbf{M}}_{++}\mathbf{Z}+\mathbf{Z}\tilde{\mathbf{M}}_{-+}\mathbf{Z}-\tilde{\mathbf{M}}_{+-}=\mathbf{0}
+\label{eq:si:ucc:riccati}
+\end{equation}
+that vanishes at $\lambda=0$, the unitary matrix
+\begin{equation}
+\mathbf{W}=\begin{pmatrix}(\mathbf{1}+\mathbf{Z}^\dagger\mathbf{Z})^{-1/2} & -\mathbf{Z}^\dagger(\mathbf{1}+\mathbf{Z}\mathbf{Z}^\dagger)^{-1/2}\\ \mathbf{Z}(\mathbf{1}+\mathbf{Z}^\dagger\mathbf{Z})^{-1/2} & (\mathbf{1}+\mathbf{Z}\mathbf{Z}^\dagger)^{-1/2}\end{pmatrix}
 \label{eq:si:ucc:W}
 \end{equation}
 block-diagonalizes the satellite block,
 \begin{equation}
-\mathbf{W}^\dagger\tilde{\mathbf{M}}_{\mathrm{RR}}\mathbf{W}=\begin{pmatrix}\mathbf{M}_{+} & \mathbf{0}\\ \mathbf{0} & \mathbf{M}_{-}\end{pmatrix}\;,
+\mathbf{W}^\dagger\tilde{\mathbf{M}}_{\mathrm{RR}}\mathbf{W}=\begin{pmatrix}\mathbf{M}_{-} & \mathbf{0}\\ \mathbf{0} & \mathbf{M}_{+}\end{pmatrix}\;,
 \label{eq:si:ucc:Mdec}
 \end{equation}
 and transforms the couplings into
 \begin{equation}
-\tilde{\mathbf{U}}\,\mathbf{W}=\begin{pmatrix}\mathbf{U}_{+} & \mathbf{U}_{-}\end{pmatrix}\;.
+\tilde{\mathbf{M}}_{0\mathrm{R}}\mathbf{W}=\begin{pmatrix}\mathbf{U}_{-} & \mathbf{U}_{+}\end{pmatrix}\;.
 \label{eq:si:ucc:Udec}
 \end{equation}
 The dynamic self-energy is then the sum of an attachment and a removal branch,
@@ -1669,7 +1674,7 @@ with
 \pmb{\Sigma}_{\pm}(\omega)=\mathbf{U}_{\pm}\big(\omega-\mathbf{M}_{\pm}\big)^{-1}\mathbf{U}_{\pm}^\dagger\;,
 \label{eq:si:ucc:sigmapm}
 \end{equation}
-which is of the standard Dyson form. 
+as in Dyson ADC.
 
 The static part requires a remark. For the exact ground state, $\mathbf{F}$ is the Fock matrix of the correlated density, Eq.~\eqref{eq:si:sinf}. For a truncated cluster operator, the composite form of Eq.~\eqref{eq:si:ucc:F} differs from the Fock matrix of the UCC density by terms that are proportional to the residual of the UCC amplitude equations, because its derivation uses the eigenvalue equation of the ground state. In the superoperator form,
 \begin{equation}
