@@ -1,12 +1,25 @@
 \documentclass[aip,jcp,reprint,noshowkeys,superscriptaddress]{revtex4-2}
 \usepackage{graphicx,dcolumn,bm,xcolor,microtype,multirow,amscd,amsmath,amssymb,amsfonts,physics,wrapfig,bbold,siunitx,xspace,braket,txfonts}
 \usepackage[version=4]{mhchem}
+\let\openbox\relax % revtex defines \openbox; amsthm redefines it
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
 
 \usepackage{xr-hyper}  
 \externaldocument{../manuscript}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\babelprovide[import=en]{en} % bib entries carry language = {en}
 \usepackage{feynmp-auto}
 \usepackage{longtable}
 \usepackage{rotating}
@@ -230,13 +243,1828 @@
 
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Section}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Cite something Ref.~\citenum{Marie_2024b}.
+\tableofcontents
+
+% SI Part 1 -- ADC constructions and the decoupling proof
+\section{ADC constructions and the decoupling proof}
+\label{sec:si:adc}
+
+The main text states that diagrammatic (Dyson) ADC($n$) is exactly the
+decoupled form of the union-space intermediate-state representation (ISR) of
+Tarantelli and Cederbaum,\cite{tarantelli1992configuration} and that the
+two-sector ISR, which omits the cross block $\mathbf{X}$, agrees with
+diagrammatic ADC through third order but not beyond. This part derives both
+statements. We define ADC($n$) (Sec.~\ref{sec:si:setting}), describe the
+diagrammatic construction (Sec.~\ref{sec:si:diag}) and the ISR in the union
+space (Sec.~\ref{sec:si:isr}), compute the cross block and introduce the
+two-sector ISR (Sec.~\ref{sec:si:cross}), construct the
+decoupling with ADC(4) as the worked example (Sec.~\ref{sec:si:tc}), and give
+the proof for general $n$ (Sec.~\ref{sec:si:proof}). Finally, we describe non-Dyson ADC, which needs only one sector (Sec.~\ref{sec:si:nondyson}).
+
+%-----------------------------------------------------------------------------
+\subsection{Setting and the definition of ADC($n$)}
+\label{sec:si:setting}
+
+We work with the canonical Hartree--Fock (HF) spin orbitals of an $N$-electron
+reference determinant $\ket{\Phi_0}$, with orbital energies $\epsilon_p$ and
+real orbitals. Indices $i,j,k,l$ denote occupied, $a,b,c,d$ virtual and
+$p,q,r,s$ arbitrary spin orbitals. $\ket{\Psi_0}$ and $E_0$ are the exact
+ground state and its energy, and we assume that every virtual orbital energy
+lies above every occupied one. The self-energy is defined by the Dyson
+equation, Eq.~\eqref{eq:Dyson} of the main text, which we write as
+\begin{equation}
+\mathbf{G}^{-1}(\omega)=\omega-\pmb{\epsilon}-\pmb{\Sigma}(\infty)-\pmb{\Sigma}_{\mathrm{dyn}}(\omega) \;,
+\label{eq:si:dyson}
+\end{equation}
+with $\pmb{\epsilon}$ the diagonal matrix of orbital energies, a static part
+$\pmb{\Sigma}(\infty)$, and a dynamic part $\pmb{\Sigma}_{\mathrm{dyn}}$ that
+vanishes at $\omega \to \infty$. The static part is the change of the mean field
+caused by the correlated density,\cite{Schirmer_1983,Schirmer_1998}
+\begin{equation}
+\Sigma_{pq}(\infty)=\sum_{rs}\langle pr||qs\rangle\,
+\big(\gamma_{sr}-\gamma^{\mathrm{HF}}_{sr}\big) \;,
+\label{eq:si:sinf}
+\end{equation}
+where $\gamma$ is the exact one-particle density matrix and
+$\gamma^{\mathrm{HF}}$ that of the reference.
+
+Orders are counted in the M{\o}ller--Plesset partitioning. We scale the
+fluctuation potential by a coupling constant,
+\begin{equation}
+H(\lambda)=F+\lambda W \;,\qquad W=H-F \;,
+\notag
+\end{equation}
+with $F$ the Fock operator. Every energy denominator of perturbation theory is
+then a difference of orbital-energy sums and does not depend on $\lambda$. A
+term built from $m$ matrix elements of $W$ carries a factor of $\lambda^m$. We
+call the coefficient of $\lambda^m$ the $m$th order and mark it by a
+superscript $(m)$. 
+
+A configuration of class $k$ in the attachment sector has $k+1$ particles and
+$k$ holes relative to $\ket{\Phi_0}$. We denote it by $\nu$ and its
+zeroth-order energy, the sum of its particle energies minus the sum of its
+hole energies, by $K^+_\nu$. A configuration of class $k$ in the removal sector
+has $k+1$ holes and $k$ particles. We denote it by $\mu$ and the energy needed
+to remove an electron into it, the sum of its particle energies minus the sum
+of its hole energies, by $K^-_\mu$; the corresponding pole of the removal
+branch lies at minus $K^-_\mu$. Class 0 holds the one-particle states, class 1
+the 2p1h and 2h1p configurations, class 2 the 3p2h and 3h2p configurations, and so on.
+Combining a removal configuration of class $k$ with an attachment
+configuration of class $l$ gives a determinant of the neutral system with
+$k+l+1$ particles and as many holes, so that
+\begin{equation}
+K^+_\nu+K^-_\mu=E^{(0)}_{(k+l+1)\mathrm{p}(k+l+1)\mathrm{h}}-E^{(0)}_0 \;.
+\label{eq:si:gap}
+\end{equation}
+For two class-1 configurations this is a 3p3h excitation energy. It is
+positive and bounded away from zero by the gap. In particular, at zeroth order
+every attachment pole lies above every removal pole, so the two sets of poles,
+which we call $P^+$ and $P^-$, are disjoint.
+
+All constructions below deliver a static matrix and a fold
+\begin{equation}
+\mathbf{f}(\omega)=\mathbf{U}\,(\omega-\mathbf{K}-\mathbf{C})^{-1}\,\mathbf{U}^\dagger \;,
+\label{eq:si:fold}
+\end{equation}
+where $\mathbf{K}$ is the diagonal matrix of zeroth-order pole positions and
+the Hermitian, frequency-independent $\mathbf{C}$ and the couplings
+$\mathbf{U}$ are power series in $\lambda$ that start at first order. Since
+$\mathbf{K}$ does not depend on $\lambda$, expanding the resolvent in powers of
+$\mathbf{C}$ (the identity below Eq.~\eqref{eq:GFn} of the main text) writes
+each Taylor coefficient of the fold as a finite sum of chains
+\begin{equation}
+\mathbf{U}^{(a)}\,\mathbf{g}\,\mathbf{C}^{(b)}\,\mathbf{g}\cdots\mathbf{g}\,\mathbf{U}^{(c)\dagger} \;,
+\qquad \mathbf{g}=(\omega-\mathbf{K})^{-1} \;,
+\label{eq:si:chain}
+\end{equation}
+whose order is the sum of the orders of its links. Each chain is a rational
+function of $\omega$ that vanishes at infinity and has poles only at the
+diagonal entries of $\mathbf{K}$. We define an ADC($n$) by the property that its static matrix and its fold reproduce the
+Taylor coefficients of the exact static and dynamic self-energy through
+$\lambda^n$ at every frequency. 
+
+The exact self-energy has the following important property. 
+Any rational function $f(\omega)$ with the property $f(\omega) \rightarrow 0$ for $\omega \rightarrow \infty$ 
+and has its poles in the union of $P^+$ and $P^-$ is
+the sum of exactly one function with poles in $P^+$ and one with poles in
+$P^-$, both vanishing at infinity. 
+It is easy to see why: Suppose the split is not unique. Then, the function can be written as 
+\begin{equation}
+f(\omega) = f^+(\omega) + f^-(\omega) = g^+(\omega) + g^-(\omega) \;,
+\end{equation}
+with $f^+$, $g^+$ having poles in $P^+$ and 
+$f^-$, $g^-$ having poles in $P^-$. 
+Then, it follows that 
+\begin{equation}
+  f^+(\omega) - g^+(\omega) = g^-(\omega) - f^-(\omega) \;, 
+\end{equation}
+so the difference of two such splittings
+would have poles in both disjoint sets. This is only possible if it does not have any poles at all.
+The Taylor coefficients of the exact dynamic self-energy
+have their poles in $P^+$ and $P^-$, due to time-ordering.
+Therefore, for every order the dynamical self-energy, 
+\begin{equation}
+\pmb{\Sigma}^{(m)}_{\mathrm{dyn}}=\pmb{\Sigma}^{(m)}_{+}+\pmb{\Sigma}^{(m)}_{-} \;.
+\label{eq:si:pmsplit}
+\end{equation}
+That the self-energy can be written this way follows from its Goldstone expansion, that 
+shows that each time ordering of a
+self-energy diagram uniquely belongs to one sector. 
+If the electron enters at the lower
+external vertex, the system holds $N+1$ electrons between the external
+vertices. Therefore, every frequency-dependent energy denominator is that of an
+attachment configuration. In the reverse time order it is that of a removal
+configuration. 
+
+%-----------------------------------------------------------------------------
+\subsection{Diagrammatic (Dyson) ADC}
+\label{sec:si:diag}
+
+Schirmer, Cederbaum and Walter write each part of the dynamic self-energy as a
+fold over its own configuration space,\cite{Schirmer_1983}
+\begin{align}
+\pmb{\Sigma}_{+}(\omega)&=\mathbf{U}^{+}\big(\omega-\mathbf{K}^{+}-\mathbf{C}^{+}\big)^{-1}\mathbf{U}^{+\dagger} \;,
+\notag\\
+\pmb{\Sigma}_{-}(\omega)&=\mathbf{U}^{-}\big(\omega+\mathbf{K}^{-}+\mathbf{C}^{-}\big)^{-1}\mathbf{U}^{-\dagger} \;,
+\notag
+\end{align}
+the two branches of Eq.~\eqref{eq:SigmaADC} of the main text, over the 2p1h,
+3p2h, \dots\ and the 2h1p, 3h2p, \dots\ configurations. Expanding in $\lambda$
+gives, for the attachment part with the sector label dropped,
+\begin{align}
+\pmb{\Sigma}^{(2)}={}&\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{U}^{(1)\dagger} \;,
+  \label{eq:adc2}\\
+\pmb{\Sigma}^{(3)}={}&\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{U}^{(2)\dagger}+\mathbf{U}^{(2)}\mathbf{g}\,\mathbf{U}^{(1)\dagger}
++\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{C}^{(1)}\mathbf{g}\,\mathbf{U}^{(1)\dagger} \;,
+  \label{eq:adc3}\\
+\pmb{\Sigma}^{(4)}={}&\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{U}^{(3)\dagger}+\mathbf{U}^{(3)}\mathbf{g}\,\mathbf{U}^{(1)\dagger}
++\mathbf{U}^{(2)}\mathbf{g}\,\mathbf{U}^{(2)\dagger}
+\notag\\
+&+\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{C}^{(1)}\mathbf{g}\,\mathbf{U}^{(2)\dagger}
++\mathbf{U}^{(2)}\mathbf{g}\,\mathbf{C}^{(1)}\mathbf{g}\,\mathbf{U}^{(1)\dagger}
+\notag\\
+&+\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{C}^{(2)}\mathbf{g}\,\mathbf{U}^{(1)\dagger}
++\mathbf{U}^{(1)}\mathbf{g}\,\mathbf{C}^{(1)}\mathbf{g}\,\mathbf{C}^{(1)}\mathbf{g}\,\mathbf{U}^{(1)\dagger} \;,
+  \label{eq:adc4}
+\end{align}
+which is Eq.~\eqref{eq:GFn} of the main text completed at fourth order. ADC($n$)
+follows by requiring that these coefficients equal the exact attachment and
+removal parts of Eq.~\eqref{eq:si:pmsplit} through order $n$. In these
+matching equations the new unknowns at order $m+1$ are $\mathbf{U}^{(m)}$ and
+$\mathbf{C}^{(m-1)}$, and they enter linearly, so the equations are solved
+order by order. The construction needs two additional rules. First, ADC($n$) keeps the
+classes up to $\lfloor n/2\rfloor$. Second, the block between classes $k$ and $l$
+is carried through order $n-k-l$. These rules
+have been given by \citet{Schirmer_1983}, but they can be derived in the 
+intermediate state representation. This derivation is postponed to Section~\ref{sec:si:isr}.
+The exactness and uniqueness of the split in Eq.~\eqref{eq:si:pmsplit} allows for the separate 
+matching of the addition and removal branches of the dynamical self-energy.
+
+At second order, comparing with Eq.~\eqref{eq:Sigma2} of the main text gives
+the first-order couplings
+\begin{equation}
+U^{+(1)}_{p,(abk)}=\langle pk||ab\rangle \;,\qquad
+U^{-(1)}_{p,(ija)}=\langle pa||ij\rangle \;.
+\notag
+\end{equation}
+This corresponds to Goldstone diagrams that have only a single, frequency-dependent denominator. 
+At second order, this is the only denominator form.
+
+At third order, the Goldstone expansion of the self-energy produces three classes of 
+diagrams. Each of them has two denominators. The first class has two static denominators. 
+Those are then part of the static self-energy. The second class has one static and 
+one dynamic denominator. These terms then belong to the first two terms 
+of the \emph{r.h.s.} of Eq.~\eqref{eq:adc3}. The static denominators are
+absorbed into the couplings and combine with a vertex into a first-order doubles amplitude,
+\begin{equation}
+t^{ab}_{ij}=\frac{\langle ab||ij\rangle}{\epsilon_i+\epsilon_j-\epsilon_a-\epsilon_b} \;,
+\label{eq:si:t2}
+\end{equation}
+Finally, the third class of diagrams has two dynamical denominators. These enter the 
+third term of the \emph{r.h.s.} of Eq.~\eqref{eq:adc3}.
+
+
+The matrices are uniquely determined by the matching, but only up to a unitary transformation
+that reflects gauge freedom.\cite{tarantelli1992configuration}
+Take any real antisymmetric matrix $\mathbf{T}$ of first or higher order that acts
+within one sector,
+\begin{equation}
+  \begin{aligned}
+\pmb{\Sigma}_{+}(\omega) = & \mathbf{U}^{+}\big(\omega-\mathbf{K}^{+}-\mathbf{C}^{+}\big)^{-1}\mathbf{U}^{+\dagger} \\
+= & 
+\left(
+\mathbf{U}^{+}e^{\mathbf{T}}\right) 
+\left(
+e^{-\mathbf{T}}\big(\omega-\mathbf{K}^{+}-\mathbf{C}^{+}\big)^{-1}
+e^{\mathbf{T}}
+\right)
+\left(
+e^{-\mathbf{T}}
+\mathbf{U}^{+\dagger}
+\right) \;,
+  \end{aligned}
+\label{eq:si:gauge}
+\end{equation}
+and analogous for the $-$-branch.
+Physically, this reflects the fact that 
+a chain with two different resolvents decomposes into two single poles, 
+but their residues cannot tell whether they came from $\mathbf{C}$ or from
+$\mathbf{U}$. 
+Importantly, since $\mathbf{T}$ is at least of first order,
+\begin{equation}
+  e^{-\mathbf{T}}(\mathbf{K}+\mathbf{C})e^{\mathbf{T}} = \mathbf{K}+\mathbf{C}' \;,
+\label{eq:si:gaugeK}
+\end{equation}
+where $\mathbf{C}'$ collects $\mathbf{C}$ and all commutators with $\mathbf{T}$, which are of first or higher order.
+Hence, this transformation only defines alternative couplings $\mathbf{U}$
+and class interaction blocks $\mathbf{C}$, but no new zeroth-order poles.
+The diagrammatic construction implicitly fixes this
+gauge by a structural rule. A time ordering with $r$ frequency-dependent
+denominators is assigned to the chain with $r$ resolvents, as explained above for third order.
+
+At fourth order the matching is less straightforward. The reason is that 
+starting from fourth order diagrams with frequency-dependent denominators 
+at a 4p3h or 4h3p configuration show up. This seems to imply that ADC(4) must contain 
+this configuration space, i.e. going from ADC(3) to ADC(4) would imply that the configuration space is extended by two classes.
+This seems odd, and can indeed be avoided. 
+As shown in Ref.~\citenum{Schirmer_1983}, these diagrams always come in groups of four, 
+whose residues at those poles cancel. Each group then sums to terms with
+poles at 2p1h/2h1p configurations only. The fourth-order terms with the weight
+of a 3p3h times a 2p2h denominator come from a separate class of time
+orderings, those with a 3p3h configuration in flight between two class-1
+configurations, and they carry the content of the cross block of
+Sec.~\ref{sec:si:cross}.
+Beyond fourth order, this matching becomes cumbersome, even though 
+it can be automated. The ISR overcomes the laborious matching task beyond third order.\cite{Schirmer_1991} Section~\ref{sec:si:cross} shows that its
+two-sector form avoids it by leaving out exactly the content with the 3p3h
+weight.
+
+%-----------------------------------------------------------------------------
+\subsection{Intermediate states in the union space}
+\label{sec:si:isr}
+
+We now construct a Hermitian, frequency-independent matrix whose resolvent,
+restricted to the orbitals, is the exact propagator in the Dyson form of
+Eq.~\eqref{eq:si:dyson}. Its blocks will be those of
+Eq.~\eqref{eq:ISRunion} of the main text.
+
+Both branches of the propagator, Eq.~\eqref{eq:Lehmann} of the main text, are
+matrix elements of a resolvent between states with one electron added or
+removed. We collect the two kinds of states into one vector. For an operator
+$Y$ that adds one electron, we define
+\begin{equation}
+v(Y) = \big(Y\ket{\Psi_0}\,;\,Y^\dagger\ket{\Psi_0}\big) \;,
+\label{eq:si:vY}
+\end{equation}
+whose upper component lies in the $(N+1)$-electron space and whose lower
+component lies in the $(N-1)$-electron space. These vectors live in the
+direct sum of the two spaces, which we call the union space. On it,
+\citet{tarantelli1992configuration} define the composite Hamiltonian
+\begin{equation}
+\mathcal{H} = \big(H^{N+1}-E_0\big)\oplus\big(-(H^{N-1}-E_0)\big) \;,
+\label{eq:si:Hcomp}
+\end{equation}
+with $H^{N\pm1}$ the Hamiltonian in the $(N\pm1)$-electron space, which acts
+with the opposite sign on the lower component. With these definitions, the
+propagator is a single resolvent,
+\begin{equation}
+G_{pq}(\omega) = \braket{v(a_p^\dagger)|\big(\omega-\mathcal{H}\big)^{-1}|v(a_q^\dagger)} \;.
+\label{eq:si:unionG}
+\end{equation}
+This is the
+propagator in the superoperator formalism.\cite{Pickup_1973,Linderberg_2004}
+Writing out the two components shows that the upper one gives the attachment
+branch and the lower one the removal branch of Eq.~\eqref{eq:Lehmann} of the
+main text. In terms of operators, the overlap of two vectors and the matrix
+element of $\mathcal{H}$ between them are
+\begin{align}
+\braket{v(X)|v(Y)} &= \langle\Psi_0|\{X^\dagger,Y\}|\Psi_0\rangle \;,
+\label{eq:si:opS}\\
+\braket{v(X)|\mathcal{H}|v(Y)} &= \langle\Psi_0|\{X^\dagger,[H,Y]\}|\Psi_0\rangle \;,
+\label{eq:si:opH}
+\end{align}
+which follows from the eigenvalue equation of the ground state.
+In particular, the orbital vectors are orthonormal,
+\begin{equation}
+\braket{v(a_p^\dagger)|v(a_q^\dagger)} = \langle\Psi_0|\{a_p,a_q^\dagger\}|\Psi_0\rangle = \delta_{pq} \;,
+\label{eq:orthonormal}
+\end{equation}
+and an orbital vector is also orthonormal to a basis vector 
+\begin{equation}
+ \braket{v(a_p^\dagger)|v(X_I)} = \delta_{pI} \;.
+ \label{eq:orthonormal_basis}  
+\end{equation}
+
+We now choose an orthonormal basis $\{\ket{\tilde{\Psi}_I}\}$ of the union space
+whose first vectors are the orbital vectors and whose remaining vectors are
+orthogonal to them. Inserting the resolution of the identity in this basis
+twice into Eq.~\eqref{eq:si:unionG} gives
+\begin{equation}
+G_{pq}(\omega) = \sum_{IJ} \braket{v(a_p^\dagger)|\tilde{\Psi}_I}
+\Big[\big(\omega-\tilde{\mathbf{M}}\big)^{-1}\Big]_{IJ}
+\braket{\tilde{\Psi}_J|v(a_q^\dagger)} \;,
+\label{eq:si:Gblock}
+\end{equation}
+with the matrix of the composite Hamiltonian in this basis,
+\begin{equation}
+\tilde{M}_{IJ} = \braket{\tilde{\Psi}_I|\mathcal{H}|\tilde{\Psi}_J} \;.
+\label{eq:si:Mtilde}
+\end{equation}
+It can be written in the block notation of Eq.~\eqref{eq:ISRunion} of the main text,
+\begin{equation}
+\tilde{\mathbf{M}}=
+\begin{pmatrix}
+\pmb{\epsilon}+\pmb{\Sigma}(\infty) & \mathbf{U}^{-} & \mathbf{U}^{+}\\
+\mathbf{U}^{-\dagger} & -\mathbf{K}^{-}-\mathbf{C}^{-} & \mathbf{X}\\
+\mathbf{U}^{+\dagger} & \mathbf{X}^{\dagger} & \mathbf{K}^{+}+\mathbf{C}^{+}
+\end{pmatrix} ,
+\label{eq:si:union}
+\end{equation}
+
+We now discuss the meaning of the individual blocks.
+First, we stress that the union space is spanned by vectors 
+that are obtained from the application of attachment-type operators $O^+_\nu$ (2p1h strings such as $a_a^\dagger a_b^\dagger a_k$ and their higher
+analogues) and removal-type opeators $O^{-\dagger}_\mu$ (2h1p
+strings such as $a_a^\dagger a_j a_i$ and their higher analogues).\cite{Mertins_1996b}
+At zeroth order, these vectors are the attachment and the removal configurations.
+The overlap between the two types vanishes, since both are odd
+strings of mutually anticommuting operators and their anticommutator vanishes.
+Crucially, the matrix element of $\mathcal{H}$ between them does however not vanish 
+in general, because it involves a particle-number conserving number.
+This coupling is the cross block $\mathbf{X}$.
+
+The intermediate states follow from a specific orthonormalization that keeps
+the orbital operators fixed.\cite{Schirmer_1991,Mertins_1996,Schirmer_2018} The
+operators are grouped by class. 
+
+
+
+The precursors of class $k$ are first
+orthogonalized against all lower classes (class-wise Gram--Schmidt) and then
+orthonormalized symmetrically within the class.\cite{Lowdin_1950} The orbital
+operators are already orthonormal and stay unchanged. Because the metric
+between the types vanishes, both steps act within each type separately. Furthermore,
+every intermediate state has a definite type. 
+The orbital block is the Fock matrix of the exact density, which equals the
+orbital energies plus the static self-energy by Eq.~\eqref{eq:si:sinf}.
+Block inversion of Eq.~\eqref{eq:si:Gblock} and comparison with
+Eq.~\eqref{eq:si:dyson} give, for the complete manifold,
+\begin{equation}
+\pmb{\Sigma}_{\mathrm{dyn}}(\omega)=\tilde{\mathbf{U}}\,(\omega-\tilde{\mathbf{M}}_{\mathrm{c}})^{-1}\,\tilde{\mathbf{U}}^\dagger \;,
+\label{eq:si:unionexact}
+\end{equation}
+where $\tilde{\mathbf{U}}$ collects both couplings and
+$\tilde{\mathbf{M}}_{\mathrm{c}}$ is the configuration block. 
+Due ot the presene of the block $\mathbf{X}$ it is not yet of 
+the form of Eq.~\eqref{eq:SigmaADC} of the main text.
+
+To bring it into this form, we need an orthogonal transformation that leaves
+the orbital vectors unchanged and mixes only the configurations,
+\begin{equation}
+\mathbf{V}=
+\begin{pmatrix}
+\mathbf{1} & \mathbf{0} & \mathbf{0}\\
+\mathbf{0} & \mathbf{V}^{--} & \mathbf{V}^{-+}\\
+\mathbf{0} & \mathbf{V}^{+-} & \mathbf{V}^{++}
+\end{pmatrix} ,
+\label{eq:si:Vform}
+\end{equation}
+chosen such that the transformed matrix has no cross block,
+\begin{equation}
+\mathbf{V}^\dagger\tilde{\mathbf{M}}\mathbf{V}=
+\begin{pmatrix}
+\pmb{\epsilon}+\pmb{\Sigma}(\infty) & \mathbf{U}^{-\prime} & \mathbf{U}^{+\prime}\\
+\mathbf{U}^{-\prime\dagger} & -\mathbf{K}^{-}-\mathbf{C}^{-\prime} & \mathbf{0}\\
+\mathbf{U}^{+\prime\dagger} & \mathbf{0} & \mathbf{K}^{+}+\mathbf{C}^{+\prime}
+\end{pmatrix} .
+\label{eq:si:Vdecoupled}
+\end{equation}
+Since $\mathbf{V}$ does not touch the orbital vectors, it leaves the orbital
+block of the resolvent in Eq.~\eqref{eq:si:Gblock} and hence the self-energy
+unchanged. Block inversion of the transformed matrix now gives two separate
+folds,
+\begin{align}
+\pmb{\Sigma}_{\mathrm{dyn}}(\omega)={}&
+\mathbf{U}^{+\prime}\big(\omega-\mathbf{K}^{+}-\mathbf{C}^{+\prime}\big)^{-1}\mathbf{U}^{+\prime\dagger}
+\notag\\
+&+\mathbf{U}^{-\prime}\big(\omega+\mathbf{K}^{-}+\mathbf{C}^{-\prime}\big)^{-1}\mathbf{U}^{-\prime\dagger} \;,
+\label{eq:si:Vfolds}
+\end{align}
+which is the form of Eq.~\eqref{eq:SigmaADC} of the main text.
+The blocks of $\mathbf{V}$ are specified in Sec.~\ref{sec:si:tc}.
+
+The transformation $\mathbf{V}$ is of the same kind as the gauge
+transformation of Eqs.~\eqref{eq:si:gauge} and~\eqref{eq:si:gaugeK}. Both
+leave the orbitals fixed and change only the couplings and the configuration
+block, so that the fold is unchanged, and both reduce to the identity at
+zeroth order, so that no new zeroth-order poles appear. They differ in which
+configurations they mix. The gauge transformation acts within one sector,
+whereas $\mathbf{V}$ must also mix the two sectors through $\mathbf{V}^{-+}$
+and $\mathbf{V}^{+-}$ to remove $\mathbf{X}$. The decoupling condition of
+Eq.~\eqref{eq:si:Vdecoupled} fixes only this mixing. Any further rotation
+within each sector, i.e., a gauge transformation of Eq.~\eqref{eq:si:gauge},
+preserves the decoupled form, so the blocks $\mathbf{V}^{--}$ and
+$\mathbf{V}^{++}$ are not determined by the decoupling. This is the same
+freedom that the diagrammatic construction fixes by its structural rule.
+
+\subsubsection{Order Truncation}
+
+To truncate this matrix consistently, we need to know at which order in
+$\lambda$ each of its blocks starts. This tells us which classes and which
+orders of each block ADC($n$) must keep, and it derives the order rule quoted
+in Sec.~\ref{sec:si:diag}. Both the decoupling of Sec.~\ref{sec:si:tc} and
+the proof of Sec.~\ref{sec:si:proof} rely on these orders.
+
+The matrix elements become power series in $\lambda$ when the
+Rayleigh--Schr\"odinger expansion of the ground state is inserted. The first-order wave function contains the doubles
+with the amplitudes of Eq.~\eqref{eq:si:t2}. In general, components of
+excitation rank $r$ first appear at order one for doubles, at order two for
+singles and triples, and at order $\lceil r/2\rceil$ beyond. The orthonormal
+blocks then have the canonical orders of \citet{Schirmer_1991} and \citet{Mertins_1996}.
+Within one type, the coupling of
+the orbitals to class $k$ starts at order $k$, and the block between classes
+$k$ and $l$, apart from the zeroth-order diagonal, starts at order $|k-l|$, or
+at order one within a class. The class-wise Gram--Schmidt step 
+removes everything a class-$k$ precursor shares with lower
+classes, and what remains differs from a one-particle state by $k$ additional
+particle--hole pairs, each costing one order.
+
+The canonical orders fix which blocks ADC($n$) needs. We assign to each class
+an integer weight, zero for the orbitals, and suppose that every off-diagonal
+block starts no earlier than the difference of the weights of its two classes
+and every coupling no earlier than the weight of its class. A chain of
+Eq.~\eqref{eq:si:chain} that passes through a block at order $p$ between
+classes of weights $d_I$ and $d_J$ then has order at least
+\begin{equation}
+d_I+p+d_J \;,
+\label{eq:si:trunc}
+\end{equation}
+because the links from the orbitals to the first class add up to at least its
+weight by the triangle inequality, and likewise on the way back. Keeping each
+block through order $n$ minus both weights, each coupling through order $n$
+minus the weight, and only classes with at most half of $n$ as weight
+therefore changes the fold only beyond order $n$. We call this the truncation
+lemma. With the class index as weight it gives the ADC order rule quoted in
+Sec.~\ref{sec:si:diag}.\cite{Schirmer_1983,Schirmer_1991}
+Table~\ref{tab:si:sameblocks} lists the resulting same-type blocks.
+
+\begin{table}[htb]
+\caption{Same-type blocks of ADC($n$) under the order rule and the orders
+carried. Class 1: 2p1h or 2h1p; class 2: 3p2h or 3h2p. The orbital block is
+carried through order $n$.}
+\label{tab:si:sameblocks}
+\begin{tabular}{lcccc}
+\hline\hline
+block & ADC(2) & ADC(3) & ADC(4) & ADC(5)\\
+\hline
+$\mathbf{U}$, class 1 & 1 & 1--2 & 1--3 & 1--4\\
+$\mathbf{K}+\mathbf{C}$, class 1 & 0 & 0--1 & 0--2 & 0--3\\
+$\mathbf{U}$, class 2 & -- & -- & 2 & 2--3\\
+$\mathbf{C}$, classes 1--2 & -- & -- & 1 & 1--2\\
+$\mathbf{K}+\mathbf{C}$, class 2 & -- & -- & 0 & 0--1\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+%-----------------------------------------------------------------------------
+\subsection{Two sectors and the cross block}
+\label{sec:si:cross}
+
+From Eq.~\eqref{eq:si:opH}, one obtains the explicit expression for the couplings
+element,
+\begin{align}
+X_{\mu\nu}={}&\langle\Psi_0|\{O^-_\mu,[H,O^+_\nu]\}|\Psi_0\rangle
+\notag\\
+={}&\langle O^{-\dagger}_\mu\Psi_0|H-E_0|O^+_\nu\Psi_0\rangle
+-\langle O^-_\mu\Psi_0|H-E_0|O^{+\dagger}_\nu\Psi_0\rangle \;.
+\label{eq:si:Xraw}
+\end{align}
+We now compute $\mathbf{X}$ order by order for a class-1 pair with removal
+string
+\begin{equation}
+  \begin{aligned}
+O^-_\mu = & a_a^\dagger a_j a_i \\
+O^+_\nu = & a_c^\dagger a_d^\dagger a_k  \;.
+  \end{aligned}
+\label{eq:si:Xpair}
+\end{equation}
+We expand the ground state in intermediate normalization,
+\begin{equation}
+\ket{\Psi_0} = \ket{\Phi_0} + \lambda\ket{\Psi^{(1)}} + \lambda^2\ket{\Psi^{(2)}} + \mathcal{O}(\lambda^3) \;,
+\label{eq:si:psiexp}
+\end{equation}
+with
+\begin{equation}
+\ket{\Psi^{(1)}} = \frac14\sum_{ijab} t^{ab}_{ij}\, a_a^\dagger a_b^\dagger a_j a_i \ket{\Phi_0} \;, 
+\label{eq:si:psi1}
+\end{equation}
+and the amplitudes of Eq.~\eqref{eq:si:t2}.
+The second-order wave function contains singles, doubles, connected triples, and
+the disconnected quadruples of the first-order operator,
+\begin{align}
+\ket{\Psi^{(2)}} ={}& \Big[\sum_{ia} t^{a(2)}_{i}\, a_a^\dagger a_i
++ \frac14\sum_{ijab} t^{ab(2)}_{ij}\, a_a^\dagger a_b^\dagger a_j a_i
+\notag\\
+&+ \frac{1}{36}\sum_{ijkabc} t^{abc(2)}_{ijk}\, a_a^\dagger a_b^\dagger a_c^\dagger a_k a_j a_i
++ \frac12\big(\hat{T}^{(1)}\big)^2\Big]\ket{\Phi_0} \;,
+\label{eq:si:psi2}
+\end{align}
+where $\hat{T}^{(1)}$ is the double-excitation operator of Eq.~\eqref{eq:si:psi1}, which creates $\ket{\Psi^{(1)}}$ from $\ket{\Phi_0}$.
+The second-order amplitudes are
+\begin{align}
+D^{a}_{i}\, t^{a(2)}_{i} ={}& \frac12\sum_{jbc}\langle aj||bc\rangle\, t^{bc}_{ij}
+- \frac12\sum_{jkb}\langle jk||ib\rangle\, t^{ab}_{jk} \;,
+\label{eq:si:t1two}\\
+D^{ab}_{ij}\, t^{ab(2)}_{ij} ={}& \frac12\sum_{cd}\langle ab||cd\rangle\, t^{cd}_{ij}
++ \frac12\sum_{kl}\langle kl||ij\rangle\, t^{ab}_{kl}
+\notag\\
+&+ P(ij)P(ab)\sum_{kc}\langle kb||cj\rangle\, t^{ac}_{ik} \;,
+\label{eq:si:t2two}\\
+D^{abc}_{ijk}\, t^{abc(2)}_{ijk} ={}& P(i/jk)P(a/bc)\Big[\sum_{d}\langle di||bc\rangle\, t^{ad}_{jk}
+\notag\\
+&- \sum_{l}\langle la||jk\rangle\, t^{bc}_{il}\Big] \;,
+\label{eq:si:t3two}
+\end{align}
+with the orbital-energy differences
+\begin{align}
+D^{a}_{i} &= \epsilon_i - \epsilon_a \;,
+\notag\\
+D^{ab}_{ij} &= \epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b \;,
+\notag\\
+D^{abc}_{ijk} &= \epsilon_i + \epsilon_j + \epsilon_k - \epsilon_a - \epsilon_b - \epsilon_c \;,
+\notag
+\end{align}
+and the antisymmetrizers
+\begin{align}
+P(ij)\,f(i,j) &= f(i,j) - f(j,i) \;,
+\notag\\
+P(i/jk)\,f(i,j,k) &= f(i,j,k) - f(j,i,k) - f(k,j,i) \;.
+\notag
+\end{align}
+These are the Rayleigh--Schr\"odinger coefficients of the ground state; we
+checked them against the determinant-space expansion of the $\lambda$-oracle.
+The second-order density matrix, which enters the static self-energy of
+Eq.~\eqref{eq:si:sinf}, follows from Eqs.~\eqref{eq:si:psi1} and~\eqref{eq:si:psi2}.
+We also need the shifted Hamiltonian,
+\begin{equation}
+H - E_0 = \big(F - E^{(0)}_0\big) + \lambda\big(W - E^{(1)}_0\big) + \mathcal{O}(\lambda^2) \;.
+\notag
+\end{equation}
+We denote the determinants reached from $\ket{\Phi_0}$ by the strings as
+\begin{equation}
+\begin{aligned}
+\ket{\Phi^{cd}_{k}} &= a_c^\dagger a_d^\dagger a_k\ket{\Phi_0} \;, &
+\ket{\Phi^{a}_{ij}} &= a_a^\dagger a_j a_i\ket{\Phi_0} \;, \\
+\ket{\Phi^{b}} &= a_b^\dagger\ket{\Phi_0} \;, &
+\ket{\Phi_{l}} &= a_l\ket{\Phi_0} \;.
+\end{aligned}
+\notag
+\end{equation}
+The Fock operator is diagonal in determinants,
+\begin{equation}
+\braket{\Phi_I|F|\Phi_J} = \delta_{IJ}\,E^{(0)}_I \;,
+\label{eq:si:Fdiag}
+\end{equation}
+$E^{(0)}_I$ is the sum of the occupied orbital energies of $\ket{\Phi_I}$.
+
+\subsection{Zeroth Order}
+
+At zeroth order, the ground state is $\ket{\Phi_0}$, and the adjoint strings
+in Eq.~\eqref{eq:si:Xraw} annihilate it, because both contain the annihilator
+of an empty virtual orbital,
+\begin{align}
+O^{-\dagger}_\mu\ket{\Phi_0} &= a_i^\dagger a_j^\dagger a_a\ket{\Phi_0} = 0 \;,
+\notag\\
+O^{+\dagger}_\nu\ket{\Phi_0} &= a_k^\dagger a_d a_c\ket{\Phi_0} = 0 \;.
+\label{eq:si:adj0}
+\end{align}
+Each of the two terms of Eq.~\eqref{eq:si:Xraw} contains one of these vectors, so
+\begin{equation}
+X^{(0)}_{\mu\nu} = 0 \;.
+\notag
+\end{equation}
+In union-space language, with an HF ground state each intermediate state lives
+in one sector only, and the composite Hamiltonian does not connect the two
+sectors.
+
+\subsection{First Order}
+
+At first order, correlation gives each vector a component in the other sector.
+The upper component of the removal-type vector becomes a one-particle state,
+and the lower component of the attachment-type vector a one-hole state,
+\begin{align}
+O^{-\dagger}_\mu\ket{\Psi^{(1)}}&=\sum_b t^{ab}_{ij}\,\ket{\Phi^{b}} \;,
+\label{eq:si:admix1}\\
+O^{+\dagger}_\nu\ket{\Psi^{(1)}}&=-\sum_l t^{cd}_{kl}\,\ket{\Phi_{l}} \;.
+\label{eq:si:admix2}
+\end{align}
+Collecting the first-order terms of Eq.~\eqref{eq:si:Xraw}, every term that
+contains one of the vectors of Eq.~\eqref{eq:si:adj0} vanishes, and only the
+admixtures combined with the zeroth-order Hamiltonian remain,
+\begin{align}
+X^{(1)}_{\mu\nu} ={}& \braket{O^{-\dagger}_\mu\Psi^{(1)}|F-E^{(0)}_0|O^+_\nu\Phi_0}
+- \braket{O^-_\mu\Phi_0|F-E^{(0)}_0|O^{+\dagger}_\nu\Psi^{(1)}}
+\notag\\
+={}& \sum_b t^{ab}_{ij}\,\braket{\Phi^{b}|F-E^{(0)}_0|\Phi^{cd}_{k}}
++ \sum_l t^{cd}_{kl}\,\braket{\Phi^{a}_{ij}|F-E^{(0)}_0|\Phi_{l}} \;.
+\notag
+\end{align}
+Both matrix elements connect different determinants, a one-particle determinant
+with a 2p1h determinant in the first sum and a 2h1p determinant with a one-hole
+determinant in the second. By Eq.~\eqref{eq:si:Fdiag} they vanish, so that\cite{tarantelli1992configuration}
+\begin{equation}
+X^{(1)}_{\mu\nu} = 0 \;,
+\notag
+\end{equation}
+
+\subsection{Second Order}
+
+At second order, we collect all terms of Eq.~\eqref{eq:si:Xraw} whose orders
+in the bra, the Hamiltonian, and the ket add up to two,
+\begin{align}
+X^{(2)}_{\mu\nu} = \sum_{p+q+r=2} \Big[&
+\braket{O^{-\dagger}_\mu\Psi^{(p)}|(H-E_0)^{(q)}|O^+_\nu\Psi^{(r)}}
+\notag\\
+&- \braket{O^-_\mu\Psi^{(p)}|(H-E_0)^{(q)}|O^{+\dagger}_\nu\Psi^{(r)}}\Big] \;,
+\label{eq:si:X2sum}
+\end{align}
+with $\ket{\Psi^{(0)}}$ the HF determinant and the orders of the shifted
+Hamiltonian
+\begin{align}
+(H-E_0)^{(0)} &= F-E^{(0)}_0 \;,
+\notag\\
+(H-E_0)^{(1)} &= W-E^{(1)}_0 \;,
+\notag\\
+(H-E_0)^{(2)} &= -E^{(2)}_0 \;.
+\notag
+\end{align}
+By Eq.~\eqref{eq:si:adj0}, every term with $p$ equal to zero in the first part
+and every term with $r$ equal to zero in the second part vanishes. Two of the
+remaining terms have both vectors at first order. In the first, the bra is the
+one-particle state of Eq.~\eqref{eq:si:admix1}, while the ket,
+\begin{equation}
+O^+_\nu\ket{\Psi^{(1)}} = \frac14\sum_{mnef} t^{ef}_{mn}\,
+a_c^\dagger a_d^\dagger a_k\, a_e^\dagger a_f^\dagger a_n a_m\ket{\Phi_0} \;,
+\notag
+\end{equation}
+is a combination of 4p3h determinants. In the second, the ket is the one-hole
+state of Eq.~\eqref{eq:si:admix2}, while the bra $O^-_\mu\ket{\Psi^{(1)}}$ is a
+combination of 4h3p determinants. The Fock operator is diagonal,
+Eq.~\eqref{eq:si:Fdiag}, so both terms vanish,
+\begin{equation}
+\braket{O^{-\dagger}_\mu\Psi^{(1)}|F-E^{(0)}_0|O^+_\nu\Psi^{(1)}} =
+\braket{O^-_\mu\Psi^{(1)}|F-E^{(0)}_0|O^{+\dagger}_\nu\Psi^{(1)}} = 0 \;.
+\notag
+\end{equation}
+Four terms remain,
+\begin{align}
+X^{(2)}_{\mu\nu} ={}& \braket{O^{-\dagger}_\mu\Psi^{(2)}|F-E^{(0)}_0|O^+_\nu\Phi_0}
+- \braket{O^-_\mu\Phi_0|F-E^{(0)}_0|O^{+\dagger}_\nu\Psi^{(2)}}
+\notag\\
+&+ \braket{O^{-\dagger}_\mu\Psi^{(1)}|W|O^+_\nu\Phi_0}
+- \braket{O^-_\mu\Phi_0|W|O^{+\dagger}_\nu\Psi^{(1)}} \;.
+\label{eq:si:X2terms}
+\end{align}
+In the first two terms, the Fock operator acts on the determinants
+$\ket{\Phi^{cd}_k}$ and $\ket{\Phi^{a}_{ij}}$ and gives their zeroth-order
+energies relative to the ground state, $K^+_\nu$ and $K^-_\mu$. What remains
+is the overlap of $\ket{\Psi^{(2)}}$ with the triply excited determinant
+obtained by applying both strings to the reference (holes $i,j,k$, particles
+$a,c,d$),
+\begin{equation}
+\ket{T_{\mu\nu}} = O^-_\mu O^+_\nu\ket{\Phi_0} \;, \qquad
+c^{(2)}_{\mu\nu} = \braket{T_{\mu\nu}|\Psi^{(2)}} \;,
+\notag
+\end{equation}
+where we used that the two odd strings anticommute in the second term. In the
+last two terms, the admixtures of Eqs.~\eqref{eq:si:admix1}
+and~\eqref{eq:si:admix2} meet one matrix element of $W$ between determinants
+that differ by two spin orbitals, which the Slater--Condon rules give as an
+antisymmetrized integral. Together,
+\begin{align}
+X^{(2)}_{\mu\nu}={}&(K^+_\nu+K^-_\mu)\,c^{(2)}_{\mu\nu}
++\sum_b t^{ab}_{ij}\langle bk||cd\rangle
+\notag\\
+&+\sum_l t^{cd}_{kl}\langle al||ij\rangle \;.
+\label{eq:si:X2}
+\end{align}
+The triples coefficient follows from the Rayleigh--Schr\"odinger recursion.
+The zeroth-order energy of $\ket{T_{\mu\nu}}$ relative to the ground state is
+the sum of $K^+_\nu$ and $K^-_\mu$, Eq.~\eqref{eq:si:gap}, so
+\begin{equation}
+c^{(2)}_{\mu\nu} = -\frac{\braket{T_{\mu\nu}|W|\Psi^{(1)}}}{K^+_\nu+K^-_\mu} \;,
+\notag
+\end{equation}
+and the triples denominator cancels in Eq.~\eqref{eq:si:X2},
+\begin{align}
+X^{(2)}_{\mu\nu}={}&-\braket{T_{\mu\nu}|W|\Psi^{(1)}}
++\sum_b t^{ab}_{ij}\langle bk||cd\rangle
+\notag\\
+&+\sum_l t^{cd}_{kl}\langle al||ij\rangle \;.
+\label{eq:si:X2final}
+\end{align}
+The whole cross block at
+second order is a contraction of integrals with first-order doubles
+amplitudes. It contains the numerator of the connected triples, which enter
+the wave function at second order and the energy at fourth order, but no
+triples denominator.
+
+\subsection{Higher-Order Generalizations}
+
+The same counting gives the leading order of every cross block. The adjoint of
+a removal string of class $k$ fills $k+1$ holes and empties $k$ particles, so
+it acts on ground-state components of excitation rank at least $k+1$; one
+matrix element of $W$ changes the number of particles by at most two, so it
+reaches an attachment configuration of class $l$ only from rank $k+l-1$ on;
+the second term of Eq.~\eqref{eq:si:Xraw} gives the mirror condition. With the
+orders at which these components first appear, the block between classes $k$
+and $l$ starts no earlier than order
+\begin{equation}
+L(k,l)=\Big\lceil\frac{k+l+1}{2}\Big\rceil \;.
+\label{eq:si:Lkl}
+\end{equation}
+This bound is our counting for the raw element; that the orthonormalization
+does not lower it rests on the numerical checks. Under the order rule the
+block between classes $k$ and $l$ is carried through order $n-k-l$, so the
+class-1 block enters ADC(4), the blocks between classes 1 and 2 enter ADC(5),
+and so on.
+
+The two-sector and union-space ISR share all same-type blocks. This also
+holds for the form of the two-sector ISR that builds the removal sector from
+the removal strings themselves and takes the commutator with $H$ in reversed
+order: for real orbitals each of its elements equals the corresponding
+union-space element, for the configuration block
+\begin{equation}
+\langle\Psi_0|\{O^{-\dagger}_\mu,[O^-_{\mu'},H]\}|\Psi_0\rangle
+=\braket{v(O^{-\dagger}_\mu)|\mathcal{H}|v(O^{-\dagger}_{\mu'})} \;,
+\notag
+\end{equation}
+and likewise for the metric and the couplings. The difference of the two
+folds therefore consists of the chains that contain at least one cross
+block. A chain begins and ends with a coupling of at least first order,
+and the cross block is at least of second order. The lowest such chain is
+\begin{equation}
+\pmb{\Delta}^{(4)}(\omega)=\mathbf{U}^{-(1)}(\omega+\mathbf{K}^-)^{-1}\mathbf{X}^{(2)}(\omega-\mathbf{K}^+)^{-1}\mathbf{U}^{+(1)\dagger}+\mathrm{h.c.} \;,
+\label{eq:si:defect}
+\end{equation}
+the path from orbital $p$ through a 2h1p configuration, the cross block and a
+2p1h configuration back to orbital $q$, with orders one, two and one. Every
+other chain with a cross block is of fifth order or higher. The two-sector
+ISR-ADC($n$) is therefore exact through third order for every $n$ and in
+general not at fourth order. This is not a truncation effect: the complete
+two-sector representation misses the same coefficient, because the deleted
+block is part of the complete union-space matrix.
+
+The cross block has a simple physical reading. The type of an intermediate
+state is sharp only at zeroth order. In the correlated ground state each
+intermediate state acquires a first-order admixture of the other sector,
+Eqs.~\eqref{eq:si:admix1} and~\eqref{eq:si:admix2}, and the Hamiltonian couples
+two states through these admixtures, at second order. The two-sector
+construction keeps the effect of the admixtures on the same-type blocks but
+drops their mutual coupling. In diagram language the missing content is a
+3p3h fluctuation in flight: the energy difference between the two coupled
+configurations is the excitation energy of $\ket{T_{\mu\nu}}$, and the
+corresponding fourth-order time orderings carry the weight of a 3p3h times a
+2p2h denominator. Part of this content is a ground-state triples amplitude, the
+first term of Eq.~\eqref{eq:si:X2}. The rest divides matrix elements between
+$(N\pm1)$-electron states by a triples energy and is not an amplitude of the
+ground state, which is why no construction from the ground state alone
+recovers it.\cite{tarantelli1992configuration}
+
+%-----------------------------------------------------------------------------
+\subsection{The Tarantelli--Cederbaum decoupling}
+\label{sec:si:tc}
+
+We now construct the transformation $\mathbf{V}$ of
+Eq.~\eqref{eq:si:Vform} order by order.\cite{tarantelli1992configuration,Mertins_1996b} 
+As we have discussed, block diagonalizations are not unique, as 
+after decoupling any unitary transformation of the type Eq.~\eqref{eq:si:gauge} can be applied.
+
+A canonical choice writes the configuration part of $\mathbf{V}$ as
+the exponential of a generator $\mathbf{A}$ that connects only the two sectors,
+\begin{equation}
+\tilde{\mathbf{M}}'_{\mathrm{c}}=e^{-\mathbf{A}}\tilde{\mathbf{M}}_{\mathrm{c}}\,e^{\mathbf{A}}
+=\tilde{\mathbf{M}}_{\mathrm{c}}+[\tilde{\mathbf{M}}_{\mathrm{c}},\mathbf{A}]
++\tfrac12\big[[\tilde{\mathbf{M}}_{\mathrm{c}},\mathbf{A}],\mathbf{A}\big]+\cdots \;,
+\label{eq:si:bch}
+\end{equation}
+with $\mathbf{A}$ real antisymmetric, a power series in $\lambda$, and nonzero
+only between a removal-type state $\mu$ and an attachment-type state $\nu$,
+where we call its element $a_{\mu\nu}$.
+This is the canonical van Vleck transformation of quasidegenerate perturbation
+theory,\cite{VanVleck_1929,Shavitt_1980} which is also known as the
+Schrieffer--Wolff transformation,\cite{Schrieffer_1966} here applied between
+two blocks separated by a gap. It also has a closed form at finite
+$\lambda$.\cite{Cederbaum_1989}
+
+In the coefficient of order $m$ of Eq.~\eqref{eq:si:bch}, the new generator
+$\mathbf{A}^{(m)}$ appears only through its commutator with the zeroth-order
+diagonal, since every other term that contains it has an additional factor of
+at least first order. On the diagonal stand minus $K^-_\mu$ and $K^+_\nu$, so
+this commutator multiplies $a^{(m)}_{\mu\nu}$ by minus the sum of the two
+energies. Let $\mathbf{R}^{(m)}$ be the cross part of the coefficient of order
+$m$ computed from the lower orders of $\mathbf{A}$. The cross part vanishes if
+and only if
+\begin{equation}
+a^{(m)}_{\mu\nu}=\frac{R^{(m)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;.
+\label{eq:si:Arec}
+\end{equation}
+By Eq.~\eqref{eq:si:gap} every denominator is an excitation energy of rank
+three or higher, so there are no small denominators. Since $\mathbf{X}$
+vanishes at orders zero and one, the generator starts at second order with
+\begin{equation}
+a^{(2)}_{\mu\nu}=\frac{X^{(2)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\label{eq:si:A2}
+\end{equation}
+the second-order triples coefficient plus the integral terms of
+Eq.~\eqref{eq:si:X2} divided by the 3p3h energy. The recursion fixes every
+order uniquely. Any other block diagonalization that reduces to the identity
+at zeroth order differs from this one by a rotation within each sector: the
+cross part of the connecting transformation obeys, order by order, an equation
+whose zeroth-order operator is the difference of the attachment and removal
+pole positions, which never vanishes, so it is zero. The other decouplings
+are therefore exactly the gauge transformations of Eq.~\eqref{eq:si:gauge}.
+
+We now work out ADC(4). Table~\ref{tab:si:adc4} lists the blocks of the
+union-space ADC(4). The generator starts at second order and connects classes
+1 and 1, 1 and 2, and 2 and 1. We go through the blocks and keep only what the
+order rule keeps. The couplings to class 1 are carried through third order.
+Their image under the generator is the first-order coupling times the
+second-order generator, of third order, and it survives; all other images are
+of fourth order or higher. The couplings to class 2 are carried through second
+order, and their lowest image is of third order. The class-1 blocks are
+carried through second order, while the first change of any same-type block is
+of fourth order: the same-type part of Eq.~\eqref{eq:si:bch} arises only from
+the cross block times the generator and from the double commutator, which
+together give half the commutator of $\mathbf{X}^{(2)}$ with
+$\mathbf{A}^{(2)}$. The remaining blocks change only at third order or later,
+beyond what the rule carries. The cross blocks vanish by construction and the
+orbital block is untouched.
+
+\begin{table}[htb]
+\caption{Blocks of the union-space ISR-ADC(4): highest order kept by the rule
+(``through'') and leading order (``lead''). Same-type blocks occur once per
+type. The two-sector ISR-ADC(4) has the same blocks without $\mathbf{X}$.}
+\label{tab:si:adc4}
+\begin{tabular}{lccl}
+\hline\hline
+block & through & lead & content\\
+\hline
+orbitals & 4 & 0 & $\pmb{\epsilon}+\pmb{\Sigma}(\infty)$\\
+orbitals--class 1 & 3 & 1 & $\mathbf{U}^{(1)}+\mathbf{U}^{(2)}+\mathbf{U}^{(3)}$\\
+orbitals--class 2 & 2 & 2 & $\mathbf{U}^{(2)}$\\
+class 1--class 1 & 2 & 0 & $\mathbf{K}+\mathbf{C}^{(1)}+\mathbf{C}^{(2)}$\\
+class 1--class 2 & 1 & 1 & $\mathbf{C}^{(1)}$\\
+class 2--class 2 & 0 & 0 & $\mathbf{K}$\\
+$\mathbf{X}$, classes 1--1 & 2 & 2 & $\mathbf{X}^{(2)}$\\
+$\mathbf{X}$, classes 1--2 & 1 & 2 & zero\\
+$\mathbf{X}$, classes 2--2 & 0 & 3 & zero\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+The decoupled ADC(4) is therefore the two-sector ISR-ADC(4) with one change:
+third-order rows are added to the class-1 couplings of both types,
+\begin{align}
+\delta\mathbf{U}^+_{\nu}&=\sum_{\mu}\mathbf{U}^{-(1)}_{\mu}\,
+\frac{X^{(2)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\notag\\
+\delta\mathbf{U}^-_{\mu}&=-\sum_{\nu}\mathbf{U}^{+(1)}_{\nu}\,
+\frac{X^{(2)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\label{eq:si:deltaU}
+\end{align}
+where a coupling with a configuration subscript denotes its column of
+first-order couplings to all orbitals and the sums run over class 1. These rows
+are the partial fractions of the defect of Eq.~\eqref{eq:si:defect}. Splitting
+the product of the two resolvents,
+\begin{equation}
+\frac{1}{(\omega+K^-_\mu)(\omega-K^+_\nu)}=\frac{1}{K^-_\mu+K^+_\nu}
+\left[\frac{1}{\omega-K^+_\nu}-\frac{1}{\omega+K^-_\mu}\right] ,
+\notag
+\end{equation}
+turns Eq.~\eqref{eq:si:defect} into single poles at class-1 configurations of
+both types,
+\begin{align}
+\pmb{\Delta}^{(4)}(\omega)={}&\sum_\nu\frac{\delta\mathbf{U}^+_\nu\mathbf{U}^{+(1)\dagger}_\nu
++\mathrm{h.c.}}{\omega-K^+_\nu}
++\sum_\mu\frac{\delta\mathbf{U}^-_\mu\mathbf{U}^{-(1)\dagger}_\mu
++\mathrm{h.c.}}{\omega+K^-_\mu} \;,
+\label{eq:si:defectpf}
+\end{align}
+which is exactly the first-order change of the two sector folds caused by the
+new rows. The cross block couples a pole in one sector to a pole in the other,
+and the partial fraction distributes this coupling over the two sectors with
+the weight of a 3p3h energy. The three constructions keep this content in
+three forms. The two-sector ISR deletes it. The decoupling places it in the
+couplings, as the diagrammatic ansatz requires. The union-space ISR keeps the
+block, and its eigenvalue problem generates the 3p3h denominators by coupling
+the sectors. At fifth order the same counting shows that the decoupling still
+changes only couplings; the first change of a configuration block within the
+order rule appears in ADC(6).
+
+%-----------------------------------------------------------------------------
+\subsection{Proof for general $n$}
+\label{sec:si:proof}
+
+This section proves that the canonical decoupling of the union-space ISR,
+truncated by the order rule, is a diagrammatic ADC($n$). We first fix the
+objects and the one assumption the proof needs, then state the theorem, prove
+four lemmas, derive the theorem from them, and close with its consequences and
+limits.
+
+\subsubsection{Definitions and assumption}
+
+The proof compares matrices order by order, so we first say what it means for a
+block to begin at a given order.
+
+\begin{definition}
+\label{def:si:start}
+A block of a matrix whose elements are power series in $\lambda$ starts no
+earlier than order $p$ if all its Taylor coefficients below order $p$ vanish.
+\end{definition}
+
+The target of the proof is the construction of Schirmer, Cederbaum and
+Walter,\cite{Schirmer_1983} stated without reference to how the matrix elements
+are found.
+
+\begin{definition}
+\label{def:si:twosector}
+A two-sector representation of order $n$ is a static orbital matrix together
+with an attachment fold and a removal fold of the form of the ansatz of
+Sec.~\ref{sec:si:diag}. Its configuration spaces hold the classes of the order
+rule, and its blocks are carried through the orders of the order rule.
+\end{definition}
+
+\begin{definition}
+\label{def:si:diagadc}
+A diagrammatic ADC($n$) is a two-sector representation of order $n$ with three
+properties. Its attachment fold reproduces the exact attachment part of
+Eq.~\eqref{eq:si:pmsplit} through order $n$ at every frequency. Its removal
+fold does the same for the exact removal part. Its static matrix reproduces the
+orbital energies plus the exact static self-energy through order $n$.
+\end{definition}
+
+The candidate is built from the complete union-space matrix of
+Eq.~\eqref{eq:si:union} and the canonical generator of Sec.~\ref{sec:si:tc}.
+
+\begin{definition}
+\label{def:si:decadc}
+The decoupled ADC($n$) is obtained in two steps. The configuration block of the
+complete union-space matrix is transformed with the canonical generator of
+Eqs.~\eqref{eq:si:bch} and~\eqref{eq:si:Arec}. The transformed matrix is then
+truncated by the order rule, with the orbital block carried through order $n$.
+\end{definition}
+
+The canonical orders of Sec.~\ref{sec:si:isr} bound the same-type blocks. For
+the cross blocks we have only the bound of Eq.~\eqref{eq:si:Lkl}, and the proof
+needs it to be at least as strong as the class difference.
+
+\begin{assumption}
+\label{ass:si:A3}
+For every removal-type class $k$ and every attachment-type class $l$, the cross
+block between them starts no earlier than the class difference, that is,
+\begin{equation}
+L(k,l)\ \ge\ |k-l| \;.
+\label{eq:si:A3}
+\end{equation}
+\end{assumption}
+
+By Eq.~\eqref{eq:si:Lkl}, the assumption holds unless one class exceeds three
+times the other plus two. It fails first for a removal-type class 1 and an
+attachment-type class 6.
+
+\subsubsection{Theorem}
+
+\begin{theorem}
+\label{thm:si:decoupling}
+The decoupled ADC($n$) is a diagrammatic ADC($n$) for every $n$ from two to
+nine. Under Assumption~\ref{ass:si:A3} it is a diagrammatic ADC($n$) for every
+$n$.
+\end{theorem}
+
+The proof rests on two properties of the decoupled matrix. Its complete form
+separates the sectors exactly (Lemma~\ref{lem:si:separation}), and its blocks
+keep the canonical orders (Lemma~\ref{lem:si:orders}). Two general facts, the
+uniqueness of the sector split (Lemma~\ref{lem:si:split}) and the effect of a
+truncation on the fold (Lemma~\ref{lem:si:trunc}), connect these properties to
+the definition of a diagrammatic ADC($n$).
+
+\subsubsection{Lemmas}
+
+The first lemma lets us match the two sectors separately. It restates the
+argument of Sec.~\ref{sec:si:setting}.
+
+\begin{lemma}[Split lemma]
+\label{lem:si:split}
+Let $f$ be a rational function of $\omega$ that vanishes at infinity and has
+its poles in the union of $P^+$ and $P^-$. Then $f$ is the sum of exactly one
+function with poles in $P^+$ and one function with poles in $P^-$, both
+vanishing at infinity.
+\end{lemma}
+
+\begin{proof}
+The partial-fraction decomposition of $f$ gives one such sum. The difference of
+two such sums is a function whose poles lie both in $P^+$ and in $P^-$. The two
+sets are disjoint, so this function has no poles. A rational function without
+poles that vanishes at infinity is zero.
+\end{proof}
+
+The second lemma states which blocks a truncation may drop. It restates the
+truncation argument of Sec.~\ref{sec:si:isr}.
+
+\begin{lemma}[Truncation lemma]
+\label{lem:si:trunc}
+Assign to each class an integer weight, zero for the orbitals. Let a matrix of
+the form of Eq.~\eqref{eq:si:union} have three properties. Every off-diagonal
+block starts no earlier than the difference of the weights of its two classes.
+Every coupling starts no earlier than the weight of its class. Every diagonal
+block is the zeroth-order configuration energies plus terms of first or higher
+order. Then the fold changes only beyond order $n$ if we drop the terms of each
+block beyond order $n$ minus both weights, the terms of each coupling beyond
+order $n$ minus its weight, and every class whose weight exceeds half of $n$.
+\end{lemma}
+
+\begin{proof}
+By Eq.~\eqref{eq:si:trunc}, a chain of Eq.~\eqref{eq:si:chain} that passes
+through a block term of order $p$ between classes of weights $d_I$ and $d_J$
+has order at least $d_I$ plus $p$ plus $d_J$. A dropped block term has $p$
+above $n$ minus both weights, and a dropped coupling term likewise. A chain that
+enters an omitted class reaches it and leaves it at a total order of at least
+twice its weight, which exceeds $n$. Every chain that contains a dropped term
+is therefore of order $n+1$ or higher.
+\end{proof}
+
+The third lemma shows that the complete decoupled matrix already produces the
+two exact sector parts.
+
+\begin{lemma}[Sector separation]
+\label{lem:si:separation}
+The canonical decoupling of the complete union-space matrix has an attachment
+fold and a removal fold. At every order $m$, the Taylor coefficient of the
+attachment fold equals the exact attachment part of Eq.~\eqref{eq:si:pmsplit},
+and that of the removal fold equals the exact removal part. Its orbital block
+equals the orbital energies plus the exact static self-energy.
+\end{lemma}
+
+\begin{proof}
+The complete union-space fold equals the exact dynamic self-energy by
+Eq.~\eqref{eq:si:unionexact}. The decoupling does not touch the orbital
+vectors, so the decoupled fold equals the union-space fold, and the orbital
+block is that of Eq.~\eqref{eq:si:union}. The decoupled configuration block has
+no cross part, so the decoupled fold is the sum of an attachment fold and a
+removal fold, Eq.~\eqref{eq:si:Vfolds}. The generator starts at second order,
+so the zeroth-order diagonals of the two folds are the attachment and the
+removal pole positions. By the chain expansion, every Taylor coefficient of
+each fold then has its poles in its own set. Lemma~\ref{lem:si:split}, applied
+at each order, identifies the two folds with the exact attachment and removal
+parts.
+\end{proof}
+
+Lemma~\ref{lem:si:separation} shows that the canonical decoupling of the exact
+ISR produces, without a single diagram, the two parts that the Goldstone
+expansion produces by sorting time orderings. The fourth lemma shows that the
+decoupling keeps the orders that Lemma~\ref{lem:si:trunc} needs.
+
+\begin{lemma}[Order preservation]
+\label{lem:si:orders}
+Under Assumption~\ref{ass:si:A3}, the decoupled complete matrix satisfies the
+hypotheses of Lemma~\ref{lem:si:trunc} with the class index as weight.
+\end{lemma}
+
+\begin{proof}
+In the union-space matrix, every same-type block starts no earlier than the
+class difference by the canonical orders, and every cross block does so by
+Eq.~\eqref{eq:si:Lkl} and Assumption~\ref{ass:si:A3}. We show by induction on
+the order $m$ that the generator obeys the same bound. Suppose it does below
+order $m$. The coefficient $R^{(m)}_{\mu\nu}$ of Eq.~\eqref{eq:si:Arec} is a
+sum of products of blocks along index paths from $\mu$ to $\nu$ whose orders
+add up to $m$. Each link starts no earlier than the class difference of its two
+ends. By the triangle inequality, the coefficient vanishes when $m$ is smaller
+than the class difference of $\mu$ and $\nu$. Equation~\eqref{eq:si:Arec}
+divides it by a number that does not depend on $\lambda$, so the generator obeys
+the bound at order $m$. The same triangle inequality carries the bound to the
+exponential of the generator, to the transformed couplings and to the
+transformed configuration block. The generator starts at second order, so the
+diagonal of the transformed configuration block still starts with the
+configuration energies, and every other diagonal term is of first or higher
+order.
+\end{proof}
+
+\subsubsection{Proof of the theorem}
+
+We first prove the theorem under Assumption~\ref{ass:si:A3} and then remove the
+assumption for orders up to nine.
+
+\begin{proof}[Proof of Theorem~\ref{thm:si:decoupling}]
+By Lemmas~\ref{lem:si:orders} and~\ref{lem:si:trunc}, truncating the decoupled
+complete matrix by the order rule changes its fold only beyond order $n$. The
+truncation creates no cross blocks, so the truncated fold is still a sum of an
+attachment fold and a removal fold, with Hermitian, frequency-independent
+blocks over the classes of the rule. The decoupled ADC($n$) is therefore a
+two-sector representation of order $n$. Its total fold agrees with the exact
+dynamic self-energy through order $n$ by Lemma~\ref{lem:si:separation}.
+Lemma~\ref{lem:si:split}, applied at each order through $n$, shows that each
+sector fold agrees with its exact part. The static matrix is the orbital block,
+which the decoupling does not touch and which equals the orbital energies plus
+the exact static self-energy by Lemma~\ref{lem:si:separation}. This proves the
+theorem under Assumption~\ref{ass:si:A3}.
+
+Without the assumption, Eq.~\eqref{eq:si:Lkl} still bounds every cross block,
+and Assumption~\ref{ass:si:A3} enters only Lemma~\ref{lem:si:orders}. Its first
+failure is the block between a removal-type class 1 and an attachment-type
+class 6. A 7p6h configuration can then be reached from the orbitals at fifth
+instead of sixth order, and a chain through it and back contributes at tenth
+order, before the order rule includes class 6. Every later violation acts at
+still higher order. For $n$ up to nine, no chain affected by a violation
+contributes through order $n$, and the argument above applies unchanged.
+\end{proof}
+
+\subsubsection{Consequences}
+
+The theorem and its lemmas have three consequences for the constructions of
+Table~\ref{tab:si:constructions}. The first concerns the order rule itself and
+the union-space ISR.
+
+\begin{corollary}[Order rule]
+\label{cor:si:orderrule}
+For every $n$ covered by Theorem~\ref{thm:si:decoupling}, the order rule of
+Sec.~\ref{sec:si:diag} suffices for an ADC($n$). In particular, the union-space
+ISR-ADC($n$) is exact through order $n$.
+\end{corollary}
+
+\begin{proof}
+The argument of Lemma~\ref{lem:si:orders} for the union-space matrix itself
+shows that it satisfies the hypotheses of Lemma~\ref{lem:si:trunc} with the
+class index as weight. With this weight, Lemma~\ref{lem:si:trunc} is the order
+rule. The complete union-space fold is exact by
+Eq.~\eqref{eq:si:unionexact}.
+\end{proof}
+
+The second consequence concerns the principal poles, the quantities compared in
+the main text.
+
+\begin{corollary}[Principal poles]
+\label{cor:si:poles}
+The principal poles of the decoupled and of the union-space ADC($n$) have
+Taylor series that agree with the exact ones through order $n$. Class-1
+satellites are exact only through order $n-2$, the standard ADC result.
+\end{corollary}
+
+\begin{proof}
+The Taylor coefficients of a principal pole are polynomials in the self-energy
+coefficients through order $n$ and in their frequency derivatives at the
+orbital energy, where the self-energy is regular. By
+Theorem~\ref{thm:si:decoupling} and Corollary~\ref{cor:si:orderrule}, these
+coefficients are exact.
+\end{proof}
+
+The theorem fixes the folds, not the matrices: the matching determines the
+matrices only up to the gauge transformations of Eq.~\eqref{eq:si:gauge}. At
+class 1 this is the only freedom, which gives the third consequence, an
+element-wise statement at fourth order.
+
+\begin{corollary}[Element-wise equality at ADC(4)]
+\label{cor:si:adc4}
+Let the class-1 configuration energies be nondegenerate and the first-order
+couplings nonzero. Then any diagrammatic ADC(4) that uses the ISR's
+second-order class-1 block has the same third-order class-1 couplings as the
+decoupled ADC(4).
+\end{corollary}
+
+\begin{proof}
+If two diagrammatic solutions agree through the lower orders, the residues of
+their difference at each class-1 pole force the difference to be an
+infinitesimal gauge transformation. With the class-1 block fixed at second
+order, this transformation vanishes, so the third-order couplings coincide.
+\end{proof}
+
+The structural rule of Sec.~\ref{sec:si:diag} places the new fourth-order
+content in exactly these couplings, since the time orderings that carry it have
+a single frequency-dependent denominator.
+
+\subsubsection{Remarks}
+
+Three remarks delimit the result.
+
+\begin{remark}
+The theorem does not say that the decoupled ISR is the same matrix as one
+obtained by sorting diagrams. Beyond fourth order we take the canonically
+decoupled ISR as the definition of diagrammatic ADC($n$); any other
+diagrammatic ADC($n$) differs from it by a gauge transformation.
+\end{remark}
+
+\begin{remark}
+The bound of Eq.~\eqref{eq:si:Lkl} is our count for the raw cross element.
+That the orthonormalization does not lower it rests on the numerical checks.
+The unconditional part of Theorem~\ref{thm:si:decoupling}, for $n$ up to nine,
+uses this bound as well.
+\end{remark}
+
+\begin{remark}
+For $n$ of ten or more and systems with 7p6h configurations,
+Lemma~\ref{lem:si:trunc} still applies if each class is weighted by the lowest
+order at which any chain reaches it. Whether the extra blocks then contribute
+we have not determined.
+\end{remark}
+
+%-----------------------------------------------------------------------------
+\subsection{Non-Dyson ADC}
+\label{sec:si:nondyson}
+
+The construction so far concerns the Dyson self-energy.
+Non-Dyson ADC\cite{Schirmer_1998,Trofimov_2005} needs only one sector. For
+ionization, the intermediate states are built in the $(N-1)$-electron space
+from the removal operators applied to the correlated ground state, with the
+ordinary scalar product. With the matrix $\mathbf{M}$ of $H-E_0$ in these
+states and the transition amplitudes $\mathbf{f}$ of the orbital removal
+operators,
+\begin{equation}
+\mathbf{G}^-(\omega)=\mathbf{f}^\dagger(\omega+\mathbf{M})^{-1}\mathbf{f} \;,
+\notag
+\end{equation}
+and the eigenvalues of $\mathbf{M}$ are the ionization energies. There is no
+cross block, the same canonical orders and truncation lemma apply, and the
+one-sector version of the proof shows exactness through order $n$. The
+attachment sector enters only through the correlated ground state.
+
+Table~\ref{tab:si:constructions} summarizes the four constructions of the main
+text. They are built from the same intermediate states and differ only in what
+they do with the cross content. All give finite Hermitian matrices, hence real
+poles and positive residues. Beyond order $n$ they differ, and so do their
+poles at the physical coupling. The ADC($n$) codes used in the main text were
+produced as described in Sec.~\ref{sec:si:generator}.
+
+\begin{table}[htb]
+\caption{The four ADC constructions: treatment of the cross block
+$\mathbf{X}$, order through which the self-energy (non-Dyson: the poles and
+residues of one branch) is exact, and whether the complete construction is
+exact.}
+\label{tab:si:constructions}
+\begin{tabular}{llcc}
+\hline\hline
+construction & cross block & exact & complete\\
+\hline
+diagrammatic (Dyson) & decoupled & $\lambda^n$ & yes\\
+union-space ISR & kept & $\lambda^n$ & yes\\
+two-sector ISR & deleted & $\lambda^3$ & no\\
+non-Dyson ISR & none & $\lambda^n$ & yes\\
+\hline\hline
+\end{tabular}
+\end{table}
+
+% SI Part 2 -- the lambda oracle
+\section{The $\lambda$-oracle}\label{sec:si:oracle}
+
+The convergence data of Figs.~\ref{fig:NeConvergence} and \ref{fig:NeMP} of the main text, and the
+corresponding data for Ar and Be, were obtained with one instrument that we call the $\lambda$-oracle.
+It works in two separate steps.
+The first step (Sec.~\ref{sec:si:oracle:exact}) computes exact quantities of a scaled Hamiltonian by
+full configuration interaction (FCI): the IPs at the physical interaction strength, and the exact Taylor
+coefficients of the ground-state energy, of the IPs and of the self-energy.
+The second step (Sec.~\ref{sec:si:oracle:approx}) builds the approximations of
+Fig.~\ref{fig:NeConvergence}, ADC($n$), GF($n$), IP-EOM-CC and IP-UCC, each from exact ingredients of the
+first step together with the truncation rule that defines the method.
+Both steps use the same orbitals, the same determinant spaces and the same Hamiltonian.
+Every difference between a method and FCI in the figures is therefore the error of the method's
+truncation and nothing else.
+
+\subsection{Step A: the exact oracle}
+\label{sec:si:oracle:exact}
+
+All quantities refer to the Hamiltonian
+\begin{equation}
+H(\lambda) = F + \lambda\,(H - F) ,
+\label{eq:si:Hlambda}
+\end{equation}
+in which $F$ is the canonical Hartree--Fock (HF) Fock operator and $H$ the physical Hamiltonian.
+This is the M{\o}ller--Plesset partitioning, and we call $W$ the difference between $H$ and $F$.
+The HF orbitals and orbital energies are those of the physical problem and are kept fixed for all
+$\lambda$.
+The zeroth-order Hamiltonian $F$ is diagonal in the basis of Slater determinants, with the sums of
+orbital energies as eigenvalues, and for unit $\lambda$ the scaled Hamiltonian is the physical one.
+A quantity ``of order $n$'' is the coefficient of $\lambda^n$ in its Taylor expansion, and a method is
+``exact through order $n$'' if all its coefficients up to $\lambda^n$ are exact.
+With this partitioning every diagram of order $n$ in the interaction carries exactly $\lambda^n$, while
+all energy denominators keep their $\lambda$-independent values.
+Frozen core orbitals (Ne 1s, the Ne-like core of Ar; none for Be) are doubly occupied in every
+determinant and enter only through an effective one-electron operator.
+
+The exact Green's function at a given $\lambda$ consists of an attachment and a removal branch,
+\begin{align}
+G_{pq}(\omega;\lambda) ={}& \braket{\Psi_0|a_p\big(\omega-H(\lambda)+E_0\big)^{-1}a^\dagger_q|\Psi_0}
+\nonumber\\
+&+ \braket{\Psi_0|a^\dagger_q\big(\omega+H(\lambda)-E_0\big)^{-1}a_p|\Psi_0} ,
+\label{eq:si:or:G}
+\end{align}
+where $\ket{\Psi_0}$ and $E_0$ are the normalized FCI ground state and energy of $H(\lambda)$, and the two
+resolvents act in the $(N+1)$- and $(N-1)$-electron determinant spaces.
+The exact self-energy follows from the Dyson equation at each frequency,
+\begin{equation}
+\pmb{\Sigma}(\omega;\lambda) = \mathbf{G}_0^{-1}(\omega) - \mathbf{G}^{-1}(\omega;\lambda) ,
+\label{eq:si:or:dyson}
+\end{equation}
+with $\mathbf{G}_0$ the HF propagator.
+The FCI reference IP of each figure is the eigenvalue of $H$ in the $(N-1)$-electron space, minus the FCI
+ground-state energy, of the cation state with the largest pole strength for removal of an electron from
+the probed orbital.
+
+FCI gives the self-energy at one value of $\lambda$, not as a series.
+At a frequency off the real axis the self-energy is analytic in $\lambda$ near the origin, and its
+Taylor coefficients are given exactly by Cauchy's integral formula,
+\begin{equation}
+\pmb{\Sigma}^{(m)}(\omega) = \frac{1}{2\pi i}\oint_{|\lambda|=r} \frac{\pmb{\Sigma}(\omega;\lambda)}{\lambda^{m+1}}\, d\lambda ,
+\label{eq:si:cauchy}
+\end{equation}
+where the circle of radius $r$ must not enclose a singularity of the self-energy in the complex
+$\lambda$ plane.
+We evaluate the self-energy by FCI at $N_\lambda$ equally spaced points on this circle and discretize
+the integral by the trapezoidal rule,\cite{Lyness_1967}
+\begin{align}
+\pmb{\Sigma}^{(m)}(\omega) \approx{}& \frac{1}{N_\lambda r^m}\sum_{j=0}^{N_\lambda-1}
+e^{-2\pi i mj/N_\lambda} \nonumber\\
+&\times\pmb{\Sigma}\big(\omega;re^{2\pi i j/N_\lambda}\big) .
+\label{eq:si:contour}
+\end{align}
+The sum is a discrete Fourier transform, so one transform returns all orders below $N_\lambda$ at once,
+without any fit.
+Its only error is aliasing: the coefficient of order $m$ is contaminated by those of orders
+$m+N_\lambda$, $m+2N_\lambda$, \dots, damped by powers of $r^{N_\lambda}$.
+This error is negligible as long as the circle lies well inside the radius of convergence, which we
+check by repeating the extraction on a second, smaller circle.
+For complex $\lambda$ the Hamiltonian is complex symmetric rather than Hermitian, and all inner products
+are evaluated without complex conjugation, which is the analytic continuation of the real-$\lambda$
+expressions.
+The contour is the definition of the exact coefficients against which everything else is checked.
+
+The contour requires FCI in the $N$- and $(N\pm1)$-electron spaces at many complex $\lambda$, which is
+affordable only for small systems.
+For Ne, Ar and Be we obtain the same coefficients from Rayleigh--Schr\"odinger (RS) recursions, which
+need only the action of $H$ on vectors.
+Because $F$ is diagonal in the determinant basis, every zeroth-order resolvent is a division of each
+determinant coefficient by an orbital-energy difference, as in the high-order MP calculations of Olsen
+and coworkers.\cite{Olsen1996}
+With the HF determinant $\ket{\Phi_0}$ as zeroth order and intermediate normalization, the order-$m$
+corrections to the ground state and its energy are
+\begin{align}
+\ket{\Psi^{(m)}_0} ={}& R_0\Big[W\ket{\Psi^{(m-1)}_0}
+- \sum_{l=1}^{m}E^{(l)}_0\ket{\Psi^{(m-l)}_0}\Big] ,
+\label{eq:si:rs}\\
+E^{(m)}_0 ={}& \braket{\Phi_0|W|\Psi^{(m-1)}_0} ,
+\end{align}
+where $R_0$ is the resolvent of $F$ with the HF determinant projected out.
+The $E^{(m)}_0$ are the MP energy corrections.
+Wherever the normalized ground state is needed, the series is divided by the power series of its norm.
+The same recursion, started from the Koopmans determinant of the hole in orbital $p$, gives the RS
+series of the connected cation state in the $(N-1)$-electron space, and the difference of the two
+energy series is the exact Taylor series of the IP,
+\begin{equation}
+\mathrm{IP}_p(\lambda) = \sum_m \lambda^m \big[E^{N-1,(m)}_p - E^{(m)}_0\big] .
+\label{eq:si:ipseries}
+\end{equation}
+The energy coefficients of Fig.~\ref{fig:NeMP} of the main text are the coefficients of these two
+series.
+Equation~\eqref{eq:si:ipseries} is also the criterion against which every method of Step B is checked:
+a method that is exact through order $n$ must reproduce its coefficients through $\lambda^n$.
+
+The Taylor coefficients of the self-energy at a fixed real frequency follow from the same recursions.
+In the removal branch of Eq.~\eqref{eq:si:or:G} the operator to be inverted is a power series in
+$\lambda$,
+\begin{align}
+A(\lambda) ={}& \omega + F - E^{(0)}_0 + \lambda\big(W - E^{(1)}_0\big) \nonumber\\
+&- \sum_{j\ge2}\lambda^j E^{(j)}_0 \equiv \sum_j \lambda^j A_j ,
+\end{align}
+and so is the vector it acts on, the annihilator $a_p$ applied to the ground-state series, whose order-$m$
+part we call $b_m$.
+The order-$m$ part of the solution of the linear system is
+\begin{equation}
+x_m = A_0^{-1}\Big[b_m-\sum_{j=1}^{m}A_jx_{m-j}\Big] ,
+\label{eq:si:resolventseries}
+\end{equation}
+which requires only the inverse of the diagonal $A_0$.
+The attachment branch is obtained in the same way.
+Projection onto the annihilated ground-state series gives the Taylor coefficients of $\mathbf{G}$, whose
+zeroth order is $\mathbf{G}_0$.
+The inverse of $\mathbf{G}$ is again a power series, and by Eq.~\eqref{eq:si:or:dyson} the self-energy
+coefficients are
+\begin{align}
+\big(\mathbf{G}^{-1}\big)^{(k)} &= -\mathbf{G}_0^{-1}\sum_{j=1}^{k}\mathbf{G}^{(j)}\big(\mathbf{G}^{-1}\big)^{(k-j)} , \\
+\pmb{\Sigma}^{(k)}(\omega) &= -\big(\mathbf{G}^{-1}\big)^{(k)}(\omega) .
+\end{align}
+They contain the static and the dynamic part together, and they have poles only at the zeroth-order
+energies of the $(N\pm1)$-electron determinants, because only $A_0$ is inverted.
+On small test systems these coefficients agree with those of the contour, Eq.~\eqref{eq:si:contour}.
+
+Neither $H(\lambda)$ nor any operator used here couples different irreducible representations of the
+abelian point group or different spin projections.
+We therefore work in one symmetry block at a time: the totally symmetric $N$-electron space with equal
+numbers of $\alpha$ and $\beta$ electrons, and the $(N\mp1)$-electron spaces of the symmetry of the
+probed orbital with one $\beta$ electron removed or added.
+For a degenerate level such as Ne 2p one component suffices.
+The Hamiltonian is never stored as a matrix; it acts on vectors through a direct-CI
+routine\cite{Knowles_1984,Olsen_1988} as implemented in PySCF.\cite{Sun_2018,Sun_2020}
+
+\subsection{Step B: structured approximations}
+\label{sec:si:oracle:approx}
+
+Every approximation of Fig.~\ref{fig:NeConvergence} of the main text is built from exact ingredients
+of Step A: the RS series of the ground state, the exact action of $H$ in the determinant spaces, and,
+for GF($n$), the exact self-energy coefficients.
+The only approximation is the truncation rule that defines each method.
+All methods are evaluated at unit $\lambda$ in the same symmetry block as the FCI reference, and the IP is
+the root with the largest weight on the one-hole configuration of the probed orbital.
+For the methods designed to be exact through order $n$, the RS series of this root, computed from the
+matrix series of the method, agrees with Eq.~\eqref{eq:si:ipseries} through $\lambda^n$.
+
+\subsubsection{ADC($n$)}
+\label{sec:si:oracle:nondyson}
+
+The ADC($n$) curves of Fig.~\ref{fig:NeConvergence} of the main text are non-Dyson IP-ADC($n$), the
+intermediate-state representation (ISR) of the $(N-1)$-electron space described in
+Sec.~\ref{sec:si:cross}.
+The oracle constructs this ISR exactly in the determinant space, as a power series in $\lambda$.
+The precursor states are the ionizing operators of classes 0, 1, 2, \dots\ (1h, 2h1p, 3h2p, \dots)
+applied to the RS ground-state series.
+Inserting the series of $\ket{\Psi_0}$, $E_0$ and $H(\lambda)$ into the overlap and Hamiltonian matrices
+of the precursors gives their Taylor coefficients exactly.
+The class-wise Gram--Schmidt and L\"owdin steps of Sec.~\ref{sec:si:isr} are then carried out on these
+power series: projections become series products, and the inverse square root of an overlap matrix
+becomes a binomial series that terminates at every finite order.
+The result is the Taylor series of the ISR matrix, whose eigenvalues, for the complete set of classes and
+to all orders, are the exact IPs of $H(\lambda)$.
+ADC($n$) applies the order rule of Sec.~\ref{sec:si:isr} to this series: it keeps the classes up to
+$\lfloor n/2\rfloor$ and carries the block between classes $k$ and $l$ through order $n-k-l$.
+Its IP is an eigenvalue of the summed matrix at unit $\lambda$; no frequency-dependent equation is solved.
+ADC(1) is Koopmans' theorem.
+
+The three Dyson variants of Sec.~\ref{sec:si:adc}, the union-space ISR, the two-sector ISR and
+diagrammatic ADC($n$) obtained by the Tarantelli--Cederbaum decoupling of Sec.~\ref{sec:si:tc}, are built
+with the same series machinery in the union of the $(N+1)$- and $(N-1)$-electron spaces.
+Because the union space doubles the vector length, they are limited to moderate class spaces, and
+Fig.~\ref{fig:NeConvergence} of the main text shows only non-Dyson ADC($n$).
+
+\subsubsection{GF($n$)}
+\label{sec:si:oracle:gfn}
+
+GF($n$) [Eq.~\eqref{eq:GFn} of the main text], called MBGF($n$) by Hirata and
+coworkers,\cite{Hirata_2024} is the exact self-energy with its Taylor series cut after order $n$,
+\begin{equation}
+\pmb{\Sigma}^{[n]}(\omega) = \sum_{k=2}^{n}\pmb{\Sigma}^{(k)}(\omega) ,
+\end{equation}
+evaluated at unit $\lambda$ with the exact coefficients of Step A.
+The IP follows from the Dyson equation.
+We follow the eigenvalue $e_p(\omega)$ of the orbital-energy matrix plus $\pmb{\Sigma}^{[n]}(\omega)$
+whose eigenvector has the largest weight on the probed orbital $p$, and solve
+\begin{equation}
+\omega = e_p(\omega)
+\label{eq:si:gfroot}
+\end{equation}
+for $\omega$, which is minus the IP.
+The truncated self-energy has poles of increasing multiplicity at the zeroth-order configuration
+energies of the block.
+We search for the root between the nearest such pole below and the nearest pole above the orbital energy
+of $p$, the interval in which the main line starts at zeroth order.
+If there are several roots, we take the one with the largest residue.\cite{Hirata_2024}
+A self-energy of resolvent form always yields real quasiparticle solutions, but the truncated series
+loses this form from third order on.
+When the difference between $e_p(\omega)$ and $\omega$ does not change sign anywhere in the interval,
+Eq.~\eqref{eq:si:gfroot} has no real solution there; these are the missing GF($n$) points in
+Fig.~\ref{fig:NeConvergence} of the main text.
+
+\subsubsection{IP-EOM-CC}
+\label{sec:si:oracle:cc}
+
+IP-EOM-CC\cite{Stanton_1993a,Krylov_2008} is computed in the same symmetry blocks with the physical
+Hamiltonian.
+The cluster operator $T$ contains one amplitude for every determinant $\Phi_\mu$ of the $N$-electron block
+with excitation rank from 1 to $r$, so that rank 2 is CCSD and rank 6 is CCSDTQPH.
+Because $T$ acts directly on determinant-space vectors, its exponential is applied exactly, without a
+commutator expansion.
+The amplitudes solve
+\begin{equation}
+\braket{\Phi_\mu|e^{-T}He^{T}|\Phi_0} = 0
+\end{equation}
+for all these determinants, and the ground-state energy is the HF component of $He^{T}\ket{\Phi_0}$.
+The cation space contains the determinants with up to $r$ holes (1h and 2h1p for CCSD), and the IP is
+the eigenvalue of the similarity-transformed Hamiltonian in this space minus the CC ground-state energy.
+In Fig.~\ref{fig:NeConvergence} of the main text the CC level of rank $r$ is drawn at order $2r-1$.
+
+\subsubsection{IP-UCC}
+\label{sec:si:oracle:ucc}
+
+ADC($n$) and IP-UCC($n$) differ only in their intermediate states.\cite{Mertins_1996,Hodecker_2022}
+In IP-UCC the ground state is a unitary transformation of the HF determinant,
+\begin{equation}
+\ket{\Psi_0} = e^{\sigma}\ket{\Phi_0} , \qquad \sigma = T-T^\dagger ,
+\label{eq:si:ucc}
+\end{equation}
+and the intermediate states are the transformed cation determinants $e^{\sigma}\ket{\Phi_J}$, ordered in
+the same classes as the precursors of ADC($n$).
+These states are orthonormal at every $\lambda$, so no Gram--Schmidt or L\"owdin step is needed, and the
+secular matrix is
+\begin{equation}
+M_{IJ} = \braket{\Phi_I|e^{-\sigma}\big(H(\lambda)-E_0\big)e^{\sigma}|\Phi_J} .
+\label{eq:si:uccM}
+\end{equation}
+
+In the perturbative IP-UCC($n$), $\sigma$ is a power series in $\lambda$ whose order-$k$ part is built from
+an excitation operator $T_k$ of every rank.
+The $T_k$ are fixed order by order by the requirement that Eq.~\eqref{eq:si:ucc} reproduces the normalized
+RS ground state.
+At order $k$ this condition is linear in the new amplitudes,
+\begin{equation}
+T_k\ket{\Phi_0} = \ket{\Psi^{(k)}_0} - \big[e^{\sigma_1+\dots+\sigma_{k-1}}\ket{\Phi_0}\big]^{(k)} ,
+\end{equation}
+where the bracket denotes the order-$k$ part.
+This is equivalent to solving the UCC amplitude equations order by order with no amplitude rank
+dropped.
+The matrix of Eq.~\eqref{eq:si:uccM} is then expanded in $\lambda$ and truncated by the same order rule as
+ADC($n$).
+At orders 2 and 3 this corresponds to the IP-UCC2 and IP-UCC3 schemes of the
+literature.\cite{Hodecker_2022,Dempwolff_2022}
+
+The non-perturbative IP-UCC instead solves a UCC ground state of finite rank at the given $\lambda$.
+Here $T$ contains all excitations of rank 1 to $r$ (rank 2 is UCCSD), and the exponential is applied
+exactly, without truncating the Baker--Campbell--Hausdorff expansion.
+The amplitudes solve the generalized Brillouin conditions
+\begin{equation}
+\braket{\Psi_0|\big[H(\lambda),\tau_\nu-\tau_\nu^\dagger\big]|\Psi_0} = 0
+\end{equation}
+for every excitation operator $\tau_\nu$ of rank 1 to $r$, and the energy is the expectation value of
+$H(\lambda)$.
+With all ranks kept, this is the exact ground state.
+The cation space is restricted to the classes up to $K$, and Eq.~\eqref{eq:si:uccM} is diagonalized in
+this space with no truncation in order.
+The resulting matrix is Hermitian and frequency independent, and the method has two parameters, the
+rank $r$ of the ground state and the class limit $K$ of the cation space, and no perturbative input.
+
+% SI Part 3 -- code generation
+\section{Code generation}\label{sec:si:generator}
+
+The ADC(2)--ADC(5) results of Fig.~3 of the main text were computed with code
+that was generated, not written by hand. Two generators were built. The first
+derives the intermediate-state representation (ISR) of Sec.~\ref{sec:si:adc}
+symbolically and turns every matrix element into tensor contractions. All
+calculations of Fig.~3 use it, including the diagrammatic ADC(4) and ADC(5),
+which it obtains from the union-space ISR by the canonical decoupling. The
+second is a diagram engine that builds the exact self-energy from Goldstone
+time orderings without intermediate states. It located the content that the
+two-sector ISR misses at fourth order, before the cross block $\mathbf{X}$ of
+Eq.~(\ref{eq:ISRunion}) of the main text was identified as its source. The
+production code does not use it.
+
+\subsection{The ISR generator}\label{sec:si:isrgen}
+
+\subsubsection{Matrix elements and Wick contraction}
+
+The generator works in the union space, in which every operator adds one
+electron. For the $(N+1)$ sector these are the attachment operators
+$a^\dagger_a$, $a^\dagger_a a^\dagger_b a_j$, and so on; for the $(N-1)$
+sector they are the adjoints of the removal operators, $a^\dagger_i$,
+$a^\dagger_i a^\dagger_j a_b$, and so on. We denote any such operator string by
+$Y_J$. Three kinds of elements are needed over the MP ground state
+$\ket{\Psi_0}$: the configuration block, the coupling of an orbital to a
+configuration, and the metric,
+\begin{align}
+M_{IJ} &= \bra{\Psi_0}\acomm{Y_I^\dagger}{\comm{H}{Y_J}}\ket{\Psi_0} \;,
+\label{eq:si:gen-M}\\
+U_{pJ} &= \bra{\Psi_0}\acomm{a_p}{\comm{H}{Y_J}}\ket{\Psi_0} \;,\\
+S_{IJ} &= \bra{\Psi_0}\acomm{Y_I^\dagger}{Y_J}\ket{\Psi_0} \;.
+\end{align}
+The anticommutator lets one set of operators describe attachment and removal
+together, and the commutator with $H$ removes the ground-state energy, so no
+total energy appears. After orthonormalization these elements become the
+blocks $\mathbf{U}^{\pm}$, $\mathbf{K}^{\pm}+\mathbf{C}^{\pm}$ and $\mathbf{X}$
+of Eq.~(\ref{eq:ISRunion}) of the main text.
+
+The Hamiltonian is split into the Fock operator $f$ and the fluctuation
+potential $v$. For each piece $h$ the nested commutators are written out as
+four operator products,
+\begin{equation}
+\acomm{Y_I^\dagger}{\comm{h}{Y_J}}
+= Y_I^\dagger h Y_J - Y_I^\dagger Y_J h + h Y_J Y_I^\dagger - Y_J h Y_I^\dagger \;,
+\end{equation}
+and each product is passed to \texttt{pdaggerq},\cite{Rubin_2021,Liebenthal_2025}
+which normal-orders it with respect to the Hartree--Fock (HF) determinant
+$\ket{\Phi_0}$ and returns the fully contracted terms of Wick's theorem.
+
+The correlated ground state enters through the MP wave operator $\Omega$ in
+intermediate normalization. Expanding $\Omega$ into excitation operators
+$t_k$ of rank $k$ and $\Omega^\dagger$ into de-excitation operators $l_j$,
+every element of a given order becomes a finite sum of terms
+\begin{equation}
+\bra{\Phi_0} l_j\,\acomm{Y_I^\dagger}{\comm{h}{Y_J}}\,t_k\ket{\Phi_0} \;,
+\label{eq:si:gen-split}
+\end{equation}
+divided order by order by the norm of $\ket{\Psi_0}$. We call each choice of
+$l_j$, $h$ and $t_k$ a dressing split. Its operator content does not depend on
+the perturbation orders of the two amplitudes, so one Wick contraction serves
+every order at which the split contributes, and the amplitudes are inserted
+as symbols. Doubles first appear at first order, singles at second order, and
+an amplitude of rank three or higher at half its rank, rounded up; this fixes
+which splits can contribute at each order. For the couplings at order $n$ the
+highest surviving rank is one less than $n$, so ADC(5) needs amplitudes up to
+rank four.
+
+\subsubsection{Which blocks are needed}
+
+The ISR blocks have definite leading orders.\cite{Schirmer_1991,Mertins_1996}
+The coupling of the orbitals to class $\mu$ starts at order $\mu$, and the
+block between classes $\mu$ and $\nu$ at the order given by their difference.
+Every Taylor coefficient of the self-energy is a sum of chains of blocks from
+the orbitals into the configuration space and back, and the order of a chain is
+the sum of the orders of its links. This gives the ADC order rule: ADC($n$)
+keeps the classes up to $n/2$ (rounded down) and carries the block between
+classes $\mu_I$ and $\mu_J$ through order
+\begin{equation}
+n-\mu_I-\mu_J \;.
+\end{equation}
+Table~\ref{tab:si:gen-blocks} lists the result. The generator evaluates the
+rule as a function of $n$; no block is listed by hand.
+
+\begin{table}[htb]
+\caption{Orders carried by the same-sector blocks of ADC($n$). Class 1 is the
+$2h1p$ or $2p1h$ space, class 2 the $3h2p$ or $3p2h$ space; a dash means that
+the block is absent.}
+\label{tab:si:gen-blocks}
+\begin{ruledtabular}
+\begin{tabular}{lcccc}
+block & ADC(2) & ADC(3) & ADC(4) & ADC(5)\\
+\hline
+orbitals--class 1 & 1 & 1--2 & 1--3 & 1--4\\
+class 1--class 1 & 0 & 0--1 & 0--2 & 0--3\\
+orbitals--class 2 & -- & -- & 2 & 2--3\\
+class 1--class 2 & -- & -- & 1 & 1--2\\
+class 2--class 2 & -- & -- & 0 & 0--1\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The same counting applies to the cross blocks. The class-1 cross block
+$\mathbf{X}_{11}$ starts at second order,\cite{tarantelli1992configuration} so
+the order rule first carries it in ADC(4). The cross blocks between class 1 of
+one sector and class 2 of the other, $\mathbf{X}_{12}$ and $\mathbf{X}_{21}$,
+also start at second order and first enter ADC(5).
+
+\subsubsection{Orthonormalization and denominators}
+
+The intermediate states are obtained from the precursor states
+$Y_J\ket{\Psi_0}$ by orthogonalizing each class against the lower classes and
+by symmetric orthonormalization within each class. Both steps act on power
+series in $\lambda$ and need only products of the generated blocks, no further
+Wick contraction. For the symmetric step, the series of the inverse
+$\mathbf{Z}$ and of the inverse square root $\mathbf{Y}$ of the metric follow
+order by order from the deviation $\Delta\mathbf{S}$ of the metric from the
+unit matrix,
+\begin{align}
+\mathbf{Z}^{(m)} &= -\sum_{p=1}^{m}\Delta\mathbf{S}^{(p)}\mathbf{Z}^{(m-p)} \;,\\
+\mathbf{Y}^{(m)} &= \frac12\Big[\mathbf{Z}^{(m)}
+  -\sum_{p=1}^{m-1}\mathbf{Y}^{(p)}\mathbf{Y}^{(m-p)}\Big] \;,
+\end{align}
+both starting with the unit matrix at zeroth order. The orthonormalized
+blocks are the order-$n$ parts of $\mathbf{U}\mathbf{Y}$ and
+$\mathbf{Y}^\dagger\mathbf{M}\mathbf{Y}$.
+
+Wick's theorem returns only numerators, products of Fock elements,
+antisymmetrized integrals and amplitude symbols. The MP amplitude
+denominators are reconstructed from the external indices of each amplitude,
+and the zeroth-order energies $\mathbf{K}^{\pm}$ are orbital-energy sums with
+the sign of the sector. The resolvent of Eq.~(\ref{eq:SigmaADC}) of the main
+text never appears in the generated code: it is the eigenvalue problem solved
+at runtime.
+
+\subsubsection{Cross blocks and the diagrammatic construction}
+\label{sec:si:gen-cross}
+
+The cross element between a removal configuration $\mu$ and an attachment
+configuration $\nu$ is Eq.~\eqref{eq:si:gen-M} with $Y_\mu$ as bra and $Y_\nu$
+as ket, so the same machinery produces it. It has no terms at zeroth and
+first order, and the cross metric vanishes at every order. At second order
+only one dressing split survives, in which the first-order de-excitation
+doubles amplitude is contracted with the two-electron integrals.
+
+Three Dyson constructions follow, identical through ADC(3). The two-sector ISR
+deletes $\mathbf{X}$. The union-space ISR keeps it as a block of the
+supermatrix. The diagrammatic construction removes it by the canonical
+decoupling of Tarantelli and Cederbaum\cite{tarantelli1992configuration} and
+keeps its images through order $n$; Sec.~\ref{sec:si:adc} shows that this is
+diagrammatic ADC($n$). The decoupling is an orthogonal transformation
+$e^{\mathbf{A}}$ of the configuration space, with $\mathbf{A}$ antisymmetric and
+nonzero only between the two sectors. Requiring the cross part of the
+transformed configuration block to vanish order by order gives
+\begin{equation}
+A^{(m)}_{\mu\nu}=\frac{R^{(m)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\label{eq:si:gen-Arec}
+\end{equation}
+where $R^{(m)}$ is the order-$m$ cross part computed with the lower orders of
+$\mathbf{A}$; at second order it is $\mathbf{X}^{(2)}$. The denominator is the
+energy of a $3h3p$ or higher excitation, so there are no small denominators.
+
+Within the orders kept by the order rule, the decoupling changes only the
+couplings through ADC(5). For ADC(4) the single surviving image is a
+third-order row added to each class-1 coupling,
+\begin{align}
+\delta U^{+}_{p\nu} &= \sum_{\mu}\frac{U^{-(1)}_{p\mu}X^{(2)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\label{eq:si:gen-du-plus}\\
+\delta U^{-}_{p\mu} &= -\sum_{\nu}\frac{U^{+(1)}_{p\nu}X^{(2)}_{\mu\nu}}{K^-_\mu+K^+_\nu} \;,
+\label{eq:si:gen-du-minus}
+\end{align}
+with $\mu$ running over $2h1p$ and $\nu$ over $2p1h$ configurations. For
+ADC(5) the class-1 couplings receive in addition the fourth-order images of
+$\mathbf{A}^{(2)}$ and $\mathbf{A}^{(3)}$, and the class-2 couplings the
+third-order image of $\mathbf{A}^{(2)}$ built from $\mathbf{X}_{12}$ and
+$\mathbf{X}_{21}$. In the ADC(5) calculations the division by the
+denominator of Eq.~\eqref{eq:si:gen-Arec} was evaluated by a Laplace
+quadrature,\cite{Almlof_1991,Takatsuka_2008,Kaltak_2014} a numerical
+approximation; at ADC(4) the decoupling is exact.
+
+\subsubsection{Static part and non-Dyson ADC}
+
+The orbital block of the Dyson supermatrix contains $\pmb{\Sigma}(\infty)$,
+obtained as in Ref.~\citenum{Keizer_2026} by contracting the antisymmetrized
+integrals with the difference between the unrelaxed MP($n-1$) and the HF
+one-particle density matrices. For each ionization the root with the largest
+pole strength is taken.
+
+Non-Dyson ADC uses the same machinery with the ordinary metric of
+$(N-1)$-electron states instead of the anticommutator, only the $(N-1)$ sector,
+and occupied annihilators as class 0. The generated elements are then the ISR
+matrix and the transition amplitudes of Sec.~\ref{sec:si:adc}. Non-Dyson
+ADC(5) needs the ground state through fourth order.
+
+\subsection{The diagram engine}\label{sec:si:diagrams}
+
+The diagram engine builds the exact self-energy order by order in $\lambda$
+without intermediate states. It was built to find which part of the exact
+fourth-order self-energy the two-sector ISR misses, and it answered this
+before the cross block was identified as the missing piece. The cross-block
+decoupling of Sec.~\ref{sec:si:gen-cross} then replaced the diagram-based
+corrections; the blocks the engine emits are kept as optional dressings and
+independent checks.
+
+\subsubsection{Skeletons, time orderings and coefficients}
+
+A skeleton is a self-energy diagram drawn as a graph: $n$ two-body vertices,
+particle lines (upward in time), hole lines (downward), and two marked vertices
+that carry the external orbitals. The engine enumerates all connected,
+one-particle irreducible skeletons with at least one valid time ordering,
+excluding lines that start and end on the same vertex, which cancel against
+the Fock operator for a HF reference, and removes duplicates by a canonical
+form of the graph. Generating graphs directly replaced an earlier route that
+recognized diagrams in the \texttt{pdaggerq} expansion of a product of $n$
+interactions, which produces each diagram many times and exceeded the memory
+of a single machine at fifth order.
+
+The time orderings of a skeleton are the arrangements of its vertices that
+respect the line directions. Each is evaluated with the Goldstone rules: a
+horizontal cut between consecutive vertices contributes the denominator
+\begin{equation}
+D_{\mathrm{cut}} = \pm\omega + \sum_{i\,\in\,\mathrm{cut}}\epsilon_i
+                 - \sum_{a\,\in\,\mathrm{cut}}\epsilon_a \;,
+\end{equation}
+where the frequency appears only if the cut lies between the two external
+vertices (an $\omega$-cut). Every other cut (a free cut) carries a
+ground-state excitation energy. The value of an ordering is the product of its
+antisymmetrized integrals divided by its cut denominators, times the
+coefficient of the skeleton,
+\begin{equation}
+\mathrm{coeff} = \sigma\,(-1)^{h+\ell}\,
+\Big(\frac12\Big)^{n_{\mathrm{ep}}}\,\frac{1}{|\mathrm{Aut}|} \;.
+\end{equation}
+Here $h$ is the number of hole lines, $\ell$ the number of closed loops,
+$n_{\mathrm{ep}}$ the number of pairs of equivalent lines, $|\mathrm{Aut}|$ the
+number of permutations of internal vertices that map the diagram onto itself,
+and $\sigma$ a sign that distinguishes a virtual from an occupied external
+orbital. The same enumeration reproduces the published numbers of energy
+diagrams of high-order perturbation theory for nuclei through sixth
+order.\cite{Li_2026}
+
+\subsubsection{Cuts, quartets and the fourth-order defect}
+
+An $\omega$-cut crossed by three lines gives a pole at a class-1 energy, one
+crossed by five lines a pole at a class-2 energy. At fourth order some
+orderings have an $\omega$-cut crossed by seven lines, a configuration with no
+counterpart in the ADC(4) space. These orderings come in groups of four that
+share the seven-line cut, and within each group the residues at the seven-line
+pole cancel.\cite{Schirmer_1983} The engine sums each group in closed form, so
+the spurious poles never appear numerically.
+
+Because every cut denominator is linear in $\omega$, the residue of each
+ordering at a class-1 pole has a closed form. Sorting the residues by which
+cut vanishes at the pole, the engine paired every class of fourth-order
+orderings with the ISR term that reproduces it, with one exception: the
+orderings whose middle cut is free and crossed by six lines, a $3h3p$
+configuration in flight between the two halves of the diagram. They have a
+single $\omega$-cut and are therefore single poles at class-1 energies.
+Removing the external vertex that carries the first-order coupling leaves a
+static row per class-1 configuration with the $3h3p$ energy as denominator.
+These rows are identical to the decoupled cross-block rows of
+Eqs.~\eqref{eq:si:gen-du-plus} and \eqref{eq:si:gen-du-minus}: the engine and
+the canonical decoupling reach the same object from two sides. At fifth order
+the engine was used to fit further corrections, which the canonical
+decoupling has replaced.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{References}
+% \section*{References}  % revtex adds its own References heading (and TOC entry)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
