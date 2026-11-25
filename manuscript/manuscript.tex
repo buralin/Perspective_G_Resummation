@@ -467,9 +467,29 @@ Generally, this contribution is small. In practice, all variants differ much les
 \caption{adsasd}
 \end{figure}
 
+\begin{figure}[htb]
+\includegraphics[width=\columnwidth]{figures/error_vs_n.pdf}
+\caption{Error of the 2p (top) and 2s (bottom) IP of Ne against FCI in the same basis, cc-pVDZ (left) and aug-cc-pVDZ (right), 1s frozen.
+ADC($n$): non-Dyson ADC($n$); GF($n$): bare self-energy through order $n$, solved with the Dyson equation;\cite{Hirata_2024} missing GF points have no real root.
+IP-EOM-CC: CCSD, CCSDT, CCSDTQ, CCSDTQP, CCSDTQPH, placed at $n=3,5,7,9,11$.
+Logarithmic axis, linear within $\pm 10$\,meV (grey). All values in eV.}
+\label{fig:NeConvergence}
+\end{figure}
+
+\iffalse
 \subsection{Why are GW and ADC so difficult to improve?}
 
 \subsubsection{ADC benchmarks}
+
+
+\begin{figure}[htb]
+\includegraphics[width=\columnwidth]{figures/error_vs_n.pdf}
+\caption{Error of the 2p (top) and 2s (bottom) IP of Ne against FCI in the same basis, cc-pVDZ (left) and aug-cc-pVDZ (right), 1s frozen.
+ADC($n$): non-Dyson ADC($n$); GF($n$): bare self-energy through order $n$, solved with the Dyson equation;\cite{Hirata_2024} missing GF points have no real root.
+IP-EOM-CC: CCSD, CCSDT, CCSDTQ, CCSDTQP, CCSDTQPH, placed at $n=3,5,7,9,11$.
+Logarithmic axis, linear within $\pm 10$\,meV (grey). All values in eV.}
+\label{fig:NeConvergence}
+\end{figure}
 
 \begin{figure}[htb]
 \includegraphics[width=\columnwidth]{figures/ne_adc_cc_gf}
@@ -599,7 +619,7 @@ diagrammatic double counting and genuinely three-body-irreducible
 contributions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\fi
 
 \iffalse
 Alternatively, $\bG$ can be constructed directly from the many-body wavefunctions of the ground- ($\Psi_0$) and excited states ($\Psi_m^{N\pm1}$)
