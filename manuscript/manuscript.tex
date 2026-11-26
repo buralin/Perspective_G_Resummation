@@ -165,6 +165,8 @@
 \newcommand{\bz}{\boldsymbol{z}}
 \newcommand{\bV}{\boldsymbol{V}}
 \newcommand{\bff}{\boldsymbol{f}}
+\newcommand{\bU}{\boldsymbol{U}}
+\newcommand{\bK}{\boldsymbol{K}}
 \newcommand{\bLam}{\boldsymbol{\Lambda}}
 \newcommand{\blam}{\boldsymbol{\lambda}}
 \newcommand{\bgam}{\boldsymbol{\gamma}}
@@ -374,6 +376,100 @@ The simplest realization of this framework is the $GW$ approximation.
 
 Having emerged from different communities, these two paradigms have largely developed independently of one another: ADC has become popular in molecular quantum chemistry, whereas $GW$ is widely used in condensed matter physics.
 
+In either case, the approximate self-energy corrects the poles of $\bG^0$ via the Dyson equation [Eq.~\eqref{eq:Dyson}]
+\begin{align}
+    \bG(\omega) = (\bG^0(\omega)^{-1} - \pmb{\Sigma}(\omega))^{-1}.
+\end{align}
+To avoid scanning $\bG(\omega)$ to identify its poles, one can can make use of the condition
+\begin{align}
+    \det(\bG^0(\omega)^{-1} - \pmb{\Sigma}(\omega)) = 0,
+\end{align}
+which results in a non-linear eigenvalue problem for determining quasiparticle energies 
+\begin{align}
+    \left[ \pmb{\epsilon} + \pmb{\Sigma}(\epsilon^\mathrm{QP}_n) \right] \mathbf{R} = \epsilon^\mathrm{QP}_n \mathbf{R}.
+    \label{eq:QP_eigenvalue}
+\end{align}
+
+\subsection{Perturbative expansion: Bare Coulomb interaction}
+The exact self-energy can be written as
+\begin{align}
+    \pmb{\Sigma}(\omega) =& \pmb{\Sigma}(\infty) + \bM(\omega),
+    \label{eq:SigmaADC}
+\end{align}
+where $\pmb{\Sigma}(\infty)$ denotes the static contribution to the self-energy, essentially describing single-particle renormalization effects \cite{Schirmer_2018}.
+Paritioning the electronic Hamiltonian into a zeroth-order contribution and a perturbation 
+\begin{align}
+    \hat{H}(\lambda) = \hat{H}_0 + \lambda \hat{V},
+\end{align}
+
+With this, the dynamical part can be expanded order-by-order in perturbation theory
+\begin{align}
+    \pmb{\Sigma}(\omega) &= \sum_{k=2}^{n} \pmb{\Sigma}^{(k)}(\infty)  + \sum_{k=2}^{n} \bM^{(k)}(\omega)
+    \label{eq:GFNSelfEnergy_n}
+\end{align}
+Truncating at order $n$, one obtains the $n$th-order self-energy, denoted as GF($n$) in the following. 
+General construction schemes for the self-energy within this formalism can be found in Refs.~\textbf{cite}. 
+
+At second-order, one obtains the GF($2$) self-energy, given by
+\begin{align}
+    M^{(2)}_{pq}(\omega) &= \frac{1}{2}\sum_{iab} \frac{\langle pi||ab\rangle \langle ab||qi\rangle}{\omega + \epsilon_i - \epsilon_a - \epsilon_b} \nonumber \\
+    &+ \frac{1}{2}\sum_{ija} \frac{\langle pa||ij\rangle \langle ij||qa\rangle}{\omega + \epsilon_a - \epsilon_i - \epsilon_j}.
+    \label{eq:Sigma2}
+\end{align}
+Throughout this work, we will denote mean-field orbitals, with $i,j,\dots$ when they are occupied, $a,b,\dots$ when they are virtual, and $p,q,\dots$ when they refer to arbitrary orbitals, and the corresponding orbital energies as $\epsilon_i$, $\epsilon_a$, and $\epsilon_p$, respectively.
+From Eq.~\eqref{eq:Sigma2} it becomes clear that the self-energy can be decomposed into two branches that correspond either to electron addition $(N+1)$ or electron removal $(N-1)$ processes.
+
+Several problems arise from the construction of the self-energy via the order-by-order expansion of Eq.~\eqref{eq:GFNSelfEnergy_n}: 
+The convergence towards the exact self-energy is not guaranteed, as illustrated in Fig.~\ref{fig:NeConvergence}, and the pole-structure can become complex so that real solutions to the Dyson equation may not exist, or are difficult to find.
+\begin{figure}[htb]
+\includegraphics[width=\columnwidth]{figures/error_vs_n.pdf}
+\caption{Error of the 2s (a) and 2p (b) IP of Ne against FCI in aug-cc-pVDZ basis (1s orbital is frozen).
+ADC($n$): non-Dyson ADC($n$); GF($n$): bare self-energy through order $n$ [Eq.~\eqref{eq:GFNSelfEnergy_n}], solved with the Dyson equation;\cite{Hirata_2024} missing GF points have no real root.
+IP-EOM-CC: CCSD, CCSDT, CCSDTQ, CCSDTQP, CCSDTQPH, placed at $n=3,5,7,9,11$.}
+\label{fig:NeConvergence}
+\end{figure}
+
+To overcome some of these issues, the algebraic diagrammatic construction (ADC) approach has been developed \textbf{cite}.
+The central realization has been that the perturbative expansion of $\bM(\omega)$ can be written as 
+\begin{align}
+    \bM(\omega) = \bU (\omega - \bK - \bC)^{-1} \bU^\dagger,
+    \label{eq:Momega}
+\end{align}
+whose order-by-order expansion arises by geomteric series of
+\begin{align}
+    (\omega - \bK - \bC)^{-1} 
+    &= (\omega - \bK)^{-1} + (\omega - \bK)^{-1} \bC (\omega - \bK)^{-1} + \dots \nonumber \\
+    &= (\omega - \bK)^{-1} \sum_{n=0}^{\infty} \left[\bC (\omega - \bK)^{-1}\right]^n,
+    \label{eq:CExpansion}
+\end{align}
+and expansion in $\bU$
+\begin{align}
+    \bU = \bU^{(0)} + \bU^{(1)} + \bU^{(2)} + \dots
+    \label{eq:UExpansion} 
+\end{align}
+$\bK$ denotes the matrix elements of the zeroth-order Hamiltonian ($\hat{H}_0$) in the space of 2p1h/2h1p, 3p2h/3h2p, \dots\ configurations, and $\bC$ the couplings between these configurations via $\hat{V}$.
+
+By comparison of the perturbative expansions of the self-energy in GF($n$) to Eqs.~\eqref{eq:CExpansion} and \eqref{eq:UExpansion}, one can determine the ADC matrices $\bU$, $\bC$, and $\pmb{\Sigma}(\infty)$ order by order.
+Then $\bM(\omega)$ is constructed through Eq.~\eqref{eq:Momega}.
+Consequently, GF($2$) and ADC($2$) coincide at second order.
+
+It becomes immediately clear that the ADC construction includes partial infinite-order resummations of the perturbative series through the geometric series in Eq.~\eqref{eq:CExpansion}.
+The importance of such resummations becomes also evident in Fig.~\ref{fig:NeConvergence}.
+In contrast to GF($n$), ADC($n$) shows improved convergence properties.
+Nevertheless, the perturbative expansion based on the bare Coulomb interaction still diverges.
+
+Realizing the the resulting eigenvalue problem Eq.~\eqref{eq:QP_eigenvalue} with the ADC self-energy can be linearized via the so-called supermatrix approach, one can identify the ADC supermatrix as
+\begin{align}
+    \tilde{\mathbf{M}} =
+    \begin{pmatrix}
+        \pmb{\epsilon} + \pmb{\Sigma}(\infty) & \mathbf{U}\\
+        \mathbf{U}^\dagger & \mathbf{K} + \mathbf{C} \\
+    \end{pmatrix} .
+    \label{eq:ISRunion}
+\end{align}
+
+\clearpage
+\newpage
 \subsection{Expansions in the Coulomb interaction}
 The exact self-energy may be expressed as 
 \begin{align}
@@ -464,7 +560,7 @@ Generally, this contribution is small. In practice, all variants differ much les
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{../core/analysis/violin_plot_core.pdf}
-\caption{adsasd}
+\caption{Error distribution of core IPs for the }
 \end{figure}
 
 \begin{figure}[htb]
